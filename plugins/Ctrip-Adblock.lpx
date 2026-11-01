@@ -1,0 +1,21 @@
+#!name = 携程旅行 · 精准去广告
+#!desc = 拦截携程指定广告域名及广告接口，保留图片、地图和预订相关域名；接口规则需要启用 MitM。
+#!author = Custom Loon rules
+#!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5d/fd/cd/5dfdcdbf-71d1-89f4-9658-0f01c8532f09/AppIcon-0-0-1x_U007emarketing-0-5-0-85-220.png/512x512bb.jpg
+#!date = 2026-10-31
+#!tag = 广告拦截,携程
+#!type = normal
+
+# Target only a dedicated ad domain. Keep Ctrip image/CDN/gateway domains accessible.
+[Rule]
+DOMAIN,ma-adx.ctrip.com,REJECT
+
+# Existing public rules show three tripAds endpoint patterns:
+# /restapi/soa2/13916/tripAds, /json/tripAds, /scjson/tripAds.
+# These patterns require MitM, with only m.ctrip.com as hostname.
+[Rewrite]
+request if ${url} ~= /^https:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/(?:(?:json|scjson)\/)?tripAds(?:[\/?]|$)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/m\.ctrip\.com\/restapi\/soa2\/\d+\/json\/getAdsList(?:[\/?]|$)/i then reject(200)
+
+[Mitm]
+hostname = m.ctrip.com
