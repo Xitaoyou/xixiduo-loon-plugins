@@ -3,7 +3,9 @@
 (function () {
   var original = $response.body;
   var url = ($request && $request.url) || "";
-  var keys = ["cleanAdConfig", "trimBottomTabs", "hideMangoCard", "hideAIChat", "trimTopTabs", "topChannels"];
+  var keys = /\/dynamic\/v1\/channel\/vrsList\//i.test(url)
+    ? ["trimTopTabs", "topChannels", "debugMode"]
+    : ["cleanAdConfig", "trimBottomTabs", "hideMangoCard", "hideAIChat", "debugMode"];
   var options = {};
   var arg = typeof $argument === "undefined" ? null : $argument;
   if (Array.isArray(arg)) {
