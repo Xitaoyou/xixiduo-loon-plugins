@@ -1,44 +1,94 @@
-#!name=123云盘开屏去广告增强版（实验）
-#!desc=可莉旧版只拦截一个配置接口，2026年新增的广告SDK可能不受影响。本版补充1rtb和2026年9月抓包发现的开屏广告SDK；保留旧版横幅广告规则。iOS效果待实测，可能出现数秒广告超时。不会主动屏蔽123云盘主站、文件或下载域名。
-#App链接=https://apps.apple.com/app/id1597682672
-#!author=Xitaoyou（整合）, 可莉（原始接口规则）
-#!tag=去广告, 实验
+#!name=123云盘去广告 · 抓包增强版
+#!desc=根据2026-11-02 iOS抓包升级：清理开屏、插屏、摇一摇广告请求、上传下载页面推广及应用内横幅；保留登录、文件上传下载及会员权益判断。关闭旧版插件避免重复规则。
+#!author=Xitaoyou（维护增强）, 可莉（旧版接口参考）
+#!tag=去广告, 123云盘
 #!system=iOS, iPadOS
 #!loon_version=3.5.1(998)
 #!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/123Pan-Splash-Enhanced.plugin
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/123NetWorkDisk.png
 #!date=2026-11-02
 
-# 资料来源：
-# - 可莉 123NetWorkDisk_remove_ads.plugin (2026-10-02)：旧版配置接口。
-# - ddgksf2013 StartUpAds：sdk.1rtb.net/sdk/req_ad（曾作为123pan开屏规则）。
-# - TG-Twilight/AWAvenue-Ads-Rule issue #216 (2026-09-20)：
-#   安卓123网盘真实抓包确认的开屏、首页广告SDK；iOS是否相同待验证。
-# - zlsdk.1rtb.net：1rtb 系广告SDK另一个已知请求主机。
-# 注意：以下 DOMAIN 规则按域名全局生效，也可能影响其他使用同一广告SDK的App。
-# 不拦截 bdad.123pan.cn：社区有屏蔽后导致下载按钮失效的记录。
-# 不拦截 123pan.com 主站、登录、文件及下载相关域名。
+# 抓包版本：123云盘 iOS 3.3.3。规则按域名全局生效，可能影响其他App的相同广告SDK。
+# 不封禁 123pan 主站、123278 / 123panapi API 主机及云盘上传下载服务。
+# 不封禁 bdad.123pan.cn（部分用户反馈曾导致下载按钮失效）。
+
+[Argument]
+cleanServerAds=switch, true, false, tag=清理开屏、插屏及页面广告（推荐）, desc=开：关闭抓包确认的服务器广告开关、隐藏横幅及推广；关：不修改云盘配置，但广告SDK域名仍被拦截。
+cleanRewardAds=switch, false, true, tag=额外清理广告任务配置（可选）, desc=关：保留广告任务数量配置；开：把广告任务数设为0，可能影响看广告领取奖励。
 
 [Rule]
-# 123pan关联的1rtb广告请求
+# 专用广告请求主机：包括穿山甲、优量汇、快手、百度、聚合SDK和广告素材。
 DOMAIN,sdk.1rtb.net,REJECT
 DOMAIN,zlsdk.1rtb.net,REJECT
-
-# 2026-09 安卓123网盘开屏/首页抓包：广告请求与聚合平台
 DOMAIN,sdk.adhuanxiao.com,REJECT
 DOMAIN,mpcfg.fancydsp.com,REJECT
 DOMAIN,sdk.zhangyuyidong.cn,REJECT
 DOMAIN,adm.zhangyuyidong.cn,REJECT
+DOMAIN,sdklog.zhangyuyidong.cn,REJECT
 DOMAIN,api.shanghailingye.cn,REJECT
 DOMAIN,sdk.hzzfcm.com,REJECT
+DOMAIN,inner.hzzfcm.com,REJECT
 DOMAIN,jp.ad.gameley.com,REJECT
 DOMAIN,de.ad.gameley.com,REJECT
 DOMAIN,xadsmartget.adgain.cn,REJECT
 DOMAIN,adsmartget.datads.cn,REJECT
+DOMAIN,sdk.e.qq.com,REJECT
+DOMAIN,mi.gdt.qq.com,REJECT
+DOMAIN,win.gdt.qq.com,REJECT
+DOMAIN,v.gdt.qq.com,REJECT
+DOMAIN,v3.gdt.qq.com,REJECT
+DOMAIN,pgdt.ugdtimg.com,REJECT
+DOMAIN,adsmind.ugdtimg.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao1.com,REJECT
+DOMAIN,log-api.pangolin-sdk-toutiao.com,REJECT
+DOMAIN,log-api.pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN,open.e.kuaishou.com,REJECT
+DOMAIN,gdfp.gifshow.com,REJECT
+DOMAIN,mobads.baidu.com,REJECT
+DOMAIN,mobads-logs.baidu.com,REJECT
+DOMAIN,wn.pos.baidu.com,REJECT
+DOMAIN,als.baidu.com,REJECT
+DOMAIN,mobads-pre-config.cdn.bcebos.com,REJECT
+DOMAIN,nadvideo2.baidu.com,REJECT
+DOMAIN,tk.anythinktech.com,REJECT
+DOMAIN,ujoy.anythinktech.com,REJECT
+DOMAIN,adx-os.anythinktech.com,REJECT
+DOMAIN,t2.fancyapi.com,REJECT
+DOMAIN,sdkg.fancyapi.com,REJECT
+DOMAIN,sdk-track.66mobi.com,REJECT
+DOMAIN,tencent-ssp.66mobi.com,REJECT
+DOMAIN,ssp-api.futongjieti.cn,REJECT
+DOMAIN,sl.buluken.com,REJECT
+DOMAIN,bid.buluken.com,REJECT
+DOMAIN,sdkconf.buluken.com,REJECT
+DOMAIN,sl.adbiding.com,REJECT
+DOMAIN,sdkconf.adbiding.com,REJECT
+DOMAIN,redirect.shunchangzhixing.com,REJECT
+DOMAIN,inner-report.shunchangzhixing.com,REJECT
+DOMAIN,sdk.beizi.biz,REJECT
+DOMAIN,mnt.hyzhihe.com,REJECT
+DOMAIN,adtrack.qianwen.com,REJECT
+DOMAIN,mo.bluebellls.com,REJECT
+DOMAIN,sdk.adx.adwangmai.com,REJECT
+DOMAIN,sdk-cfg.adx.adwangmai.com,REJECT
+DOMAIN,ad-api.adn-plus.com.cn,REJECT
+DOMAIN,sdk-stats.litemob.net,REJECT
+DOMAIN,sdk.litemob.vip,REJECT
+DOMAIN,da.statisticslinks.com,REJECT
+DOMAIN,tk.statisticslinks.com,REJECT
+DOMAIN,fg.xiawan8.com,REJECT
+DOMAIN,api.mobrtb.com,REJECT
+DOMAIN,cdn.mobrtb.com,REJECT
+DOMAIN,app-conf.aishuttler.com,REJECT
+DOMAIN,app.aishuttler.com,REJECT
+DOMAIN,adimage.bwton.com,REJECT
+DOMAIN,bd-cdn.halomobi.com,REJECT
 
 [Rewrite]
-# 兼容可莉原版配置接口规则，仅限此路径
-request if ${url} ~= /^https:\/\/www\.123pan\.com\/api\/config\/get(?:\?|$)/i then reject_dict(200)
+response if ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/(?:config\/get|app\/config\/get|user\/info|v2\/advert_resource\/get)(?:\?|$)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/123pan/ad-config.js") with enable=${cleanServerAds}, tag="清理123云盘开屏与页面广告", requires_body=true
+response if ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/taku\/ad\/config(?:\?|$)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/123pan/ad-config.js") with enable=${cleanRewardAds}, tag="清理123云盘广告任务", requires_body=true
 
 [MitM]
-hostname=www.123pan.com
+hostname=api.123278.com, api.123panapi.com

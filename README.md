@@ -7,10 +7,24 @@
 | 插件 | 功能 | 安装 |
 | --- | --- | --- |
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
-| 123云盘开屏去广告增强版（实验） | 补充开屏广告 SDK 拦截，保留原版横幅规则；iOS 效果待验证，可能增加启动等待时间 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
+| 123云盘去广告 · 抓包增强版 | iOS 实际抓包：开屏/插屏、摇一摇广告请求、页面推广及内置横幅；保留文件传输和登录 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | SideStore 刷新助手 | 通过 Loon 本地回环辅助刷新侧载应用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
 | YouTube 去广告增强版（实验） | 基于可莉原版，补充新版 `player/ad_break` 中插接口拦截；原版首页、Shorts、画中画、字幕等功能继续使用上游脚本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FYouTube-Enhanced.plugin) · [查看文件](plugins/YouTube-Enhanced.plugin) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名与广告接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
+
+## 123云盘去广告 · 抓包增强版
+
+基于 2026-11-02 **123云盘 iOS 3.3.3 的 722 条 HAR 请求**，替换旧版仅针对 `www.123pan.com/api/config/get` 的规则。保留现有插件文件路径和一键导入地址。
+
+- **开屏 / 插屏**：修改 `api.123278.com/api/config/get` 下发的开关、预载配置、展示次数和广告横幅；同时处理 `api/app/config/get`。
+- **摇一摇 / 自动跳转 App Store**：拦截抓包中出现的快手、穿山甲、优量汇及第三方聚合广告请求与点击上报域名，减少广告加载与触发机会。**是否完全消除需要实机验证**。
+- **页面推广**：仅修改 `api/user/info` 里的 `IsShowAdvertisement` 广告显示字段，并处理 `/api/v2/advert_resource/get` 的广告资源。
+- **可选广告任务**：`清理广告任务配置` 默认关闭；开启后将 `api/taku/ad/config` 的 `ad_count` 设为 0，可能影响看广告领奖励。
+- **安全范围**：不修改会员有效期、VIP 权益、账号身份、文件列表及上传下载速度/数量；不封禁 `bdad.123pan.cn`。广告 SDK 的域名规则全局生效，其他 App 如果使用同一广告 SDK 也可能受影响。
+
+**安装**：关闭可莉旧版和旧版 123 云盘去广告插件，使用上方链接重新导入；开启 Loon 的 MitM、安装并信任证书，并确保 `api.123278.com`、`api.123panapi.com` 在 MitM 中生效。更新后彻底退出 123云盘再打开。若广告仍跳转 App Store，可用 Loon 记录下一次**脱敏**抓包进一步定位；已有的本地缓存广告不能保证立即消失。
+
+脚本文件：[scripts/123pan/ad-config.js](scripts/123pan/ad-config.js)。旧路径继续有效：[plugins/123Pan-Splash-Enhanced.plugin](plugins/123Pan-Splash-Enhanced.plugin)。
 
 ## 使用说明
 
