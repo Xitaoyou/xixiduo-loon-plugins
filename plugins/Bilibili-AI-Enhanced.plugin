@@ -1,5 +1,5 @@
 #!name=哔哩哔哩去广告 · AI字幕兼容版
-#!desc=过滤哔哩哔哩广告、移除青少年模式弹窗和交互式弹幕、移除无用功能和链接跟踪参数，增加空降助手以便跳过视频中插入的广告。此插件仅建议iOS 15以上设备使用，且必须启用MitM-over-HTTP/2功能。\n\n空降助手是第三方提供的功能，依赖于Android版空降助手的服务器数据运作，可能会存在不准确或者失效的问题，此功能与哔哩哔哩官方无关。
+#!desc=基于可莉原版的 AI 字幕兼容增强版：保留开屏、首页、搜索、直播等去广告；默认不改写字幕、视频详情和播放器相关响应，解决部分 AI 字幕加载失败。新增底栏按钮、顶部频道等独立开关，可按需恢复原版强力清理。需开启 MitM over HTTP/2；空降助手依赖第三方数据。
 #App链接=https://apps.apple.com/app/id736536022
 #!author=kokoryh[https://github.com/Moli-X/Tool/blob/X/Loon/Readme.md]
 #!tag=去广告
@@ -8,26 +8,26 @@
 #!loon_version=3.5.1(998)
 #!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/Bilibili-AI-Enhanced.plugin
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Bilibili.png
-#!date=2026-10-02 13:57:49
+#!date=2026-11-02
 
 [Argument]
-disableSubtitleProtection=switch, false, true, tag=关闭AI字幕保护（不推荐）, desc=开启后恢复DmView互动弹幕清理，可能影响字幕。
-rewriteVideoDetails=switch, false, true, tag=改写视频详情（字幕风险）, desc=默认放行视频详情和进度响应，关闭可减少AI字幕兼容风险；开启恢复原版视频详情广告清理。
-optimizePlayer=switch, false, true, tag=播放器增强, desc=关闭后不改写播放器协议，兼容性更好但原版播放优化会失效。
-customizeHomeTabs=switch, false, true, tag=自定义顶部频道
-homeTopTabOrder=input, 全部, tag=顶部频道（逗号分隔）, desc=例如 推荐,热门,影视；全部表示保持原样。
-hideTopGameCenter=switch, true, false, tag=隐藏顶部游戏中心
-hideBottomPublish=switch, true, false, tag=隐藏底部发布
-hideBottomMall=switch, true, false, tag=隐藏底部会员购
-hideBottomDynamic=switch, false, true, tag=隐藏底部动态
-hideBottomMessages=switch, false, true, tag=隐藏底部消息
-hideBottomLive=switch, false, true, tag=隐藏底部直播
-hideTopActivity=switch, true, false, tag=过滤顶部广告
-displayUpList=select, "show", "hide", "auto", tag=[动态]中[最常访问]的显示方式, desc=auto：仅当列表中存在直播状态时显示；show：始终显示；hide：始终隐藏。
-purifyComment=switch, true, false, tag=移除评论区置顶广告, desc=移除评论区置顶广告
-optimizeRequest=switch, true, false, tag=优化评论区加载异常, desc=尝试解决评论区加载异常的问题
-sponsorBlock=switch, false, true, tag=空降助手, desc=用于跳过视频中的广告
-logLevel=select, "off", "error", "warn", "info", "debug", tag=日志等级, desc=脚本的日志输出等级
+disableSubtitleProtection=switch, false, true, tag=清理互动弹幕（可能影响AI字幕）, desc=关：保护AI字幕，保留部分互动弹幕；开：清理互动弹幕，可能导致AI字幕加载失败。
+rewriteVideoDetails=switch, false, true, tag=视频详情深度去广告, desc=关：优先保证AI字幕和视频详情正常，可能出现少量推广；开：加强详情页去广告，可能影响AI字幕。
+optimizePlayer=switch, false, true, tag=播放器增强, desc=关：保持原生播放器，字幕兼容性更好；开：恢复原版播放器优化，可能影响字幕或播放功能。
+customizeHomeTabs=switch, false, true, tag=精简首页顶部频道, desc=关：保留全部频道；开：只保留下方填写的频道（填“全部”则不变）。
+homeTopTabOrder=input, 全部, tag=保留的顶部频道, desc=填写推荐,热门,影视等，用逗号分隔；填“全部”则不精简。
+hideTopGameCenter=switch, true, false, tag=隐藏顶部游戏中心, desc=关：显示游戏中心；开：隐藏游戏中心。
+hideBottomPublish=switch, true, false, tag=隐藏底部发布, desc=关：显示发布按钮；开：隐藏发布按钮。
+hideBottomMall=switch, true, false, tag=隐藏底部会员购, desc=关：显示会员购；开：隐藏会员购。
+hideBottomDynamic=switch, false, true, tag=隐藏底部动态, desc=关：显示动态；开：隐藏动态，无法从底栏直接进入。
+hideBottomMessages=switch, false, true, tag=隐藏底部消息, desc=关：显示消息；开：隐藏消息入口，仍可通过其他入口访问。
+hideBottomLive=switch, false, true, tag=隐藏底部直播, desc=关：显示直播；开：隐藏直播入口。
+hideTopActivity=switch, true, false, tag=过滤顶部广告, desc=关：保留顶部活动入口；开：隐藏明确标记为广告的入口。
+displayUpList=select, "show", "hide", "auto", tag=动态页最常访问, desc=show始终显示；hide始终隐藏；auto仅有直播时显示。
+purifyComment=switch, true, false, tag=清理置顶推广评论, desc=关：保留原评论；开：过滤疑似推广的置顶评论，可能误删正常评论。
+optimizeRequest=switch, true, false, tag=修复评论区加载, desc=关：使用原始请求；开：尝试修复评论加载异常，可能增加请求处理。
+sponsorBlock=switch, false, true, tag=空降助手（跳过视频内广告）, desc=关：不跳过UP主口播广告；开：使用第三方数据自动跳过，可能误跳片段。
+logLevel=select, "off", "error", "warn", "info", "debug", tag=日志详细程度, desc=off关闭；error仅错误；warn警告；info普通信息；debug详细排查。
 
 [Rule]
 DOMAIN, bsbsb.top, PROXY
