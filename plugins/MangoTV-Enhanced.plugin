@@ -1,5 +1,5 @@
 #!name=芒果TV去广告 · 开屏摇一摇增强版
-#!desc=依据iOS 9.4.6抓包，清理开屏、摇一摇跳转、视频贴片、页面横幅；优先返回空广告数据，不阻断视频播放与账号接口。
+#!desc=去开屏、摇一摇、视频广告；支持精简顶部和底部导航、隐藏芒果卡及AI聊天浮窗。
 #!author=Xitaoyou（增强维护）, 可莉（旧版规则参考）
 #!tag=去广告, 芒果TV
 #!system=iOS, iPadOS
@@ -18,6 +18,11 @@ blockVideoAds=switch, true, false, tag=清理视频贴片广告（推荐）, des
 cleanAdConfig=switch, true, false, tag=关闭广告SDK及预加载（推荐）, desc=开：关闭广告SDK开关与开屏预载；关：使用应用原始广告配置。
 cleanPageAds=switch, true, false, tag=清理页面推广（可选）, desc=开：过滤“我的”页横幅与已识别的首页推广；关：保留原页面内容。
 blockExtraSDK=switch, true, false, tag=补充拦截第三方广告SDK（推荐）, desc=开：阻止抓包中返回广告配置的聚合SDK；关：依赖现有通用广告拦截器。
+trimTopTabs=switch, true, false, tag=精简顶部频道（推荐）, desc=开：只保留指定频道；关：恢复全部频道。
+topChannels=input, "首页,综艺,电视剧,电影", tag=保留顶部频道, desc=填写频道名，用逗号分隔；首页始终保留。
+trimBottomTabs=switch, true, false, tag=精简底部入口, desc=开：关闭已识别的短视频、商城和短剧入口；关：恢复原样。
+hideMangoCard=switch, true, false, tag=隐藏芒果卡悬浮挂件, desc=开：隐藏两侧芒果卡挂件；关：保留。
+hideAIChat=switch, true, false, tag=隐藏AI聊天浮窗, desc=开：隐藏聊天浮窗和气泡；关：保留。
 
 [Rewrite]
 # 开屏广告的JSON响应明确带有 ad_type=boot、互动跳转及广告素材。只改写广告结果。
@@ -32,12 +37,15 @@ request if ${blockSplash} == true && ${url} ~= /^https?:\/\/img\.da\.mgtv\.com\/
 # 新版广告SDK配置与应用配置。
 response if ${cleanAdConfig} == true && ${url} ~= /^https?:\/\/mobile\.da\.mgtv\.com\/sdk\/config(?:\?|$)/i then response.json.jq("if type == \"object\" then .warm_boot = 0 | .toutiao = 0 | .ylh = 0 | .beizi = 0 | .ubix = 0 | .gdt = 0 | .paster_preload = 0 | .c2s_preload = 0 else . end")
 response if ${cleanAdConfig} == true && ${url} ~= /^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/getConfig(?:\?|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= (if (.adModule | type) == \"object\" then .adModule |= (.useADSdk = 0 | .videoPPStatus = 0 | .isADCache = 0) else . end | if (.adProxy | type) == \"object\" then .adProxy.status = 0 else . end) else . end")
-response if ${cleanAdConfig} == true && ${url} ~= /^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config(?:\?|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= (if has(\"dc_adConfig\") then .dc_adConfig = \"0\" else . end | if has(\"relative_ads\") then .relative_ads = \"0\" else . end | if has(\"progress_bar_ad_switch\") then .progress_bar_ad_switch = \"0\" else . end | if has(\"playview_box_ad_switch\") then .playview_box_ad_switch = \"0\" else . end) else . end")
 # 新版“我的”模块和首页推广；仅去掉明确的广告模块。
 response if ${cleanPageAds} == true && ${url} ~= /^https?:\/\/me\.bz\.mgtv\.com\/v4\/module\/list(?:\?|$)/i then response.json.jq("if (.data.list | type) == \"array\" then .data.list |= map(select(.moduleType != 6)) else . end")
 response if ${cleanPageAds} == true && ${url} ~= /^https?:\/\/dc\.bz\.mgtv\.com\/dynamic\/v1\/channel\/index\//i then response.json.jq("(if has(\"adInfo\") then del(.adInfo) else . end) | (if (.data | type) == \"array\" then .data |= map(select(.moduleEntityId != \"842\" and .moduleEntityId != \"2237\" and .moduleEntityId != \"5418\")) else . end)")
 # 限定为抓包确认的第三方广告配置接口，不封禁相应平台的其他功能。
 request if ${blockExtraSDK} == true && ${url} ~= /^https?:\/\/(?:sdkconf\.hs\.lingjuad\.com\/sdk_config\/v3\/config|adx-cfg-u1\.ubixioe\.com\/mob\/sdk\/v3\/init)(?:\?|$)/i then reject(204)
+
+# 与广告改写合并处理 mobile/config，避免同一响应反复改写。
+response if ${url} ~= /^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config(?:\?|$)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/mangotv/ui-clean.js", {${cleanAdConfig}, ${trimBottomTabs}, ${hideMangoCard}, ${hideAIChat}, false, ""}) with tag="底部及悬浮入口精简", requires_body=true
+response if ${trimTopTabs} == true && ${url} ~= /^https?:\/\/dc\.bz\.mgtv\.com\/dynamic\/v1\/channel\/vrsList\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/mangotv/ui-clean.js", {false, false, false, false, ${trimTopTabs}, ${topChannels}}) with tag="顶部频道精简", requires_body=true
 
 [MitM]
 hostname=mobile.da.mgtv.com, img.da.mgtv.com, mobile.api.mgtv.com, me.bz.mgtv.com, dc.bz.mgtv.com, sdkconf.hs.lingjuad.com, adx-cfg-u1.ubixioe.com
