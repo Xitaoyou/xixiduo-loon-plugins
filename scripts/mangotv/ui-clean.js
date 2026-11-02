@@ -76,5 +76,8 @@
     });
     if (kept.length > 0 && kept.length < obj.data.length) { obj.data = kept; changed = true; }
   }
+  if (enabled("debugMode")) {
+    console.log("[芒果TV] " + (/\/mobile\/config(?:\?|$)/i.test(url) ? "底部和浮窗" : "顶部频道") + "：" + (changed ? "已精简" : "未修改响应"));
+  }
   $done({body: changed ? JSON.stringify(obj) : original});
 })();

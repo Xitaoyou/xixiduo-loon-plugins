@@ -1,5 +1,5 @@
 #!name=芒果TV去广告 · 开屏摇一摇增强版
-#!desc=去开屏、摇一摇、视频广告；支持精简顶部和底部导航、隐藏芒果卡及AI聊天浮窗。
+#!desc=修复脚本不执行的问题：过滤开屏摇一摇与视频广告；精简导航，隐藏芒果卡及AI聊天。
 #!author=Xitaoyou（增强维护）, 可莉（旧版规则参考）
 #!tag=去广告, 芒果TV
 #!system=iOS, iPadOS
@@ -10,7 +10,8 @@
 
 # 根据芒果TV iOS 9.4.6抓包（288次请求）制作；不是可莉官方更新。
 # 不封禁视频源（mobile-stream.api.mgtv.com）、播放鉴权、账号及正常图片CDN。
-# 禁用可莉旧版芒果TV插件，避免重复改写；原有可莉广告平台拦截器可以保留。
+# 修复脚本配置与传参错误；开屏清理保留成功状态，避免错误触发广告补偿。
+# 禁用可莉旧版芒果TV插件，避免冲突；可保留可莉广告平台拦截器。
 
 [Argument]
 blockSplash=switch, true, false, tag=清理开屏与摇一摇广告（推荐）, desc=开：让开屏广告接口返回空结果，减少摇一摇跳转App Store；关：保留原生开屏广告。
@@ -23,10 +24,11 @@ topChannels=input, "首页,综艺,电视剧,电影", tag=保留顶部频道, des
 trimBottomTabs=switch, true, false, tag=精简底部入口, desc=开：关闭已识别的短视频、商城和短剧入口；关：恢复原样。
 hideMangoCard=switch, true, false, tag=隐藏芒果卡悬浮挂件, desc=开：隐藏两侧芒果卡挂件；关：保留。
 hideAIChat=switch, true, false, tag=隐藏AI聊天浮窗, desc=开：隐藏聊天浮窗和气泡；关：保留。
+debugMode=switch, false, true, tag=调试日志, desc=开：在Loon日志确认精简是否执行；关：不输出调试信息。
 
 [Rewrite]
 # 开屏广告的JSON响应明确带有 ad_type=boot、互动跳转及广告素材。只改写广告结果。
-response if ${blockSplash} == true && ${url} ~= /^https?:\/\/mobile\.da\.mgtv\.com\/json\/app\/bdboot(?:\?|$)/i then response.json.jq("if (.data | type) == \"object\" and .data.ad_type == \"boot\" then .data = {} | .success = \"0\" | .err_code = 204 | .roll_time = 0 | .play_time = 0 else . end")
+response if ${blockSplash} == true && ${url} ~= /^https?:\/\/mobile\.da\.mgtv\.com\/json\/app\/bdboot(?:\?|$)/i then response.json.jq("if (.data | type) == \"object\" and .data.ad_type == \"boot\" then .data = {} | .success = \"1\" | .err_code = \"200\" | .roll_time = \"0\" | .play_time = \"0\" else . end")
 # 使用抓包中服务器实际返回过的空VAST，避免广告SDK因错误状态不断重试。
 response if ${blockSplash} == true && ${url} ~= /^https?:\/\/mobile\.da\.mgtv\.com\/(?:m\/(?:page|bdpage)|channel\/rprain)(?:\?|$)/i then response.body.mock("text", `<VAST version="3.0"><Extensions><Ads></Ads><OttTrackingEvents></OttTrackingEvents><OttQrcodeUrl></OttQrcodeUrl><OttSkipInterface></OttSkipInterface><OttSkipParam></OttSkipParam></Extensions></VAST>`, 200) | response.header.set("Content-Type", "application/xml; charset=utf-8")
 response if ${blockVideoAds} == true && ${url} ~= /^https?:\/\/mobile\.da\.mgtv\.com\/app\/player(?:\?|$)/i then response.body.mock("text", `<VAST version="3.0"><Extensions><Ads></Ads><OttTrackingEvents></OttTrackingEvents><OttQrcodeUrl></OttQrcodeUrl><OttSkipInterface></OttSkipInterface><OttSkipParam></OttSkipParam></Extensions></VAST>`, 200) | response.header.set("Content-Type", "application/xml; charset=utf-8")
@@ -44,8 +46,11 @@ response if ${cleanPageAds} == true && ${url} ~= /^https?:\/\/dc\.bz\.mgtv\.com\
 request if ${blockExtraSDK} == true && ${url} ~= /^https?:\/\/(?:sdkconf\.hs\.lingjuad\.com\/sdk_config\/v3\/config|adx-cfg-u1\.ubixioe\.com\/mob\/sdk\/v3\/init)(?:\?|$)/i then reject(204)
 
 # 与广告改写合并处理 mobile/config，避免同一响应反复改写。
-response if ${url} ~= /^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config(?:\?|$)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/mangotv/ui-clean.js", {${cleanAdConfig}, ${trimBottomTabs}, ${hideMangoCard}, ${hideAIChat}, false, ""}) with tag="底部及悬浮入口精简", requires_body=true
-response if ${trimTopTabs} == true && ${url} ~= /^https?:\/\/dc\.bz\.mgtv\.com\/dynamic\/v1\/channel\/vrsList\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/mangotv/ui-clean.js", {false, false, false, false, ${trimTopTabs}, ${topChannels}}) with tag="顶部频道精简", requires_body=true
+
+[Script]
+# 按官方语法在Script区段调用，不混用字面量和插件参数。
+response if ${url} ~= /^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config(?:\?|$)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/mangotv/ui-clean.js", {${cleanAdConfig}, ${trimBottomTabs}, ${hideMangoCard}, ${hideAIChat}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="底部与悬浮入口精简"
+response if ${trimTopTabs} == true && ${url} ~= /^https?:\/\/dc\.bz\.mgtv\.com\/dynamic\/v1\/channel\/vrsList\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/mangotv/ui-clean.js", {${trimTopTabs}, ${topChannels}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="顶部频道精简"
 
 [MitM]
 hostname=mobile.da.mgtv.com, img.da.mgtv.com, mobile.api.mgtv.com, me.bz.mgtv.com, dc.bz.mgtv.com, sdkconf.hs.lingjuad.com, adx-cfg-u1.ubixioe.com
