@@ -3,7 +3,21 @@
 (function () {
   var original = $response.body;
   var url = ($request && $request.url) || "";
-  var options = typeof $argument === "object" && $argument ? $argument : {};
+  var keys = ["cleanAdConfig", "trimBottomTabs", "hideMangoCard", "hideAIChat", "trimTopTabs", "topChannels"];
+  var options = {};
+  var arg = typeof $argument === "undefined" ? null : $argument;
+  if (Array.isArray(arg)) {
+    arg.forEach(function (v, i) { if (keys[i]) options[keys[i]] = v; });
+  } else if (arg && typeof arg === "object") {
+    options = arg;
+  } else if (typeof arg === "string") {
+    try {
+      var parsed = JSON.parse(arg);
+      if (Array.isArray(parsed)) parsed.forEach(function (v, i) { if (keys[i]) options[keys[i]] = v; });
+      else if (parsed && typeof parsed === "object") options = parsed;
+    } catch (_) {}
+  }
+  function enabled(k) { return options[k] === true || String(options[k]).toLowerCase() === "true"; }
   var obj, changed = false;
   try { obj = JSON.parse(original); } catch (_) { $done({body: original}); return; }
   if (!obj || typeof obj !== "object" || !obj.data) { $done({body: original}); return; }
@@ -33,19 +47,19 @@
 
   if (/\/mobile\/config(?:\?|$)/i.test(url) && typeof obj.data === "object" && !Array.isArray(obj.data)) {
     var data = obj.data;
-    if (options.cleanAdConfig === true) {
+    if (enabled("cleanAdConfig")) {
       ["dc_adConfig", "relative_ads", "progress_bar_ad_switch", "playview_box_ad_switch"].forEach(function (k) { update(data, k, "0"); });
     }
-    if (options.trimBottomTabs === true) {
+    if (enabled("trimBottomTabs")) {
       // 关闭已知的视频、商城、大芒及短剧推广入口；不触碰首页、搜索、片库和我的。
       ["XmVideoB", "XmsellSwitch", "damang_tab", "damang_duanju_tab"].forEach(function (k) { update(data, k, "0"); });
       patchConfig(data, "new_homepage_switch", function (conf) { if (Object.prototype.hasOwnProperty.call(conf, "jbp")) conf.jbp = "0"; });
     }
-    if (options.hideMangoCard === true) {
+    if (enabled("hideMangoCard")) {
       patchConfig(data, "pendantSwitch", function (conf) { if ("display" in conf) conf.display = 0; if ("entry" in conf) conf.entry = 0; });
       patchConfig(data, "mg_card_avatar_entry", function (conf) { if ("isOpen" in conf) conf.isOpen = 0; });
     }
-    if (options.hideAIChat === true) {
+    if (enabled("hideAIChat")) {
       update(data, "sayhi_entry_switch", "0");
       patchConfig(data, "mg_agent_switch", function (conf) {
         ["enable", "state", "mobile", "proactive", "bubbleInPlayer", "bubbleNotInPlayer", "dailyApprTimes", "maxApprTimes"].forEach(function (k) { if (k in conf) conf[k] = 0; });
@@ -53,7 +67,7 @@
       patchConfig(data, "ai_mouthpiece_switch", function (conf) { if ("enabled" in conf) conf.enabled = 0; });
       patchConfig(data, "new_homepage_switch", function (conf) { if ("mg_agent_switch" in conf) conf.mg_agent_switch = "0"; });
     }
-  } else if (/\/dynamic\/v1\/channel\/vrsList\//i.test(url) && options.trimTopTabs === true && Array.isArray(obj.data)) {
+  } else if (/\/dynamic\/v1\/channel\/vrsList\//i.test(url) && enabled("trimTopTabs") && Array.isArray(obj.data)) {
     var input = typeof options.topChannels === "string" ? options.topChannels : "首页,电视剧,电影,综艺";
     var whitelist = input.split(/[,，]/).map(function (s) { return s.trim(); }).filter(Boolean);
     if (whitelist.indexOf("首页") < 0) whitelist.unshift("首页");
