@@ -1,5 +1,5 @@
 #!name=芒果TV去广告 · 开屏摇一摇增强版
-#!desc=加强开屏与摇一摇广告源头拦截：直接返回无广告响应并关闭预加载；保留贴片去广告、导航精简和悬浮按钮开关。
+#!desc=抓包修复开屏广告真实接口 /json/app/boot；关闭摇一摇配置，保留视频贴片、导航和悬浮控件清理。
 #!author=Xitaoyou（增强维护）, 可莉（旧版规则参考）
 #!tag=去广告, 芒果TV
 #!system=iOS, iPadOS
@@ -10,7 +10,7 @@
 
 # 根据芒果TV iOS 9.4.6抓包（288次请求）制作；不是可莉官方更新。
 # 不封禁视频源（mobile-stream.api.mgtv.com）、播放鉴权、账号及正常图片CDN。
-# v3：对开屏投放接口直接返回无广告响应；广告SDK备用主机、重试与预加载补充处理。
+# v4：抓包证实真实开屏接口是 /json/app/boot，旧版误写成 bdboot；新增 layer/conf shakev2 关闭规则。
 # 禁用可莉旧版芒果TV插件，避免冲突；可保留可莉广告平台拦截器。
 
 [Argument]
@@ -28,7 +28,9 @@ debugMode=switch, false, true, tag=调试日志, desc=开：在Loon日志确认�
 
 [Rewrite]
 # 开屏广告的JSON响应明确带有 ad_type=boot、互动跳转及广告素材。只改写广告结果。
-response if ${blockSplash} == true && ${url} ~= /^https?:\/\/(?:mobile|mobile2|adlive)\.da\.mgtv\.com\/json\/app\/bdboot(?:\?|$)/i then response.body.mock("json", `{"data":{},"roll_time":0,"play_time":0,"err_code":200,"err_msg":"","success":"1","config":{"is_use_ad_cache":0,"retry_status":0,"warm_boot":0,"ins_switch":0,"toutiao":0,"gdt":0,"ylh":0,"beizi":0,"backups":[],"backup_schemas":[]}}`, 200) | response.header.set("X-MangoTV-Adblock", "boot-v3") | response.header.set("Cache-Control", "no-store")
+response if ${blockSplash} == true && ${url} ~= /^https?:\/\/(?:mobile|mobile2|adlive)\.da\.mgtv\.com\/json\/app\/(?:bd)?boot(?:\?|$)/i then response.body.mock("json", `{"data":{},"roll_time":0,"play_time":0,"err_code":200,"err_msg":"","success":"1","config":{"is_use_ad_cache":0,"retry_status":0,"warm_boot":0,"ins_switch":0,"toutiao":0,"gdt":0,"ylh":0,"beizi":0,"backups":[],"backup_schemas":[],"z_sdk":0,"ima":0,"mobile_video":0,"rprain_channel":0}}`, 200) | response.header.set("X-MangoTV-Adblock", "boot-v4") | response.header.set("Cache-Control", "no-store") | response.header.set("Content-Type", "application/json; charset=utf-8")
+# 最新抓包证实的独立摇一摇功能配置（保留其它页面浮层数据）。
+response if ${blockSplash} == true && ${url} ~= /^https?:\/\/layer\.bz\.mgtv\.com\/layer\/conf(?:\?|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= (.shake = [] | .shakev2 |= (if type == \"object\" then .aid = 0 | .newBiz = 0 | .newDialog = {} | .dialog = {} | .afterDialog = {} | .landing = \"\" | .shakeSwitch = \"{\\\"index\\\":0,\\\"vod\\\":0}\" else {} end)) else . end") | response.header.set("X-MangoTV-Adblock", "shake-v4") | response.header.set("Cache-Control", "no-store")
 # 使用抓包中服务器实际返回过的空VAST，避免广告SDK因错误状态不断重试。
 response if ${blockSplash} == true && ${url} ~= /^https?:\/\/(?:mobile|mobile2|adlive)\.da\.mgtv\.com\/(?:m\/(?:page|bdpage)|channel\/rprain)(?:\?|$)/i then response.body.mock("text", `<VAST version="3.0"><Extensions><Ads></Ads><OttTrackingEvents></OttTrackingEvents><OttQrcodeUrl></OttQrcodeUrl><OttSkipInterface></OttSkipInterface><OttSkipParam></OttSkipParam></Extensions></VAST>`, 200) | response.header.set("Content-Type", "application/xml; charset=utf-8") | response.header.set("X-MangoTV-Adblock", "vast-v3")
 response if ${blockVideoAds} == true && ${url} ~= /^https?:\/\/(?:mobile|mobile2|adlive)\.da\.mgtv\.com\/app\/player(?:\?|$)/i then response.body.mock("text", `<VAST version="3.0"><Extensions><Ads></Ads><OttTrackingEvents></OttTrackingEvents><OttQrcodeUrl></OttQrcodeUrl><OttSkipInterface></OttSkipInterface><OttSkipParam></OttSkipParam></Extensions></VAST>`, 200) | response.header.set("Content-Type", "application/xml; charset=utf-8") | response.header.set("X-MangoTV-Adblock", "vast-v3")
@@ -38,7 +40,7 @@ response if ${blockSplash} == true && ${url} ~= /^https?:\/\/dc\.bz\.mgtv\.com\/
 request if ${blockSplash} == true && ${url} ~= /^https?:\/\/img\.da\.mgtv\.com\/mediafiles\/wiad_creative\/.*\.(?:jpe?g|png|webp)(?:\?|$)/i then reject_img(200)
 request if ${blockSplash} == true && ${url} ~= /^https?:\/\/img\.da\.mgtv\.com\/(?:mediafiles\/wiad_creative|html5\/newstyle)\/.*\.zip(?:\?|$)/i then reject(204)
 # 新版广告SDK配置与应用配置。
-response if ${cleanAdConfig} == true && ${url} ~= /^https?:\/\/(?:mobile|mobile2)\.da\.mgtv\.com\/sdk\/config(?:\?|$)/i then response.json.jq("if type == \"object\" then .is_use_ad_cache = 0 | .warm_boot = 0 | .warm_boot_valid_time = 0 | .warm_boot_interval = 0 | .retry_status = 0 | .ins_switch = 0 | .backups = [] | .backup_schemas = [] | .toutiao = 0 | .toutiao_bd = {} | .ylh = 0 | .beizi = 0 | .ubix = 0 | .gdt = 0 | .paster_preload = 0 | .c2s_preload = 0 else . end")
+response if ${cleanAdConfig} == true && ${url} ~= /^https?:\/\/(?:mobile|mobile2)\.da\.mgtv\.com\/sdk\/config(?:\?|$)/i then response.json.jq("if type == \"object\" then .is_use_ad_cache = 0 | .warm_boot = 0 | .warm_boot_valid_time = 0 | .warm_boot_interval = 0 | .retry_status = 0 | .ins_switch = 0 | .backups = [] | .backup_schemas = [] | .toutiao = 0 | .toutiao_bd = {} | .ylh = 0 | .beizi = 0 | .ubix = 0 | .gdt = 0 | .paster_preload = 0 | .c2s_preload = 0 | .z_sdk = 0 | .rprain_channel = 0 | .ima = 0 | .mobile_video = 0 | .is_use_ipdx = 0 else . end")
 response if ${cleanAdConfig} == true && ${url} ~= /^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/getConfig(?:\?|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= (if (.adModule | type) == \"object\" then .adModule |= (.useADSdk = 0 | .videoPPStatus = 0 | .isADCache = 0) else . end | if (.adProxy | type) == \"object\" then .adProxy.status = 0 else . end) else . end")
 # 新版“我的”模块和首页推广；仅去掉明确的广告模块。
 response if ${cleanPageAds} == true && ${url} ~= /^https?:\/\/me\.bz\.mgtv\.com\/v4\/module\/list(?:\?|$)/i then response.json.jq("if (.data.list | type) == \"array\" then .data.list |= map(select(.moduleType != 6)) else . end")
@@ -54,4 +56,4 @@ response if ${url} ~= /^https?:\/\/mobile\.api\.mgtv\.com\/mobile\/config(?:\?|$
 response if ${trimTopTabs} == true && ${url} ~= /^https?:\/\/dc\.bz\.mgtv\.com\/dynamic\/v1\/channel\/vrsList\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/mangotv/ui-clean.js", {${trimTopTabs}, ${topChannels}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="顶部频道精简"
 
 [MitM]
-hostname=mobile.da.mgtv.com, img.da.mgtv.com, mobile.api.mgtv.com, me.bz.mgtv.com, dc.bz.mgtv.com, sdkconf.hs.lingjuad.com, adx-cfg-u1.ubixioe.com, mobile2.da.mgtv.com, adlive.da.mgtv.com
+hostname=mobile.da.mgtv.com, img.da.mgtv.com, mobile.api.mgtv.com, me.bz.mgtv.com, dc.bz.mgtv.com, sdkconf.hs.lingjuad.com, adx-cfg-u1.ubixioe.com, mobile2.da.mgtv.com, adlive.da.mgtv.com, layer.bz.mgtv.com

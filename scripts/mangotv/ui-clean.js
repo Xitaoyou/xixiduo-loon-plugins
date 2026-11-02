@@ -79,7 +79,7 @@
     if (kept.length > 0 && kept.length < obj.data.length) { obj.data = kept; changed = true; }
   }
   if (enabled("debugMode")) {
-    console.log("[芒果TV] " + (/\/mobile\/config(?:\?|$)/i.test(url) ? "底部和浮窗" : "顶部频道") + "：" + (changed ? "已精简" : "未修改响应"));
+    console.log("[芒果TV] " + (/\/mobile\/config(?:\?|$)/i.test(url) ? "底部和浮窗" : "顶部频道") + "：" + (changed ? "已精简" : "未修改响应") + "；底部=" + enabled("trimBottomTabs") + "；顶部=" + enabled("trimTopTabs") + "；芒果卡=" + enabled("hideMangoCard") + "；AI=" + enabled("hideAIChat"));
   }
   $done({body: changed ? JSON.stringify(obj) : original});
 })();

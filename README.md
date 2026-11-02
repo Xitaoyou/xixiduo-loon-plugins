@@ -17,15 +17,13 @@
 
 ## 芒果TV去广告 · 开屏摇一摇增强版
 
-**奶思原版（独立选用）**：已按原文复制自 [fmz200/wool_scripts](https://github.com/fmz200/wool_scripts/blob/main/Loon/plugin/split/partM/MangoTV.lpx)，原作者奶思，遵循上游 [GPL-3.0 许可](https://github.com/fmz200/wool_scripts/blob/main/LICENSE)，仍引用原作者的 `Scripts/cnftp.js`。和本仓库增强版**二选一启用**，不保证已适配当前芒果 TV 版本。
+按芒果 TV iOS 9.4.6 抓包修复**开屏、摇一摇、视频贴片与页面推广**，保留导航精简、芒果卡及 AI 浮窗开关。
 
-**核心功能**：清理开屏、摇一摇互动广告、视频贴片与页面推广；可精简顶部/底部入口，隐藏芒果卡及 AI 聊天浮窗。
+**v4 修复根因**：实际开屏接口是 `/json/app/boot`，旧版只匹配 `/json/app/bdboot`，导致开屏广告完整返回。现同时匹配两者，直接返回无广告数据；新增对 `layer.bz.mgtv.com/layer/conf` 的 `shakev2` 摇一摇开关清理，并关闭剩余广告 SDK 开关。
 
-**本次修复**：开屏 `/json/app/bdboot` 改为请求阶段直接返回无广告 JSON，并关闭广告 SDK 预加载、重试和备用广告主机；为开屏和 VAST 添加 `X-MangoTV-Adblock` 响应头，方便确认是否命中。不封禁视频源与登录接口。
+**抓包验证**：`/json/app/boot` 应显示响应头 `X-MangoTV-Adblock: boot-v4`；`/layer/conf` 显示 `shake-v4`。上一份抓包显示顶部频道已从 41 项清理至 4 项，但 App 可能仍使用本地缓存或其他导航数据。脚本「调试日志」可查看底部开关是否实际开启。
 
-**安装**：关闭可莉原版芒果 TV 插件，只启用本版；开启 Loon 的 MitM 和复写，信任证书后更新插件并完全退出芒果 TV 再打开。
-
-**验证**：在 Loon 最近请求中打开 `mobile.da.mgtv.com/json/app/bdboot`，查看响应头是否含 `X-MangoTV-Adblock: boot-v3`。若没有，说明请求未被此规则改写；若有但仍显示广告，优先检查应用缓存或其他投放接口。实际去广告效果仍需 iPhone 测试。
+**安装**：只启用本版，不与可莉版、奶思版同时运行；确保 Loon MitM、复写及证书有效，更新后完全关闭芒果 TV 再启动。规则基于真实响应测试，实际去广告效果需真机检验。
 
 ## 123云盘去广告
 
