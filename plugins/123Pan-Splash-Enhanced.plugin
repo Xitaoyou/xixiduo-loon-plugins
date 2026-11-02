@@ -1,5 +1,5 @@
-#!name=123云盘去广告 · 实测抓包加强版 v3
-#!desc=结合两次iOS抓包，增加广告接口二次拒绝并改用Loon原生JSON改写；针对美团、携程、快手等随机开屏广告，保留登录、文件和下载。需确保Loon连接及MitM有效。
+#!name=123云盘去广告 · 开屏与摇一摇增强版
+#!desc=清理开屏、插屏、页面横幅，拦截摇一摇广告加载与跳转请求。针对美团、携程、快手等广告来源增强拦截，保留登录及文件上传下载。
 #!author=Xitaoyou（增强维护）, 可莉（原版思路）
 #!tag=去广告, 123云盘
 #!system=iOS, iPadOS
@@ -15,9 +15,9 @@
 # DOMAIN拒绝是全局生效；HTTPS请求级二次拦截只针对具体广告路径。
 
 [Argument]
-cleanServerAds=switch, true, false, tag=关闭服务器开屏、插屏和页面广告（推荐）, desc=开：清空已知广告配置并过滤横幅；关：不改写云盘API，仍会屏蔽广告SDK域名。
-strictAdRequests=switch, true, false, tag=拦截抓包广告接口（推荐）, desc=开：对携程、美团、快手等真实广告素材接口额外返回空响应；关：仅使用广告域名规则，适合排查兼容性。
-cleanRewardAds=switch, false, true, tag=关闭看广告任务（可选）, desc=关：保留看广告领奖励；开：禁用广告任务次数，可能无法领取广告奖励。
+cleanServerAds=switch, true, false, tag=清理开屏、插屏和页面广告（推荐）, desc=开：关闭广告展示配置并清理横幅；关：保留原始配置，但仍拦截广告域名。
+strictAdRequests=switch, true, false, tag=阻止广告加载与跳转（推荐）, desc=开：额外拦截美团、携程、快手等广告接口，减少摇一摇跳转；关：仅使用域名拦截，可能漏广告。
+cleanRewardAds=switch, false, true, tag=减少看广告任务（可选）, desc=关：保留看广告领福利任务；开：将广告任务次数设为0，可能无法领取奖励。
 
 [Rule]
 DOMAIN,ad-api.adn-plus.com.cn,REJECT
