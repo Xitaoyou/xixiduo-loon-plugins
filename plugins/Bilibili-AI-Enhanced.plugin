@@ -1,7 +1,7 @@
 #!name=哔哩哔哩去广告 · AI字幕兼容版
 #!desc=在可莉原版基础上修复 AI 字幕兼容问题，并增加视频底部广告精准过滤。默认保留 AI 字幕、精准清理视频下方广告；开屏、首页、搜索等去广告继续生效。可独立设置底栏按钮、顶部频道及深度过滤。原版视频详情深度改写默认关闭，避免字幕再次失效。
 #App链接=https://apps.apple.com/app/id736536022
-#!author=kokoryh[https://github.com/Moli-X/Tool/blob/X/Loon/Readme.md]
+#!author=kokoryh（原作者）, Xitaoyou（增强版维护）
 #!tag=去广告
 #!system=iOS, iPadOS
 #!system_version=15
@@ -14,7 +14,7 @@
 disableSubtitleProtection=switch, false, true, tag=清理互动弹幕（可能影响AI字幕）, desc=关：保护AI字幕，保留部分互动弹幕；开：清理互动弹幕，可能导致AI字幕加载失败。
 safeVideoAds=switch, true, false, tag=精准清理视频下方广告（推荐）, desc=开：只删明确广告字段，尽量保留AI字幕；关：保留原始视频详情和广告。
 rewriteVideoDetails=switch, false, true, tag=原版视频详情深度清理（有风险）, desc=关：使用精准过滤，保护AI字幕；开：恢复原版深度清理，可能再次导致AI字幕失效。
-optimizePlayer=switch, false, true, tag=播放器增强, desc=关：保持原生播放器，字幕兼容性更好；开：恢复原版播放器优化，可能影响字幕或播放功能。
+optimizePlayer=switch, false, true, tag=播放器增强, desc=开：尝试解锁后台播放、投屏并减少提示，可能影响AI字幕；关：保持原生播放器，字幕更稳定。
 customizeHomeTabs=switch, false, true, tag=精简首页顶部频道, desc=关：保留全部频道；开：只保留下方填写的频道（填“全部”则不变）。
 homeTopTabOrder=input, 全部, tag=保留的顶部频道, desc=填写推荐,热门,影视等，用逗号分隔；填“全部”则不精简。
 hideTopGameCenter=switch, true, false, tag=隐藏顶部游戏中心, desc=关：显示游戏中心；开：隐藏游戏中心。
