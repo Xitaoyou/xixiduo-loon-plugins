@@ -7,24 +7,28 @@
 | 插件 | 功能 | 安装 |
 | --- | --- | --- |
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
-| 123云盘去广告 · 抓包增强版 | iOS 实际抓包：开屏/插屏、摇一摇广告请求、页面推广及内置横幅；保留文件传输和登录 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
+| 123云盘去广告 · 实测抓包加强版 v3 | 按实际广告素材来源添加 HTTPS 二次拦截；原生 JSON 关闭开屏/插屏；支持调试是否生效 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | SideStore 刷新助手 | 通过 Loon 本地回环辅助刷新侧载应用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
 | YouTube 去广告增强版（实验） | 基于可莉原版，补充新版 `player/ad_break` 中插接口拦截；原版首页、Shorts、画中画、字幕等功能继续使用上游脚本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FYouTube-Enhanced.plugin) · [查看文件](plugins/YouTube-Enhanced.plugin) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名与广告接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
 
-## 123云盘去广告 · 抓包增强版
+## 123云盘去广告 · 实测抓包加强版 v3
 
-基于 2026-11-02 **123云盘 iOS 3.3.3 的 722 条 HAR 请求**，替换旧版仅针对 `www.123pan.com/api/config/get` 的规则。保留现有插件文件路径和一键导入地址。
+针对 2026-11-02 用户第二次提供的 iOS 3.3.3 抓包（405 条请求）更新，**保留原插件路径与一键导入地址**。
 
-- **开屏 / 插屏**：修改 `api.123278.com/api/config/get` 下发的开关、预载配置、展示次数和广告横幅；同时处理 `api/app/config/get`。
-- **摇一摇 / 自动跳转 App Store**：拦截抓包中出现的快手、穿山甲、优量汇及第三方聚合广告请求与点击上报域名，减少广告加载与触发机会。**是否完全消除需要实机验证**。
-- **页面推广**：仅修改 `api/user/info` 里的 `IsShowAdvertisement` 广告显示字段，并处理 `/api/v2/advert_resource/get` 的广告资源。
-- **可选广告任务**：`清理广告任务配置` 默认关闭；开启后将 `api/taku/ad/config` 的 `ad_count` 设为 0，可能影响看广告领奖励。
-- **安全范围**：不修改会员有效期、VIP 权益、账号身份、文件列表及上传下载速度/数量；不封禁 `bdad.123pan.cn`。广告 SDK 的域名规则全局生效，其他 App 如果使用同一广告 SDK 也可能受影响。
+**确认的原因**：抓包中美团素材由 `sdk.litemob.vip/sdk/ad` 返回，携程素材由 `mi.gdt.qq.com/gdt_mview.fcg` 返回，快手广告 SDK 使用 `open.e.kuaishou.com`；这些域名在 v2 就已有 DOMAIN REJECT，但新抓包仍可见真实服务器响应 `200 OK`。所以**最重要的是检查 Loon 是否真正接管了请求**。单纯增加域名不足以解决。
 
-**安装**：关闭可莉旧版和旧版 123 云盘去广告插件，使用上方链接重新导入；开启 Loon 的 MitM、安装并信任证书，并确保 `api.123278.com`、`api.123panapi.com` 在 MitM 中生效。更新后彻底退出 123云盘再打开。若广告仍跳转 App Store，可用 Loon 记录下一次**脱敏**抓包进一步定位；已有的本地缓存广告不能保证立即消失。
+**本版修改**：
+- 保留原有广告 SDK DOMAIN 拒绝，补充两条在新抓包中出现的广告相关主机。
+- 新增 5 组**精确广告路径的 HTTPS 请求拦截**（默认开启），覆盖携程、美团、快手、穿山甲、百度真实素材请求；需开启 MitM 才能运行 HTTPS 路径改写。
+- 将 `api/config/get`、`api/app/config/get`、`api/user/info` 从远程 JS 改为 **Loon 原生 JSON JQ**；默认关闭开屏、插屏、广告预加载和页面广告开关，并清空广告横幅。原旧 JS 文件暂留以兼容旧订阅，但 v3 不再调用。
+- 可选的看广告任务关闭默认保持关闭。
+- 对 `api/config/get` 成功匹配的响应添加调试 Header `X-123Pan-Loon: v3-active`，方便验证是否改写命中。代理抓包工具可能显示的是改写前的响应，遇到这种情况应结合 Loon Rewrite 命中日志判断。
+- 不改动账号、会员状态、文件列表、上传下载限制，也不屏蔽 `bdad.123pan.cn`。
 
-脚本文件：[scripts/123pan/ad-config.js](scripts/123pan/ad-config.js)。旧路径继续有效：[plugins/123Pan-Splash-Enhanced.plugin](plugins/123Pan-Splash-Enhanced.plugin)。
+**安装与排查**：关闭原版可莉插件以及其他重复的 123 云盘插件，更新/重新导入 [同一插件文件](plugins/123Pan-Splash-Enhanced.plugin)。确保 Loon 主开关连接（VPN 状态），MitM 已启用、证书已在系统中信任，插件的 MitM 主机已生效。彻底退出 123 云盘后再测试。随后在 Loon「最近请求」检查 `sdk.litemob.vip`、`mi.gdt.qq.com` 是否显示 **REJECT**；若仍显示 DIRECT/PROXY，说明域名规则没有命中，应先排查插件启用和 Loon 流量接管。检查 `api.123278.com/api/config/get` 的 Rewrite 命中状态，应能看到本版 JSON 改写；如查看到的仍是未改写响应，须确认导入的是新版本以及配置是否冲突。
+
+**限制**：已经缓存在应用内的广告素材、App 内本地跳转逻辑不能仅凭网络过滤彻底消除；若请求未经过 Loon，本插件也无法生效。广告平台的域名级规则会影响其他使用这些 SDK 的 App。
 
 ## 使用说明
 
