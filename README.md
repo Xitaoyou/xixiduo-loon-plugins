@@ -7,26 +7,22 @@
 | 插件 | 功能 | 安装 |
 | --- | --- | --- |
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
-| 123云盘去广告 · 精简增强版 | 去开屏、插屏、横幅和摇一摇广告；与可莉广告拦截器去重，仅保留专属规则及必要备用拦截 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
+| 123云盘去广告 · 精简版 | 22条补充域名；需搭配可莉广告平台拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
+| 123云盘去广告 · 完整版 | 69条域名规则；独立使用，不依赖通用拦截插件 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Full.plugin) · [查看文件](plugins/123Pan-Splash-Full.plugin) |
 | SideStore 刷新助手 | 通过 Loon 本地回环辅助刷新侧载应用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
 | YouTube 去广告增强版（实验） | 基于可莉原版，补充新版 `player/ad_break` 中插接口拦截；原版首页、Shorts、画中画、字幕等功能继续使用上游脚本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FYouTube-Enhanced.plugin) · [查看文件](plugins/YouTube-Enhanced.plugin) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名与广告接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
 
-## 123云盘去广告 · 精简增强版
+## 123云盘去广告
 
-结合现有 Loon 插件配置去重：对照可莉「广告平台拦截器」和「可莉广告过滤器」公开规则，**69 条广告域名精简为 22 条**，删除 47 条重复规则。保留上一版的精准 HTTPS 广告接口备用拦截，避免开屏广告复现。
+两版均清理**开屏、插屏、页面横幅**，拦截摇一摇广告请求，并保留登录与文件上传下载。**只启用其中一个。**
 
-**功能**：清理开屏、插屏和页面横幅；减少摇一摇跳转 App Store；保留登录、文件管理与上传下载。
+| 版本 | 域名规则 | 适合 |
+| --- | ---: | --- |
+| **精简版（推荐已安装可莉拦截器的用户）** | 22条 | 配合「可莉广告平台拦截器」使用，减少重复规则 |
+| **完整版** | 69条 | 不依赖可莉通用拦截器，可独立使用 |
 
-| 开关 | 默认 | 说明 |
-| --- | --- | --- |
-| 清理开屏、插屏和页面广告 | 开 | 关闭广告展示配置和横幅 |
-| 阻止广告加载与跳转 | 开 | 精准广告接口二次拦截，建议保持开启 |
-| 减少看广告任务 | 关 | 开启可能影响看广告领奖励 |
-
-**安装**：原地址直接更新即可。请保持「可莉广告平台拦截器」启用，并排在本插件之前；同时启用 Loon、MitM 并信任证书。其他独立的美团、携程插件不负责清理 123 云盘内展示的广告。
-
-**注意**：本次去重以可莉公开同名 `.plugin` 规则为依据；你启用的 `.lpx` 版本如果与其不同，实际覆盖范围可能有差异。共享广告 SDK 的域名拦截仍可能影响其他 App；缓存的广告或应用内部跳转不能保证全部清除。
+两版的广告接口精准拦截、123云盘服务器广告配置清理和三个功能开关一致；「看广告任务」默认不关闭。开启 Loon MitM 并信任证书后使用，更新后完全退出 123云盘再启动。
 
 ## 使用说明
 

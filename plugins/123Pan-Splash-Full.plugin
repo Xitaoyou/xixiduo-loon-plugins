@@ -1,0 +1,101 @@
+#!name=123云盘去广告 · 完整增强版
+#!desc=独立拦截123云盘开屏、插屏、页面横幅及摇一摇广告；内含69条广告域名规则和精准接口拦截。无需额外安装可莉广告拦截器，与精简版二选一。
+#!author=Xitaoyou（增强维护）, 可莉（原版思路）
+#!tag=去广告, 123云盘
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(998)
+#!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/123Pan-Splash-Full.plugin
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/123NetWorkDisk.png
+#!date=2026-11-02
+
+# 完整版：69条广告域名拦截 + 123云盘自身广告配置清理 + 精准HTTPS广告接口拦截。
+# 可独立使用，无需依赖可莉广告平台拦截器；与精简版只能启用一个。
+# 不拦截123云盘主站、登录及文件上传下载接口；不修改会员权益。
+[Argument]
+cleanServerAds=switch, true, false, tag=清理开屏、插屏和页面广告（推荐）, desc=开：关闭广告展示配置并清理横幅；关：保留原始配置，但仍拦截广告域名。
+strictAdRequests=switch, true, false, tag=阻止广告加载与跳转（推荐）, desc=开：额外拦截美团、携程、快手等广告接口，减少摇一摇跳转；关：仅使用域名拦截，可能漏广告。
+cleanRewardAds=switch, false, true, tag=减少看广告任务（可选）, desc=关：保留看广告领福利任务；开：将广告任务次数设为0，可能无法领取奖励。
+
+[Rule]
+DOMAIN,ad-api.adn-plus.com.cn,REJECT
+DOMAIN,adimage.bwton.com,REJECT
+DOMAIN,adm.zhangyuyidong.cn,REJECT
+DOMAIN,adsmartget.datads.cn,REJECT
+DOMAIN,adsmind.ugdtimg.com,REJECT
+DOMAIN,adtrack.qianwen.com,REJECT
+DOMAIN,adx-os.anythinktech.com,REJECT
+DOMAIN,als.baidu.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao1.com,REJECT
+DOMAIN,api.mobrtb.com,REJECT
+DOMAIN,api.shanghailingye.cn,REJECT
+DOMAIN,app-conf.aishuttler.com,REJECT
+DOMAIN,app.aishuttler.com,REJECT
+DOMAIN,bd-cdn.halomobi.com,REJECT
+DOMAIN,bid.buluken.com,REJECT
+DOMAIN,cdn.mobrtb.com,REJECT
+DOMAIN,da.statisticslinks.com,REJECT
+DOMAIN,de.ad.gameley.com,REJECT
+DOMAIN,fg.xiawan8.com,REJECT
+DOMAIN,gdfp.gifshow.com,REJECT
+DOMAIN,inner-report.shunchangzhixing.com,REJECT
+DOMAIN,inner.hzzfcm.com,REJECT
+DOMAIN,jp.ad.gameley.com,REJECT
+DOMAIN,log-api.pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN,log-api.pangolin-sdk-toutiao.com,REJECT
+DOMAIN,mi.gdt.qq.com,REJECT
+DOMAIN,mnt.hyzhihe.com,REJECT
+DOMAIN,mo.bluebellls.com,REJECT
+DOMAIN,mobads-logs.baidu.com,REJECT
+DOMAIN,mobads-pre-config.cdn.bcebos.com,REJECT
+DOMAIN,mobads.baidu.com,REJECT
+DOMAIN,mpcfg.fancydsp.com,REJECT
+DOMAIN,nadvideo2.baidu.com,REJECT
+DOMAIN,open.e.kuaishou.com,REJECT
+DOMAIN,pgdt.ugdtimg.com,REJECT
+DOMAIN,redirect.shunchangzhixing.com,REJECT
+DOMAIN,sdk-cfg.adx.adwangmai.com,REJECT
+DOMAIN,sdk-stats.litemob.net,REJECT
+DOMAIN,sdk-track.66mobi.com,REJECT
+DOMAIN,sdk.1rtb.net,REJECT
+DOMAIN,sdk.adhuanxiao.com,REJECT
+DOMAIN,sdk.adx.adwangmai.com,REJECT
+DOMAIN,sdk.beizi.biz,REJECT
+DOMAIN,sdk.e.qq.com,REJECT
+DOMAIN,sdk.hzzfcm.com,REJECT
+DOMAIN,sdk.litemob.vip,REJECT
+DOMAIN,sdk.zhangyuyidong.cn,REJECT
+DOMAIN,sdkconf.adbiding.com,REJECT
+DOMAIN,sdkconf.buluken.com,REJECT
+DOMAIN,sdkg.fancyapi.com,REJECT
+DOMAIN,sdklog.zhangyuyidong.cn,REJECT
+DOMAIN,sdktmp.hubcloud.com.cn,REJECT
+DOMAIN,sl.adbiding.com,REJECT
+DOMAIN,sl.buluken.com,REJECT
+DOMAIN,ssp-api.futongjieti.cn,REJECT
+DOMAIN,static.shunchangzhixing.com,REJECT
+DOMAIN,t2.fancyapi.com,REJECT
+DOMAIN,tencent-ssp.66mobi.com,REJECT
+DOMAIN,tk.anythinktech.com,REJECT
+DOMAIN,tk.statisticslinks.com,REJECT
+DOMAIN,ujoy.anythinktech.com,REJECT
+DOMAIN,v.gdt.qq.com,REJECT
+DOMAIN,v3.gdt.qq.com,REJECT
+DOMAIN,win.gdt.qq.com,REJECT
+DOMAIN,wn.pos.baidu.com,REJECT
+DOMAIN,xadsmartget.adgain.cn,REJECT
+DOMAIN,zlsdk.1rtb.net,REJECT
+
+[Rewrite]
+# 真实返回广告素材的5组HTTPS路径，作为DOMAIN规则之外的二次拦截。
+request if ${strictAdRequests} == true && ${url} ~= /^https:\/\/(?:sdk\.litemob\.vip\/sdk\/ad(?:\?|$)|mi\.gdt\.qq\.com\/(?:gdt_mview\.fcg|server_bidding2)(?:\?|$)|open\.e\.kuaishou\.com\/rest\/e\/v3\/open\/univ(?:\?|$)|mobads\.baidu\.com\/cpro\/ui\/mads\.php(?:\?|$)|api-access\.pangolin-sdk-toutiao(?:-b|1)?\.com\/api\/ad\/union\/sdk\/get_ads\/?(?:\?|$))/i then reject(204)
+# 使用Loon原生JSON改写：不需要请求远程JS文件，也不替换整个配置响应。
+response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/config\/get(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data |= (.isInitAd = 0 | .isOpenSplash = false | .isOpenAbortAd = false | .isOpenDownloadAd = false | .isOpenMineAd = false | .isOpenUploadAd = false | .interstitialShowCount = 0 | .showCount = 0 | .bannerList = [] | .preloadConfig.iosInter = 0 | .preloadConfig.iosSplash = 0) else . end") | response.header.set("X-123Pan-Loon", "v3-active")
+response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/app\/config\/get(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.isInitAd = 0 else . end")
+response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/user\/info(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.IsShowAdvertisement = false else . end")
+response if ${cleanRewardAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/taku\/ad\/config(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.ad_count = 0 else . end")
+
+[MitM]
+# 首先需使云盘接口返回配置被解密；以下广告域名仅为精确路径二次拦截。
+hostname=api.123278.com, api.123panapi.com, sdk.litemob.vip, mi.gdt.qq.com, open.e.kuaishou.com, mobads.baidu.com, api-access.pangolin-sdk-toutiao.com, api-access.pangolin-sdk-toutiao-b.com, api-access.pangolin-sdk-toutiao1.com
