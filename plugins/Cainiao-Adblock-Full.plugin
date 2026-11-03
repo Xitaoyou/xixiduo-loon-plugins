@@ -14,7 +14,7 @@
 # 严禁封禁整个 acs.m.taobao.com、msgacs.m.taobao.com、cn-acs.m.cainiao.com、ossgw.alicdn.com 或 a1.alibabausercontent.com。
 # 数据边界：2026-11-03 抓包证实第三方广告 SDK、创意素材；首页商品/楼层接口参考公开规则路径，尚未得到此App版本的对应响应体。
 # HAR根因：208/210请求命中GLOBAL,DIRECT；必须切回Loon「规则分流」才能使用广告域名REJECT。
-# 首页复写覆盖真实嵌套的data.result.dataList、data.data.data.operationList和指定商品广告位。
+# 首页复写覆盖数据结构data.result.dataList、data.data.data.operationList和指定商品广告位；show/mshow由响应规则处理，不与请求拒绝重复。
 # 只修改经授权的本仓库文件；不复制或再发行可莉源码。
 
 [Argument]
@@ -32,7 +32,7 @@ DOMAIN,h-adashx.ut.cainiao.com,REJECT
 [Rewrite]
 # 必须使用Loon规则分流模式；GLOBAL,DIRECT会跳过普通域名拒绝。
 request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn(?:[\/?]|$)/i then reject(404)
-request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?:index|show|batch\.show\.v2)(?:\.cn)?(?:[\/?]|$)/i then reject(404)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.index(?:\.cn)?(?:[\/?]|$)/i then reject(404)
 request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.adkeyword(?:\.get\.cn)?(?:[\/?]|$)/i then reject(404)
 request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend\.cpc\.cn(?:[\/?]|$)/i then reject(404)
 request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbpresentation\.tabbar\.marketing\.get\.cn(?:[\/?]|$)/i then reject(404)
