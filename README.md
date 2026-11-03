@@ -9,6 +9,7 @@
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
 | 芒果TV去广告 · 开屏摇一摇增强版 | 去开屏、摇一摇和视频广告；精简导航、隐藏芒果卡及AI浮窗 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Enhanced.plugin) · [查看文件](plugins/MangoTV-Enhanced.plugin) |
 | 芒果TV去广告 · 奶思原版 | 第三方原版镜像：广告域名拦截、页面及导航清理，规则未经修改 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Naisi-Original.lpx) · [查看文件](plugins/MangoTV-Naisi-Original.lpx) |
+| 菜鸟去广告 · 开屏素材与广告SDK精准补丁 | 按真实抓包拦截双11开屏图片/视频、广点通及聚合SDK广告接口；保留菜鸟正常物流和阿里通用CDN资源 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Splash-Enhanced.plugin) · [查看文件](plugins/Cainiao-Splash-Enhanced.plugin) |
 | 广告平台补充拦截器 · DNS优先版 | 25条域名规则，移除HTTP模拟响应；搭配主配置DNS拒绝 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
 | 123云盘去广告 · 精简专用版 v6 | 仅4条123云盘私有API改写；配合可莉及通用补充拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | 123云盘去广告 · 完整版 | 70条域名规则；补拦腾讯素材和新版SDK，可独立使用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Full.plugin) · [查看文件](plugins/123Pan-Splash-Full.plugin) |
@@ -121,3 +122,17 @@ Loon 官方插件规范不允许插件改变这些全局设置。普通UDP 53端
 ## 许可证
 
 本仓库使用 [MIT 许可证](LICENSE)。
+
+## 菜鸟去广告 · 开屏精准补丁（2026-11-03）
+
+依据 iOS 菜鸟抓包添加 **5 条 HTTPS 请求级精准拒绝规则**：
+
+- 阿里广告图片：`ossgw.alicdn.com/creatives-assets/prod/feupload/user/...`（实证双11开屏图）
+- 阿里广告视频：`a1.alibabausercontent.com/prod/feupload/user/7clgu/...mp4`（实证同一广告5秒视频）
+- 广点通：`v2mi.gdt.qq.com/gdt_mview.fcg`（实证响应包含携程广告创意）
+- 聚合广告：`ssp.iytcdn.com/union/sdk/config` 及 `/union/sdk/data`（实证配置开启开屏广告）
+- MS/1RTB：`sdk.1rtb.net/sdk/req_ad`（广告竞价接口，二进制响应未解码）
+
+请与可莉菜鸟去广告和现有通用广告拦截插件共同启用。需要 **Loon MitM 开启、证书信任与 HTTP 复写启用**；插件的两个可选开关默认开启。**不会整域名封禁** `ossgw.alicdn.com` 或 `a1.alibabausercontent.com`。调整后完全退出菜鸟再启动，按抓包和开屏实际表现复查。静态规则测试覆盖本次抓包，但真机效果仍需验证。
+
+[查看插件](plugins/Cainiao-Splash-Enhanced.plugin) · [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Splash-Enhanced.plugin)
