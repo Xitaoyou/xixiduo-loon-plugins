@@ -14,8 +14,8 @@
 # 奖励广告任务默认保留。不要与本仓库123云盘完整版同时启用。
 
 [Argument]
-cleanServerAds = switch,true,tag=关闭开屏和页面广告,desc=开：关闭云盘服务器下发的开屏、插屏、横幅开关；关：保留原始广告设置。
-cleanRewardAds = switch,false,tag=隐藏看广告任务（可选）,desc=开：尝试清零广告福利任务次数，可能无法领取奖励；关：保留广告福利任务。
+cleanServerAds = switch,true,false,tag=关闭开屏和页面广告,desc=开：关闭云盘服务器下发的开屏、插屏、横幅开关；关：保留原始广告设置。
+cleanRewardAds = switch,false,true,tag=隐藏看广告任务（可选）,desc=开：尝试清零广告福利任务次数，可能无法领取奖励；关：保留广告福利任务。
 
 [Rewrite]
 # 下面四条是云盘私有API，不负责拦第三方广告SDK。
