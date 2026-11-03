@@ -1,5 +1,5 @@
-#!name=菜鸟去广告 · 联动完整版 v2
-#!desc=菜鸟专用开屏、首页商品推广及营销楼层净化；须配合可莉广告平台拦截器和本仓库广告平台补充拦截器 v3 使用。
+#!name=菜鸟去广告 · 联动完整版 v3
+#!desc=修复全局直连漏拦问题，增强开屏与首页广告模块净化；必须搭配可莉广告平台和本仓库补充拦截器v3。
 #!author=Xitaoyou
 #!tag=去广告,菜鸟,开屏,首页净化
 #!system=iOS, iPadOS
@@ -10,16 +10,17 @@
 # 必须同时启用：可莉广告平台拦截器（BlockAdvertisers） + 本仓库 AdPlatform-Supplement.plugin v3。
 # 可按需启用可莉的 HTTPDNS 插件；此菜鸟完整版不复制通用广告SDK域名规则。
 # 请关闭可莉 Cainiao_remove_ads.lpx 与旧 Cainiao-Splash-Enhanced.plugin，避免重复复写。
-# [Rule] 仅留2条菜鸟专用域名；[Rewrite] 保留11条菜鸟广告专用接口及开屏素材改写。
+# [Rule] 保留2条菜鸟域名；v3增加缺失的MTop MitM主机，修复首页广告嵌套结构。
 # 严禁封禁整个 acs.m.taobao.com、msgacs.m.taobao.com、cn-acs.m.cainiao.com、ossgw.alicdn.com 或 a1.alibabausercontent.com。
 # 数据边界：2026-11-03 抓包证实第三方广告 SDK、创意素材；首页商品/楼层接口参考公开规则路径，尚未得到此App版本的对应响应体。
-# 首页 JSON 精简优先只删明确命名的广告字段，保留物流列表、取件码、订单与账号数据。
+# HAR根因：208/210请求命中GLOBAL,DIRECT；必须切回Loon「规则分流」才能使用广告域名REJECT。
+# 首页复写覆盖真实嵌套的data.result.dataList、data.data.data.operationList和指定商品广告位。
 # 只修改经授权的本仓库文件；不复制或再发行可莉源码。
 
 [Argument]
 blockSplash = switch,true,false,tag=精准拦截开屏图片与视频,desc=开：拦截本次抓包出现的开屏创意路径；需MitM。关：关闭素材级拦截；配套的通用广告域名拦截仍按独立插件运行。
-blockHomeAds = switch,true,false,tag=隐藏首页商品推广,desc=开：清空菜鸟广告投放与CPS商品推荐专用接口；需MitM。
-cleanHomeModules = switch,true,false,tag=精简首页营销楼层,desc=开：只清理接口中可识别的广告/营销字段与模块，不修改快递列表。
+blockHomeAds = switch,true,false,tag=隐藏首页商品推广,desc=开：广告专用接口返回404，避免假的HTTP200导致空广告框；需MitM。
+cleanHomeModules = switch,true,false,tag=清除首页广告窗口与信息流,desc=开：过滤营销模块、广告位和嵌套operationList，保留物流列表。
 cleanMine = switch,false,true,tag=精简我的页面推广（可选）,desc=默认关闭；启用后针对我的页面接口过滤明显的广告字段。
 
 [Rule]
@@ -29,23 +30,23 @@ DOMAIN,adashx.ut.cainiao.com,REJECT
 DOMAIN,h-adashx.ut.cainiao.com,REJECT
 
 [Rewrite]
-# 菜鸟与淘宝的MTop网关仅拦截已知广告专用API，普通网关、订单/物流/鉴权请求全部保留。
-# 这类返回空字典可以在首页减少商品广告容器，不将图片伪造成HTTP 200占位。
-request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?:show|mshow|batch\.show\.v2|index)\.cn(?:[\/?]|$)/i then reject_dict(200)
-request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn(?:[\/?]|$)/i then reject_dict(200)
-request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.adkeyword(?:\.get\.cn)?(?:[\/?]|$)/i then reject_dict(200)
-request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend\.cpc\.cn(?:[\/?]|$)/i then reject_dict(200)
-request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbpresentation\.tabbar\.marketing\.get\.cn(?:[\/?]|$)/i then reject_dict(200)
-request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(?:acquire|event|close)\.cn(?:[\/?]|$)/i then reject_dict(200)
-request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area(?:[\/?]|$)/i then reject_dict(200)
-
-# 素材级保险：已抓到的双11开屏图片、视频；不能用DNS按路径拦截，所以此两条需要MitM。
+# 必须使用Loon规则分流模式；GLOBAL,DIRECT会跳过普通域名拒绝。
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn(?:[\/?]|$)/i then reject(404)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?:index|show|batch\.show\.v2)(?:\.cn)?(?:[\/?]|$)/i then reject(404)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.adkeyword(?:\.get\.cn)?(?:[\/?]|$)/i then reject(404)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend\.cpc\.cn(?:[\/?]|$)/i then reject(404)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbpresentation\.tabbar\.marketing\.get\.cn(?:[\/?]|$)/i then reject(404)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(?:acquire|event|close)\.cn(?:[\/?]|$)/i then reject(404)
+# 开屏素材路径精准拦截，不封共享CDN。
 request if ${blockSplash} == true && ${url} ~= /^https:\/\/ossgw\.alicdn\.com\/creatives-assets\/prod\/feupload\/user\/7clgu\/[^?#]+\.(?:jpe?g|png|webp)(?:\?|$)/i then reject(403)
 request if ${blockSplash} == true && ${url} ~= /^https:\/\/a1\.alibabausercontent\.com\/prod\/feupload\/user\/7clgu\/[^?#]+\.mp4(?:_\.mp4)?(?:\?|$)/i then reject(403)
-
-# 首页合并数据可能混含物流信息，不能直接拒绝整个接口：只消除明确广告字段/营销卡片。
-response if ${cleanHomeModules} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbpresentation\.(?:homepage\.merge|protocol\.homepage)\.get\.cn(?:[\/?]|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= (del(.adList, .ads, .adBanner, .adBanners, .advertisements, .marketingList, .promotionList, .recommendGoods, .goodsRecommend, .cpsRecommend, .cpsGoods, .cpsList, .productAds, .searchAds, .splashAd) | if (.modules | type) == \"array\" then .modules |= map(select(((.moduleType // .bizType // .type // .moduleName // .id // \"\") | tostring | ascii_downcase | test(\"(^ad$|advert|(^|[_-])cps([_-]|$)|marketing|promotion|goods[_-]?recommend|recommend[_-]?goods|product[_-]?ad)\")) | not)) else . end) else . end") | response.header.set("X-Cainiao-Clean", "home-v1")
-response if ${cleanMine} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch(?:[\/?]|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= del(.adList, .ads, .adBanner, .marketingList, .promotionList, .cpsRecommend, .goodsRecommend, .recommendGoods, .productAds) else . end") | response.header.set("X-Cainiao-Clean", "mine-v1")
+# 清除广告模块及占位。
+response if ${cleanHomeModules} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbpresentation\.(?:protocol\.homepage|homepage\.merge)\.get\.cn(?:[\/?]|$)/i then response.json.jq("if (.data.result.dataList | type) == \"array\" then .data.result.dataList |= map(select(((.type // \"\") | tostring | ascii_downcase | test(\"banner_area|promotion|advert|marketing|sponsor\")) | not)) else . end | if (.data.data.data | type) == \"object\" then .data.data.data |= del(.mainSearch.bizData.searchContents, .operationList) else . end") | response.header.set("X-Cainiao-Clean", "home-v3")
+response if ${cleanHomeModules} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch(?:\.cn)?(?:[\/?]|$)/i then response.json.jq("del(.data.data.data.mainSearch.bizData.searchContents, .data.data.data.operationList, .data.data.banner, .data.data.activity)") | response.header.set("X-Cainiao-Clean", "e2e-v3")
+response if ${cleanHomeModules} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.mshow(?:\.cn)?(?:[\/?]|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= del(.\"1316\", .\"1332\", .\"1638\", .\"1910\", .\"618\", .\"1524\", .\"1525\") else . end") | response.header.set("X-Cainiao-Clean", "mshow-v3")
+response if ${cleanHomeModules} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?:batch\.show\.v2|show)(?:\.cn)?(?:[\/?]|$)/i then response.json.jq("if (.data.result | type) == \"array\" then .data.result |= map(select(((.materialContentMapper.adItemDetail != null) or (.materialContentMapper.advRecGmtModifiedTime != null) or ((.materialContentMapper.group_id // \"\") | IN(\"common_header_banner\", \"entertainment\", \"interests\", \"kuaishou_banner\"))) | not)) else . end") | response.header.set("X-Cainiao-Clean", "ads-v3")
+response if ${cleanHomeModules} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.com\.cainiao\.longquan\.place\.getpageresourcecontent\.cn(?:[\/?]|$)/i then response.json.jq("if (.data.result.placeContentMap[\"780001\"].contentList | type) == \"array\" then del(.data.result.placeContentMap[\"780001\"].contentList) else . end") | response.header.set("X-Cainiao-Clean", "longquan-v3")
+response if ${cleanMine} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.app\.mine\.main(?:\.cn)?(?:[\/?]|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= del(.adList, .ads, .adBanner, .marketingList, .promotionList, .cpsRecommend, .goodsRecommend, .recommendGoods, .productAds) else . end") | response.header.set("X-Cainiao-Clean", "mine-v3")
 
 [MitM]
-hostname=cn-acs.m.cainiao.com, acs.m.taobao.com, msgacs.m.taobao.com, ossgw.alicdn.com, a1.alibabausercontent.com
+hostname=cn-acs.m.cainiao.com, netflow-mtop.cainiao.com, nbcps-mtop.cainiao.com, e2e-mtop.cainiao.com, longquan-mtop.cainiao.com, acs.m.taobao.com, msgacs.m.taobao.com, ossgw.alicdn.com, a1.alibabausercontent.com
