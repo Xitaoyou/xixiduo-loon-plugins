@@ -1,14 +1,14 @@
 #!name=123云盘去广告 · 完整增强版
-#!desc=独立清理开屏、插屏、横幅及摇一摇广告；69条广告域名规则，新增针对美团、京东等漏网广告接口的二次拦截。
+#!desc=v5抓包修复：独立过滤腾讯广告素材、新版广告SDK接口及123云盘.cn备用API。
 #!author=Xitaoyou（增强维护）, 可莉（原版思路）
 #!tag=去广告, 123云盘
 #!system=iOS, iPadOS
 #!loon_version=3.5.1(998)
 #!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/123Pan-Splash-Full.plugin
 #!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/123NetWorkDisk.png
-#!date=2026-11-02
+#!date=2026-11-03
 
-# 完整版：69条广告域名拦截 + 123云盘自身广告配置清理 + 精准HTTPS广告接口拦截。
+# 完整版：70条广告域名拦截 + 123云盘自身广告配置清理 + 精准HTTPS广告接口拦截。
 # 可独立使用，无需依赖可莉广告平台拦截器；与精简版只能启用一个。
 # 不拦截123云盘主站、登录及文件上传下载接口；不修改会员权益。
 [Argument]
@@ -87,17 +87,21 @@ DOMAIN,wn.pos.baidu.com,REJECT
 DOMAIN,xadsmartget.adgain.cn,REJECT
 DOMAIN,zlsdk.1rtb.net,REJECT
 
+DOMAIN,sdkquic.e.qq.com,REJECT
 [Rewrite]
+# v5抓包：广告素材已先于云盘广告配置下载成功；以下请求阶段补漏。
+request if ${strictAdRequests} == true && ${url} ~= /^https?:\/\/pgdt\.ugdtimg\.com\//i then reject_img(200)
+request if ${strictAdRequests} == true && ${url} ~= /^https?:\/\/(?:sdkquic\.e\.qq\.com\/launch|sdk\.zhangyuyidong\.cn\/sdk\/config|api\.shanghailingye\.cn\/app\/map|sdkconf\.buluken\.com\/sdk_config\/v3\/config|sdk\.adx\.adwangmai\.com\/sdk\/(?:app\/mc|mediation\/config)\.api|sdk-cfg\.adx\.adwangmai\.com\/v1\/config\.api|sdktmp\.hubcloud\.com\.cn\/v1\/api\/sdk\/task\/list\/p)(?:\?|$)/i then reject(204)
 # 实际抓包命中的广告素材接口；同时覆盖HTTP和HTTPS，作为域名规则的备用层。
 request if ${strictAdRequests} == true && ${url} ~= /^https?:\/\/(?:sdk\.litemob\.vip\/sdk\/ad|sdk\.hzzfcm\.com\/(?:getAd|infoConfig)\/\d+)(?:[?\/]|$)/i then reject(204)
 request if ${strictAdRequests} == true && ${url} ~= /^https?:\/\/(?:de\.ad\.gameley\.com\/delivery\/request\/getad\/(?:adn|config)|sdk\.zhangyuyidong\.cn\/api\/zysdk|api\.shanghailingye\.cn\/ad\/map|mpcfg\.fancydsp\.com\/inAppBidding\/v5\/cdn|sdk-stats\.litemob\.net\/sdk\/site\/init)(?:[?\/]|$)/i then reject(204)
 request if ${strictAdRequests} == true && ${url} ~= /^https?:\/\/(?:mi\.gdt\.qq\.com\/(?:gdt_mview\.fcg|server_bidding2)|open\.e\.kuaishou\.com\/rest\/e\/v3\/open\/univ|mobads\.baidu\.com\/cpro\/ui\/mads\.php|api-access\.pangolin-sdk-toutiao(?:-b|1)?\.com\/api\/ad\/union\/sdk\/get_ads\/?)(?:\?|$)/i then reject(204)
 # 使用Loon原生JSON改写：不需要请求远程JS文件，也不替换整个配置响应。
-response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/config\/get(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data |= (.isInitAd = 0 | .isOpenSplash = false | .isOpenAbortAd = false | .isOpenDownloadAd = false | .isOpenMineAd = false | .isOpenUploadAd = false | .interstitialShowCount = 0 | .showCount = 0 | .bannerList = [] | .preloadConfig.iosInter = 0 | .preloadConfig.iosSplash = 0) else . end") | response.header.set("X-123Pan-Loon", "v3-active")
-response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/app\/config\/get(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.isInitAd = 0 else . end")
-response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/user\/info(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.IsShowAdvertisement = false else . end")
-response if ${cleanRewardAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.com)\/api\/taku\/ad\/config(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.ad_count = 0 else . end")
+response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.(?:com|cn))\/api\/config\/get(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data |= (.isInitAd = 0 | .isOpenSplash = false | .isOpenAbortAd = false | .isOpenDownloadAd = false | .isOpenMineAd = false | .isOpenUploadAd = false | .interstitialShowCount = 0 | .showCount = 0 | .bannerList = [] | .preloadConfig.iosInter = 0 | .preloadConfig.iosSplash = 0) else . end") | response.header.set("X-123Pan-Loon", "v5-config")
+response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.(?:com|cn))\/api\/app\/config\/get(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.isInitAd = 0 else . end") | response.header.set("X-123Pan-Loon", "v5-app")
+response if ${cleanServerAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.(?:com|cn))\/api\/user\/info(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.IsShowAdvertisement = false else . end") | response.header.set("X-123Pan-Loon", "v5-user")
+response if ${cleanRewardAds} == true && ${url} ~= /^https:\/\/(?:api\.123278\.com|api\.123panapi\.(?:com|cn))\/api\/taku\/ad\/config(?:\?|$)/i then response.json.jq("if .code == 0 and (.data | type) == \"object\" then .data.ad_count = 0 else . end")
 
 [MitM]
 # 首先需使云盘接口返回配置被解密；以下广告域名仅为精确路径二次拦截。
-hostname=api.123278.com, api.123panapi.com, sdk.litemob.vip, mi.gdt.qq.com, open.e.kuaishou.com, mobads.baidu.com, api-access.pangolin-sdk-toutiao.com, api-access.pangolin-sdk-toutiao-b.com, api-access.pangolin-sdk-toutiao1.com, sdk.hzzfcm.com, de.ad.gameley.com, sdk.zhangyuyidong.cn, api.shanghailingye.cn, mpcfg.fancydsp.com, sdk-stats.litemob.net
+hostname=api.123278.com, api.123panapi.com, sdk.litemob.vip, mi.gdt.qq.com, open.e.kuaishou.com, mobads.baidu.com, api-access.pangolin-sdk-toutiao.com, api-access.pangolin-sdk-toutiao-b.com, api-access.pangolin-sdk-toutiao1.com, sdk.hzzfcm.com, de.ad.gameley.com, sdk.zhangyuyidong.cn, api.shanghailingye.cn, mpcfg.fancydsp.com, sdk-stats.litemob.net, api.123panapi.cn, pgdt.ugdtimg.com, sdkquic.e.qq.com, sdkconf.buluken.com, sdk.adx.adwangmai.com, sdk-cfg.adx.adwangmai.com, sdktmp.hubcloud.com.cn
