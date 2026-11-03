@@ -9,7 +9,7 @@
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
 | 芒果TV去广告 · 开屏摇一摇增强版 | 去开屏、摇一摇和视频广告；精简导航、隐藏芒果卡及AI浮窗 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Enhanced.plugin) · [查看文件](plugins/MangoTV-Enhanced.plugin) |
 | 芒果TV去广告 · 奶思原版 | 第三方原版镜像：广告域名拦截、页面及导航清理，规则未经修改 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Naisi-Original.lpx) · [查看文件](plugins/MangoTV-Naisi-Original.lpx) |
-| 菜鸟去广告 · 联动完整版 v2 | 与可莉广告平台及本仓库补充拦截器配合，仅保留2条菜鸟专用域名规则；开屏图片/视频精准拒绝；广告商品接口与首页营销模块净化（首页部分待真机抓包验证） | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Adblock-Full.plugin) · [查看文件](plugins/Cainiao-Adblock-Full.plugin) |
+| 菜鸟去广告 · 联动完整版 v3 | 与可莉广告平台及本仓库补充拦截器配合，仅保留2条菜鸟专用域名规则，修复缺失MitM域名、首页多层嵌套推广字段及空广告位；须使用Loon自动分流模式 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Adblock-Full.plugin) · [查看文件](plugins/Cainiao-Adblock-Full.plugin) |
 | 菜鸟去广告 · 旧版精准补丁（已被完整版替代） | 旧版补丁；请勿和完整版同时启用。按真实抓包拦截双11开屏图片/视频、广点通及聚合SDK广告接口；保留菜鸟正常物流和阿里通用CDN资源 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Splash-Enhanced.plugin) · [查看文件](plugins/Cainiao-Splash-Enhanced.plugin) |
 | 广告平台补充拦截器 · DNS优先版 v3 | 28条精确域名规则（新增3条 Tanx/优酷广告主机），保留DNS优先，不启用MitM | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
 | 123云盘去广告 · 精简专用版 v6 | 仅4条123云盘私有API改写；配合可莉及通用补充拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
@@ -19,15 +19,17 @@
 | 携程旅行 · 精准去广告 | 拦截指定广告域名与广告接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
 
 
-## 菜鸟去广告 · 联动完整版 v2（2026-11-03）
+## 菜鸟去广告 · 联动完整版 v3（2026-11-03）
 
 此版**必须与可莉广告平台拦截器（BlockAdvertisers）以及本仓库的 [广告平台补充拦截器 v3](plugins/AdPlatform-Supplement.plugin) 同时启用**。不需要启用可莉菜鸟去广告插件；请关闭 **可莉 Cainiao_remove_ads.lpx** 和本仓库旧版 **Cainiao-Splash-Enhanced.plugin**，避免同一接口被重复改写。
 
 - **仅保留 2 条菜鸟专用域名规则**：`adashx.ut.cainiao.com`、`h-adashx.ut.cainiao.com`。已删除原版 26 条中的 24 条通用 SDK 重复拦截规则，交由可莉广告平台拦截器和本仓库补充拦截器处理。
-- **9 条请求级去广告复写**：7 条商品推荐/CPS/首页营销专用 MTop 接口拒绝，2 条抓包实证的阿里开屏图片、视频素材精准拒绝。
-- **2 条响应清理**：针对首页合并模块和「我的」页面，删除明显广告/营销字段。首页清理默认开启；我的页面默认关闭。
-- **边界**：第三方竞价请求、素材路径有上传的原始抓包支持；本次压缩包并未包含首页完整推广 API 响应。首页规则属于待手机实际测试的兼容尝试，不能保证清理所有商品广告。
+- **8 条请求级去广告复写**：6 条商品推荐/CPS/营销专用 MTop 接口拒绝（广告列表show/mshow改为响应清理），2 条抓包实证的阿里开屏图片、视频素材精准拒绝。
+- **6 条响应清理**：首页合并模块、e2e页面、mshow广告位、show广告列表、longquan营销楼层和「我的」模块。新增缺失的netflow-mtop、nbcps-mtop、e2e-mtop、longquan-mtop MitM主机；保留正常物流数据。首页清理默认开启；我的页面默认关闭。
+- **验证边界**：新HAR证实广告SDK竞价响应及广告视频/图片真实下载、也证实了 `GLOBAL,DIRECT` 漏拦；首页接口实际响应未包含在新HAR内，模块清理依公开菜鸟规则路径及字段结构设计，并经过合成JSON jq测试，但仍需真机验证。
 - **保护正常功能**：不封整个淘宝 MTop 网关、阿里共享 CDN、物流数据、取件码、下单接口或用户图片。
+
+**最关键设置（2026-11-03 新HAR确认）**：210条抓包中208条标记为 `GLOBAL,DIRECT`，即Loon正在**全局直连**，普通广告域名 `DOMAIN/DOMAIN-SUFFIX,REJECT` 规则不会正常参与分流；例如 `mi.gdt.qq.com/server_bidding2` 在此模式返回HTTP 200，广告素材 `adsmind.ugdtimg.com` 返回206。单独设置`NXDOMAIN`不会修复。务必在Loon「仪表」点击流量模式切换为**自动分流/Rule**，或打开 [一键切换自动分流](https://www.nsloon.com/openloon/flowmodel=filter)；切换后在请求记录确认规则由 `GLOBAL,DIRECT` 改为具体的广告 `REJECT`。
 
 **配置**：请先安装并启用上述两个通用广告拦截器，再启用本菜鸟完整版。域名阻断无需 MitM；开屏精准素材拦截、首页接口复写需要开启 Loon HTTPS 复写与 MitM 并信任证书。DNS 优先请在 Loon 主配置现有 [General] 中手动设置（插件不能写全局选项）：
 
