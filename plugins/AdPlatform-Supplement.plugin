@@ -1,5 +1,5 @@
-#!name=广告平台补充拦截器 · 抓包版
-#!desc=可莉广告平台拦截器的轻量补充：23个非重复广告域名，加上腾讯广告素材和常见SDK接口的HTTPS兜底。
+#!name=广告平台补充拦截器 · DNS 优先版
+#!desc=补充可莉未覆盖的25条广告及SDK相关域名；移除会返回HTTP 200的模拟响应规则，便于在DNS阶段拒绝。
 #!author=Xitaoyou
 #!tag=去广告, 依赖, 广告SDK
 #!system=iOS, iPadOS
@@ -7,18 +7,13 @@
 #!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/AdPlatform-Supplement.plugin
 #!date=2026-11-03
 
-# 从123云盘iOS抓包提炼的可跨App通用广告SDK/素材域名。
-# 与2026-11-03读取的可莉 BlockAdvertisers 和 Remove_ads_by_keli 规则的DOMAIN/DOMAIN-SUFFIX去重。
-# 和可莉广告平台拦截器搭配使用；通用域名规则对所有进入Loon的App生效。
-# 规则仅覆盖独立广告/跟踪服务，绝不拦截整个qq.com、baidu.com、123pan域名。
-# [Rule]域名拦截跟随插件启停，下面两个开关仅控制HTTPS补充改写。
-
-[Argument]
-blockCreativeCDN = switch,true,false,tag=腾讯广告素材HTTPS兜底,desc=开：尝试阻止广点通图片素材绕过DNS规则；关：只依赖域名拦截。
-blockSDKRequests = switch,true,false,tag=广告SDK接口HTTPS兜底,desc=开：额外阻止抓包确认的广告SDK初始化与获取请求；关：只用域名规则。
+# v2：新增 mssdk.volces.com、tnc3-alisc1.zijieapi.com（Jinx拦截截图中未被已有Loon域名规则覆盖）。
+# 移除旧版6条HTTP请求模拟拒绝（例如 reject_img(200)），避免在域名拒绝前返回假的HTTP成功结果。
+# 仅保留DOMAIN规则；DNS拒绝方式要通过Loon主配置[General]设置，插件无法设置全局domain-reject-mode。
+# 推荐Loon主配置：domain-reject-mode = DNS；dns-reject-mode = NXDOMAIN；按需 hijack-dns = *:53。
+# 仅匹配列出的精确域名，不封整站；字节系共享域名可能影响其他App服务。
 
 [Rule]
-# 未被现有可莉通用域名规则直接覆盖的补充项（23条）。
 DOMAIN, adimage.bwton.com, REJECT
 DOMAIN, adm.zhangyuyidong.cn, REJECT
 DOMAIN, adsmartget.datads.cn, REJECT
@@ -42,17 +37,5 @@ DOMAIN, sl.buluken.com, REJECT
 DOMAIN, ssp-api.futongjieti.cn, REJECT
 DOMAIN, static.shunchangzhixing.com, REJECT
 DOMAIN, sdkquic.e.qq.com, REJECT
-
-[Rewrite]
-# 抓包中 pgdt.ugdtimg.com 曾直接返回1080x1920广告图片；此域名已被可莉拦截器覆盖，只提供额外HTTPS兜底。
-request if ${blockCreativeCDN} == true && ${url} ~= /^https?:\/\/pgdt\.ugdtimg\.com\//i then reject_img(200)
-# 以下为经123云盘抓包观察到的第三方广告SDK专用接口，不处理业务App API。
-request if ${blockSDKRequests} == true && ${url} ~= /^https?:\/\/sdkquic\.e\.qq\.com\/launch(?:\?|$)/i then reject(204)
-request if ${blockSDKRequests} == true && ${url} ~= /^https?:\/\/sdkconf\.buluken\.com\/sdk_config\/v3\/config(?:\?|$)/i then reject(204)
-request if ${blockSDKRequests} == true && ${url} ~= /^https?:\/\/sdk\.litemob\.vip\/sdk\/ad(?:[?\/]|$)/i then reject(204)
-request if ${blockSDKRequests} == true && ${url} ~= /^https?:\/\/sdk\.hzzfcm\.com\/(?:getAd|infoConfig)\/\d+(?:[?\/]|$)/i then reject(204)
-request if ${blockSDKRequests} == true && ${url} ~= /^https?:\/\/sdk-stats\.litemob\.net\/sdk\/site\/init(?:\?|$)/i then reject(204)
-
-[MitM]
-# 限定为兜底改写的6个主机；避免全域名MitM影响性能。
-hostname=pgdt.ugdtimg.com, sdkquic.e.qq.com, sdkconf.buluken.com, sdk.litemob.vip, sdk.hzzfcm.com, sdk-stats.litemob.net
+DOMAIN, mssdk.volces.com, REJECT
+DOMAIN, tnc3-alisc1.zijieapi.com, REJECT

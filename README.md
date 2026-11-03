@@ -9,7 +9,7 @@
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
 | 芒果TV去广告 · 开屏摇一摇增强版 | 去开屏、摇一摇和视频广告；精简导航、隐藏芒果卡及AI浮窗 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Enhanced.plugin) · [查看文件](plugins/MangoTV-Enhanced.plugin) |
 | 芒果TV去广告 · 奶思原版 | 第三方原版镜像：广告域名拦截、页面及导航清理，规则未经修改 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Naisi-Original.lpx) · [查看文件](plugins/MangoTV-Naisi-Original.lpx) |
-| 广告平台补充拦截器 | 可莉未覆盖的23条通用域名＋6条精准HTTPS兜底；供多个App共用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
+| 广告平台补充拦截器 · DNS优先版 | 25条域名规则，移除HTTP模拟响应；搭配主配置DNS拒绝 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
 | 123云盘去广告 · 精简专用版 v6 | 仅4条123云盘私有API改写；配合可莉及通用补充拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | 123云盘去广告 · 完整版 | 70条域名规则；补拦腾讯素材和新版SDK，可独立使用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Full.plugin) · [查看文件](plugins/123Pan-Splash-Full.plugin) |
 | SideStore 刷新助手 | 通过 Loon 本地回环辅助刷新侧载应用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
@@ -30,13 +30,25 @@
 
 **推荐组合**：可莉「广告平台拦截器」→ 本仓库「广告平台补充拦截器」→ 本仓库「123云盘去广告 · 精简专用版 v6」。123云盘完整版与精简版二选一，不必同时启用。
 
-### 通用广告平台补充拦截器
+### 通用广告平台补充拦截器 · DNS 优先版 v2
 
-从123云盘多次抓包提炼，共**23条与可莉通用DOMAIN/DOMAIN-SUFFIX规则不重复的域名规则**。对所有经过Loon的App生效，主要涉及 Buluken、Litemob、HZZFCM 等广告SDK；另提供**6条精准HTTPS请求兜底**，防止广告SDK或广点通素材绕过普通域名拦截。
+根据 Jinx 拦截记录，新增精确域名 `mssdk.volces.com` 与 `tnc3-alisc1.zijieapi.com`；与可莉两份通用规则去重后，现共**25条 DOMAIN 拒绝规则**。
 
-- `pgdt.ugdtimg.com` 已被可莉DOMAIN/DOMAIN-SUFFIX规则覆盖，不重复添加域名，只保留拦截抓包中出现的图片请求的HTTPS兜底。
-- HTTPS兜底仅对6个确定的广告主机启用MitM，不会对其他App的业务域名做大范围解密。
-- [通用拦截器源码](plugins/AdPlatform-Supplement.plugin) ｜ [直接导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin)。
+**重要修复**：移除了旧版全部6条 HTTPS 请求拦截及相关 MitM。旧规则例如 `reject_img(200)` 会在普通域名规则之前执行，为广告 SDK 返回 HTTP 200 + 1×1 GIF，可能导致广告位黑屏或继续展示。本版不再伪造成功的 HTTP 响应，而是交给 Loon 的域名拒绝策略处理。
+
+在 **Loon 当前主配置已有的 `[General]` 内**修改以下三行（不要额外新建第二个 `[General]`，也不要放进插件）：
+
+```ini
+domain-reject-mode = DNS
+dns-reject-mode = NXDOMAIN
+hijack-dns = *:53
+```
+
+Loon 官方插件规范不允许插件改变这些全局设置。普通UDP 53端口 DNS 可被 `hijack-dns` 接管，但 DoH、HTTPDNS 和部分 TUN 流量可能仍不会进入DNS阶段；因此**不能保证与 Jinx 的拦截效果完全一致**。
+
+两个新增域名属于字节系共享服务，如造成其他App异常，可暂时在插件中删除对应DOMAIN规则或停用补充插件。
+
+- [查看源码](plugins/AdPlatform-Supplement.plugin) · [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin)
 
 ### 123云盘精简专用版 v6
 
