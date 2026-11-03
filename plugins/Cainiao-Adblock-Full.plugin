@@ -1,5 +1,5 @@
-#!name=菜鸟去广告 · 独立完整版 v1
-#!desc=独立拦截菜鸟开屏、广告SDK、首页商品推广、营销楼层；基于抓包和公开菜鸟接口设计，无需可莉菜鸟插件。
+#!name=菜鸟去广告 · 联动完整版 v2
+#!desc=菜鸟专用开屏、首页商品推广及营销楼层净化；须配合可莉广告平台拦截器和本仓库广告平台补充拦截器 v3 使用。
 #!author=Xitaoyou
 #!tag=去广告,菜鸟,开屏,首页净化
 #!system=iOS, iPadOS
@@ -7,46 +7,24 @@
 #!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/Cainiao-Adblock-Full.plugin
 #!date=2026-11-03
 
-# 单独使用本菜鸟插件；必须关闭可莉 Cainiao_remove_ads.lpx 与旧 Cainiao-Splash-Enhanced.plugin，避免重复复写。
-# 可同时开启可莉 BlockAdvertisers、Block_HTTPDNS 与通用 AdPlatform-Supplement，不必依赖它们。
-# [Rule] 是全局域名规则；[Rewrite] 对菜鸟的广告专用接口实施精准过滤。
+# 必须同时启用：可莉广告平台拦截器（BlockAdvertisers） + 本仓库 AdPlatform-Supplement.plugin v3。
+# 可按需启用可莉的 HTTPDNS 插件；此菜鸟完整版不复制通用广告SDK域名规则。
+# 请关闭可莉 Cainiao_remove_ads.lpx 与旧 Cainiao-Splash-Enhanced.plugin，避免重复复写。
+# [Rule] 仅留2条菜鸟专用域名；[Rewrite] 保留11条菜鸟广告专用接口及开屏素材改写。
 # 严禁封禁整个 acs.m.taobao.com、msgacs.m.taobao.com、cn-acs.m.cainiao.com、ossgw.alicdn.com 或 a1.alibabausercontent.com。
 # 数据边界：2026-11-03 抓包证实第三方广告 SDK、创意素材；首页商品/楼层接口参考公开规则路径，尚未得到此App版本的对应响应体。
 # 首页 JSON 精简优先只删明确命名的广告字段，保留物流列表、取件码、订单与账号数据。
 # 只修改经授权的本仓库文件；不复制或再发行可莉源码。
 
 [Argument]
-blockSplash = switch,true,false,tag=精准拦截开屏图片与视频,desc=开：拦截本次抓包出现的开屏创意路径；需MitM。关：关闭素材级拦截，域名规则仍运行。
+blockSplash = switch,true,false,tag=精准拦截开屏图片与视频,desc=开：拦截本次抓包出现的开屏创意路径；需MitM。关：关闭素材级拦截；配套的通用广告域名拦截仍按独立插件运行。
 blockHomeAds = switch,true,false,tag=隐藏首页商品推广,desc=开：清空菜鸟广告投放与CPS商品推荐专用接口；需MitM。
 cleanHomeModules = switch,true,false,tag=精简首页营销楼层,desc=开：只清理接口中可识别的广告/营销字段与模块，不修改快递列表。
 cleanMine = switch,false,true,tag=精简我的页面推广（可选）,desc=默认关闭；启用后针对我的页面接口过滤明显的广告字段。
 
 [Rule]
-# 独立完整版：SDK主机精确拒绝，避免宽泛关键字伤及支付/物流/用户图片CDN。
-DOMAIN,sdk.1rtb.net,REJECT
-DOMAIN,s.1rtb.net,REJECT
-DOMAIN,ssp.iytcdn.com,REJECT
-DOMAIN,missile.iytcdn.com,REJECT
-DOMAIN,v2mi.gdt.qq.com,REJECT
-DOMAIN,v2.gdt.qq.com,REJECT
-DOMAIN,v3.gdt.qq.com,REJECT
-DOMAIN,c3.gdt.qq.com,REJECT
-DOMAIN,mi.gdt.qq.com,REJECT
-DOMAIN,win.gdt.qq.com,REJECT
-DOMAIN,sdk.e.qq.com,REJECT
-DOMAIN,sdkquic.e.qq.com,REJECT
-DOMAIN,pgdt.ugdtimg.com,REJECT
-DOMAIN,qzs.gdtimg.com,REJECT
-DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT
-DOMAIN,api-access.pangolin-sdk-toutiao1.com,REJECT
-DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT
-DOMAIN,sf3-fe-tos.pglstatp-toutiao.com,REJECT
-DOMAIN,adx-cfg-u1.ubixioe.com,REJECT
-DOMAIN,entry-su1.ubixioe.com,REJECT
-DOMAIN,df.tanx.com,REJECT
-DOMAIN,ef-dongfeng.tanx.com,REJECT
-DOMAIN,bdlog.tanx.com,REJECT
-DOMAIN,ipm.atm.youku.com,REJECT
+# 仅保留本App专用且未由广告平台补充版收录的广告请求域名。
+# 其他广告SDK/竞价域名由可莉广告平台拦截器 + 广告平台补充拦截器 v3 负责，不再重复声明。
 DOMAIN,adashx.ut.cainiao.com,REJECT
 DOMAIN,h-adashx.ut.cainiao.com,REJECT
 
