@@ -1,0 +1,73 @@
+#!name=菜鸟去广告 · 独立完整版 v1
+#!desc=独立拦截菜鸟开屏、广告SDK、首页商品推广、营销楼层；基于抓包和公开菜鸟接口设计，无需可莉菜鸟插件。
+#!author=Xitaoyou
+#!tag=去广告,菜鸟,开屏,首页净化
+#!system=iOS, iPadOS
+#!loon_version=3.5.1(998)
+#!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/Cainiao-Adblock-Full.plugin
+#!date=2026-11-03
+
+# 单独使用本菜鸟插件；必须关闭可莉 Cainiao_remove_ads.lpx 与旧 Cainiao-Splash-Enhanced.plugin，避免重复复写。
+# 可同时开启可莉 BlockAdvertisers、Block_HTTPDNS 与通用 AdPlatform-Supplement，不必依赖它们。
+# [Rule] 是全局域名规则；[Rewrite] 对菜鸟的广告专用接口实施精准过滤。
+# 严禁封禁整个 acs.m.taobao.com、msgacs.m.taobao.com、cn-acs.m.cainiao.com、ossgw.alicdn.com 或 a1.alibabausercontent.com。
+# 数据边界：2026-11-03 抓包证实第三方广告 SDK、创意素材；首页商品/楼层接口参考公开规则路径，尚未得到此App版本的对应响应体。
+# 首页 JSON 精简优先只删明确命名的广告字段，保留物流列表、取件码、订单与账号数据。
+# 只修改经授权的本仓库文件；不复制或再发行可莉源码。
+
+[Argument]
+blockSplash = switch,true,false,tag=精准拦截开屏图片与视频,desc=开：拦截本次抓包出现的开屏创意路径；需MitM。关：关闭素材级拦截，域名规则仍运行。
+blockHomeAds = switch,true,false,tag=隐藏首页商品推广,desc=开：清空菜鸟广告投放与CPS商品推荐专用接口；需MitM。
+cleanHomeModules = switch,true,false,tag=精简首页营销楼层,desc=开：只清理接口中可识别的广告/营销字段与模块，不修改快递列表。
+cleanMine = switch,false,true,tag=精简我的页面推广（可选）,desc=默认关闭；启用后针对我的页面接口过滤明显的广告字段。
+
+[Rule]
+# 独立完整版：SDK主机精确拒绝，避免宽泛关键字伤及支付/物流/用户图片CDN。
+DOMAIN,sdk.1rtb.net,REJECT
+DOMAIN,s.1rtb.net,REJECT
+DOMAIN,ssp.iytcdn.com,REJECT
+DOMAIN,missile.iytcdn.com,REJECT
+DOMAIN,v2mi.gdt.qq.com,REJECT
+DOMAIN,v2.gdt.qq.com,REJECT
+DOMAIN,v3.gdt.qq.com,REJECT
+DOMAIN,c3.gdt.qq.com,REJECT
+DOMAIN,mi.gdt.qq.com,REJECT
+DOMAIN,win.gdt.qq.com,REJECT
+DOMAIN,sdk.e.qq.com,REJECT
+DOMAIN,sdkquic.e.qq.com,REJECT
+DOMAIN,pgdt.ugdtimg.com,REJECT
+DOMAIN,qzs.gdtimg.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao1.com,REJECT
+DOMAIN,api-access.pangolin-sdk-toutiao-b.com,REJECT
+DOMAIN,sf3-fe-tos.pglstatp-toutiao.com,REJECT
+DOMAIN,adx-cfg-u1.ubixioe.com,REJECT
+DOMAIN,entry-su1.ubixioe.com,REJECT
+DOMAIN,df.tanx.com,REJECT
+DOMAIN,ef-dongfeng.tanx.com,REJECT
+DOMAIN,bdlog.tanx.com,REJECT
+DOMAIN,ipm.atm.youku.com,REJECT
+DOMAIN,adashx.ut.cainiao.com,REJECT
+DOMAIN,h-adashx.ut.cainiao.com,REJECT
+
+[Rewrite]
+# 菜鸟与淘宝的MTop网关仅拦截已知广告专用API，普通网关、订单/物流/鉴权请求全部保留。
+# 这类返回空字典可以在首页减少商品广告容器，不将图片伪造成HTTP 200占位。
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.guoguo\.nbnetflow\.ads\.(?:show|mshow|batch\.show\.v2|index)\.cn(?:[\/?]|$)/i then reject_dict(200)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbcps\.presentation\.fetch\.cn(?:[\/?]|$)/i then reject_dict(200)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.adkeyword(?:\.get\.cn)?(?:[\/?]|$)/i then reject_dict(200)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbopen\.miniapp\.recommend\.cpc\.cn(?:[\/?]|$)/i then reject_dict(200)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbpresentation\.tabbar\.marketing\.get\.cn(?:[\/?]|$)/i then reject_dict(200)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbmensa\.research\.researchservice\.(?:acquire|event|close)\.cn(?:[\/?]|$)/i then reject_dict(200)
+request if ${blockHomeAds} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.app\.home\.v\d+\.bottom\.area(?:[\/?]|$)/i then reject_dict(200)
+
+# 素材级保险：已抓到的双11开屏图片、视频；不能用DNS按路径拦截，所以此两条需要MitM。
+request if ${blockSplash} == true && ${url} ~= /^https:\/\/ossgw\.alicdn\.com\/creatives-assets\/prod\/feupload\/user\/7clgu\/[^?#]+\.(?:jpe?g|png|webp)(?:\?|$)/i then reject(403)
+request if ${blockSplash} == true && ${url} ~= /^https:\/\/a1\.alibabausercontent\.com\/prod\/feupload\/user\/7clgu\/[^?#]+\.mp4(?:_\.mp4)?(?:\?|$)/i then reject(403)
+
+# 首页合并数据可能混含物流信息，不能直接拒绝整个接口：只消除明确广告字段/营销卡片。
+response if ${cleanHomeModules} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.nbpresentation\.(?:homepage\.merge|protocol\.homepage)\.get\.cn(?:[\/?]|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= (del(.adList, .ads, .adBanner, .adBanners, .advertisements, .marketingList, .promotionList, .recommendGoods, .goodsRecommend, .cpsRecommend, .cpsGoods, .cpsList, .productAds, .searchAds, .splashAd) | if (.modules | type) == \"array\" then .modules |= map(select(((.moduleType // .bizType // .type // .moduleName // .id // \"\") | tostring | ascii_downcase | test(\"(^ad$|advert|(^|[_-])cps([_-]|$)|marketing|promotion|goods[_-]?recommend|recommend[_-]?goods|product[_-]?ad)\")) | not)) else . end) else . end") | response.header.set("X-Cainiao-Clean", "home-v1")
+response if ${cleanMine} == true && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+(?:\.[a-z0-9-]+)*\.cainiao\.com|(?:cn-)?acs\.m\.taobao\.com|msgacs\.m\.taobao\.com)\/gw\/mtop\.cainiao\.app\.e2e\.engine\.page\.fetch(?:[\/?]|$)/i then response.json.jq("if (.data | type) == \"object\" then .data |= del(.adList, .ads, .adBanner, .marketingList, .promotionList, .cpsRecommend, .goodsRecommend, .recommendGoods, .productAds) else . end") | response.header.set("X-Cainiao-Clean", "mine-v1")
+
+[MitM]
+hostname=cn-acs.m.cainiao.com, acs.m.taobao.com, msgacs.m.taobao.com, ossgw.alicdn.com, a1.alibabausercontent.com
