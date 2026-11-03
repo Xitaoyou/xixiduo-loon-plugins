@@ -1,5 +1,5 @@
 #!name=广告平台补充拦截器 · DNS 优先版
-#!desc=补充可莉未覆盖的25条广告及SDK相关域名；移除会返回HTTP 200的模拟响应规则，便于在DNS阶段拒绝。
+#!desc=补充可莉广告平台拦截器的精确域名拒绝规则；仅DNS/域名阶段使用，不包含MitM和HTTP复写。
 #!author=Xitaoyou
 #!tag=去广告, 依赖, 广告SDK
 #!system=iOS, iPadOS
@@ -7,35 +7,38 @@
 #!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/AdPlatform-Supplement.plugin
 #!date=2026-11-03
 
-# v2：新增 mssdk.volces.com、tnc3-alisc1.zijieapi.com（Jinx拦截截图中未被已有Loon域名规则覆盖）。
-# 移除旧版6条HTTP请求模拟拒绝（例如 reject_img(200)），避免在域名拒绝前返回假的HTTP成功结果。
-# 仅保留DOMAIN规则；DNS拒绝方式要通过Loon主配置[General]设置，插件无法设置全局domain-reject-mode。
-# 推荐Loon主配置：domain-reject-mode = DNS；dns-reject-mode = NXDOMAIN；按需 hijack-dns = *:53。
-# 仅匹配列出的精确域名，不封整站；字节系共享域名可能影响其他App服务。
+# v3: 基于菜鸟抓包与Jinx截图新增ef-dongfeng.tanx.com、bdlog.tanx.com、ipm.atm.youku.com。
+# 其余域名保留v2稳定基线；不叠加可莉已通过DOMAIN-SUFFIX或DOMAIN-KEYWORD覆盖的1rtb、gdt、pangle、ubixioe、iytcdn等规则。
+# 注：去重参考2026-08公开可莉合集快照；实时可莉在线插件无法从此环境直接读取，因此不声称100%无重复。
+# 刻意不拦msgacs.m.taobao.com、ossgw.alicdn.com、a1.alibabausercontent.com、enrichgw.10010.com和普通阿里云日志：涉及共享网关、CDN或正常服务。
+# 插件只能负责DOMAIN,REJECT；若需DNS阶段拒绝，请在Loon主配置[General]内另行配置，勿在插件中写[General]。
 
 [Rule]
-DOMAIN, adimage.bwton.com, REJECT
-DOMAIN, adm.zhangyuyidong.cn, REJECT
-DOMAIN, adsmartget.datads.cn, REJECT
-DOMAIN, adtrack.qianwen.com, REJECT
-DOMAIN, app-conf.aishuttler.com, REJECT
-DOMAIN, app.aishuttler.com, REJECT
-DOMAIN, bid.buluken.com, REJECT
-DOMAIN, fg.xiawan8.com, REJECT
-DOMAIN, inner-report.shunchangzhixing.com, REJECT
-DOMAIN, inner.hzzfcm.com, REJECT
-DOMAIN, mnt.hyzhihe.com, REJECT
-DOMAIN, mo.bluebellls.com, REJECT
-DOMAIN, sdk-stats.litemob.net, REJECT
-DOMAIN, sdk.adhuanxiao.com, REJECT
-DOMAIN, sdk.hzzfcm.com, REJECT
-DOMAIN, sdk.litemob.vip, REJECT
-DOMAIN, sdkconf.adbiding.com, REJECT
-DOMAIN, sdkconf.buluken.com, REJECT
-DOMAIN, sl.adbiding.com, REJECT
-DOMAIN, sl.buluken.com, REJECT
-DOMAIN, ssp-api.futongjieti.cn, REJECT
-DOMAIN, static.shunchangzhixing.com, REJECT
-DOMAIN, sdkquic.e.qq.com, REJECT
-DOMAIN, mssdk.volces.com, REJECT
-DOMAIN, tnc3-alisc1.zijieapi.com, REJECT
+DOMAIN,adimage.bwton.com,REJECT
+DOMAIN,adm.zhangyuyidong.cn,REJECT
+DOMAIN,adsmartget.datads.cn,REJECT
+DOMAIN,adtrack.qianwen.com,REJECT
+DOMAIN,app-conf.aishuttler.com,REJECT
+DOMAIN,app.aishuttler.com,REJECT
+DOMAIN,bid.buluken.com,REJECT
+DOMAIN,fg.xiawan8.com,REJECT
+DOMAIN,inner-report.shunchangzhixing.com,REJECT
+DOMAIN,inner.hzzfcm.com,REJECT
+DOMAIN,mnt.hyzhihe.com,REJECT
+DOMAIN,mo.bluebellls.com,REJECT
+DOMAIN,sdk-stats.litemob.net,REJECT
+DOMAIN,sdk.adhuanxiao.com,REJECT
+DOMAIN,sdk.hzzfcm.com,REJECT
+DOMAIN,sdk.litemob.vip,REJECT
+DOMAIN,sdkconf.adbiding.com,REJECT
+DOMAIN,sdkconf.buluken.com,REJECT
+DOMAIN,sl.adbiding.com,REJECT
+DOMAIN,sl.buluken.com,REJECT
+DOMAIN,ssp-api.futongjieti.cn,REJECT
+DOMAIN,static.shunchangzhixing.com,REJECT
+DOMAIN,sdkquic.e.qq.com,REJECT
+DOMAIN,mssdk.volces.com,REJECT
+DOMAIN,tnc3-alisc1.zijieapi.com,REJECT
+DOMAIN,ef-dongfeng.tanx.com,REJECT
+DOMAIN,bdlog.tanx.com,REJECT
+DOMAIN,ipm.atm.youku.com,REJECT
