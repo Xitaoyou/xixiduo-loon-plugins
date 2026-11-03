@@ -9,13 +9,41 @@
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
 | 芒果TV去广告 · 开屏摇一摇增强版 | 去开屏、摇一摇和视频广告；精简导航、隐藏芒果卡及AI浮窗 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Enhanced.plugin) · [查看文件](plugins/MangoTV-Enhanced.plugin) |
 | 芒果TV去广告 · 奶思原版 | 第三方原版镜像：广告域名拦截、页面及导航清理，规则未经修改 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Naisi-Original.lpx) · [查看文件](plugins/MangoTV-Naisi-Original.lpx) |
-| 菜鸟去广告 · 开屏素材与广告SDK精准补丁 | 按真实抓包拦截双11开屏图片/视频、广点通及聚合SDK广告接口；保留菜鸟正常物流和阿里通用CDN资源 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Splash-Enhanced.plugin) · [查看文件](plugins/Cainiao-Splash-Enhanced.plugin) |
-| 广告平台补充拦截器 · DNS优先版 | 25条域名规则，移除HTTP模拟响应；搭配主配置DNS拒绝 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
+| 菜鸟去广告 · 独立完整版 v1 | 26 条精确广告域名规则；开屏图片/视频精准拒绝；广告商品接口与首页营销模块净化（首页部分待真机抓包验证） | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Adblock-Full.plugin) · [查看文件](plugins/Cainiao-Adblock-Full.plugin) |
+| 菜鸟去广告 · 旧版精准补丁（已被完整版替代） | 旧版补丁；请勿和完整版同时启用。按真实抓包拦截双11开屏图片/视频、广点通及聚合SDK广告接口；保留菜鸟正常物流和阿里通用CDN资源 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Splash-Enhanced.plugin) · [查看文件](plugins/Cainiao-Splash-Enhanced.plugin) |
+| 广告平台补充拦截器 · DNS优先版 v3 | 28条精确域名规则（新增3条 Tanx/优酷广告主机），保留DNS优先，不启用MitM | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
 | 123云盘去广告 · 精简专用版 v6 | 仅4条123云盘私有API改写；配合可莉及通用补充拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | 123云盘去广告 · 完整版 | 70条域名规则；补拦腾讯素材和新版SDK，可独立使用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Full.plugin) · [查看文件](plugins/123Pan-Splash-Full.plugin) |
 | SideStore 刷新助手 | 通过 Loon 本地回环辅助刷新侧载应用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
 | YouTube 去广告增强版（实验） | 基于可莉原版，补充新版 `player/ad_break` 中插接口拦截；原版首页、Shorts、画中画、字幕等功能继续使用上游脚本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FYouTube-Enhanced.plugin) · [查看文件](plugins/YouTube-Enhanced.plugin) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名与广告接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
+
+
+## 菜鸟去广告 · 独立完整版 v1（2026-11-03）
+
+此版 **不依赖可莉菜鸟去广告插件**，但可以与可莉广告平台拦截器及本仓库通用广告补充版并用。请关闭 **可莉 Cainiao_remove_ads.lpx** 和本仓库旧版 **Cainiao-Splash-Enhanced.plugin**，改为只启用新完整版。
+
+- **26 条精确广告域名规则**：抓包中出现的 1RTB、广点通、穿山甲、Tanx、优酷广告投放、菜鸟广告上报相关主机；作为独立版保留部分可莉规则已经覆盖的域名。
+- **9 条请求级去广告复写**：7 条商品推荐/CPS/首页营销专用 MTop 接口拒绝，2 条抓包实证的阿里开屏图片、视频素材精准拒绝。
+- **2 条响应清理**：针对首页合并模块和「我的」页面，删除明显广告/营销字段。首页清理默认开启；我的页面默认关闭。
+- **边界**：第三方竞价请求、素材路径有上传的原始抓包支持；本次压缩包并未包含首页完整推广 API 响应。首页规则属于待手机实际测试的兼容尝试，不能保证清理所有商品广告。
+- **保护正常功能**：不封整个淘宝 MTop 网关、阿里共享 CDN、物流数据、取件码、下单接口或用户图片。
+
+**配置**：域名阻断无需 MitM；开屏精准素材拦截、首页接口复写需要开启 Loon HTTPS 复写与 MitM 并信任证书。DNS 优先请在 Loon 主配置现有 [General] 中手动设置（插件不能写全局选项）：
+
+```ini
+domain-reject-mode = DNS
+dns-reject-mode = NXDOMAIN
+hijack-dns = *:53
+```
+
+[菜鸟完整版一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Adblock-Full.plugin) · [插件源码](plugins/Cainiao-Adblock-Full.plugin)
+
+### 通用补充拦截器 v3（2026-11-03）
+
+从旧版 25 条调整为 **28 条**：新增 `ef-dongfeng.tanx.com`、`bdlog.tanx.com`、`ipm.atm.youku.com`。保留原 25 条；没有为可莉公开历史规则中已覆盖的 1RTB、广点通、穿山甲、Ubixioe 与 IYTCDN 大量重复加域名。可莉当前在线规则如后续有调整，仍需要重新对照。**仍为纯域名规则，没有 [MitM] 和 [Rewrite]。**
+
+[更新后的通用补充版一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [源码](plugins/AdPlatform-Supplement.plugin)
 
 ## 芒果TV去广告 · 开屏摇一摇增强版
 
@@ -33,7 +61,7 @@
 
 ### 通用广告平台补充拦截器 · DNS 优先版 v2
 
-根据 Jinx 拦截记录，新增精确域名 `mssdk.volces.com` 与 `tnc3-alisc1.zijieapi.com`；与可莉两份通用规则去重后，现共**25条 DOMAIN 拒绝规则**。
+根据 Jinx 拦截记录，新增精确域名 `mssdk.volces.com` 与 `tnc3-alisc1.zijieapi.com`；与可莉两份通用规则去重后，基础 v2 为 **25 条 DOMAIN 拒绝规则**；最新 v3 已增加到 **28 条**。
 
 **重要修复**：移除了旧版全部6条 HTTPS 请求拦截及相关 MitM。旧规则例如 `reject_img(200)` 会在普通域名规则之前执行，为广告 SDK 返回 HTTP 200 + 1×1 GIF，可能导致广告位黑屏或继续展示。本版不再伪造成功的 HTTP 响应，而是交给 Loon 的域名拒绝策略处理。
 
