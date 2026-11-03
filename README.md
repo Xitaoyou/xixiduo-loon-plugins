@@ -9,7 +9,8 @@
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
 | 芒果TV去广告 · 开屏摇一摇增强版 | 去开屏、摇一摇和视频广告；精简导航、隐藏芒果卡及AI浮窗 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Enhanced.plugin) · [查看文件](plugins/MangoTV-Enhanced.plugin) |
 | 芒果TV去广告 · 奶思原版 | 第三方原版镜像：广告域名拦截、页面及导航清理，规则未经修改 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Naisi-Original.lpx) · [查看文件](plugins/MangoTV-Naisi-Original.lpx) |
-| 123云盘去广告 · 精简版 | 24条补充域名；补拦腾讯素材和新版SDK，搭配可莉广告拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
+| 广告平台补充拦截器 | 可莉未覆盖的23条通用域名＋6条精准HTTPS兜底；供多个App共用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
+| 123云盘去广告 · 精简专用版 v6 | 仅4条123云盘私有API改写；配合可莉及通用补充拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | 123云盘去广告 · 完整版 | 70条域名规则；补拦腾讯素材和新版SDK，可独立使用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Full.plugin) · [查看文件](plugins/123Pan-Splash-Full.plugin) |
 | SideStore 刷新助手 | 通过 Loon 本地回环辅助刷新侧载应用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
 | YouTube 去广告增强版（实验） | 基于可莉原版，补充新版 `player/ad_break` 中插接口拦截；原版首页、Shorts、画中画、字幕等功能继续使用上游脚本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FYouTube-Enhanced.plugin) · [查看文件](plugins/YouTube-Enhanced.plugin) |
@@ -25,22 +26,28 @@
 
 **安装**：只启用本版，不与可莉版、奶思版同时运行；确保 Loon MitM、复写及证书有效，更新后完全关闭芒果 TV 再启动。规则基于真实响应测试，实际去广告效果需真机检验。
 
-## 123云盘去广告
+## 通用广告平台补充拦截器 + 123云盘精简版 v6
 
-**v5 根因（2026-11-03抓包，iOS 3.3.4 Build 3244）**：服务器广告配置实际已经改写成功，但第三方广告在主配置返回之前就下载了素材。`pgdt.ugdtimg.com` 的 1080×1920 推广图片真实返回 200；`sdkquic.e.qq.com/launch` 等新版 SDK 请求未在旧版精准规则中；备用 `api.123panapi.cn/api/user/info` 未被改写，仍返回 `IsShowAdvertisement: true`。
+**推荐组合**：可莉「广告平台拦截器」→ 本仓库「广告平台补充拦截器」→ 本仓库「123云盘去广告 · 精简专用版 v6」。123云盘完整版与精简版二选一，不必同时启用。
 
-**此次修复**：
-- 请求阶段拦截腾讯广告素材及新SDK入口，补充实际抓包命中的 `sdk.zhangyuyidong.cn/sdk/config`、`api.shanghailingye.cn/app/map`、`sdkconf.buluken.com/sdk_config/v3/config`、广告聚合SDK配置等路径。
-- 将 `api.123panapi.cn` 加入云盘配置和用户信息改写，避免备用域名漏网。
-- 云盘配置成功改写时，响应头含 `X-123Pan-Loon: v5-config`；用户信息改写为 `v5-user`；应用配置改写为 `v5-app`，便于验证。
-- **不伪造会员身份**；不屏蔽下载、登录或文件上传，默认继续保留看广告领福利任务。
+### 通用广告平台补充拦截器
 
-| 版本 | 专用域名规则 | 使用方式 |
-| --- | ---: | --- |
-| **精简版** | 24条 | 保留可莉「广告平台拦截器」，只启用精简版 |
-| **完整版** | 70条 | 可以不依赖通用广告平台拦截器，只启用完整版 |
+从123云盘多次抓包提炼，共**23条与可莉通用DOMAIN/DOMAIN-SUFFIX规则不重复的域名规则**。对所有经过Loon的App生效，主要涉及 Buluken、Litemob、HZZFCM 等广告SDK；另提供**6条精准HTTPS请求兜底**，防止广告SDK或广点通素材绕过普通域名拦截。
 
-**重要**：精简版、完整版二选一；安装/更新后彻底退出 123 云盘再启动。Loon 的 HTTPS 复写需要开启 MitM 并信任证书。若仍有广告，请导出出现广告时的最新请求，核查 `pgdt.ugdtimg.com` 是否仍返回 200，以及 `api.123panapi.cn/api/user/info` 是否具有 `v5-user` 命中标记。配置改写与请求正则通过静态检查，**最终效果需真机验证**。
+- `pgdt.ugdtimg.com` 已被可莉DOMAIN/DOMAIN-SUFFIX规则覆盖，不重复添加域名，只保留拦截抓包中出现的图片请求的HTTPS兜底。
+- HTTPS兜底仅对6个确定的广告主机启用MitM，不会对其他App的业务域名做大范围解密。
+- [通用拦截器源码](plugins/AdPlatform-Supplement.plugin) ｜ [直接导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin)。
+
+### 123云盘精简专用版 v6
+
+现**仅保留4条123云盘私有API响应改写**：`/api/config/get`、`/api/app/config/get`、`/api/user/info`、`/api/taku/ad/config`。仍兼容 `api.123278.com`、`api.123panapi.com`、`api.123panapi.cn`，广告开关命中标记更新为 `v6-config`、`v6-app`、`v6-user`。
+
+- **开屏和页面广告**默认清理；**看广告领福利任务**默认保留。
+- 不再包含广告平台域名与SDK请求规则，改由前述两款通用拦截器处理；不会修改登录、下载、上传、会员权益。
+- [精简版源码](plugins/123Pan-Splash-Enhanced.plugin) ｜ [直接导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin)。
+- **完整版 v5 保持原样**，用于不想依赖通用拦截器的场景。
+
+安装后在Loon开启MitM并信任证书；确保本次新插件和精简版均已启用。缓存广告不一定会因网络规则立刻消失，最终效果需要手机验证。
 
 ## 使用说明
 
