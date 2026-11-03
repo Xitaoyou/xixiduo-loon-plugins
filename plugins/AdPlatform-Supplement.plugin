@@ -14,8 +14,8 @@
 # [Rule]域名拦截跟随插件启停，下面两个开关仅控制HTTPS补充改写。
 
 [Argument]
-blockCreativeCDN = switch,true,tag=腾讯广告素材HTTPS兜底,desc=开：尝试阻止广点通图片素材绕过DNS规则；关：只依赖域名拦截。
-blockSDKRequests = switch,true,tag=广告SDK接口HTTPS兜底,desc=开：额外阻止抓包确认的广告SDK初始化与获取请求；关：只用域名规则。
+blockCreativeCDN = switch,true,false,tag=腾讯广告素材HTTPS兜底,desc=开：尝试阻止广点通图片素材绕过DNS规则；关：只依赖域名拦截。
+blockSDKRequests = switch,true,false,tag=广告SDK接口HTTPS兜底,desc=开：额外阻止抓包确认的广告SDK初始化与获取请求；关：只用域名规则。
 
 [Rule]
 # 未被现有可莉通用域名规则直接覆盖的补充项（23条）。
