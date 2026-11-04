@@ -4886,16 +4886,26 @@
         const message = PlayViewUniteReq.fromBinary(binaryBody);
         const { vod, bvid } = message;
         const { aid, cid } = vod || {};
-        Promise.all([fetchOriginalRequest(url, headers, body), fetchSponsorSegments(bvid || aidToBvid(aid), cid !== '0' ? cid : '')])
-            .then(([{ headers, body }, segments]) => {
-            if (!segments.length) { console.log('[auto-skip] no sponsor segments; original request continues'); $done({}); return; }
-            console.log('[auto-skip] applying ' + segments.length + ' sponsor segment(s)');
-            $done({ response: { status: 200, headers, h2_trailers: {'grpc-status': '0'}, body: newRawBody(handlePlayViewUniteReply(body, segments, cid)) } });
-        })
+        // Energy/data optimization: query the skip database first.
+        // Only re-fetch Bilibili playback data when there is something to skip.
+        fetchSponsorSegments(bvid || aidToBvid(aid), cid !== '0' ? cid : '')
+            .then(segments => {
+                if (!segments.length) {
+                    console.log('[auto-skip] no sponsor segments; original request continues');
+                    $done({});
+                    return;
+                }
+                console.log('[auto-skip] applying ' + segments.length + ' sponsor segment(s)');
+                return fetchOriginalRequest(url, headers, body)
+                    .then(({ headers: playbackHeaders, body: playbackBody }) => {
+                        const modified = newRawBody(handlePlayViewUniteReply(playbackBody, segments, cid));
+                        $done({ response: { status: 200, headers: playbackHeaders, h2_trailers: {'grpc-status': '0'}, body: modified } });
+                    });
+            })
             .catch(err => {
-            console.log(err?.toString());
-            $done({});
-        });
+                console.log('[auto-skip] playback processing failed: ' + String(err));
+                $done({});
+            });
     }
     function handleDmSegMobileReq({ url, headers, body }) {
         const binaryBody = getBinaryBody(body);
