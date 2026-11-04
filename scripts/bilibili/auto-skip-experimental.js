@@ -4874,6 +4874,7 @@
     const device = globalThis.$environment?.['device-model'] || globalThis.$loon;
     const isIpad = device?.includes('iPad');
     if (url.endsWith('/PlayViewUnite')) {
+        console.log('[auto-skip] playback request matched');
         handlePlayViewUniteReq($request);
     } else if (url.endsWith('/DmSegMobile') && isIpad) {
         handleDmSegMobileReq($request);
