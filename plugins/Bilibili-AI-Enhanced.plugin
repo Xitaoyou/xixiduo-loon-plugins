@@ -1,5 +1,5 @@
 #!name=哔哩哔哩去广告 · AI字幕兼容版
-#!desc=保留 AI 字幕兼容与视频底部广告精准过滤；新增可关闭的实验性自动空降（B站9.16.1）。默认保留 AI 字幕、精准清理视频下方广告；开屏、首页、搜索等去广告继续生效。可独立设置底栏按钮、顶部频道及深度过滤。原版视频详情深度改写默认关闭，避免字幕再次失效。
+#!desc=保留 AI 字幕兼容、精准广告过滤；加入可选的实验自动空降与播放接口诊断。默认保留 AI 字幕、精准清理视频下方广告；开屏、首页、搜索等去广告继续生效。可独立设置底栏按钮、顶部频道及深度过滤。原版视频详情深度改写默认关闭，避免字幕再次失效。
 #App链接=https://apps.apple.com/app/id736536022
 #!author=kokoryh（原作者）, Xitaoyou（增强版维护）
 #!tag=去广告
@@ -29,6 +29,7 @@ purifyComment=switch, true, false, tag=清理置顶推广评论, desc=关：保�
 optimizeRequest=switch, true, false, tag=修复评论区加载, desc=关：使用原始请求；开：尝试修复评论加载异常，可能增加请求处理。
 sponsorBlock=switch, false, true, tag=空降助手（跳过视频内广告）, desc=关：不跳过UP主口播广告；开：使用第三方数据自动跳过，可能误跳片段。
 autoSkipExperimental=switch, false, true, tag=实验：自动跳过视频内广告（B站9.16.1）, desc=开：尝试用片头跳过机制自动略过赞助片段；可能影响AI字幕或播放，遇到问题请关闭。开启前建议关闭上面的弹幕空降助手。
+autoSkipDiagnostics=switch, false, true, tag=诊断：记录B站播放接口, desc=开：记录与播放相关的API路径，只观察不修改数据；用于排查自动空降脚本不运行的原因。
 logLevel=select, "off", "error", "warn", "info", "debug", tag=日志详细程度, desc=off关闭；error仅错误；warn警告；info普通信息；debug详细排查。
 
 [Rule]
@@ -91,6 +92,8 @@ response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bil
 response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.(?:playerunite\.v1\.Player\/PlayViewUnite|playurl\.v1\.PlayURL\/PlayView)$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_response_kokoryh.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with enable=${optimizePlayer}, tag="播放器增强", requires_body=true, binary_body_mode=true
 
 response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_json_kokoryh.js") with tag="移除直播间广告", requires_body=true
+response if ${url} ~= /^https:\/\/(?:(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.(?:playerunite|playurl|view|viewunite)\.v1\.[^\/]+\/[^?]+|(?:api\.bilibili\.com|app\.bilibili\.com)\/x\/(?:player|v2\/playurl)[^?]*)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/playback-probe.js") with enable=${autoSkipDiagnostics}, tag="自动空降·播放接口诊断", debug=true
+
 
 [MitM]
 hostname=grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, line3-h5-mobile-api.biligame.com
