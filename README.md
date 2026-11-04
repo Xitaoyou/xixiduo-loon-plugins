@@ -8,20 +8,17 @@
 | --- | --- | --- |
 | 哔哩哔哩去广告 · AI 字幕兼容版 | 新增视频底部广告精准过滤，兼顾 AI 字幕；支持导航自定义 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
 | 芒果TV去广告 · 开屏摇一摇增强版 | 去开屏、摇一摇和视频广告；精简导航、隐藏芒果卡及AI浮窗 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Enhanced.plugin) · [查看文件](plugins/MangoTV-Enhanced.plugin) |
-| 芒果TV去广告 · 奶思原版 | 第三方原版镜像：广告域名拦截、页面及导航清理，规则未经修改 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Naisi-Original.lpx) · [查看文件](plugins/MangoTV-Naisi-Original.lpx) |
 | 菜鸟去广告 · 联动完整版 v3 | 与可莉广告平台及本仓库补充拦截器配合，仅保留2条菜鸟专用域名规则，修复缺失MitM域名、首页多层嵌套推广字段及空广告位；须使用Loon自动分流模式 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Adblock-Full.plugin) · [查看文件](plugins/Cainiao-Adblock-Full.plugin) |
-| 菜鸟去广告 · 旧版精准补丁（已被完整版替代） | 旧版补丁；请勿和完整版同时启用。按真实抓包拦截双11开屏图片/视频、广点通及聚合SDK广告接口；保留菜鸟正常物流和阿里通用CDN资源 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Splash-Enhanced.plugin) · [查看文件](plugins/Cainiao-Splash-Enhanced.plugin) |
 | 广告平台补充拦截器 · DNS优先版 v3 | 28条精确域名规则（新增3条 Tanx/优酷广告主机），保留DNS优先，不启用MitM | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
 | 123云盘去广告 · 精简专用版 v6 | 仅4条123云盘私有API改写；配合可莉及通用补充拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | 123云盘去广告 · 完整版 | 70条域名规则；补拦腾讯素材和新版SDK，可独立使用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Full.plugin) · [查看文件](plugins/123Pan-Splash-Full.plugin) |
 | SideStore 刷新助手 | 通过 Loon 本地回环辅助刷新侧载应用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
-| YouTube 去广告增强版（实验） | 基于可莉原版，补充新版 `player/ad_break` 中插接口拦截；原版首页、Shorts、画中画、字幕等功能继续使用上游脚本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FYouTube-Enhanced.plugin) · [查看文件](plugins/YouTube-Enhanced.plugin) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名与广告接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
 
 
 ## 菜鸟去广告 · 联动完整版 v3（2026-11-03）
 
-此版**必须与可莉广告平台拦截器（BlockAdvertisers）以及本仓库的 [广告平台补充拦截器 v3](plugins/AdPlatform-Supplement.plugin) 同时启用**。不需要启用可莉菜鸟去广告插件；请关闭 **可莉 Cainiao_remove_ads.lpx** 和本仓库旧版 **Cainiao-Splash-Enhanced.plugin**，避免同一接口被重复改写。
+此版**必须与可莉广告平台拦截器（BlockAdvertisers）以及本仓库的 [广告平台补充拦截器 v3](plugins/AdPlatform-Supplement.plugin) 同时启用**。不需要启用可莉菜鸟去广告插件；请关闭 **可莉 Cainiao_remove_ads.lpx**，避免同一接口被重复改写。
 
 - **仅保留 2 条菜鸟专用域名规则**：`adashx.ut.cainiao.com`、`h-adashx.ut.cainiao.com`。已删除原版 26 条中的 24 条通用 SDK 重复拦截规则，交由可莉广告平台拦截器和本仓库补充拦截器处理。
 - **8 条请求级去广告复写**：6 条商品推荐/CPS/营销专用 MTop 接口拒绝（广告列表show/mshow改为响应清理），2 条抓包实证的阿里开屏图片、视频素材精准拒绝。
@@ -98,7 +95,6 @@ Loon 官方插件规范不允许插件改变这些全局设置。普通UDP 53端
 
 **携程旅行 · 精准去广告**：导入并启用插件。广告接口规则需要在 Loon 开启 MitM，并在设备上安装和信任 Loon 证书；规则仅针对 `m.ctrip.com` 启用 MitM。插件拦截特定广告域名和接口，不保证移除所有广告；携程更新后效果可能变化，如遇异常可先关闭插件排查。插件规则来自用户提供的文件，原作者标记为 Custom Loon rules，携程图标来自 App Store。
 
-**YouTube 去广告增强版**：基于 [可莉原版](https://github.com/Moli-X/Tool/blob/X/Loon/Plugin/Kelee/YouTube_remove_ads.plugin)（原作者 Maasea、VirgilClyne、Choler、DivineEngine、app2smile），保留原有脚本引用与设置。新增拦截 `youtubei/v1/player/ad_break`，属于实验性兼容修补；**暂停广告尚未确认可过滤**，也不保证全部中插广告被消除。请关闭旧版 YouTube 去广告插件避免冲突，开启 Loon MitM、MitM over HTTP/2、QUIC 回退保护，安装并信任证书。若播放卡顿，禁用增强版并反馈脱敏日志。此项目并非可莉官方发布，原脚本版权归原作者，原版更新不会自动同步插件规则。
 ## 哔哩哔哩去广告 · AI 字幕兼容版
 
 基于 [可莉原版](https://github.com/Moli-X/Tool/blob/X/Loon/Plugin/Kelee/Bilibili_remove_ads.plugin)（原版配置日期：2026-10-02），针对原版可能导致 **AI 字幕无法加载** 的问题进行兼容性调整。用户反馈新版默认配置已恢复 AI 字幕加载。
@@ -152,17 +148,3 @@ Loon 官方插件规范不允许插件改变这些全局设置。普通UDP 53端
 ## 许可证
 
 本仓库使用 [MIT 许可证](LICENSE)。
-
-## 菜鸟去广告 · 旧版开屏补丁（存档，请勿与联动完整版同时启用）
-
-依据 iOS 菜鸟抓包添加 **5 条 HTTPS 请求级精准拒绝规则**：
-
-- 阿里广告图片：`ossgw.alicdn.com/creatives-assets/prod/feupload/user/...`（实证双11开屏图）
-- 阿里广告视频：`a1.alibabausercontent.com/prod/feupload/user/7clgu/...mp4`（实证同一广告5秒视频）
-- 广点通：`v2mi.gdt.qq.com/gdt_mview.fcg`（实证响应包含携程广告创意）
-- 聚合广告：`ssp.iytcdn.com/union/sdk/config` 及 `/union/sdk/data`（实证配置开启开屏广告）
-- MS/1RTB：`sdk.1rtb.net/sdk/req_ad`（广告竞价接口，二进制响应未解码）
-
-本节仅为旧版补丁的历史说明；当前推荐使用上文的**菜鸟联动完整版 v2**，不要与本补丁同时启用。旧版补丁需要 **Loon MitM 开启、证书信任与 HTTP 复写启用**；插件的两个可选开关默认开启。**不会整域名封禁** `ossgw.alicdn.com` 或 `a1.alibabausercontent.com`。调整后完全退出菜鸟再启动，按抓包和开屏实际表现复查。静态规则测试覆盖本次抓包，但真机效果仍需验证。
-
-[查看插件](plugins/Cainiao-Splash-Enhanced.plugin) · [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCainiao-Splash-Enhanced.plugin)
