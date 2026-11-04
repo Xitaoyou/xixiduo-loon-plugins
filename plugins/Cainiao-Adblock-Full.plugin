@@ -9,7 +9,7 @@
 
 # 必须同时启用：可莉广告平台拦截器（BlockAdvertisers） + 本仓库 AdPlatform-Supplement.plugin v3。
 # 可按需启用可莉的 HTTPDNS 插件；此菜鸟完整版不复制通用广告SDK域名规则。
-# 请关闭可莉 Cainiao_remove_ads.lpx 与旧 Cainiao-Splash-Enhanced.plugin，避免重复复写。
+# 请关闭可莉 Cainiao_remove_ads.lpx，避免重复复写。
 # [Rule] 保留2条菜鸟域名；v3增加缺失的MTop MitM主机，修复首页广告嵌套结构。
 # 严禁封禁整个 acs.m.taobao.com、msgacs.m.taobao.com、cn-acs.m.cainiao.com、ossgw.alicdn.com 或 a1.alibabausercontent.com。
 # 数据边界：2026-11-03 抓包证实第三方广告 SDK、创意素材；首页商品/楼层接口参考公开规则路径，尚未得到此App版本的对应响应体。
