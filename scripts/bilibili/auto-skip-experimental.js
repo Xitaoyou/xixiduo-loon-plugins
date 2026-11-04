@@ -4962,7 +4962,7 @@
                 'origin': 'https://github.com/kokoryh/Sparkle',
                 'x-ext-version': '1.0.0'
             },
-            timeout: 5
+            timeout: 5000
         };
         return new Promise(resolve => {
             $httpClient.get(params, (error, response, data) => {
