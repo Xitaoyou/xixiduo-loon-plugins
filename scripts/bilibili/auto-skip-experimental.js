@@ -4874,7 +4874,7 @@
     const device = globalThis.$environment?.['device-model'] || globalThis.$loon;
     const isIpad = device?.includes('iPad');
     if (url.endsWith('/PlayViewUnite')) {
-        console.log('[auto-skip] playback request matched');
+        console.log('[auto-skip v4] playback request matched; SponsorBlock route=PROXY');
         handlePlayViewUniteReq($request);
     } else if (url.endsWith('/DmSegMobile') && isIpad) {
         handleDmSegMobileReq($request);
@@ -4962,7 +4962,8 @@
                 'origin': 'https://github.com/kokoryh/Sparkle',
                 'x-ext-version': '1.0.0'
             },
-            timeout: 5000
+            timeout: 5000,
+            node: 'PROXY'
         };
         return new Promise(resolve => {
             $httpClient.get(params, (error, response, data) => {
