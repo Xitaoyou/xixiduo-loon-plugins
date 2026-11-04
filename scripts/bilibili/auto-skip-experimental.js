@@ -4920,6 +4920,7 @@
             headers,
             body,
             'binary-mode': true,
+            alpn: 'h2',
         };
         return new Promise((resolve, reject) => {
             $httpClient.post(params, (error, response, data) => {
