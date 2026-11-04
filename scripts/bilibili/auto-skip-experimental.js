@@ -4887,7 +4887,8 @@
         const { aid, cid } = vod || {};
         Promise.all([fetchOriginalRequest(url, headers, body), fetchSponsorSegments(bvid || aidToBvid(aid), cid !== '0' ? cid : '')])
             .then(([{ headers, body }, segments]) => {
-            if (!segments.length) { $done({}); return; }
+            if (!segments.length) { console.log('[auto-skip] no sponsor segments; original request continues'); $done({}); return; }
+            console.log('[auto-skip] applying ' + segments.length + ' sponsor segment(s)');
             $done({ response: { status: 200, headers, h2_trailers: {'grpc-status': '0'}, body: newRawBody(handlePlayViewUniteReply(body, segments, cid)) } });
         })
             .catch(err => {
