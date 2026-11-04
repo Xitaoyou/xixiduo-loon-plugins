@@ -4874,7 +4874,7 @@
     const device = globalThis.$environment?.['device-model'] || globalThis.$loon;
     const isIpad = device?.includes('iPad');
     if (url.endsWith('/PlayViewUnite')) {
-        console.log('[auto-skip v4] playback request matched; SponsorBlock route=PROXY');
+        console.log('[auto-skip v5] playback request matched');
         handlePlayViewUniteReq($request);
     } else if (url.endsWith('/DmSegMobile') && isIpad) {
         handleDmSegMobileReq($request);
@@ -4953,43 +4953,58 @@
     }
     function fetchSponsorSegments(videoId, cid) {
         if (!videoId || !String(videoId).startsWith('BV')) return Promise.resolve([]);
-        const params = {
-            url: 'https://bsbsb.top/api/skipSegments?videoID='
-                + encodeURIComponent(videoId)
-                + '&cid=' + encodeURIComponent(cid || '')
-                + '&category=sponsor',
-            headers: {
-                'origin': 'https://github.com/kokoryh/Sparkle',
-                'x-ext-version': '1.0.0'
-            },
-            timeout: 5000,
-            node: 'PROXY'
-        };
+        const url = 'https://www.bsbsb.top/api/skipSegments?videoID='
+            + encodeURIComponent(videoId)
+            + '&cid=' + encodeURIComponent(cid || '')
+            + '&category=sponsor';
         return new Promise(resolve => {
-            $httpClient.get(params, (error, response, data) => {
-                if (error || response?.status !== 200) {
-                    console.log('[auto-skip] SponsorBlock fetch error: ' + String(error || response?.status));
-                    resolve([]);
-                    return;
-                }
-                try {
-                    const items = JSON.parse(data);
-                    if (!Array.isArray(items)) { resolve([]); return; }
-                    const segments = items.filter(x =>
-                        x?.actionType === 'skip' &&
-                        Array.isArray(x.segment) &&
-                        x.segment.length === 2 &&
-                        Number.isFinite(Number(x.segment[0])) &&
-                        Number.isFinite(Number(x.segment[1])) &&
-                        Number(x.segment[0]) >= 0 &&
-                        Number(x.segment[1]) - Number(x.segment[0]) >= 8
-                    ).map(x => [Number(x.segment[0]), Number(x.segment[1])]);
-                    resolve(segments);
-                } catch (e) {
-                    console.log('[auto-skip] sponsor data error: ' + String(e));
-                    resolve([]);
-                }
-            });
+            function attempt(node) {
+                console.log('[auto-skip v5] fetching via ' + node + ' on www.bsbsb.top');
+                $httpClient.get({
+                    url,
+                    node,
+                    timeout: 4500,
+                    insecure: false,
+                    headers: {
+                        'origin': 'https://github.com/kokoryh/Sparkle',
+                        'x-ext-version': '1.0.0'
+                    }
+                }, (error, response, data) => {
+                    if (error) {
+                        console.log('[auto-skip v5] ' + node + ' network error: ' + String(error));
+                        if (node === 'DIRECT') { attempt('PROXY'); return; }
+                        resolve([]);
+                        return;
+                    }
+                    const status = response?.status;
+                    console.log('[auto-skip v5] ' + node + ' HTTP status=' + status);
+                    if (status === 404) { resolve([]); return; }
+                    if (status !== 200) {
+                        if (node === 'DIRECT') { attempt('PROXY'); return; }
+                        resolve([]);
+                        return;
+                    }
+                    try {
+                        const items = JSON.parse(data);
+                        if (!Array.isArray(items)) { resolve([]); return; }
+                        const segments = items.filter(x =>
+                            x?.actionType === 'skip' &&
+                            Array.isArray(x.segment) &&
+                            x.segment.length === 2 &&
+                            Number.isFinite(Number(x.segment[0])) &&
+                            Number.isFinite(Number(x.segment[1])) &&
+                            Number(x.segment[0]) >= 0 &&
+                            Number(x.segment[1]) - Number(x.segment[0]) >= 8
+                        ).map(x => [Number(x.segment[0]), Number(x.segment[1])]);
+                        console.log('[auto-skip v5] received segment count=' + segments.length);
+                        resolve(segments);
+                    } catch (e) {
+                        console.log('[auto-skip v5] JSON parse failed: ' + String(e));
+                        resolve([]);
+                    }
+                });
+            }
+            attempt('DIRECT');
         });
     }
     function handlePlayViewUniteReply(body, segments, cid) {
