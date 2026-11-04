@@ -27,8 +27,8 @@ hideTopActivity=switch, true, false, tag=过滤顶部广告, desc=关：保留�
 displayUpList=select, "show", "hide", "auto", tag=动态页最常访问, desc=show始终显示；hide始终隐藏；auto仅有直播时显示。
 purifyComment=switch, true, false, tag=清理置顶推广评论, desc=关：保留原评论；开：过滤疑似推广的置顶评论，可能误删正常评论。
 optimizeRequest=switch, true, false, tag=修复评论区加载, desc=关：使用原始请求；开：尝试修复评论加载异常，可能增加请求处理。
-sponsorBlock=switch, false, true, tag=空降助手（跳过视频内广告）, desc=关：不跳过UP主口播广告；开：使用第三方数据自动跳过，可能误跳片段。
-autoSkipExperimental=switch, false, true, tag=实验：自动跳过视频内广告（B站9.16.1）, desc=开：尝试用片头跳过机制自动略过赞助片段；可能影响AI字幕或播放，遇到问题请关闭。开启前建议关闭上面的弹幕空降助手。
+sponsorBlock=switch, false, true, tag=原版弹幕空降（点击跳过）, desc=保留原有空指部弹幕，需手动点击跳转；可与自动空降独立切换。
+autoSkipExperimental=switch, false, true, tag=实验：自动跳过视频内广告（B站9.16.1）, desc=自动版仅在视频有赞助片段时才额外处理播放响应；支持与原版弹幕空降独立开关。可能影响字幕或播放，异常时关闭。
 autoSkipDiagnostics=switch, false, true, tag=诊断：记录B站播放接口, desc=开：记录与播放相关的API路径，只观察不修改数据；用于排查自动空降脚本不运行的原因。
 logLevel=select, "off", "error", "warn", "info", "debug", tag=日志详细程度, desc=off关闭；error仅错误；warn警告；info普通信息；debug详细排查。
 
@@ -79,7 +79,7 @@ response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.
 response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Teenagers\/ModeStatus|Search\/DefaultWords)|view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$/i then response.header.add("grpc-status", "0")
 
 [Script]
-request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/auto-skip-experimental.js?v=5") with enable=${autoSkipExperimental}, tag="实验自动跳过（片头机制）", timeout=15, requires_body=true, binary_body_mode=true
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/auto-skip-experimental.js?v=6") with enable=${autoSkipExperimental}, tag="实验自动跳过（片头机制）", timeout=15, requires_body=true, binary_body_mode=true
 response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/home-tabs.js", {${customizeHomeTabs}, ${homeTopTabOrder}, ${hideTopGameCenter}, ${hideBottomPublish}, ${hideBottomMall}, ${hideBottomDynamic}, ${hideBottomMessages}, ${hideBottomLive}, ${hideTopActivity}}) with tag="首页导航自定义", requires_body=true
 request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_request_kokoryh.js", {${logLevel}}) with enable=${sponsorBlock}, tag="空降助手", timeout=10, requires_body=true, binary_body_mode=true
 
