@@ -4967,6 +4967,7 @@
         return new Promise(resolve => {
             $httpClient.get(params, (error, response, data) => {
                 if (error || response?.status !== 200) {
+                    console.log('[auto-skip] SponsorBlock fetch error: ' + String(error || response?.status));
                     resolve([]);
                     return;
                 }
