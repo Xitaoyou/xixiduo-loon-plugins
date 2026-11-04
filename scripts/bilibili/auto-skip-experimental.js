@@ -4888,7 +4888,7 @@
         Promise.all([fetchOriginalRequest(url, headers, body), fetchSponsorSegments(bvid || aidToBvid(aid), cid !== '0' ? cid : '')])
             .then(([{ headers, body }, segments]) => {
             if (!segments.length) { $done({}); return; }
-            $done({ response: { headers, body: newRawBody(handlePlayViewUniteReply(body, segments, cid)) } });
+            $done({ response: { status: 200, headers, h2_trailers: {'grpc-status': '0'}, body: newRawBody(handlePlayViewUniteReply(body, segments, cid)) } });
         })
             .catch(err => {
             console.log(err?.toString());
