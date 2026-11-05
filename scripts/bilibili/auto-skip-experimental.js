@@ -4874,7 +4874,7 @@
     const device = globalThis.$environment?.['device-model'] || globalThis.$loon;
     const isIpad = device?.includes('iPad');
     if (url.endsWith('/PlayViewUnite')) {
-        console.log('[auto-skip v5] playback request matched');
+        console.log('[auto-skip v7] playback request matched');
         handlePlayViewUniteReq($request);
     } else if (url.endsWith('/DmSegMobile') && isIpad) {
         handleDmSegMobileReq($request);
@@ -4961,8 +4961,49 @@
         [chars[4], chars[7]] = [chars[7], chars[4]];
         return chars.join('');
     }
+    // Bounded Loon local cache: avoid duplicate network calls on replay.
+    // Successful segments: 12 hours; empty results: 15 minutes.
+    // Never cache network failures. Keep at most 48 video records.
+    function getSkipCache(cacheId) {
+        try {
+            const raw = $persistentStore.read('xitaoyou.bilibili.autoskip.cache.v1');
+            if (!raw) return null;
+            const record = JSON.parse(raw)[cacheId];
+            return record && record.expires > Date.now() && Array.isArray(record.segments)
+                ? record.segments
+                : null;
+        } catch (error) {
+            return null;
+        }
+    }
+    function putSkipCache(cacheId, segments) {
+        try {
+            const cacheKey = 'xitaoyou.bilibili.autoskip.cache.v1';
+            const raw = $persistentStore.read(cacheKey);
+            const cache = raw ? JSON.parse(raw) : {};
+            const now = Date.now();
+            for (const id of Object.keys(cache)) {
+                if (!cache[id] || cache[id].expires <= now) delete cache[id];
+            }
+            cache[cacheId] = {
+                expires: now + (segments.length ? 12 * 60 * 60 * 1000 : 15 * 60 * 1000),
+                segments: segments
+            };
+            const ids = Object.keys(cache);
+            if (ids.length > 48) {
+                ids.sort((a, b) => cache[a].expires - cache[b].expires);
+                for (const id of ids.slice(0, ids.length - 48)) delete cache[id];
+            }
+            $persistentStore.write(JSON.stringify(cache), cacheKey);
+        } catch (error) {
+            // Cache failure must not affect video playback.
+        }
+    }
     function fetchSponsorSegments(videoId, cid) {
         if (!videoId || !String(videoId).startsWith('BV')) return Promise.resolve([]);
+        const cacheId = videoId + ':' + String(cid || '');
+        const hit = getSkipCache(cacheId);
+        if (hit !== null) return Promise.resolve(hit);
         const url = 'https://www.bsbsb.top/api/skipSegments?videoID='
             + encodeURIComponent(videoId)
             + '&cid=' + encodeURIComponent(cid || '')
@@ -4988,7 +5029,7 @@
                     }
                     const status = response?.status;
                     console.log('[auto-skip v5] ' + node + ' HTTP status=' + status);
-                    if (status === 404) { resolve([]); return; }
+                    if (status === 404) { putSkipCache(cacheId, []); resolve([]); return; }
                     if (status !== 200) {
                         if (node === 'DIRECT') { attempt('PROXY'); return; }
                         resolve([]);
@@ -5007,6 +5048,7 @@
                             Number(x.segment[1]) - Number(x.segment[0]) >= 8
                         ).map(x => [Number(x.segment[0]), Number(x.segment[1])]);
                         console.log('[auto-skip v5] received segment count=' + segments.length);
+                        putSkipCache(cacheId, segments);
                         resolve(segments);
                     } catch (e) {
                         console.log('[auto-skip v5] JSON parse failed: ' + String(e));
