@@ -1,5 +1,5 @@
 #!name = SideStore 刷新助手
-#!desc = 使用 Loon 提供 SideStore 本地回环，方便在连接 Loon 时刷新侧载应用。需要 Loon Build 1007 或更高版本。
+#!desc = 提供 SideStore 本地回环，方便连接 Loon 时刷新应用；需要 Build 1007 或更高版本。
 #!author = 西西多
 
 [General]
