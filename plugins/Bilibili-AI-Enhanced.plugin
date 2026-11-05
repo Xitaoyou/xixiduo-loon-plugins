@@ -1,5 +1,5 @@
 #!name=哔哩哔哩去广告 · AI字幕兼容版
-#!desc=保留 AI 字幕兼容、精准广告过滤；加入可选的实验自动空降与播放接口诊断。默认保留 AI 字幕、精准清理视频下方广告；开屏、首页、搜索等去广告继续生效。可独立设置底栏按钮、顶部频道及深度过滤。原版视频详情深度改写默认关闭，避免字幕再次失效。
+#!desc = 过滤常见广告，兼顾 AI 字幕；支持导航精简和可选的视频内赞助片段跳过。
 #App链接=https://apps.apple.com/app/id736536022
 #!author=kokoryh（原作者）, Xitaoyou（增强版维护）
 #!tag=去广告
@@ -21,16 +21,13 @@ hideTopGameCenter=switch, true, false, tag=隐藏顶部游戏中心, desc=关：
 hideBottomPublish=switch, true, false, tag=隐藏底部发布, desc=关：显示发布按钮；开：隐藏发布按钮。
 hideBottomMall=switch, true, false, tag=隐藏底部会员购, desc=关：显示会员购；开：隐藏会员购。
 hideBottomDynamic=switch, false, true, tag=隐藏底部动态, desc=关：显示动态；开：隐藏动态，无法从底栏直接进入。
-hideBottomMessages=switch, false, true, tag=隐藏底部消息, desc=关：显示消息；开：隐藏消息入口，仍可通过其他入口访问。
-hideBottomLive=switch, false, true, tag=隐藏底部直播, desc=关：显示直播；开：隐藏直播入口。
 hideTopActivity=switch, true, false, tag=过滤顶部广告, desc=关：保留顶部活动入口；开：隐藏明确标记为广告的入口。
 displayUpList=select, "show", "hide", "auto", tag=动态页最常访问, desc=show始终显示；hide始终隐藏；auto仅有直播时显示。
 purifyComment=switch, true, false, tag=清理置顶推广评论, desc=关：保留原评论；开：过滤疑似推广的置顶评论，可能误删正常评论。
 optimizeRequest=switch, true, false, tag=修复评论区加载, desc=关：使用原始请求；开：尝试修复评论加载异常，可能增加请求处理。
-sponsorBlock=switch, false, true, tag=原版弹幕空降（点击跳过）, desc=保留原有空指部弹幕，需手动点击跳转；可与自动空降独立切换。
-autoSkipExperimental=switch, false, true, tag=实验：自动跳过视频内广告（B站9.16.1）, desc=自动版仅在视频有赞助片段时才额外处理播放响应；支持与原版弹幕空降独立开关。可能影响字幕或播放，异常时关闭。
-autoSkipDiagnostics=switch, false, true, tag=诊断：记录B站播放接口, desc=开：记录与播放相关的API路径，只观察不修改数据；用于排查自动空降脚本不运行的原因。
-logLevel=select, "off", "error", "warn", "info", "debug", tag=日志详细程度, desc=off关闭；error仅错误；warn警告；info普通信息；debug详细排查。
+sponsorBlock=switch, false, true, tag=原版弹幕空降（点击跳过）, desc=显示空降提示，需手动点击；与自动跳过可独立开关。
+autoSkipExperimental=switch, false, true, tag=自动跳过视频内赞助广告（实验）, desc=自动版仅在视频有赞助片段时才额外处理播放响应；支持与原版弹幕空降独立开关。可能影响字幕或播放，异常时关闭。
+logLevel=select, "off", "error", "warn", "info", "debug", tag=排障：日志级别, desc=off关闭；error仅错误；warn警告；info普通信息；debug详细排查。
 
 [Rule]
 DOMAIN, bsbsb.top, PROXY
@@ -80,7 +77,7 @@ response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\
 
 [Script]
 request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/auto-skip-experimental.js?v=6") with enable=${autoSkipExperimental}, tag="实验自动跳过（片头机制）", timeout=15, requires_body=true, binary_body_mode=true
-response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/home-tabs.js", {${customizeHomeTabs}, ${homeTopTabOrder}, ${hideTopGameCenter}, ${hideBottomPublish}, ${hideBottomMall}, ${hideBottomDynamic}, ${hideBottomMessages}, ${hideBottomLive}, ${hideTopActivity}}) with tag="首页导航自定义", requires_body=true
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/home-tabs.js", {${customizeHomeTabs}, ${homeTopTabOrder}, ${hideTopGameCenter}, ${hideBottomPublish}, ${hideBottomMall}, ${hideBottomDynamic}, ${hideTopActivity}}) with tag="首页导航自定义", requires_body=true
 request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_request_kokoryh.js", {${logLevel}}) with enable=${sponsorBlock}, tag="空降助手", timeout=10, requires_body=true, binary_body_mode=true
 
 request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_request_kokoryh.js", {${purifyComment}, ${logLevel}}) with enable=${optimizeRequest}, tag="请求处理", timeout=10, requires_body=true, binary_body_mode=true
@@ -92,7 +89,6 @@ response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bil
 response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.(?:playerunite\.v1\.Player\/PlayViewUnite|playurl\.v1\.PlayURL\/PlayView)$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_response_kokoryh.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with enable=${optimizePlayer}, tag="播放器增强", requires_body=true, binary_body_mode=true
 
 response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_json_kokoryh.js") with tag="移除直播间广告", requires_body=true
-response if ${url} ~= /^https:\/\/(?:(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.(?:playerunite|playurl|view|viewunite)\.v1\.[^\/]+\/[^?]+|(?:api\.bilibili\.com|app\.bilibili\.com)\/x\/(?:player|v2\/playurl)[^?]*)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/playback-probe.js") with enable=${autoSkipDiagnostics}, tag="自动空降·播放接口诊断", requires_body=false, binary_body_mode=true, debug=true
 
 
 [MitM]
