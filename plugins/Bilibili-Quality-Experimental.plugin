@@ -1,0 +1,96 @@
+#!name=哔哩哔哩画质增强实验版 · v7空降兼容
+#!desc = 基于原版完整功能的独立实验插件；尝试请求1080P高帧率或4K，实际画质由B站服务器决定；保留v7空降缓存。不要与正式版同时启用。
+#App链接=https://apps.apple.com/app/id736536022
+#!author=kokoryh（原作者）, Xitaoyou（增强版维护）
+#!tag=去广告
+#!system=iOS, iPadOS
+#!system_version=15
+#!loon_version=3.5.1(998)
+#!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/Bilibili-Quality-Experimental.plugin
+#!icon=https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/Bilibili.png
+#!date=2026-11-05
+
+[Argument]
+disableSubtitleProtection=switch, false, true, tag=清理互动弹幕（可能影响AI字幕）, desc=关：保护AI字幕，保留部分互动弹幕；开：清理互动弹幕，可能导致AI字幕加载失败。
+safeVideoAds=switch, true, false, tag=精准清理视频下方广告（推荐）, desc=开：只删明确广告字段，尽量保留AI字幕；关：保留原始视频详情和广告。
+rewriteVideoDetails=switch, false, true, tag=原版视频详情深度清理（有风险）, desc=关：使用精准过滤，保护AI字幕；开：恢复原版深度清理，可能再次导致AI字幕失效。
+optimizePlayer=switch, false, true, tag=播放器增强, desc=开：尝试解锁后台播放、投屏并减少提示，可能影响AI字幕；关：保持原生播放器，字幕更稳定。
+customizeHomeTabs=switch, false, true, tag=精简首页顶部频道, desc=关：保留全部频道；开：只保留下方填写的频道（填“全部”则不变）。
+homeTopTabOrder=input, 全部, tag=保留的顶部频道, desc=填写推荐,热门,影视等，用逗号分隔；填“全部”则不精简。
+hideTopGameCenter=switch, true, false, tag=隐藏顶部游戏中心, desc=关：显示游戏中心；开：隐藏游戏中心。
+hideBottomPublish=switch, true, false, tag=隐藏底部发布, desc=关：显示发布按钮；开：隐藏发布按钮。
+hideBottomMall=switch, true, false, tag=隐藏底部会员购, desc=关：显示会员购；开：隐藏会员购。
+hideBottomDynamic=switch, false, true, tag=隐藏底部动态, desc=关：显示动态；开：隐藏动态，无法从底栏直接进入。
+hideTopActivity=switch, true, false, tag=过滤顶部广告, desc=关：保留顶部活动入口；开：隐藏明确标记为广告的入口。
+displayUpList=select, "show", "hide", "auto", tag=动态页最常访问, desc=show始终显示；hide始终隐藏；auto仅有直播时显示。
+purifyComment=switch, true, false, tag=清理置顶推广评论, desc=关：保留原评论；开：过滤疑似推广的置顶评论，可能误删正常评论。
+optimizeRequest=switch, true, false, tag=修复评论区加载, desc=关：使用原始请求；开：尝试修复评论加载异常，可能增加请求处理。
+sponsorBlock=switch, false, true, tag=原版弹幕空降（点击跳过）, desc=显示空降提示，需手动点击；与自动跳过可独立开关。
+autoSkipExperimental=switch, false, true, tag=自动跳过视频内赞助广告（实验）, desc=使用本地缓存减少同视频重复查询，只有发现赞助片段才额外处理播放响应；与原版弹幕空降独立切换。异常时关闭。
+qualityTarget=select, "off", "1080p60", "4k", tag=实验画质请求, desc=off不修改画质；1080p60尝试请求1080P高帧率；4k尝试请求4K。仅请求已授权的视频流，不会真正解锁会员或DRM。
+logLevel=select, "off", "error", "warn", "info", "debug", tag=排障：日志级别, desc=off关闭；error仅错误；warn警告；info普通信息；debug详细排查。
+
+[Rule]
+DOMAIN, bsbsb.top, PROXY
+DOMAIN, api.biliapi.com, REJECT
+DOMAIN, app.biliapi.com, REJECT
+DOMAIN, api.biliapi.net, REJECT
+DOMAIN, app.biliapi.net, REJECT
+AND, ((DOMAIN-SUFFIX, chat.bilibili.com), (OR, ((DOMAIN-KEYWORD, stun), (DOMAIN-KEYWORD, tracker), (DOMAIN-KEYWORD, p2p)))), REJECT
+
+[Rewrite]
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/x\/pd-proxy\/tracker\?/i then response.json.jq(".data[][]?=\"stun.chat.bilibili.com:3478\"")
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/(show|event\/list2)\?/i then response.json.jq(".data |= with_entries(if .key | IN(\"show\", \"event_list\") then .value = [] else . end)")
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/splash\/list\?/i then response.body.mock("text", "{\"code\":0,\"message\":\"OK\",\"ttl\":1,\"data\":{\"max_time\":0,\"min_interval\":31536000,\"pull_interval\":31536000,\"keep_ids\":[],\"show\":[],\"list\":[{}],\"splash_request_id\":\"\"}}", 200)
+
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\?/i then response.json.jq("if .data.items then .data.items |= map(select((.banner_item == null) and (.ad_info == null) and (.card_goto == \"av\") and (.card_type | IN(\"small_cover_v2\", \"large_cover_single_v9\", \"large_cover_v1\")))) end")
+
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/activity\/deliver\/material\/receive\?/i then response.body.mock("text", "{\"code\":0,\"data\":{\"closeType\":\"close_win\",\"container\":[],\"showTime\":\"\"},\"message\":\"success\"}", 200)
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/view\/v2\/app\/season\?/i then response.json.jq("del(.data.payment)")
+
+response if ${url} ~= /^https:\/\/api\.bilibili\.com\/pgc\/page\/channel\?/i then response.json.jq(".data.modules |= map(select(.type != \"TIP\") | if .type == \"BANNER\" then .module_data.items |= map(select(.url | startswith(\"https://www.bilibili.com/blackboard/era/\") | not)) else . end)")
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/feed\/index\/story\?/i then response.json.jq("if .data.items then .data.items |= map(select((.ad_info == null) and (.card_goto | IN(\"vertical_ad_av\", \"vertical_ad_live\", \"vertical_ad_picture\") | not)) | del(.story_cart_icon, .free_flow_toast, .image_infos, .course_info, .game_info)) end")
+
+response if ${url} ~= /^https:\/\/ap[ip]\.bilibili\.com\/x\/(resource\/(top\/activity|patch\/tab(\/v2)?)|v2\/search\/square|vip\/ads\/materials)\?/i then response.body.mock("text", "{\"code\":-404,\"message\":\"-404\",\"ttl\":1,\"data\":null}", 200)
+
+request if ${url} ~= /^https:\/\/line3-h5-mobile-api\.biligame\.com\/game\/live\/large_card_material\?/i then reject_dict(200)
+
+request if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/e-commerce-interface\/v1\/ecommerce-user\/get_shopping_info\?/i then reject_dict(200)
+
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/open-interface\/v2\/tracker\/conf\?/i then response.json.jq(".data.domains=[\"wss://tracker.chat.bilibili.com\"]")
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/skin\?/i then response.json.delete("data.common_equip")
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(\/ipad)?\?/i then response.json.jq_file("https://kelee.one/Resource/JQLang/Bilibili/mine_Bilibili_remove_ads.jq")
+
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/v2\/account\/myinfo\?/i then response.json.jq(".data.vip |= if . != null and .status == 0 then . + { status: 1, type: 2, due_date: 9005270400000, role: 15 } else . end")
+
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Teenagers\/ModeStatus$/i then response.body.mock("text", "AAAAABMKEQgCEgl0ZWVuYWdlcnMgAioA", 200, true)
+
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.interface\.v1\.Search\/DefaultWords$/i then response.body.mock("text", "AAAAACEaHeaQnOe0ouinhumikeOAgeeVquWJp+aIlnVw5Li7KAE=", 200, true)
+
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$/i then response.body.mock("text", "AAAAAAA=", 200, true)
+response if ${url} ~= /^https:\/\/grpc\.biliapi\.net\/bilibili\.app\.(interface\.v1\.(Teenagers\/ModeStatus|Search\/DefaultWords)|view\.v1\.View\/TFInfo|viewunite\.v1\.View\/(PlayPause|ViewEndPage))$/i then response.header.add("grpc-status", "0")
+
+[Script]
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.playerunite\.v1\.Player\/PlayViewUnite$/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/quality-experimental.js?v=1", {${autoSkipExperimental}, ${qualityTarget}}) with tag="实验画质请求 · v7空降兼容", timeout=15, requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/app\.bilibili\.com\/x\/resource\/show\/tab\/v2\?/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/home-tabs.js", {${customizeHomeTabs}, ${homeTopTabOrder}, ${hideTopGameCenter}, ${hideBottomPublish}, ${hideBottomMall}, ${hideBottomDynamic}, ${hideTopActivity}}) with tag="首页导航自定义", requires_body=true
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmSegMobile$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_request_kokoryh.js", {${logLevel}}) with enable=${sponsorBlock}, tag="空降助手", timeout=10, requires_body=true, binary_body_mode=true
+
+request if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.(?:app\.viewunite\.v1\.View\/View|main\.community\.reply\.v1\.Reply\/MainList)$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_request_kokoryh.js", {${purifyComment}, ${logLevel}}) with enable=${optimizeRequest}, tag="请求处理", timeout=10, requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/(?!bilibili\.community\.service\.dm\.v1\.DM\/DmView$)(?!bilibili\.app\.(?:playerunite\.v1\.Player\/PlayViewUnite|playurl\.v1\.PlayURL\/PlayView)$)(?!bilibili\.app\.view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed|AIRelateAsync)$)bilibili\.(?:app\.(?:show\.v1\.Popular\/Index|dynamic\.v2\.Dynamic\/DynAll|view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed|AIRelateAsync)|playurl\.v1\.PlayURL\/PlayView|playerunite\.v1\.Player\/PlayViewUnite)|polymer\.app\.search\.v1\.Search\/SearchAll|community\.service\.dm\.v1\.DM\/DmView|main\.community\.reply\.v1\.Reply\/MainList|pgc\.gateway\.player\.v2\.PlayURL\/PlayView)$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_response_kokoryh.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with tag="ProtoBuf去广告", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.view(?:unite)?\.v1\.View\/(?:View|RelatesFeed|AIRelateAsync)$/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/bilibili/video-detail-safe.js") with enable=${safeVideoAds}, tag="视频底部广告精准过滤", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.view(?:unite)?\.v1\.View\/(?:View|ViewProgress|RelatesFeed|AIRelateAsync)$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_response_kokoryh.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with enable=${rewriteVideoDetails}, tag="原版视频详情深度清理", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.community\.service\.dm\.v1\.DM\/DmView$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_response_kokoryh.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with enable=${disableSubtitleProtection}, tag="互动弹幕清理", requires_body=true, binary_body_mode=true
+response if ${url} ~= /^https:\/\/(?:grpc\.biliapi\.net|app\.bilibili\.com)\/bilibili\.app\.(?:playerunite\.v1\.Player\/PlayViewUnite|playurl\.v1\.PlayURL\/PlayView)$/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_proto_response_kokoryh.js", {${displayUpList}, ${purifyComment}, ${sponsorBlock}, ${logLevel}}) with enable=${optimizePlayer}, tag="播放器增强", requires_body=true, binary_body_mode=true
+
+response if ${url} ~= /^https:\/\/api\.live\.bilibili\.com\/xlive\/(?:app-interface\/v2\/index\/feed|app-room\/v1\/index\/getInfoBy(?:Room|User))\?/i then script("https://github.com/Moli-X/Tool/raw/X/Loon/Plugin/Kelee/Script/Bilibili_json_kokoryh.js") with tag="移除直播间广告", requires_body=true
+
+
+[MitM]
+hostname=grpc.biliapi.net, app.bilibili.com, api.bilibili.com, api.live.bilibili.com, line3-h5-mobile-api.biligame.com
