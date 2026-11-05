@@ -1,5 +1,5 @@
 #!name=广告平台补充拦截器 · DNS 优先版
-#!desc=补充可莉广告平台拦截器的精确域名拒绝规则；仅DNS/域名阶段使用，不包含MitM和HTTP复写。
+#!desc = 补充可莉广告平台的域名拦截规则，无需 MitM。
 #!author=Xitaoyou
 #!tag=去广告, 依赖, 广告SDK
 #!system=iOS, iPadOS
