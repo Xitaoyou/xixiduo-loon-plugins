@@ -4885,9 +4885,9 @@
     // Experimental quality preference. This changes only the requested stream
     // quality. Entitlement and actual media delivery remain server-controlled.
     const experimentArgs = String(typeof $argument === 'undefined' ? '' : $argument);
-    const qualityMode = /\\b4k\\b/i.test(experimentArgs) ? '4k'
+    const qualityMode = /4k/i.test(experimentArgs) ? '4k'
         : /1080p60/i.test(experimentArgs) ? '1080p60' : 'off';
-    const enableSponsor = /\\btrue\\b/i.test(experimentArgs);
+    const enableSponsor = /true/i.test(experimentArgs);
 
     function varintValue(input, offset) {
         let result = 0, shift = 0, i = offset;
@@ -4918,7 +4918,7 @@
             const field = Math.floor(tag.value / 8), wire = tag.value % 8;
             let valueStart = pos, valueEnd = pos;
             if (wire === 0) {
-                const n = varintValue(input, pos); pos = n.end; valueEnd = pos;
+                while (pos < input.length && (input[pos++] & 128)) {} valueEnd = pos;
             } else if (wire === 2) {
                 const n = varintValue(input, pos);
                 valueStart = n.end; pos = n.end + n.value; valueEnd = pos;
