@@ -1,5 +1,5 @@
 #!name=芒果TV去广告 · 开屏摇一摇增强版
-#!desc=抓包修复开屏广告真实接口 /json/app/boot；关闭摇一摇配置，保留视频贴片、导航和悬浮控件清理。
+#!desc = 清理芒果 TV 开屏、摇一摇及页面推广，并支持导航精简。
 #!author=Xitaoyou（增强维护）, 可莉（旧版规则参考）
 #!tag=去广告, 芒果TV
 #!system=iOS, iPadOS
