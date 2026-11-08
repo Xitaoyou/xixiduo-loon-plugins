@@ -13,6 +13,7 @@
 | 123云盘去广告 · 精简专用版 v6 | 清理应用内广告开关，需配合两个广告平台拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | 123云盘去广告 · 完整版 | 清理应用内广告并拦截常见广告域名，可独立使用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Full.plugin) · [查看文件](plugins/123Pan-Splash-Full.plugin) |
 | SideStore 刷新助手 · 兼容版 v2 | 提供 SideStore 设备端点本地回环，兼容 10.7.0.1 / 10.7.0.0，并附端点排查指引 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
+| SideStore 本机回环 · 官方参数对照测试 | 独立测试版：采用 Loon 官方回环参数，关闭 IPv6 VIF；用于排查 SideStore 0.7 刷新失败，不要与原刷新助手同时启用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Official-Loopback-Test.lpx) · [查看文件](plugins/SideStore-Official-Loopback-Test.lpx) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名和接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
 
 ## 使用提示
@@ -23,6 +24,7 @@
 - **123 云盘**：精简版需搭配上述两个广告平台拦截器；完整版可独立使用。两版任选其一，接口清理需要 MitM 和受信任的证书。
 - **携程**：拦截指定广告域名和接口；接口拦截需要开启 MitM 并信任证书。
 - **SideStore**：需要 Loon Build 1007 或更高版本。更新并启用插件后，**断开并重新连接 Loon VPN**，让新的 TUN 路由生效；然后再打开 SideStore 刷新。此版只反射 `10.7.0.1` 与兼容用的 `10.7.0.0` 两个精确 IP，不更改 DNS、代理、MitM 或 IPv6，不主动刷新，也不改变签名期限。若出现 `DeviceEndpointNotInitialized`，请先检查 SideStore `Settings → Connection Config` 中设备 IP 是否为当前实际端点，并在 `Settings → Experimental Features → Network Discovery → Local` 找到带绿勾的 `_remotepairing._tcp.` → `IPv4` 端口，将其填入 `Connection Config` 的 `RemotePairPort`（此端口可能变化），保存后重启 SideStore。注意：Loon 插件不能替 SideStore 自动检测该端口或修复配对文件；不要同时连接其他同类 VPN 隧道。
+- **SideStore 官方参数对照测试版**：这是独立诊断插件，**请先关闭原 SideStore 刷新助手**，只启用本测试插件，随后断开并重新连接 Loon VPN。该插件使用 `ipv6-vif = off`、`include-tun = 10.7.0.1/32` 与 `10.7.0.1 = reflect`，会暂时关闭 Loon TUN 的 IPv6 虚拟接口；测试结束后停用并重新连接以恢复原配置。是否能修复 SideStore 0.7 仍需实机验证。
 
 不同应用版本和网络环境可能影响效果。若出现异常，可先停用对应插件排查；部分广告缓存可能需要完全退出应用后才会更新。
 
