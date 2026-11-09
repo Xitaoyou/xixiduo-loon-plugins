@@ -165,8 +165,9 @@ def publish(text, output=ROOT / 'subscriptions/free-nodes.txt'):
     if output.exists():
         old_count = len(output.read_text(encoding='utf-8').splitlines())
         old_status_path = output.with_suffix('.json')
-        old_tested = old_status_path.exists() and json.loads(old_status_path.read_text(encoding='utf-8')).get('connection_tested')
-        if (not binary or old_tested) and len(content.splitlines()) < old_count * 0.25:
+        old_status = json.loads(old_status_path.read_text(encoding='utf-8')) if old_status_path.exists() else {}
+        same_policy = old_status.get('filter_policy') == metadata.get('filter_policy')
+        if (not binary or (old_status.get('connection_tested') and same_policy)) and len(content.splitlines()) < old_count * 0.25:
             raise ValueError('abnormal shrink; previous subscription retained')
     output.parent.mkdir(parents=True, exist_ok=True)
     updated_at = datetime.now(timezone.utc)

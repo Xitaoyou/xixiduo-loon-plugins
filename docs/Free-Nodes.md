@@ -43,6 +43,16 @@ https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptio
 
 ## 检测与国家标记
 
+### AI 筛选与排序
+
+云端只收录 ChatGPT、Claude、Gemini 三项中**至少两项**通过的节点，普通网站、GitHub 和连通检测站不参与这两项的计数。节点名称中的 `[GPT+Claude]` 等标记表示本次通过的项目。
+
+判据沿用本库「常用服务检测」的端点与地区识别方式，并保守排除未知或拦截响应：ChatGPT 要求 iOS 端点返回预期客户端提示，同时合规检查返回成功 JSON 且无地区限制；Claude 要求官方 trace 返回有效公开 IP 和非受限地区；Gemini 要求网页中出现可识别的非受限地区标记。超时、挑战页面、地区受限和未知结果均不算通过。该检测不能证明账号能登录、发送消息或所有模型可用；尤其 Claude trace 只是网络及地区推断。规则改编自 [FlClash service_rules.go](https://github.com/chen08209/FlClash/blob/main/core/service_rules.go)，相关 AI 检测组件遵循 [GPL-3.0](../scripts/service-check/COPYING)。
+
+按通过项目的 HTTPS 请求耗时中位数从低到高排列，同延迟时按稳定编号排列。**这是 GitHub 云端的响应延迟排名，不是下载带宽排名，也不代表手机端延迟。** 耗时包含连接、TLS 和响应传输，不进行大文件测速。具体毫秒值和逐项检测结果在生成状态的 `node_results` 中查看；为减少名称变化，不在每个名称里加入波动的毫秒值。
+
+新增严格筛选策略的首轮允许节点数明显减少；后续相同策略下若数量骤减超过 75%，则保留上次已通过版本。没有任何节点满足条件时任务报错，不发布空订阅。首次切换若失败，原有旧版仍保留，须以生成状态中的 `filter_policy` 和 `ai_min_pass` 确认是否已启用新策略。
+
 - 使用固定版本的 sing-box 官方核心，下载时校验官方发布的 SHA256。
 - 每个候选节点建立独立的本地代理入口，通过该入口请求 Cloudflare HTTPS trace；验证 TLS 证书，不允许直连回退。端口开放不算通过。
 - 每次最多并行检测 4 个节点。首次失败再尝试另一个 trace 地址，两次均失败则排除。

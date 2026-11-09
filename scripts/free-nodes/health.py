@@ -10,6 +10,7 @@ import socket
 import subprocess
 import tempfile
 import time
+from ai_check import check_ai, POLICY
 
 TARGETS = ('https://www.cloudflare.com/cdn-cgi/trace',
            'https://one.one.one.one/cdn-cgi/trace')
@@ -138,16 +139,20 @@ def check(content, binary):
 
             def probe(item):
                 index, (name, body, _) = item
+                code = None
                 for target in TARGETS:
                     try:
                         code = request_trace(20000 + index, target)
-                        return code, name, body
+                        break
                     except (ValueError, OSError, subprocess.SubprocessError):
                         pass
-                return None
+                if not code:
+                    return None
+                ai = check_ai(20000 + index)
+                return code, name, body, ai
 
             with ThreadPoolExecutor(max_workers=4) as pool:
-                passed = [item for item in pool.map(probe, enumerate(candidates)) if item]
+                reachable = [item for item in pool.map(probe, enumerate(candidates)) if item]
         finally:
             core.terminate()
             try:
@@ -155,19 +160,26 @@ def check(content, binary):
             except subprocess.TimeoutExpired:
                 core.kill()
                 core.wait()
+    passed = [item for item in reachable if item[3]['passed']]
     if not passed:
-        raise ValueError('no node passed HTTPS test; previous subscription retained')
+        raise ValueError('no node passed at least two AI probes; previous subscription retained')
     output, counts = [], Counter()
     countries = Counter()
-    for code, name, body in sorted(passed):
+    node_results = []
+    for code, name, body, ai in sorted(passed, key=lambda item: (item[3]['latency_ms'], item[1])):
         # 保留短哈希使同国家、同协议的多个节点仍可区分。
         short_id = name.rsplit('-', 1)[-1][:8]
         protocol = body.split(',', 1)[0]
-        output.append(f'{country_label(code)} {protocol}-{short_id} = {body}')
+        services = '+'.join(k.replace('ChatGPT', 'GPT') for k, v in ai['services'].items() if v['passed'])
+        output.append(f'{country_label(code)} [{services}] {protocol}-{short_id} = {body}')
+        node_results.append(dict(id=short_id, country=code, **ai))
         counts[protocol] += 1
         countries[code] += 1
-    metadata = dict(connection_tested=True, test_method='HTTPS trace through each proxy; TLS verified',
+    metadata = dict(connection_tested=True, test_method='HTTPS trace and at least 2 of ChatGPT/Claude/Gemini; TLS verified',
                     tested_from='GitHub Actions runner', candidates=len(lines),
-                    unreachable=len(candidates) - len(passed), endpoint_rejected=skipped,
+                    unreachable=len(candidates) - len(reachable), endpoint_rejected=skipped,
+                    ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY,
+                    sort_by='median passing AI HTTP response time ascending; not bandwidth',
+                    node_results=node_results,
                     countries=dict(countries), test_seconds=round(time.monotonic() - started, 1))
     return '\n'.join(output) + '\n', dict(counts), metadata
