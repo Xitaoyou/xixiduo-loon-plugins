@@ -36,7 +36,9 @@ def observe(state,results,at,cycle,environment):
         perf=[h for h in window if age(at,h['at'])<=86400 and h.get('profile')==PROFILE
               and h.get('env')==environment and h.get('exit')==n.get('performance_exit') and h.get('speed') is not None]
         last=perf[-3:];p25=quantile([h['speed'] for h in last],.25)
-        span=age(last[-1]['at'],last[0]['at']) if len(last)>=3 else 0
+        # Observation duration is independent of source-update frequency; the
+        # throughput floor still uses the most recent three valid rounds.
+        span=age(perf[-1]['at'],perf[0]['at']) if len(perf)>=3 else 0
         stable=len(last)>=3 and span>=12*3600 and rate>=.95 and p25>=10
         basic=[h['basic'] for h in window if h.get('basic') is not None]
         jitter=(quantile(basic,.95)-quantile(basic,.5)) if basic else 999999

@@ -35,6 +35,10 @@ class StableTests(unittest.TestCase):
     def test_fast_rounds_do_not_fake_stability(self):
         _,r,_=self.history(hours=(0,1,2));self.assertFalse(r['stable'])
 
+    def test_frequent_source_updates_do_not_prevent_stability(self):
+        _,r,_=self.history(speeds=(20,)*14,hours=tuple(range(14)))
+        self.assertTrue(r['stable']);self.assertEqual(r['observation_span_hours'],13)
+
     def test_spike_does_not_hide_slow_history(self):
         state,r,at=self.history((1,1,100));self.assertFalse(r['stable'])
         self.assertEqual(policy.choose(state,[r],at)[0],[])
