@@ -109,27 +109,40 @@ def merge(state,documents,version,at):
 
 def prepare(force=False):
     WORK.mkdir(exist_ok=True)
-    state=state_load();version=api('repos/pixelor/ecfg/commits/main')['sha'];at=now()
+    state=state_load();at=now();source_error=None
     due=not state.get('last_cycle') or datetime.fromisoformat(at)-datetime.fromisoformat(state['last_cycle'])>=timedelta(hours=6)
+    try:version=api('repos/pixelor/ecfg/commits/main')['sha']
+    except Exception as error:
+        if not state['nodes']:raise
+        version=state['source_version'];source_error=type(error).__name__
     run=force or due or state.get('source_version')!=version
     output=os.environ.get('GITHUB_OUTPUT')
     if not run:
         if output:
             with open(output,'a') as f:f.write('run=false\nmatrix={"index":[0]}\n')
-        print('Verified source unchanged; next historical retest not due');return
+        print('Upstream unavailable; historical retest not due' if source_error else 'Verified source unchanged; next historical retest not due');return
     # 迁移已有精选配置；保留原凭据，不把别名当作不同节点。
     if not state['nodes']:
         for line in (ROOT/'subscriptions/free-nodes.txt').read_text(encoding='utf-8').splitlines():
             if ' = ' not in line:continue
             body=line.split(' = ',1)[1];ident=identity(body)
             state['nodes'][ident]={'id':ident,'body':body,'first_seen':at,'last_seen':at,'status':'active','high_latency_streak':0,'source_version':'migration'}
-    _,documents=fetch_source(version)
+    try:
+        if source_error:raise RuntimeError('Source head unavailable')
+        _,documents=fetch_source(version)
+    except Exception as error:
+        if not state.get('source_version'):raise
+        source_error=source_error or type(error).__name__;version=state['source_version'];documents=[]
+        if not (force or due):
+            if output:
+                with open(output,'a') as f:f.write('run=false\nmatrix={"index":[0]}\n')
+            print('Upstream unavailable; previous state retained; historical retest not due');return
     summary=merge(state,documents,version,at)
     active=[n for n in state['nodes'].values() if n['status']=='active']
     pending=sorted((n for n in state['nodes'].values() if n['status']=='pending'),key=lambda n:(n.get('last_queue_test',n['first_seen']),n['id']))
     selected=active+pending[:max(0,CAPACITY-len(active))+200]
     cycle=hashlib.sha256((at+version).encode()).hexdigest()[:20]
-    manifest={'cycle':cycle,'at':at,'source_version':version,'ids':[n['id'] for n in selected],'summary':summary,'shards':(len(selected)+49)//50}
+    manifest={'cycle':cycle,'at':at,'source_version':version,'source_error':source_error,'ids':[n['id'] for n in selected],'summary':summary,'shards':(len(selected)+49)//50}
     if not selected:raise RuntimeError('Empty candidate selection')
     write(WORK/'state.json',state);write(WORK/'manifest.json',manifest)
     for index in range(manifest['shards']):write(WORK/f'shard-{index}.json',{'cycle':cycle,'nodes':selected[index*50:(index+1)*50]})
@@ -236,16 +249,24 @@ def finalize():
         raise RuntimeError('Global failure circuit breaker; no state or subscription changes published')
     at=now();alive=reconcile(state,all_results,at)
     selected=[r for r in alive if r['basic_latency_ms'] is not None and r['basic_latency_ms']<=1500 and r['ai']['passed']]
-    content,counts,metadata=health.render_results(selected,alive,len(ids),0)
+    from enrich import qualified
+    if any(qualified(r) for r in selected):
+        content,counts,metadata=health.render_results(selected,alive,len(ids),0)
+    else:
+        content='# No eligible nodes in this completed cycle.\n';counts={}
+        metadata={'connection_tested':True,'recommendation_rows':0,'recommendations':{},'node_results':[],
+                  'country_count':0,'country_best_count':0,'selection_reason':'no_eligible_nodes'}
     stamp=datetime.fromisoformat(at).astimezone(timezone(timedelta(hours=8)))
-    lines=content.splitlines();lines.insert(metadata['recommendation_rows'],f'🕒 免费节点刷新 {stamp:%m-%d %H:%M}（北京） = '+lines[0].split(' = ',1)[1]);content='\n'.join(lines)+'\n'
+    lines=content.splitlines()
+    if ' = ' in lines[0]:lines.insert(metadata['recommendation_rows'],f'🕒 免费节点刷新 {stamp:%m-%d %H:%M}（北京） = '+lines[0].split(' = ',1)[1])
+    content='\n'.join(lines)+'\n'
     # 先完整生成和验证三端格式，再接触发布文件。
     from export_clients import render,write_exports
-    render(content)
+    render(content,allow_empty=True)
     folder=ROOT/'subscriptions'
     for name in ('free-nodes.txt','免费节点'):(folder/name).write_text(content,encoding='utf-8',newline='\n')
     write_exports(content)
-    metadata.update(updated_at=at,nodes=sum(counts.values()),protocols=counts,published_rows=len(lines),cycle=manifest['cycle'],source_version=manifest['source_version'],pool=dict(Counter(n['status'] for n in state['nodes'].values())),merge=manifest['summary'],checked=len(ids),workflow_run='https://github.com/'+os.environ.get('GITHUB_REPOSITORY','Xitaoyou/xixiduo-loon-plugins')+'/actions/runs/'+os.environ.get('GITHUB_RUN_ID','local'))
+    metadata.update(updated_at=at,nodes=sum(counts.values()),protocols=counts,published_rows=len(lines),cycle=manifest['cycle'],source_version=manifest['source_version'],source_error=manifest.get('source_error'),pool=dict(Counter(n['status'] for n in state['nodes'].values())),merge=manifest['summary'],checked=len(ids),workflow_run='https://github.com/'+os.environ.get('GITHUB_REPOSITORY','Xitaoyou/xixiduo-loon-plugins')+'/actions/runs/'+os.environ.get('GITHUB_RUN_ID','local'))
     write(folder/'free-nodes.json',metadata)
     state.update(source_version=manifest['source_version'],last_cycle=at,last_cycle_id=manifest['cycle'])
     write(WORK/'published-state.json',state)

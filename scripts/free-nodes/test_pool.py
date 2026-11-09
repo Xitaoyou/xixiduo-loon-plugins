@@ -106,5 +106,29 @@ class PoolTests(unittest.TestCase):
             pool.write(Path(folder)/'result-0.json',{'cycle':'b','index':0,'results':[]})
             with self.assertRaises(RuntimeError):pool.finalize()
 
+    def test_upstream_outage_still_retests_existing_pool(self):
+        import tempfile
+        from pathlib import Path
+        state={'nodes':{'a':self.record()},'source_version':'previous','last_cycle':'2026-11-09T01:00:00+00:00'}
+        with tempfile.TemporaryDirectory() as folder,patch('pool.WORK',Path(folder)),patch('pool.state_load',return_value=state),patch('pool.api',side_effect=OSError),patch('pool.now',return_value=AT):
+            pool.prepare(force=True)
+            m=pool.read(Path(folder)/'manifest.json')
+            self.assertEqual(m['source_version'],'previous')
+            self.assertEqual(m['source_error'],'OSError')
+            self.assertEqual(m['ids'],['a'])
+
+    def test_no_ai_winners_does_not_destroy_live_candidates(self):
+        import tempfile
+        from pathlib import Path
+        with tempfile.TemporaryDirectory() as folder,patch('pool.WORK',Path(folder)),patch('pool.ROOT',Path(folder)),patch('pool.now',return_value=AT),patch('export_clients.write_exports'):
+            (Path(folder)/'subscriptions').mkdir()
+            pool.write(Path(folder)/'state.json',{'nodes':{'a':self.record()}})
+            pool.write(Path(folder)/'manifest.json',{'cycle':'a','shards':1,'ids':['a'],'source_version':'v','summary':{}})
+            pool.write(Path(folder)/'result-0.json',{'cycle':'a','index':0,'results':[self.result(ai=0)]})
+            pool.finalize()
+            state=pool.read(Path(folder)/'published-state.json')
+            self.assertEqual(state['nodes']['a']['status'],'active')
+            self.assertEqual(pool.read(Path(folder)/'subscriptions/free-nodes.json')['nodes'],0)
+
 
 if __name__=='__main__':unittest.main()

@@ -41,7 +41,7 @@ def convert(name, body):
     return proxy, uri
 
 
-def render(content):
+def render(content, allow_empty=False):
     proxies, uris = [], []
     for line in content.splitlines():
         if not line or line.startswith('#'):
@@ -50,11 +50,12 @@ def render(content):
         proxy, uri = convert(name,body)
         proxies.append(proxy)
         uris.append(uri)
-    if not proxies or len({p['name'] for p in proxies}) != len(proxies):
+    if (not proxies and not allow_empty) or len({p['name'] for p in proxies}) != len(proxies):
         raise ValueError('invalid export names or empty source')
     # JSON flow objects are valid YAML; use safe serialization instead of string interpolation.
     dump = lambda value: json.dumps(value,ensure_ascii=False,separators=(',',':'))
     yaml = 'mixed-port: 7890\nallow-lan: false\nmode: rule\nlog-level: warning\nproxies:\n'
+    if not proxies: yaml = yaml.removesuffix('proxies:\n') + 'proxies: []\n'
     yaml += ''.join('  - ' + dump(p) + '\n' for p in proxies)
     yaml += 'proxy-groups:\n  - ' + dump({'name':'免费节点','type':'select','proxies':['DIRECT']+[p['name'] for p in proxies]}) + '\n'
     yaml += 'rules:\n  - ' + dump('MATCH,免费节点') + '\n'
@@ -62,7 +63,7 @@ def render(content):
 
 
 def write_exports(content, folder=ROOT/'subscriptions'):
-    clash, shadowrocket = render(content)
+    clash, shadowrocket = render(content, allow_empty=True)
     Path(folder).mkdir(parents=True,exist_ok=True)
     (Path(folder)/'free-nodes-clash.yaml').write_text(clash,encoding='utf-8',newline='\n')
     (Path(folder)/'free-nodes-shadowrocket.txt').write_text(shadowrocket,encoding='utf-8',newline='\n')

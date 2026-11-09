@@ -19,6 +19,8 @@
 
 ## 节点订阅
 
+[候选池与精选池规则](docs/Node-Pools.md) · [最近检测状态](subscriptions/free-nodes.json)
+
 
 | 订阅 | 功能 | 使用 |
 | --- | --- | --- |
