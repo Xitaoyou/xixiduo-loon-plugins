@@ -24,6 +24,8 @@ https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptio
 
 ## 自动更新
 
+订阅第一行的真实节点名称会显示「🕒 11-09 18:38 更新（北京）」，表示最近一次云端检测并生成订阅的时间，采用北京时间 UTC+8。该行仍是经过检测的真实节点，不是无法连接的占位项；其余节点保持原有名称。第一行名称会随刷新变化，建议固定选用其他节点或通过自动选择组使用，避免手动选择因改名重置。云端失败时不更新时间，手机需拉取订阅后才能看到最新时间。
+
 - GitHub Actions 计划每 6 小时拉取、解密、过滤，并通过 sing-box 逐节点检测 HTTPS 连通后生成订阅，无需开启电脑。
 - 在 Loon 的订阅自动更新设置中选择每天一次（若版本使用统一更新设置，则在统一设置中开启）。GitHub 更新与手机拉取是两个独立步骤。
 - 可在仓库 Actions → Update free nodes → Run workflow 手动触发生成。

@@ -1,7 +1,7 @@
 """西西多：公开免费节点的保守转换器。只输出节点，不输出规则或 DNS。"""
 import base64
 from collections import Counter
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 import hashlib
 import ipaddress
 import json
@@ -169,10 +169,17 @@ def publish(text, output=ROOT / 'subscriptions/free-nodes.txt'):
         if (not binary or old_tested) and len(content.splitlines()) < old_count * 0.25:
             raise ValueError('abnormal shrink; previous subscription retained')
     output.parent.mkdir(parents=True, exist_ok=True)
+    updated_at = datetime.now(timezone.utc)
+    if metadata['connection_tested']:
+        # 在真实已通过节点上显示时间；不增加占位节点或重复连接。
+        lines = content.splitlines()
+        local_time = updated_at.astimezone(timezone(timedelta(hours=8)))
+        lines[0] = f'🕒 {local_time:%m-%d %H:%M} 更新（北京） · ' + lines[0]
+        content = '\n'.join(lines) + '\n'
     tmp = output.with_suffix('.tmp')
     tmp.write_text(content, encoding='utf-8', newline='\n')
     os.replace(tmp, output)
-    status = {'updated_at': datetime.now(timezone.utc).isoformat(),
+    status = {'updated_at': updated_at.isoformat(),
               'nodes': sum(counts.values()), 'protocols': counts,
               **metadata, 'filtered': rejected.get('filtered', 0)}
     output.with_suffix('.json').write_text(json.dumps(status, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
