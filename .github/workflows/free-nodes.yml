@@ -5,7 +5,11 @@ on:
   workflow_dispatch:
     inputs:
       export_only:
-        description: '仅导出最近一次已检测节点，不重跑检测'
+        description: '仅转换现有精选格式'
+        type: boolean
+        default: false
+      force:
+        description: '强制完整复测历史池'
         type: boolean
         default: false
 permissions:
@@ -14,29 +18,112 @@ concurrency:
   group: free-nodes-update
   cancel-in-progress: false
 jobs:
-  update:
+  prepare:
+    if: ${{ !inputs.export_only }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      run: ${{ steps.prepare.outputs.run }}
+      matrix: ${{ steps.prepare.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r scripts/free-nodes/requirements.txt
+      - run: python -m unittest discover -s scripts/free-nodes -p 'test_*.py'
+      - id: prepare
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          if [ "$FORCE" = "true" ]; then
+            python scripts/free-nodes/pool.py prepare --force
+          else
+            python scripts/free-nodes/pool.py prepare
+          fi
+      - uses: actions/upload-artifact@v4
+        if: steps.prepare.outputs.run == 'true'
+        with:
+          name: pool-input
+          path: .pool-work
+          include-hidden-files: true
+          retention-days: 2
+  test:
+    needs: prepare
+    if: needs.prepare.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - run: python -m pip install -r scripts/free-nodes/requirements.txt
-      - run: python -m unittest discover -s scripts/free-nodes -p 'test_*.py'
+      - uses: actions/download-artifact@v4
+        with:
+          name: pool-input
+          path: .pool-work
       - run: python scripts/free-nodes/install_core.py
-        if: ${{ !inputs.export_only }}
-      - run: python scripts/free-nodes/update.py
-        if: ${{ !inputs.export_only }}
+      - name: Test shard
         env:
           SING_BOX_BINARY: ${{ github.workspace }}/.runtime/sing-box
-      - run: python scripts/free-nodes/export_clients.py
-      - name: Publish subscription
+          SHARD_INDEX: ${{ matrix.index }}
+        run: python scripts/free-nodes/pool.py shard --index "$SHARD_INDEX"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pool-result-${{ matrix.index }}
+          path: .pool-work/result-${{ matrix.index }}.json
+          retention-days: 2
+  publish:
+    needs: [prepare, test]
+    if: needs.prepare.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r scripts/free-nodes/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: pool-input
+          path: .pool-work
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: pool-result-*
+          merge-multiple: true
+          path: .pool-work
+      - run: python scripts/free-nodes/pool.py finalize
+      - name: Publish both branches atomically
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add subscriptions/free-nodes.txt subscriptions/free-nodes.json subscriptions/免费节点 subscriptions/free-nodes-clash.yaml subscriptions/free-nodes-shadowrocket.txt
+          python scripts/free-nodes/pool.py publish
+  export:
+    if: ${{ inputs.export_only }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r scripts/free-nodes/requirements.txt
+      - run: python scripts/free-nodes/export_clients.py
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add subscriptions/free-nodes-clash.yaml subscriptions/free-nodes-shadowrocket.txt
           if ! git diff --cached --quiet; then
-            git commit -m 'chore: update experimental free subscription'
+            git commit -m 'chore: export existing selection'
             git push
           fi

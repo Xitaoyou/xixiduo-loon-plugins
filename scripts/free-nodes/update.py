@@ -73,6 +73,10 @@ def true(value):
 
 
 def convert(line):
+    if not line.startswith('vmess://'):
+        from protocols import parse
+        body = parse(line)
+        return hashlib.sha256(body.encode()).hexdigest(), body.split(',',1)[0], body
     if line.startswith('vmess://'):
         encoded = line[8:]
         d = json.loads(base64.b64decode(encoded + '=' * (-len(encoded) % 4)))
@@ -104,6 +108,9 @@ def convert(line):
         parts += ['over-tls=' + str(tls).lower()]
         if tls:
             parts += ['sni=' + safe(d.get('sni') or d.get('host') or d['add']), 'skip-cert-verify=false']
+            if d.get('fp'):
+                if d['fp'] not in ('chrome','safari'):raise ValueError('unsupported fingerprint')
+                parts += ['tls-profile=' + ('chrome' if d['fp']=='chrome' else 'safari-ios18')]
             # VMess 文档未列出 ALPN 参数，避免悄悄丢失必需设置。
             if d.get('alpn'):
                 raise ValueError('unsupported alpn')

@@ -28,7 +28,7 @@ def parse_body(body):
     values = re.split(r',(?=(?:[^"]*"[^"]*")*[^"]*$)', body)
     head, options = [], {}
     for value in values:
-        if '=' in value and len(head) >= (5 if values[0] == 'VMess' else 4):
+        if '=' in value and len(head) >= (5 if values[0] in ('VMess','Shadowsocks') else 4):
             key, val = value.split('=', 1)
             options[key] = json.loads(val) if val.startswith('"') else val
         else:
@@ -49,6 +49,9 @@ def public_ip(host):
 def outbound(body, tag, resolve=public_ip):
     head, opt = parse_body(body)
     kind, host, port = head[:3]
+    if kind != 'VMess':
+        from protocols import core
+        return core(body, tag, resolve)
     result = dict(type='vmess' if kind == 'VMess' else 'hysteria2', tag=tag,
                   server=resolve(host), server_port=int(port), connect_timeout='8s')
     if kind == 'VMess':
@@ -59,6 +62,8 @@ def outbound(body, tag, resolve=public_ip):
             result['transport'] = dict(type='ws', path=opt['path'], headers={'Host': opt['host']})
         if opt['over-tls'] == 'true':
             result['tls'] = dict(enabled=True, server_name=opt['sni'], insecure=False)
+            if opt.get('tls-profile'):
+                result['tls']['utls']={'enabled':True,'fingerprint':'safari' if opt['tls-profile'].startswith('safari') else 'chrome'}
     else:
         result.update(password=head[3], tls=dict(enabled=True, server_name=opt['sni'], insecure=False))
     return result
@@ -179,6 +184,10 @@ def check(content, binary):
                 core.wait()
     if not passed:
         raise ValueError('no node passed at least two AI probes; previous subscription retained')
+    return render_results(passed, reachable, len(lines), time.monotonic()-started)
+
+
+def render_results(passed, reachable, total, seconds):
     output, counts = [], Counter()
     countries = Counter()
     node_results = []
@@ -216,8 +225,8 @@ def check(content, binary):
             recommendations[category].append(dict(label=label, node=node['name'], id=node['id']))
     output = aliases + output
     metadata = dict(connection_tested=True, test_method='HTTPS trace and at least 2 of ChatGPT/Claude/Gemini; TLS verified',
-                    tested_from='GitHub Actions runner', candidates=len(lines),
-                    unreachable=len(candidates) - len(reachable), endpoint_rejected=skipped,
+                    tested_from='GitHub Actions runner', candidates=total,
+                    unreachable=total - len(reachable), endpoint_rejected=0,
                     ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY+'-country-top4-allow-unknown-v2',
                     sort_by='up to 4 quality-qualified distinct exits per country: quality then latency; preserve recommendations',
                     ai_qualified=len(passed),quality_qualified=len(eligible), quality_rejected=len(passed)-len(eligible),
@@ -228,5 +237,5 @@ def check(content, binary):
                     media_service_passes={k:sum(n['media']['services'][k] for n in passed) for k in ('Netflix','Disney+','YouTube Premium','Prime Video')},
                     quality_labels=dict(Counter(n['quality']['label'] for n in passed)),
                     node_results=node_results,
-                    countries=dict(countries), test_seconds=round(time.monotonic() - started, 1))
+                    countries=dict(countries), test_seconds=round(seconds, 1))
     return '\n'.join(output) + '\n', dict(counts), metadata

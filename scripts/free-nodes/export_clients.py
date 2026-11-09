@@ -12,6 +12,9 @@ ROOT = Path(__file__).resolve().parents[2]
 def convert(name, body):
     head, opt = parse_body(body)
     kind, host, port = head[:3]
+    if kind != 'VMess':
+        from protocols import export
+        return export(name,body)
     host = host.strip('[]')
     proxy = dict(name=name, type='vmess' if kind == 'VMess' else 'hysteria2', server=host, port=int(port), udp=True)
     if kind == 'VMess':
@@ -23,6 +26,9 @@ def convert(name, body):
                      path=opt.get('path',''), tls='tls' if tls else '', sni=opt.get('sni',''))
         if tls:
             proxy.update(servername=opt['sni'], **{'skip-cert-verify':False})
+            if opt.get('tls-profile'):
+                vmess['fp']='safari' if opt['tls-profile'].startswith('safari') else 'chrome'
+                proxy['client-fingerprint']=vmess['fp']
         if opt['transport'] == 'ws':
             proxy['ws-opts'] = {'path':opt['path'], 'headers':{'Host':opt['host']}}
         uri = 'vmess://' + base64.b64encode(json.dumps(vmess,ensure_ascii=False,separators=(',',':')).encode()).decode()

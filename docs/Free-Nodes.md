@@ -23,7 +23,7 @@ https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptio
 
 导入链接附带名称并使用同名文件，但 Loon 官方没有承诺支持 `name` 参数；若未预填，首次填写「免费节点」即可。旧地址 `free-nodes.txt` 继续更新，已有名称不会强制修改。
 
-云端每 6 小时计划检测并生成，手机端建议开启每天一次的订阅自动更新，无需开启电脑。也可在 Actions → Update free nodes → Run workflow 手动触发。GitHub 定时任务可能延迟；公共仓库长期无活动可能停用计划任务。
+云端每小时检查上游，版本变化触发检测，无变化时每六小时完整复测，手机端建议开启每天一次的订阅自动更新，无需开启电脑。也可在 Actions → Update free nodes → Run workflow 手动触发。GitHub 定时任务可能延迟；公共仓库长期无活动可能停用计划任务。
 
 ## 节点列表
 
@@ -79,14 +79,16 @@ ChatGPT 判据为 iOS 端点预期提示加成功的合规 JSON；Claude 判据�
 
 每次最多并行检测 4 个节点，不允许请求失败后直连回退。检测核心固定版本并核验官方 SHA256；节点域名解析后固定一个公开 IP 试连，因此多 IP 节点可能被保守排除。只生成节点，不接受上游规则、脚本、DNS 或 Host 配置。
 
-源站、解密、核心或整体验证失败时保留上次发布；相同收录策略下数量下降超过 75% 也保留旧版。切换收录或每国精选策略的首轮允许正常减少。旧版本不保证仍然在线，请结合刷新时间判断。[生成状态](../subscriptions/free-nodes.json)提供独立保留节点数量（`nodes`）、国家数（`country_count`）、普通精选节点数（`country_best_count`）、精简前 AI 合格数量（`ai_qualified`）、质量分类、逐项结果、速度与推荐记录。
+源站、解密、核心或整体验证失败时保留上次发布；缺失分片、轮次不一致和大面积失败熔断时保留旧版。切换收录或每国精选策略的首轮允许正常减少。旧版本不保证仍然在线，请结合刷新时间判断。[生成状态](../subscriptions/free-nodes.json)提供独立保留节点数量（`nodes`）、国家数（`country_count`）、普通精选节点数（`country_best_count`）、精简前 AI 合格数量（`ai_qualified`）、质量分类、逐项结果、速度与推荐记录。
 
 所有检测通过仅代表云端当时的结果，手机端仍可能不可达。平时只去广告时保持原有规则模式及各用途策略组的 DIRECT；需要代理时再选节点。不要把本链接当作完整配置导入，也不建议对全部节点高频测速。
 
 ## 来源与代码
 
-公开来源：[pixelor/ecfg](https://github.com/pixelor/ecfg)，只拉取 `ecfg6_en`，备用为 APK 中的公开 CDN；不访问会员接口、不使用 Gitee 内嵌令牌、不混入个人机场信息。试用版仅保守转换 VMess TCP/WS 和 Hy2，排除可识别受限标记、要求跳过 TLS 验证及不支持的参数。来源为第三方公共节点，适合备用测试。
+公开来源：[pixelor/ecfg](https://github.com/pixelor/ecfg)，读取同一提交的六个 `ecfg6*` 文件，备用为 APK 中的公开 CDN；不访问会员接口、不使用 Gitee 内嵌令牌、不混入个人机场信息。支持三端共同兼容的 VMess、Hysteria2、VLESS/Reality、Trojan 和 SS，排除可识别受限标记、要求跳过 TLS 验证及不支持的参数。来源为第三方公共节点，适合备用测试。
 
 [转换器与测试](../scripts/free-nodes)。原创独立部分采用 MIT；服务判据改编自 [FlClash](https://github.com/chen08209/FlClash/blob/main/core/service_rules.go)，相关模块及组合使用遵循 [GPL-3.0-or-later](../scripts/service-check/COPYING)。代码许可不代表拥有上游节点或其使用授权。
 
 参考：[Loon 订阅](https://nsloon.app/docs/Node/subscription/)、[IPQuery API](https://ipquery.io/developers/api)、[Cloudflare 测速方法](https://github.com/cloudflare/speedtest)。
+
+候选池保留历史配置及淘汰规则，见 [候选池与精选池](Node-Pools.md)。
