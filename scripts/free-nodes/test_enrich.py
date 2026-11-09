@@ -37,6 +37,15 @@ class RecommendationTests(unittest.TestCase):
         self.assertEqual(enrich.download_best(candidates)[0]['id'],'fast')
         self.assertEqual(enrich.download_best([node('failed','3',speed=None)]),[])
 
+    def test_download_backup_uses_different_exit(self):
+        candidates=[node('fast','same',speed=100),node('duplicate','same',speed=90),node('backup','other',speed=80)]
+        self.assertEqual([n['id'] for n in enrich.download_best(candidates)],['fast','backup'])
+
+    def test_unknown_quality_allowed_but_below_known_low_risk(self):
+        candidates=[node('unknown','1',grade=1,delay=1),node('known','2',grade=2,delay=1000),node('risk','3',grade=0)]
+        self.assertEqual([n['id'] for n in enrich.country_best(candidates)],['known','unknown'])
+        self.assertEqual(enrich.clean_ip_best([candidates[0]]),[])
+
     def test_names_include_only_real_measurements(self):
         self.assertEqual(enrich.measured_name('US 01',node('a','1',speed=12.345,delay=99)),'US 01｜99ms · 12.35Mbps')
         self.assertEqual(enrich.measured_name('US 01',node('a','1',speed=None,delay=99)),'US 01｜99ms')

@@ -154,8 +154,8 @@ def select(nodes):
 
 
 def qualified(node):
-    """未知/已标记风险、AI 不足两项及下载失败的候选不用于发布。"""
-    return (node['quality']['grade'] >= 2 and node['ai']['pass_count'] >= 2
+    """保留未知质量；已标记风险、AI 不足两项及下载失败的候选不用于发布。"""
+    return (node['quality']['grade'] >= 1 and node['ai']['pass_count'] >= 2
             and bool(node.get('download_mbps')) and node['download_mbps'] > 0)
 
 
@@ -191,7 +191,7 @@ def download_best(nodes):
     measured = [n for n in nodes if n.get('download_mbps') and n['download_mbps'] > 0]
     if not measured:
         return []
-    return sorted(measured, key=lambda n: (-n['download_mbps'], *quality_key(n['quality']), n['ai']['latency_ms'], n['id']))[:1]
+    return pick_two(measured, key=lambda n: (-n['download_mbps'], *quality_key(n['quality']), n['ai']['latency_ms'], n['id']))
 
 
 def measured_name(name, node):

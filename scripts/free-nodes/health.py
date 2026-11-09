@@ -208,7 +208,7 @@ def check(content, binary):
     aliases, recommendations = [], {}
     for category, labels, picks in (('ai', ('AI推荐', '备选AI'), ai_picks),
                                      ('media', ('流媒体推荐', '备选流媒体'), media_picks),
-                                     ('download', ('下载推荐',), download_picks),
+                                     ('download', ('下载推荐','备选下载'), download_picks),
                                      ('clean_ip', ('纯净IP推荐',), clean_picks)):
         recommendations[category] = []
         for label, node in zip(labels, picks):
@@ -218,7 +218,7 @@ def check(content, binary):
     metadata = dict(connection_tested=True, test_method='HTTPS trace and at least 2 of ChatGPT/Claude/Gemini; TLS verified',
                     tested_from='GitHub Actions runner', candidates=len(lines),
                     unreachable=len(candidates) - len(reachable), endpoint_rejected=skipped,
-                    ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY+'-country-top4-quality-v1',
+                    ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY+'-country-top4-allow-unknown-v2',
                     sort_by='up to 4 quality-qualified distinct exits per country: quality then latency; preserve recommendations',
                     ai_qualified=len(passed),quality_qualified=len(eligible), quality_rejected=len(passed)-len(eligible),
                     country_best_count=len(best),country_limit=4,country_count=len({n['country'] for n in best}),
