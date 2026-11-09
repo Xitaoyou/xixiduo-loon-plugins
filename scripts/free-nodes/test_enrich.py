@@ -6,14 +6,31 @@ import enrich
 
 def node(identity, ip, ai=3, grade=2, risk=0, delay=100, speed=10, media=True, country='US'):
     return dict(id=identity, exit_ip=ip, country=country, ai={'pass_count':ai,'latency_ms':delay},
-                quality={'grade':grade,'risk_score':risk}, media={'all_passed':media},download_mbps=speed)
+                quality={'grade':grade,'risk_score':risk,'flags':dict(is_vpn=False,is_tor=False,is_proxy=False,is_datacenter=grade==2)}, media={'all_passed':media},download_mbps=speed)
 
 
 class RecommendationTests(unittest.TestCase):
     def test_one_country_winner_quality_before_latency(self):
         candidates=[node('fast','1',grade=2,delay=1),node('best','2',grade=3,delay=500),
                     node('jp-slow','3',country='JP',delay=300),node('jp-fast','4',country='JP',delay=100)]
-        self.assertEqual([n['id'] for n in enrich.country_best(candidates)],['jp-fast','best'])
+        self.assertEqual([n['id'] for n in enrich.country_best(candidates,limit=1)],['jp-fast','best'])
+
+    def test_country_top_four_distinct_exits_without_padding(self):
+        candidates=[node(str(i),str(i),delay=10+i) for i in range(8)]
+        candidates += [node('duplicate','0',delay=1),node('unknown','20',grade=1),node('bad','21',grade=0),
+                       node('no-speed','22',speed=None),node('only-one-ai','23',ai=1),node('jp','30',country='JP')]
+        result=enrich.country_best(candidates)
+        us=[n for n in result if n['country']=='US']
+        self.assertEqual([n['id'] for n in us],['duplicate','1','2','3'])
+        self.assertEqual(len([n for n in result if n['country']=='JP']),1)
+
+    def test_clean_ip_requires_complete_zero_risk_nonhosting_flags(self):
+        clean=node('clean','1',grade=3,risk=0)
+        dirty=copy.deepcopy(clean);dirty['id']='dirty';dirty['quality']['flags']['is_proxy']=True
+        unknown=copy.deepcopy(clean);unknown['id']='unknown';unknown['quality'].pop('flags')
+        candidates=[dirty,unknown,node('hosting','4',grade=2,risk=0),node('nonzero','5',grade=3,risk=1)]
+        self.assertEqual(enrich.clean_ip_best(candidates),[])
+        self.assertEqual(enrich.clean_ip_best(candidates+[clean])[0]['id'],'clean')
 
     def test_download_selection_not_limited_to_media_unlock(self):
         candidates=[node('slow','1',speed=10),node('fast','2',speed=100,media=False),node('failed','3',speed=None)]

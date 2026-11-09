@@ -11,7 +11,7 @@ import subprocess
 import tempfile
 import time
 from ai_check import check_ai, POLICY
-from enrich import quality, quality_key, check_media, download, select, country_best, download_best, measured_name
+from enrich import quality, quality_key, check_media, download, select, country_best, download_best, measured_name, qualified, clean_ip_best
 
 TARGETS = ('https://www.cloudflare.com/cdn-cgi/trace',
            'https://one.one.one.one/cdn-cgi/trace')
@@ -182,14 +182,19 @@ def check(content, binary):
     output, counts = [], Counter()
     countries = Counter()
     node_results = []
-    best = country_best(passed)
-    ai_picks, media_picks = select(passed)
-    download_picks = download_best(passed)
+    eligible = [n for n in passed if qualified(n)]
+    if not eligible:
+        raise ValueError('no quality-qualified measured candidates; previous subscription retained')
+    best = country_best(eligible)
+    ai_picks, media_picks = select(eligible)
+    download_picks = download_best(eligible)
+    clean_picks = clean_ip_best(eligible)
     # 推荐可以超出同国综合最优项；其余普通条目不再发布。
-    retained = {n['id']:n for n in best + ai_picks + media_picks + download_picks}
+    retained = {n['id']:n for n in best + ai_picks + media_picks + download_picks + clean_picks}
     country_best_ids = {n['id'] for n in best}
+    selected_order = {n['id']:index for index,n in enumerate(best)}
     country_numbers = Counter()
-    for node in sorted(retained.values(), key=lambda n: (n['country'], n['id'] not in country_best_ids, n['id'])):
+    for node in sorted(retained.values(), key=lambda n: (n['country'], n['id'] not in country_best_ids, selected_order.get(n['id'],0), n['id'])):
         code, body, ai = node['country'], node['body'], node['ai']
         protocol = body.split(',', 1)[0]
         country_numbers[code] += 1
@@ -203,7 +208,8 @@ def check(content, binary):
     aliases, recommendations = [], {}
     for category, labels, picks in (('ai', ('AI推荐', '备选AI'), ai_picks),
                                      ('media', ('流媒体推荐', '备选流媒体'), media_picks),
-                                     ('download', ('下载推荐',), download_picks)):
+                                     ('download', ('下载推荐',), download_picks),
+                                     ('clean_ip', ('纯净IP推荐',), clean_picks)):
         recommendations[category] = []
         for label, node in zip(labels, picks):
             aliases.append(f'{label}：{node["name"]} = {node["body"]}')
@@ -212,9 +218,10 @@ def check(content, binary):
     metadata = dict(connection_tested=True, test_method='HTTPS trace and at least 2 of ChatGPT/Claude/Gemini; TLS verified',
                     tested_from='GitHub Actions runner', candidates=len(lines),
                     unreachable=len(candidates) - len(reachable), endpoint_rejected=skipped,
-                    ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY+'-country-best-v1',
-                    sort_by='one best per country: IP quality then AI response latency; preserve recommendations',
-                    ai_qualified=len(passed),country_best_count=len(best),
+                    ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY+'-country-top4-quality-v1',
+                    sort_by='up to 4 quality-qualified distinct exits per country: quality then latency; preserve recommendations',
+                    ai_qualified=len(passed),quality_qualified=len(eligible), quality_rejected=len(passed)-len(eligible),
+                    country_best_count=len(best),country_limit=4,country_count=len({n['country'] for n in best}),
                     recommendations=recommendations, recommendation_rows=len(aliases),
                     media_required=['Netflix','Disney+','YouTube Premium','Prime Video'],
                     media_all_passed=sum(n['media']['all_passed'] for n in passed),

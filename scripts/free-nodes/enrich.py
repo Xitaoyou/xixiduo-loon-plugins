@@ -89,7 +89,8 @@ def quality_from(data, ip):
         return unknown
     risky = any(risk[k] for k in ('is_vpn', 'is_tor', 'is_proxy')) or score >= 50
     grade = 0 if risky else 2 if risk['is_datacenter'] else 3
-    return dict(grade=grade, risk_score=score, label={0:'风险', 2:'机房', 3:'低风险非机房'}[grade], source='ipquery.io')
+    return dict(grade=grade, risk_score=score, label={0:'风险', 2:'机房', 3:'低风险非机房'}[grade],
+                flags={k:risk[k] for k in fields}, source='ipquery.io')
 
 
 @lru_cache(maxsize=512)
@@ -152,13 +153,38 @@ def select(nodes):
     return ai, media
 
 
-def country_best(nodes):
-    """每国只保留质量、延迟综合最优的一条；下载速度作为同分参考。"""
+def qualified(node):
+    """未知/已标记风险、AI 不足两项及下载失败的候选不用于发布。"""
+    return (node['quality']['grade'] >= 2 and node['ai']['pass_count'] >= 2
+            and bool(node.get('download_mbps')) and node['download_mbps'] > 0)
+
+
+def country_best(nodes, limit=4):
+    """每国最多四个不同出口，按质量和延迟精选；不使用不合格候选凑数。"""
     result = {}
+    seen = {}
     key = lambda n: (*quality_key(n['quality']), n['ai']['latency_ms'], -(n.get('download_mbps') or 0), n['id'])
     for node in sorted(nodes, key=key):
-        result.setdefault(node['country'], node)
-    return [result[code] for code in sorted(result)]
+        if not qualified(node):
+            continue
+        code = node['country']
+        group, exits = result.setdefault(code, []), seen.setdefault(code, set())
+        if len(group) < limit and node['exit_ip'] not in exits:
+            group.append(node)
+            exits.add(node['exit_ip'])
+    return [node for code in sorted(result) for node in result[code]]
+
+
+def clean_ip_best(nodes):
+    clean = []
+    fields = ('is_vpn', 'is_tor', 'is_proxy', 'is_datacenter')
+    for node in nodes:
+        q = node['quality']
+        flags = q.get('flags', {})
+        if (qualified(node) and q['grade'] == 3 and type(q.get('risk_score')) in (int, float)
+                and q['risk_score'] == 0 and all(flags.get(k) is False for k in fields)):
+            clean.append(node)
+    return sorted(clean, key=ai_key)[:1]
 
 
 def download_best(nodes):
