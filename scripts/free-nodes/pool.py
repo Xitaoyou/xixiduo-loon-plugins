@@ -263,7 +263,11 @@ def measure(binary):
                     r['measurement_error']='rotating_exit';return r
                 r['ai']=check_ai(port)
                 if r['ai']['pass_count']<2:return r
-                r['media']=check_media(port);r.update(steady_probe.detailed(port))
+                r.update(steady_probe.detailed(port))
+                # Slow nodes cannot be published; avoid large media page probes
+                # for them without reducing throughput sampling or history.
+                if r.get('download_mbps') is not None and r['download_mbps']>=10:
+                    r['media']=check_media(port)
                 try:after=health.request_trace(port,details=True)
                 except (ValueError,OSError,subprocess.SubprocessError):after={}
                 if after.get('ip')!=r['exit_ip']:
