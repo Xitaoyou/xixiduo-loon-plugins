@@ -1,27 +1,28 @@
 {
-  "updated_at": "2026-11-09T10:38:00.823968+00:00",
-  "nodes": 109,
+  "updated_at": "2026-11-09T10:42:56.291491+00:00",
+  "nodes": 108,
   "protocols": {
-    "VMess": 95,
+    "VMess": 94,
     "Hysteria2": 14
   },
   "connection_tested": true,
   "test_method": "HTTPS trace through each proxy; TLS verified",
   "tested_from": "GitHub Actions runner",
   "candidates": 114,
-  "unreachable": 5,
+  "unreachable": 6,
   "endpoint_rejected": 0,
   "countries": {
     "AT": 1,
     "BR": 1,
     "CA": 4,
-    "DE": 8,
-    "EE": 2,
+    "DE": 9,
+    "EE": 1,
+    "FI": 1,
     "FR": 4,
-    "GB": 3,
+    "GB": 2,
     "IN": 3,
     "IT": 3,
-    "JP": 5,
+    "JP": 4,
     "KR": 2,
     "KZ": 1,
     "MY": 1,
@@ -32,6 +33,6 @@
     "TH": 1,
     "US": 57
   },
-  "test_seconds": 34.5,
+  "test_seconds": 23.4,
   "filtered": 2862
 }
