@@ -13,4 +13,4 @@ requestTimeout = input,10000,type=number,tag=请求超时（毫秒）,desc=3000�
 ipQuality = switch,true,tag=查询IP类型与质量,desc=手动运行时查询公网IP及第三方类型信息；质量为规则推断，非完整风险评分。
 
 [Script]
-generic then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/service-check/service-check.js?v=3", {${profile}, ${route}, ${requestTimeout}, ${ipQuality}}) with tag="检测常用服务", img_url="network.badge.shield.half.filled.system", timeout=120
+generic then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/service-check/service-check.js?v=4", {${profile}, ${route}, ${requestTimeout}, ${ipQuality}}) with tag="检测常用服务", img_url="network.badge.shield.half.filled.system", timeout=120
