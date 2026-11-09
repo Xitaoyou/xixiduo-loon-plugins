@@ -11,6 +11,7 @@ from pathlib import Path
 import statistics
 import subprocess
 import tempfile
+import threading
 import time
 from urllib.request import urlopen
 
@@ -243,6 +244,7 @@ def measure(binary):
     manifest=read(WORK/'manifest.json');results=collect_results(manifest)
     controls();env=steady_probe.environment()
     targets=[r for r in results if r.get('basic_latency_ms') is not None and r['basic_latency_ms']<=1000 and r['ai']['pass_count']>=2]
+    download_slots=threading.BoundedSemaphore(2)
     for start in range(0,len(targets),50):
         batch=targets[start:start+50]
         with running_core(batch,binary) as ports:
@@ -263,7 +265,7 @@ def measure(binary):
                     r['measurement_error']='rotating_exit';return r
                 r['ai']=check_ai(port)
                 if r['ai']['pass_count']<2:return r
-                r.update(steady_probe.detailed(port))
+                with download_slots:r.update(steady_probe.detailed(port))
                 # Slow nodes cannot be published; avoid large media page probes
                 # for them without reducing throughput sampling or history.
                 if r.get('download_mbps') is not None and r['download_mbps']>=10:
@@ -274,7 +276,7 @@ def measure(binary):
                     r['download_mbps']=None;r['measurement_error']='rotating_exit'
                 r.update(measurement_profile=stable_policy.PROFILE,measurement_environment=env['profile'])
                 return r
-            with ThreadPoolExecutor(max_workers=2) as executor:list(executor.map(detailed,batch))
+            with ThreadPoolExecutor(max_workers=4) as executor:list(executor.map(detailed,batch))
         print(json.dumps({'detailed_completed':min(start+50,len(targets)),'total':len(targets)}),flush=True)
     after=steady_probe.environment();controls()
     if env['profile']!=after['profile'] or max(env['direct_mbps'],after['direct_mbps'])/min(env['direct_mbps'],after['direct_mbps'])>4:
