@@ -2,6 +2,15 @@
 
 作者：西西多。独立节点订阅，不替换现有配置、机场订阅或去广告插件。
 
+## 其他客户端
+
+[统一导入入口：Loon / Clash / Shadowrocket](https://xitaoyou.github.io/xixiduo-loon-plugins/)
+
+- [Clash / Mihomo 配置订阅](https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/free-nodes-clash.yaml)：适用于 FlClash、Clash Verge Rev 等支持 Hysteria2 的客户端，不适用于原版旧 Clash。导入独立配置，默认选择 DIRECT；需要代理时在「免费节点」组选择节点。此配置是精简的节点选择配置，不包含你已有的去广告和分流规则。
+- [Shadowrocket 通用订阅](https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/free-nodes-shadowrocket.txt)：Base64 编码的 VMess / Hysteria2 URI 列表，添加后沿用原有路由配置。
+
+两种格式均从同一份已检测结果导出，保留国家、推荐项、刷新时间和实测后缀；每轮云端更新同步生成。客户端还需要自行开启订阅更新。导入网页提供复制地址作为唤起失败时的备用方式；实际唤起与自动填名依客户端版本而定。
+
 ## 添加与更新
 
 [一键添加免费节点](https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2F%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9&name=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9)，在安装 Loon 的 iPhone 上打开。已添加旧版的用户直接更新原订阅即可。

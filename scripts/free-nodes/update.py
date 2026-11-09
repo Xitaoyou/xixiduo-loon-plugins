@@ -188,6 +188,8 @@ def publish(text, output=ROOT / 'subscriptions/free-nodes.txt'):
     output.with_suffix('.json').write_text(json.dumps(status, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     # 中文文件名作为导入名称的兼容提示；旧地址继续提供相同内容。
     if output == ROOT / 'subscriptions/free-nodes.txt':
+        from export_clients import write_exports
+        write_exports(content)
         output.with_name('免费节点').write_text(content, encoding='utf-8', newline='\n')
     print(json.dumps(status, ensure_ascii=True))
 
