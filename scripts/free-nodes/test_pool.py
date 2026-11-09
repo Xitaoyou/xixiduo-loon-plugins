@@ -147,5 +147,24 @@ class PoolTests(unittest.TestCase):
             self.assertEqual(state['nodes']['a']['status'],'active')
             self.assertEqual(pool.read(Path(folder)/'subscriptions/free-nodes.json')['nodes'],0)
 
+    def test_retry_statistics_exclude_untested_active_nodes(self):
+        import tempfile
+        from pathlib import Path
+        records={key:self.record(key) for key in ('a','b','c')}
+        for key in ('a','b'):
+            records[key].update(last_result=self.result(key),last_checked=AT)
+        previous='2026-11-09T09:00:00+00:00'
+        with tempfile.TemporaryDirectory() as folder,patch('pool.WORK',Path(folder)),patch('pool.ROOT',Path(folder)),patch('pool.now',return_value=AT),patch('export_clients.write_exports'):
+            (Path(folder)/'subscriptions').mkdir()
+            pool.write(Path(folder)/'state.json',{'nodes':records,'last_cycle':previous})
+            pool.write(Path(folder)/'manifest.json',{'cycle':'retry','full':False,'shards':1,'ids':['c'],'source_version':'v','summary':{}})
+            failed=self.result('c',latency=None,status='dead')
+            pool.write(Path(folder)/'result-0.json',{'cycle':'retry','index':0,'results':[failed]})
+            pool.write(Path(folder)/'measured.json',{'cycle':'retry','environment':{'profile':'test'},'results':[failed]})
+            pool.finalize()
+            meta=pool.read(Path(folder)/'subscriptions/free-nodes.json')
+            self.assertEqual((meta['checked'],meta['unreachable'],meta['reachable_checked'],meta['active_candidates']),(1,1,0,2))
+            self.assertEqual(pool.read(Path(folder)/'published-state.json')['last_cycle'],previous)
+
 
 if __name__=='__main__':unittest.main()
