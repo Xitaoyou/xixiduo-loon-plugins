@@ -185,17 +185,19 @@ def check(content, binary):
     return render_results(passed, reachable, len(lines), time.monotonic()-started)
 
 
-def render_results(passed, reachable, total, seconds):
+def render_results(passed, reachable, total, seconds, selected_only=False, picks=None):
     output, counts = [], Counter()
     countries = Counter()
     node_results = []
     eligible = [n for n in passed if qualified(n)]
     if not eligible:
         raise ValueError('no quality-qualified measured candidates; previous subscription retained')
-    best = country_best(eligible)
+    best = eligible if selected_only else country_best(eligible)
     ai_picks, media_picks = select(eligible)
     download_picks = download_best(eligible)
     clean_picks = clean_ip_best(eligible)
+    if picks is not None:
+        ai_picks,media_picks,download_picks,clean_picks=(picks[k] for k in ('ai','media','download','clean_ip'))
     # 推荐可以超出同国综合最优项；其余普通条目不再发布。
     retained = {n['id']:n for n in best + ai_picks + media_picks + download_picks + clean_picks}
     country_best_ids = {n['id'] for n in best}
@@ -205,11 +207,12 @@ def render_results(passed, reachable, total, seconds):
         code, body, ai = node['country'], node['body'], node['ai']
         protocol = body.split(',', 1)[0]
         country_numbers[code] += 1
-        node['name'] = measured_name(f'{country_label(code)} {country_numbers[code]:02d}', node)
+        node['name'] = measured_name(f'{country_label(code)} {node.get("serial",country_numbers[code]):02d}', node)
         if node['id'] in country_best_ids:
             output.append(f'{node["name"]} = {body}')
         node_results.append(dict(id=node['id'], name=node['name'], country=code, **ai,
-                                 quality=node['quality'], media=node['media'], download_mbps=node['download_mbps']))
+                                 quality=node['quality'], media=node['media'], download_mbps=node['download_mbps'],
+                                 **{k:node[k] for k in ('exit_ip','basic_latency_ms','stable','success_rate','conservative_mbps','observation_rounds','observation_span_hours','selection_score','measurement_profile','measurement_environment','download_samples_mbps') if k in node}))
         counts[protocol] += 1
         countries[code] += 1
     aliases, recommendations = [], {}
@@ -236,4 +239,8 @@ def render_results(passed, reachable, total, seconds):
                     quality_labels=dict(Counter(n['quality']['label'] for n in passed)),
                     node_results=node_results,
                     countries=dict(countries), test_seconds=round(seconds, 1))
+    if selected_only:
+        metadata.update(filter_policy='stable-best30-v1',country_limit=None,node_limit=30,
+                        sort_by='P25 recent throughput × 7-day valid success rate; jitter, latency, quality; US/JP/SG/DE reservation',
+                        test_method='2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified')
     return '\n'.join(output) + '\n', dict(counts), metadata

@@ -18,6 +18,8 @@ import health
 from update import convert, decrypt, marked, ROOT
 from enrich import quality, check_media, download, quality_key
 from ai_check import check_ai
+import steady_probe
+import stable_policy
 
 WORK=ROOT/'.pool-work'
 CAPACITY=2000
@@ -40,8 +42,11 @@ def identity(body):
 
 def state_load():
     result=subprocess.run(['git','show','refs/remotes/origin/pool-state:pool.json'],capture_output=True,text=True,encoding='utf-8')
-    if result.returncode:return {'schema':1,'nodes':{},'source_version':None,'last_cycle':None}
-    return json.loads(result.stdout)
+    if result.returncode:
+        raise RuntimeError('Persistent state unavailable; refusing to reset existing history')
+    state=json.loads(result.stdout)
+    if not isinstance(state.get('nodes'),dict):raise RuntimeError('Invalid persistent state')
+    return state
 
 
 def fetch_source(version):
@@ -101,21 +106,26 @@ def merge(state,documents,version,at):
             elif node['status']=='cooldown' and node['cooldown_until']<=at:
                 node.update(status='pending',queued_at=at)
             elif node['status']=='restricted':node.update(status='pending',queued_at=at)
+            if not restricted:node['body']=body
     for ident in restricted_ids:state['nodes'][ident]['status']='restricted'
     for node in state['nodes'].values():
-        if json.dumps(health.parse_body(node['body'])[0],ensure_ascii=True) in restricted_credentials:node['status']='restricted'
+        if node.get('body') and json.dumps(health.parse_body(node['body'])[0],ensure_ascii=True) in restricted_credentials:node['status']='restricted'
+        if node['status']=='restricted':
+            for key in list(node):
+                if key not in ('id','status','first_seen','last_seen','source_version','sources'):node.pop(key,None)
     return dict(counts)
 
 
-def prepare(force=False):
+def prepare(force=False,retry_only=False):
     WORK.mkdir(exist_ok=True)
     state=state_load();at=now();source_error=None
     due=not state.get('last_cycle') or datetime.fromisoformat(at)-datetime.fromisoformat(state['last_cycle'])>=timedelta(hours=6)
-    try:version=api('repos/pixelor/ecfg/commits/main')['sha']
+    try:version=state['source_version'] if retry_only else api('repos/pixelor/ecfg/commits/main')['sha']
     except Exception as error:
         if not state['nodes']:raise
         version=state['source_version'];source_error=type(error).__name__
-    run=force or due or state.get('source_version')!=version
+    retry_due=any(n['status'] in ('isolated','slow') and n.get('retry_at',at)<=at for n in state['nodes'].values())
+    run=(retry_due if retry_only else force or due or state.get('source_version')!=version or retry_due)
     output=os.environ.get('GITHUB_OUTPUT')
     if not run:
         if output:
@@ -129,7 +139,7 @@ def prepare(force=False):
             state['nodes'][ident]={'id':ident,'body':body,'first_seen':at,'last_seen':at,'status':'active','high_latency_streak':0,'source_version':'migration'}
     try:
         if source_error:raise RuntimeError('Source head unavailable')
-        _,documents=fetch_source(version)
+        documents=[] if retry_only else fetch_source(version)[1]
     except Exception as error:
         if not state.get('source_version'):raise
         source_error=source_error or type(error).__name__;version=state['source_version'];documents=[]
@@ -138,14 +148,19 @@ def prepare(force=False):
                 with open(output,'a') as f:f.write('run=false\nmatrix={"index":[0]}\n')
             print('Upstream unavailable; previous state retained; historical retest not due');return
     summary=merge(state,documents,version,at)
+    for n in state['nodes'].values():
+        if n['status']=='cooldown' and n.get('cooldown_until','')<=at:
+            n.update(status='pending',queued_at=at,failure_rounds=0,high_latency_streak=0)
+    full=not retry_only and (force or due or state.get('source_version')!=version)
     active=[n for n in state['nodes'].values() if n['status']=='active']
     pending=sorted((n for n in state['nodes'].values() if n['status']=='pending'),key=lambda n:(n.get('queued_at',n.get('last_queue_test',n['first_seen'])),n['id']))
-    selected=active+pending[:max(0,CAPACITY-len(active))+200]
+    retries=[n for n in state['nodes'].values() if n['status'] in ('isolated','slow') and n.get('retry_at',at)<=at]
+    selected=active+pending[:max(0,CAPACITY-len(active))+200]+retries if full else retries
     cycle=hashlib.sha256((at+version).encode()).hexdigest()[:20]
-    manifest={'cycle':cycle,'at':at,'source_version':version,'source_error':source_error,'ids':[n['id'] for n in selected],'summary':summary,'shards':(len(selected)+49)//50}
+    manifest={'cycle':cycle,'at':at,'full':full,'source_version':version,'source_error':source_error,'ids':[n['id'] for n in selected],'summary':summary,'shards':(len(selected)+49)//50}
     if not selected:raise RuntimeError('Empty candidate selection')
     write(WORK/'state.json',state);write(WORK/'manifest.json',manifest)
-    for index in range(manifest['shards']):write(WORK/f'shard-{index}.json',{'cycle':cycle,'nodes':selected[index*50:(index+1)*50]})
+    for index in range(manifest['shards']):write(WORK/f'shard-{index}.json',{'cycle':cycle,'nodes':[{k:n[k] for k in ('id','body')} for n in selected[index*50:(index+1)*50]]})
     if output:
         with open(output,'a') as f:f.write('run=true\nmatrix='+json.dumps({'index':list(range(manifest['shards']))})+'\n')
     print(json.dumps({'cycle':cycle,'candidates':len(selected),'shards':manifest['shards'],'merge':summary}))
@@ -159,71 +174,134 @@ def blank(node):
 
 
 def controls():
-    for target in health.TARGETS:health.request_trace(target=target)
+    return steady_probe.controls()
+
+
+from contextlib import contextmanager
+
+
+@contextmanager
+def running_core(nodes,binary):
+    config={'log':{'disabled':True},'inbounds':[],'outbounds':[],'route':{'rules':[]}}
+    ports={}
+    for i,node in enumerate(nodes):
+        try:out=health.outbound(node['body'],f'n{i}')
+        except (ValueError,OSError,KeyError):continue
+        ports[node['id']]=20000+i
+        config['inbounds'].append({'type':'mixed','tag':f'in{i}','listen':'127.0.0.1','listen_port':20000+i})
+        config['outbounds'].append(out);config['route']['rules'].append({'inbound':[f'in{i}'],'action':'route','outbound':f'n{i}'})
+    if not ports:
+        yield ports
+        return
+    with tempfile.TemporaryDirectory() as folder:
+        path=Path(folder)/'config.json';write(path,config);path.chmod(0o600)
+        if subprocess.run([binary,'check','-c',str(path)],capture_output=True,timeout=20).returncode:raise RuntimeError('Core rejected configuration')
+        process=subprocess.Popen([binary,'run','-c',str(path)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
+        try:
+            time.sleep(1)
+            if process.poll() is not None:raise RuntimeError('Core startup failed')
+            yield ports
+            if process.poll() is not None:raise RuntimeError('Core stopped during measurement')
+        finally:
+            process.terminate()
+            try:process.wait(timeout=5)
+            except subprocess.TimeoutExpired:process.kill();process.wait()
 
 
 def shard(index,binary):
-    doc=read(WORK/f'shard-{index}.json');nodes=doc['nodes'];controls()
-    config={'log':{'disabled':True},'inbounds':[],'outbounds':[],'route':{'rules':[]}}
-    rejected={}
-    for i,node in enumerate(nodes):
-        try:out=health.outbound(node['body'],f'n{i}')
-        except (ValueError,OSError,KeyError):rejected[node['id']]='endpoint_rejected';continue
-        config['inbounds'].append({'type':'mixed','tag':f'in{i}','listen':'127.0.0.1','listen_port':20000+i})
-        config['outbounds'].append(out);config['route']['rules'].append({'inbound':[f'in{i}'],'action':'route','outbound':f'n{i}'})
-    results=[]
-    if config['outbounds']:
-        with tempfile.TemporaryDirectory() as folder:
-            path=Path(folder)/'config.json';write(path,config);path.chmod(0o600)
-            if subprocess.run([binary,'check','-c',str(path)],capture_output=True,timeout=20).returncode:raise RuntimeError('Core rejected shard configuration')
-            process=subprocess.Popen([binary,'run','-c',str(path)],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-            try:
-                time.sleep(1)
-                if process.poll() is not None:raise RuntimeError('Core startup failed')
-                def probe(pair):
-                    i,node=pair;r=blank(node)
-                    if node['id'] in rejected:r['status']='dead';return r
-                    samples=[];traces=[]
-                    for target in (health.TARGETS[0],health.TARGETS[1],health.TARGETS[0]):
-                        start=time.monotonic()
-                        try:
-                            trace=health.request_trace(20000+i,target,details=True)
-                            samples.append(round((time.monotonic()-start)*1000));traces.append(trace)
-                        except (ValueError,OSError,subprocess.SubprocessError):pass
-                    if not traces:r['status']='dead';return r
-                    r.update(country=traces[-1]['country'],exit_ip=traces[-1]['ip'])
-                    if len(samples)<2:return r
-                    r['basic_latency_ms']=round(statistics.median(samples))
-                    if r['basic_latency_ms']>1500:return r
-                    r['ai']=check_ai(20000+i)
-                    if r['ai']['passed']:
-                        r['quality']=quality(r['exit_ip']);r['media']=check_media(20000+i);r['download_mbps']=download(20000+i)
-                    return r
-                with ThreadPoolExecutor(max_workers=4) as pool:results=list(pool.map(probe,enumerate(nodes)))
-                if process.poll() is not None:raise RuntimeError('Core stopped during shard')
-            finally:
-                process.terminate()
-                try:process.wait(timeout=5)
-                except subprocess.TimeoutExpired:process.kill();process.wait()
-    else:
-        for node in nodes:r=blank(node);r['status']='dead';results.append(r)
-    controls() # 检测服务整体异常时整片失败，不提交淘汰结论。
+    doc=read(WORK/f'shard-{index}.json');nodes=doc['nodes'];healthy=controls()
+    with running_core(nodes,binary) as ports:
+        def probe(node):
+            r=blank(node);r['tested_at']=now()
+            if node['id'] not in ports:r['status']='dead';return r
+            port=ports[node['id']];r.update(steady_probe.basic(port,healthy))
+            if r['basic_latency_ms'] is not None and r['basic_latency_ms']<=1000:
+                r['ai']=check_ai(port)
+            return r
+        with ThreadPoolExecutor(max_workers=4) as executor:results=list(executor.map(probe,nodes))
+    if not set(healthy)<=set(controls()):raise RuntimeError('Control provider changed during shard; no penalties')
     write(WORK/f'result-{index}.json',{'cycle':doc['cycle'],'index':index,'results':results})
     print(json.dumps({'shard':index,'checked':len(results),'alive':sum(r['status']=='alive' for r in results)}))
 
 
+def collect_results(manifest):
+    results=[]
+    for i in range(manifest['shards']):
+        doc=read(WORK/f'result-{i}.json')
+        if not doc or doc['cycle']!=manifest['cycle'] or doc['index']!=i:raise RuntimeError('Missing or mismatched shard')
+        results+=doc['results']
+    ids=[r['id'] for r in results]
+    if len(ids)!=len(set(ids)) or set(ids)!=set(manifest['ids']):raise RuntimeError('Incomplete candidate results')
+    if len(results)>=20 and sum(r['status']=='dead' for r in results)/len(results)>=.95:
+        raise RuntimeError('Global failure circuit breaker; previous publication retained')
+    return results
+
+
+def measure(binary):
+    manifest=read(WORK/'manifest.json');results=collect_results(manifest)
+    controls();env=steady_probe.environment()
+    targets=[r for r in results if r.get('basic_latency_ms') is not None and r['basic_latency_ms']<=1000 and r['ai']['pass_count']>=2]
+    for start in range(0,len(targets),50):
+        batch=targets[start:start+50]
+        with running_core(batch,binary) as ports:
+            def detailed(r):
+                if r['id'] not in ports:return r
+                port=ports[r['id']]
+                # Resolve actual egress on the same runner as the throughput sample.
+                try:trace=health.request_trace(port,details=True)
+                except (ValueError,OSError,subprocess.SubprocessError):
+                    r['measurement_error']='exit_lookup_failed';return r
+                r.update(exit_ip=trace['ip'],country=trace['country'],tested_at=now())
+                r['quality']=quality(r['exit_ip'])
+                if r['quality']['grade']==0:return r
+                # Recheck latency/AI here; shard-region results cannot authorize this egress.
+                r.update(steady_probe.basic(port,list(steady_probe.TARGETS)))
+                if not r.get('basic_latency_ms') or r['basic_latency_ms']>1000 or not r.get('exit_ip'):return r
+                if r['exit_ip']!=trace['ip']:
+                    r['measurement_error']='rotating_exit';return r
+                r['ai']=check_ai(port)
+                if r['ai']['pass_count']<2:return r
+                r['media']=check_media(port);r.update(steady_probe.detailed(port))
+                try:after=health.request_trace(port,details=True)
+                except (ValueError,OSError,subprocess.SubprocessError):after={}
+                if after.get('ip')!=r['exit_ip']:
+                    r['download_mbps']=None;r['measurement_error']='rotating_exit'
+                r.update(measurement_profile=stable_policy.PROFILE,measurement_environment=env['profile'])
+                return r
+            with ThreadPoolExecutor(max_workers=2) as executor:list(executor.map(detailed,batch))
+        print(json.dumps({'detailed_completed':min(start+50,len(targets)),'total':len(targets)}),flush=True)
+    after=steady_probe.environment();controls()
+    if env['profile']!=after['profile'] or max(env['direct_mbps'],after['direct_mbps'])/min(env['direct_mbps'],after['direct_mbps'])>4:
+        raise RuntimeError('Runner environment unstable; previous publication retained')
+    write(WORK/'measured.json',{'cycle':manifest['cycle'],'environment':env,'environment_after':after,'results':results})
+
+
 def reconcile(state,results,at):
-    good=[];cooldown=(datetime.fromisoformat(at)+timedelta(days=7)).isoformat()
+    good=[]
+    def later(seconds):return (datetime.fromisoformat(at)+timedelta(seconds=seconds)).isoformat()
     for r in results:
         n=state['nodes'][r['id']];n['last_result']=r;n['last_checked']=at;n['last_queue_test']=at
         latency=r['basic_latency_ms']
-        n['high_latency_streak']=n.get('high_latency_streak',0)+1 if latency is not None and latency>1500 else 0
-        if r['status']=='dead' or n['high_latency_streak']>=2:
-            n.update(status='cooldown',cooldown_until=cooldown);continue
+        if latency is not None:
+            n['high_latency_streak']=n.get('high_latency_streak',0)+1 if latency>1000 else 0
+        if r['status']=='dead':
+            failures=n.get('failure_rounds',0)+1;n['failure_rounds']=failures
+            if failures>=3:n.update(status='cooldown',cooldown_until=later(7*86400))
+            else:n.update(status='isolated',retry_at=later(1800 if failures==1 else 7200))
+            continue
+        # Unknown latency is not a recovery observation.
+        if latency is None and n.get('status') in ('isolated','slow'):
+            n['retry_at']=later(7200 if n['status']=='isolated' else 86400);continue
+        n['failure_rounds']=0
+        if n.get('high_latency_streak',0)>=2:
+            n.update(status='slow',retry_at=later(86400));continue
         good.append(n)
     groups=defaultdict(list)
     def rank(n):
         r=n['last_result'];return (-r['ai']['pass_count'],*quality_key(r['quality']),r['basic_latency_ms'] if r['basic_latency_ms'] is not None else 999999,n['id'])
+    # Retry-only rounds must not forget existing, untested active nodes.
+    tested={r['id'] for r in results}
+    good += [n for n in state['nodes'].values() if n['status']=='active' and n['id'] not in tested]
     for n in good:groups[n['last_result']['country']].append(n)
     queues=[deque(sorted(groups[k],key=rank)) for k in sorted(groups)]
     winners=[]
@@ -236,43 +314,49 @@ def reconcile(state,results,at):
     for n in good:
         n['status']='active' if n['id'] in chosen else 'pending'
         if n['status']=='pending':n['queued_at']=at
-    return [n['last_result'] for n in winners]
+    return [n['last_result'] for n in winners if n.get('last_result')]
 
 
 def finalize():
-    manifest=read(WORK/'manifest.json');state=read(WORK/'state.json');all_results=[]
-    for i in range(manifest['shards']):
-        doc=read(WORK/f'result-{i}.json')
-        if not doc or doc['cycle']!=manifest['cycle'] or doc['index']!=i:raise RuntimeError('Missing or mismatched shard')
-        all_results+=doc['results']
-    ids=[r['id'] for r in all_results]
-    if len(ids)!=len(set(ids)) or set(ids)!=set(manifest['ids']):raise RuntimeError('Incomplete candidate results')
-    if len(all_results)>=20 and sum(r['status']=='dead' for r in all_results)/len(all_results)>=0.95:
-        raise RuntimeError('Global failure circuit breaker; no state or subscription changes published')
-    at=now();alive=reconcile(state,all_results,at)
-    selected=[r for r in alive if r['basic_latency_ms'] is not None and r['basic_latency_ms']<=1500 and r['ai']['passed']]
-    from enrich import qualified
-    if any(qualified(r) for r in selected):
-        content,counts,metadata=health.render_results(selected,alive,len(ids),0)
+    manifest=read(WORK/'manifest.json');state=read(WORK/'state.json')
+    raw=collect_results(manifest)
+    measured=read(WORK/'measured.json')
+    if not measured or measured['cycle']!=manifest['cycle']:raise RuntimeError('Missing same-cycle detailed measurements')
+    all_results=measured['results'];ids=[r['id'] for r in all_results]
+    if len(ids)!=len(set(ids)) or set(ids)!=set(manifest['ids']):raise RuntimeError('Incomplete detailed measurements')
+    at=now()
+    stable_policy.observe(state,all_results,at,manifest['cycle'],measured['environment']['profile'])
+    alive=reconcile(state,all_results,at)
+    fresh=[r for r in alive if stable_policy.age(at,state['nodes'][r['id']]['last_checked'])<=6*3600+600]
+    selected,phase=stable_policy.choose(state,fresh,at)
+    stable_policy.assign_numbers(state,selected)
+    picks=stable_policy.recommendations(state,selected,manifest['cycle'])
+    if selected:
+        content,counts,metadata=health.render_results(selected,alive,len(ids),0,selected_only=True,picks=picks)
     else:
         content='# No eligible nodes in this completed cycle.\n';counts={}
         metadata={'connection_tested':True,'recommendation_rows':0,'recommendations':{},'node_results':[],
-                  'country_count':0,'country_best_count':0,'selection_reason':'no_eligible_nodes'}
+                  'country_count':0,'country_best_count':0,'selection_reason':'no_eligible_nodes','node_limit':30}
     stamp=datetime.fromisoformat(at).astimezone(timezone(timedelta(hours=8)))
     lines=content.splitlines()
-    if ' = ' in lines[0]:lines.insert(metadata['recommendation_rows'],f'🕒 免费节点刷新 {stamp:%m-%d %H:%M}（北京） = '+lines[0].split(' = ',1)[1])
+    if ' = ' in lines[0]:lines.insert(metadata['recommendation_rows'],f'🕒 免费节点刷新 {stamp:%m-%d %H:%M}（北京时间） = '+lines[0].split(' = ',1)[1])
     content='\n'.join(lines)+'\n'
-    # 先完整生成和验证三端格式，再接触发布文件。
     from export_clients import render,write_exports
     render(content,allow_empty=True)
     folder=ROOT/'subscriptions'
     for name in ('free-nodes.txt','免费节点'):(folder/name).write_text(content,encoding='utf-8',newline='\n')
     write_exports(content)
-    metadata.update(updated_at=at,nodes=sum(counts.values()),protocols=counts,published_rows=len(lines),cycle=manifest['cycle'],source_version=manifest['source_version'],source_error=manifest.get('source_error'),pool=dict(Counter(n['status'] for n in state['nodes'].values())),merge=manifest['summary'],checked=len(ids),workflow_run='https://github.com/'+os.environ.get('GITHUB_REPOSITORY','Xitaoyou/xixiduo-loon-plugins')+'/actions/runs/'+os.environ.get('GITHUB_RUN_ID','local'))
+    metadata.update(updated_at=at,nodes=sum(counts.values()),protocols=counts,published_rows=len(lines),cycle=manifest['cycle'],
+        source_version=manifest['source_version'],source_error=manifest.get('source_error'),
+        pool=dict(Counter(n['status'] for n in state['nodes'].values())),merge=manifest['summary'],checked=len(ids),
+        selection_phase=phase,measurement_profile=stable_policy.PROFILE,measurement_environment=measured['environment'],
+        thresholds={'basic_ms_max':1000,'current_mbps_min':10,'recent_p25_mbps_min':10,'rounds_min':3,'span_hours_min':12,'success_rate_min':.95},
+        workflow_run='https://github.com/'+os.environ.get('GITHUB_REPOSITORY','Xitaoyou/xixiduo-loon-plugins')+'/actions/runs/'+os.environ.get('GITHUB_RUN_ID','local'))
     write(folder/'free-nodes.json',metadata)
-    state.update(source_version=manifest['source_version'],last_cycle=at,last_cycle_id=manifest['cycle'])
+    state.update(source_version=manifest['source_version'],last_cycle_id=manifest['cycle'])
+    if manifest.get('full',True):state['last_cycle']=at
     write(WORK/'published-state.json',state)
-    print(json.dumps({k:metadata[k] for k in ('cycle','checked','nodes','pool','merge')}))
+    print(json.dumps({k:metadata[k] for k in ('cycle','checked','nodes','pool','selection_phase')}))
 
 
 def publish():
@@ -289,8 +373,9 @@ def publish():
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','shard','finalize','publish']);p.add_argument('--index',type=int);p.add_argument('--force',action='store_true');p.add_argument('--binary',default=os.environ.get('SING_BOX_BINARY'));a=p.parse_args()
-    if a.command=='prepare':prepare(a.force)
+    p=argparse.ArgumentParser();p.add_argument('command',choices=['prepare','shard','measure','finalize','publish']);p.add_argument('--index',type=int);p.add_argument('--force',action='store_true');p.add_argument('--retry-only',action='store_true');p.add_argument('--binary',default=os.environ.get('SING_BOX_BINARY'));a=p.parse_args()
+    if a.command=='prepare':prepare(a.force,a.retry_only)
     elif a.command=='shard':shard(a.index,a.binary)
+    elif a.command=='measure':measure(a.binary)
     elif a.command=='finalize':finalize()
     else:publish()

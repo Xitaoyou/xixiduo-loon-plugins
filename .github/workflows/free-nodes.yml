@@ -2,6 +2,7 @@ name: Update free nodes
 on:
   schedule:
     - cron: '23 * * * *'
+    - cron: '8,38,53 * * * *'
   workflow_dispatch:
     inputs:
       export_only:
@@ -38,8 +39,11 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           FORCE: ${{ inputs.force }}
+          RETRY_ONLY: ${{ github.event_name == 'schedule' && github.event.schedule != '23 * * * *' }}
         run: |
-          if [ "$FORCE" = "true" ]; then
+          if [ "$RETRY_ONLY" = "true" ]; then
+            python scripts/free-nodes/pool.py prepare --retry-only
+          elif [ "$FORCE" = "true" ]; then
             python scripts/free-nodes/pool.py prepare --force
           else
             python scripts/free-nodes/pool.py prepare
@@ -85,7 +89,7 @@ jobs:
     needs: [prepare, test]
     if: needs.prepare.outputs.run == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
         with:
@@ -103,6 +107,11 @@ jobs:
           pattern: pool-result-*
           merge-multiple: true
           path: .pool-work
+      - run: python scripts/free-nodes/install_core.py
+      - name: Measure all eligible nodes on one runner
+        env:
+          SING_BOX_BINARY: ${{ github.workspace }}/.runtime/sing-box
+        run: python scripts/free-nodes/pool.py measure
       - run: python scripts/free-nodes/pool.py finalize
       - name: Publish both branches atomically
         run: |

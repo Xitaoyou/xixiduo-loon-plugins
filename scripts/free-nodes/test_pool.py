@@ -63,6 +63,11 @@ class PoolTests(unittest.TestCase):
     def test_confirmed_failure_cooldown(self):
         state={'nodes':{'a':self.record()}}
         self.assertEqual(pool.reconcile(state,[self.result(status='dead')],AT),[])
+        self.assertEqual(state['nodes']['a']['status'],'isolated')
+        self.assertEqual(state['nodes']['a']['retry_at'],'2026-11-09T10:30:00+00:00')
+        pool.reconcile(state,[self.result(status='dead')],AT)
+        self.assertEqual(state['nodes']['a']['retry_at'],'2026-11-09T12:00:00+00:00')
+        pool.reconcile(state,[self.result(status='dead')],AT)
         self.assertEqual(state['nodes']['a']['status'],'cooldown')
         self.assertEqual(state['nodes']['a']['cooldown_until'],'2026-11-16T10:00:00+00:00')
     def test_two_high_latency_rounds(self):
@@ -70,7 +75,8 @@ class PoolTests(unittest.TestCase):
         pool.reconcile(state,[self.result(latency=1600)],AT)
         self.assertEqual(state['nodes']['a']['status'],'active')
         pool.reconcile(state,[self.result(latency=1700)],AT)
-        self.assertEqual(state['nodes']['a']['status'],'cooldown')
+        self.assertEqual(state['nodes']['a']['status'],'slow')
+        self.assertEqual(state['nodes']['a']['retry_at'],'2026-11-10T10:00:00+00:00')
     def test_ai_failure_remains_candidate(self):
         state={'nodes':{'a':self.record()}}
         self.assertEqual(len(pool.reconcile(state,[self.result(ai=0)],AT)),1)
@@ -86,6 +92,7 @@ class PoolTests(unittest.TestCase):
         state={'nodes':{ident:self.record(ident)}}
         pool.merge(state,[('en',uri+'#__LOCKED_V1__:VIP')],'v',AT)
         self.assertEqual(state['nodes'][ident]['status'],'restricted')
+        self.assertNotIn('body',state['nodes'][ident])
         pool.merge(state,[('en',uri+'#__LOCKED_V1__:VIP'),('zh',uri+'#ordinary')],'v',AT)
         self.assertEqual(state['nodes'][ident]['status'],'restricted')
 
@@ -132,6 +139,7 @@ class PoolTests(unittest.TestCase):
             pool.write(Path(folder)/'state.json',{'nodes':{'a':self.record()}})
             pool.write(Path(folder)/'manifest.json',{'cycle':'a','shards':1,'ids':['a'],'source_version':'v','summary':{}})
             pool.write(Path(folder)/'result-0.json',{'cycle':'a','index':0,'results':[self.result(ai=0)]})
+            pool.write(Path(folder)/'measured.json',{'cycle':'a','environment':{'profile':'test'},'results':[self.result(ai=0)]})
             pool.finalize()
             state=pool.read(Path(folder)/'published-state.json')
             self.assertEqual(state['nodes']['a']['status'],'active')

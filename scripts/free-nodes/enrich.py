@@ -85,6 +85,8 @@ def quality_from(data, ip):
         return unknown
     fields = ('is_vpn', 'is_tor', 'is_proxy', 'is_datacenter')
     score = risk.get('risk_score')
+    if any(risk.get(k) is True for k in ('is_vpn','is_tor','is_proxy')) or (type(score) in (int,float) and score>=50):
+        return dict(grade=0,risk_score=score if type(score) in (int,float) else None,label='风险',source='ipquery.io',flags={k:risk.get(k) for k in fields})
     if not all(type(risk.get(k)) is bool for k in fields) or type(score) not in (int, float) or not 0 <= score <= 100:
         return unknown
     risky = any(risk[k] for k in ('is_vpn', 'is_tor', 'is_proxy')) or score >= 50
@@ -195,7 +197,7 @@ def download_best(nodes):
 
 
 def measured_name(name, node):
-    suffix = f'{node["ai"]["latency_ms"]}ms'
+    suffix = f'{node.get("basic_latency_ms",node["ai"]["latency_ms"])}ms'
     if node.get('download_mbps') is not None:
         suffix += f' · {node["download_mbps"]:.2f}Mbps'
     return name + '｜' + suffix
