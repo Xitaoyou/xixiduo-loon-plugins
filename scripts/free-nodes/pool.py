@@ -91,7 +91,7 @@ def merge(state,documents,version,at):
             seen.add(ident)
             node=state['nodes'].get(ident)
             if node is None:
-                node={'id':ident,'body':body,'first_seen':at,'status':'pending','high_latency_streak':0}
+                node={'id':ident,'body':body,'first_seen':at,'queued_at':at,'status':'pending','high_latency_streak':0}
                 state['nodes'][ident]=node;counts['new']+=1
             node.update(last_seen=at,source_version=version)
             node['sources']=sorted(set(node.get('sources',[]))|{source})
@@ -99,8 +99,8 @@ def merge(state,documents,version,at):
                 node['status']='restricted';restricted_ids.add(ident);counts['restricted']+=1
                 restricted_credentials.add(json.dumps(health.parse_body(body)[0],ensure_ascii=True))
             elif node['status']=='cooldown' and node['cooldown_until']<=at:
-                node['status']='pending'
-            elif node['status']=='restricted':node['status']='pending'
+                node.update(status='pending',queued_at=at)
+            elif node['status']=='restricted':node.update(status='pending',queued_at=at)
     for ident in restricted_ids:state['nodes'][ident]['status']='restricted'
     for node in state['nodes'].values():
         if json.dumps(health.parse_body(node['body'])[0],ensure_ascii=True) in restricted_credentials:node['status']='restricted'
@@ -139,7 +139,7 @@ def prepare(force=False):
             print('Upstream unavailable; previous state retained; historical retest not due');return
     summary=merge(state,documents,version,at)
     active=[n for n in state['nodes'].values() if n['status']=='active']
-    pending=sorted((n for n in state['nodes'].values() if n['status']=='pending'),key=lambda n:(n.get('last_queue_test',n['first_seen']),n['id']))
+    pending=sorted((n for n in state['nodes'].values() if n['status']=='pending'),key=lambda n:(n.get('queued_at',n.get('last_queue_test',n['first_seen'])),n['id']))
     selected=active+pending[:max(0,CAPACITY-len(active))+200]
     cycle=hashlib.sha256((at+version).encode()).hexdigest()[:20]
     manifest={'cycle':cycle,'at':at,'source_version':version,'source_error':source_error,'ids':[n['id'] for n in selected],'summary':summary,'shards':(len(selected)+49)//50}
@@ -233,7 +233,9 @@ def reconcile(state,results,at):
             winners.append(queue.popleft())
             if not queue:queues.remove(queue)
     chosen={n['id'] for n in winners}
-    for n in good:n['status']='active' if n['id'] in chosen else 'pending'
+    for n in good:
+        n['status']='active' if n['id'] in chosen else 'pending'
+        if n['status']=='pending':n['queued_at']=at
     return [n['last_result'] for n in winners]
 
 
