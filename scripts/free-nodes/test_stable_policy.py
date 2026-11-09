@@ -111,6 +111,23 @@ class StableTests(unittest.TestCase):
         picks=policy.recommendations(state,[a,b,c],'full3')
         self.assertEqual(picks['download'][0]['id'],'2')
 
+    def test_due_full_refresh_is_not_replaced_by_partial_retry(self):
+        import tempfile
+        from pathlib import Path
+        state={'source_version':'v','last_cycle':AT.isoformat(),'nodes':{
+            '0':{'id':'0','status':'isolated','retry_at':AT.isoformat()}}}
+        with tempfile.TemporaryDirectory() as folder,patch('pool.WORK',Path(folder)),patch('pool.state_load',return_value=state),patch('pool.now',return_value=(AT+timedelta(hours=7)).isoformat()),patch('pool.api') as api,patch('pool.write') as write:
+            pool.prepare(retry_only=True)
+            api.assert_not_called();write.assert_not_called()
+
+    def test_targeted_retry_retains_untested_active_nodes(self):
+        a,b=result(0),result(1)
+        state={'nodes':{'0':{'id':'0','status':'active','last_result':a},
+                        '1':{'id':'1','status':'isolated','last_result':b}}}
+        b['status']='dead'
+        alive=pool.reconcile(state,[b],AT.isoformat())
+        self.assertEqual([r['id'] for r in alive],['0'])
+
     def test_two_providers_required_and_unknown_not_zero(self):
         def fake(name,port):
             if name=='google':return {'ms':100}

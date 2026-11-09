@@ -125,7 +125,9 @@ def prepare(force=False,retry_only=False):
         if not state['nodes']:raise
         version=state['source_version'];source_error=type(error).__name__
     retry_due=any(n['status'] in ('isolated','slow') and n.get('retry_at',at)<=at for n in state['nodes'].values())
-    run=(retry_due if retry_only else force or due or state.get('source_version')!=version or retry_due)
+    # Once a full refresh is due, quarter-hour jobs defer to the hourly full
+    # cycle rather than republishing a partial, increasingly stale selection.
+    run=(retry_due and not due if retry_only else force or due or state.get('source_version')!=version or retry_due)
     output=os.environ.get('GITHUB_OUTPUT')
     if not run:
         if output:
@@ -327,7 +329,10 @@ def finalize():
     at=now()
     stable_policy.observe(state,all_results,at,manifest['cycle'],measured['environment']['profile'])
     alive=reconcile(state,all_results,at)
-    fresh=[r for r in alive if stable_policy.age(at,state['nodes'][r['id']]['last_checked'])<=6*3600+600]
+    # Retry rounds retain untested active records from the last completed full
+    # cycle. The next due full cycle refreshes them; a time boundary must not
+    # empty the subscription during an otherwise successful targeted retry.
+    fresh=alive
     selected,phase=stable_policy.choose(state,fresh,at)
     stable_policy.assign_numbers(state,selected)
     picks=stable_policy.recommendations(state,selected,manifest['cycle'])
