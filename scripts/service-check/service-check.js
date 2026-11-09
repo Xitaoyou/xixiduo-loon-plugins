@@ -157,35 +157,35 @@
   function flag(code){code=region(code);if(code==='UK')code='GB';return /^[A-Z]{2}$/.test(code)?String.fromCodePoint(...[...code].map(x=>127397+x.charCodeAt(0))):'🌐';}
   function qualityLevel(q){if(q.flags && (q.flags.tor===true||q.flags.abuse===true))return '风险';return q.type==='未知'?'未知':q.type==='机房'?'一般':'优';}
   const iconNames={google:'Google',github:'GitHub',youtube:'YouTube',chatgpt:'ChatGPT',claude:'Claude',gemini:'GoogleGemini',netflix:'Netflix',disney:'Disney+',prime:'PrimeVideo',spotify:'Spotify',tiktok:'TikTok',discord:'Discord',bilibili:'Bilibili'};
-  function renderHtml(lines,time){
+  function shortStatus(r){return r.status==='available'?'通过':labels[r.status]||'未知';}
+  function renderHtml(){
     const esc=escapeHtml;
-    const path=route==='current'?'按当前分流规则':route;
-    const rows=selected.map((entry,i)=>{
-      const r=results[i]||{status:'timeout'},ok=r.status==='available';
-      const color=ok?'#16a36a':r.status==='timeout'||r.status==='failed'?'#df4c55':'#bd7d13';
-      const image=typeof APP_ICONS==='object'&&APP_ICONS[iconNames[entry[0]]];
-      const logo=image?'<img width="32" height="32" style="border-radius:8px" src="'+image+'">':'🔎';
-      return '<tr><td style="width:42px;padding:14px 0;border-bottom:1px solid #e5e7eb">'+logo+'</td><td style="padding:14px 8px;border-bottom:1px solid #e5e7eb"><b>'+esc(entry[1])+'</b><div style="color:'+color+';font-size:13px;margin-top:5px">'+(ok?'● ':'● ')+esc(labels[r.status]||'未知')+'</div></td><td style="text-align:right;white-space:nowrap;border-bottom:1px solid #e5e7eb"><div>'+flag(r.region)+' '+esc(r.region||'地区未知')+'</div><div style="font-size:13px;color:#6b7280;margin-top:5px">'+(r.delay?esc(r.delay)+' ms':'—')+'</div></td></tr>';
-    }).join('');
-    let ip='';
+    let html='';
     if(wantsIp){
       const q=ipResult;
-      if(!q||q.error)ip='<div class="card"><b>🌐 IP 信息</b><p>'+esc(q&&q.error||'检测未完成')+'</p></div>';
-      else {
-        const risks=[['proxy','代理'],['vpn','VPN'],['tor','Tor'],['abuse','滥用']].map(([key,name])=>name+'：'+(q.flags[key]===true?'已标记':q.flags[key]===false?'未标记':'未知')).join(' · ');
-        ip='<div class="card"><div class="muted">本次查询出口 · '+esc(path)+'</div><h2 style="margin:12px 0;overflow-wrap:anywhere">'+flag(q.country)+' '+esc(q.ip)+'</h2><div><span class="badge">'+esc(q.type)+(q.inferred?'（推断）':'')+'</span> <span class="badge">质量参考：'+qualityLevel(q)+'</span></div><p style="margin-bottom:4px;overflow-wrap:anywhere">'+esc(q.org||'组织未知')+(q.asn?' · '+esc(String(q.asn).startsWith('AS')?q.asn:'AS'+q.asn):'')+'</p><div class="muted">来源：'+esc(q.source)+'</div><p class="muted">'+esc(risks)+'</p><div class="muted">质量按 FlClash 的类型/风险标记规则推断，不代表完整风险评分。此 IP 不代表所有服务的出口。</div></div>';
-      }
+      if(q&&q.ip){
+        html+='<p><b>'+flag(q.country)+' '+esc(q.ip)+'</b><br><font color="#737780">'+esc(q.type)+(q.inferred?'（推断）':'')+' · 质量参考：'+qualityLevel(q)+'</font></p><hr>';
+      }else html+='<p><font color="#737780">IP 查询失败</font></p><hr>';
     }
-    const good=results.filter(r=>r&&r.status==='available').length;
-    return '<!doctype html><html lang="zh-CN"><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="color-scheme" content="light dark"><style>body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;margin:0;padding:16px;background:#f2f4f8;color:#202633;font-size:15px}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px}.muted{color:#697386;font-size:12px;line-height:1.7}.badge{display:inline-block;background:#edf2f7;border-radius:7px;padding:5px 8px;font-size:13px}table{width:100%;border-collapse:collapse}h1{font-size:22px;margin:0 0 10px}p{line-height:1.6}@media(prefers-color-scheme:dark){body{background:#17191f;color:#eef1f7}.card{background:#242730}.badge{background:#363b48}.muted{color:#a8b0bf}}</style></head><body><div class="card"><h1>常用服务检测</h1><div class="muted">检测路径：'+esc(path)+'<br>'+esc(time)+'</div><p style="margin-bottom:0"><b>'+good+' / '+selected.length+'</b> 项规则通过 · '+(selected.length-good)+' 项需查看</p></div>'+ip+'<div class="card"><table>'+rows+'</table></div><div class="muted">仅手动运行，无后台轮询。状态来自端点探测和地区推断，不代表账号登录、聊天或视频播放实测。国家未知时不借用 IP 查询地区。应用图标已内嵌，无需额外下载。</div></body></html>';
+    html+=selected.map((entry,i)=>{
+      const r=results[i]||{status:'timeout'},ok=r.status==='available';
+      const image=typeof APP_ICONS==='object'&&APP_ICONS[iconNames[entry[0]]];
+      const name=entry[1]==='YouTube Premium'?'YouTube':entry[1];
+      const logo=image?'<img width="20" height="20" src="'+image+'">&nbsp;&nbsp;':'';
+      const details=[shortStatus(r)];
+      if(r.region)details.push(flag(r.region)+' '+r.region);
+      if(r.delay)details.push(r.delay+' ms');
+      const color=ok?'#15966a':r.status==='timeout'||r.status==='failed'?'#ce454c':'#ac751a';
+      return '<p>'+logo+'<b>'+esc(name)+'</b><br><font color="'+color+'">● '+esc(details.join(' · '))+'</font></p>';
+    }).join('');
+    return html;
   }
   function report() {
     if(finished)return;finished=true;
     const lines=selected.map((x,i)=>{const r=results[i] || {status:'timeout'};return (r.status==='available'?'🟢':r.status==='timeout'||r.status==='failed'?'🔴':'🟠')+' '+x[1]+'：'+(labels[r.status]||'未知')+(r.region?' ['+r.region+']':'')+(r.delay?' · '+r.delay+' ms':'');});
-    const time=new Date().toISOString().replace('T',' ').replace(/\.\d+Z$/,' UTC');
-    const ipText=wantsIp?'\n🌐 IP：'+(ipResult&&ipResult.ip?ipResult.ip+' · '+ipResult.type+' · 质量参考 '+qualityLevel(ipResult):'未能查询')+'\n':'';
-    const content='路径：'+(route==='current'?'按当前 Loon 路由':route)+ipText+'\n'+lines.join('\n\n')+'\n检测完成：'+time+'\n地区结论来自上游规则推断；非登录、对话或播放实测。';
-    $done({title:'常用服务检测',content,htmlMessage:renderHtml(lines,time)});
+    const ipText=wantsIp&&ipResult&&ipResult.ip?'🌐 '+ipResult.ip+' · '+ipResult.type+' · 质量参考 '+qualityLevel(ipResult)+'\n\n':'';
+    const content=ipText+selected.map((entry,i)=>{const r=results[i]||{status:'timeout'};return entry[1]+'：'+shortStatus(r)+(r.region?' · '+flag(r.region)+' '+r.region:'')+(r.delay?' · '+r.delay+' ms':'');}).join('\n\n');
+    $done({title:'常用服务检测',content,htmlMessage:renderHtml()});
   }
   const deadline=setTimeout(report,100000);
   async function worker(){while(cursor<tasks.length && !finished){const i=cursor++;await tasks[i]();}}
