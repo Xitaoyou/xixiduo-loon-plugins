@@ -143,5 +143,36 @@ class StableTests(unittest.TestCase):
         self.assertEqual(r['download_samples_mbps'],[10,20,30])
         self.assertEqual(transfer.call_args_list[0].args,(20000,256*1024))
 
+    def test_central_measurement_caps_downloads_and_skips_slow_media(self):
+        import tempfile
+        import threading
+        import time
+        from pathlib import Path
+        from contextlib import contextmanager
+        for speed in (9,20):
+            with self.subTest(speed=speed),tempfile.TemporaryDirectory() as folder:
+                rows=[result(i) for i in range(4)];ports={r['id']:20000+i for i,r in enumerate(rows)}
+                ips={port:r['exit_ip'] for r,port in zip(rows,ports.values())}
+                active=0;peak=0;calls=0;lock=threading.Lock()
+                def transfer(port):
+                    nonlocal active,peak,calls
+                    with lock:active+=1;peak=max(peak,active);calls+=1
+                    time.sleep(.02)
+                    with lock:active-=1
+                    return {'download_mbps':speed,'download_samples_mbps':[speed]*3}
+                @contextmanager
+                def core(*args):yield ports
+                def trace(port,**kwargs):return {'country':'US','ip':ips[port]}
+                def basic(port,*args):return {'country':'US','exit_ip':ips[port],'basic_latency_ms':100,'status':'alive'}
+                pool.write(Path(folder)/'manifest.json',{'cycle':'central'})
+                env={'country':'US','direct_mbps':100,'profile':'test'}
+                with patch('pool.WORK',Path(folder)),patch('pool.collect_results',return_value=rows),patch('pool.running_core',side_effect=core),patch('pool.controls'),patch('steady_probe.environment',return_value=env),patch('health.request_trace',side_effect=trace),patch('steady_probe.basic',side_effect=basic),patch('pool.quality',return_value=rows[0]['quality']),patch('pool.check_ai',return_value=rows[0]['ai']),patch('steady_probe.detailed',side_effect=transfer),patch('pool.check_media',return_value=rows[0]['media']) as media:
+                    pool.measure('unused-core')
+                self.assertEqual(calls,4);self.assertLessEqual(peak,2)
+                self.assertEqual(media.call_count,4 if speed>=10 else 0)
+                measured=pool.read(Path(folder)/'measured.json')
+                self.assertEqual(measured['cycle'],'central')
+                self.assertTrue(all(r['download_mbps']==speed and r['measurement_profile']==policy.PROFILE for r in measured['results']))
+
 
 if __name__=='__main__':unittest.main()
