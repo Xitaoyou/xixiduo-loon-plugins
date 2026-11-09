@@ -11,6 +11,7 @@ import subprocess
 import tempfile
 import time
 from ai_check import check_ai, POLICY
+from enrich import quality, quality_key, check_media, download, select
 
 TARGETS = ('https://www.cloudflare.com/cdn-cgi/trace',
            'https://one.one.one.one/cdn-cgi/trace')
@@ -74,7 +75,7 @@ def parse_trace(text):
     return country
 
 
-def request_trace(proxy_port=None, target=TARGETS[0]):
+def request_trace(proxy_port=None, target=TARGETS[0], details=False):
     env = {k: v for k, v in os.environ.items() if k.lower() not in
            ('http_proxy', 'https_proxy', 'all_proxy', 'no_proxy')}
     # -q 禁用 .curlrc，明确禁止环境代理和 direct fallback，不跟随重定向。
@@ -84,7 +85,11 @@ def request_trace(proxy_port=None, target=TARGETS[0]):
     proc = subprocess.run(command, capture_output=True, text=True, timeout=13, env=env)
     if proc.returncode:
         raise ValueError('proxy request failed')
-    return parse_trace(proc.stdout)
+    country = parse_trace(proc.stdout)
+    if details:
+        fields = dict(line.split('=', 1) for line in proc.stdout.splitlines() if '=' in line)
+        return dict(country=country, ip=fields['ip'])
+    return country
 
 
 def country_label(code):
@@ -142,17 +147,29 @@ def check(content, binary):
                 code = None
                 for target in TARGETS:
                     try:
-                        code = request_trace(20000 + index, target)
+                        code = request_trace(20000 + index, target, details=True)
                         break
                     except (ValueError, OSError, subprocess.SubprocessError):
                         pass
                 if not code:
                     return None
                 ai = check_ai(20000 + index)
-                return code, name, body, ai
+                return dict(country=code['country'], exit_ip=code['ip'], id=name.rsplit('-', 1)[-1][:8],
+                            body=body, ai=ai, port=20000 + index)
 
             with ThreadPoolExecutor(max_workers=4) as pool:
                 reachable = [item for item in pool.map(probe, enumerate(candidates)) if item]
+            passed = [node for node in reachable if node['ai']['passed']]
+            print(json.dumps({'stage':'AI complete','reachable':len(reachable),'ai_passed':len(passed)}), flush=True)
+
+            def enrich(node):
+                node['quality'] = quality(node['exit_ip'])
+                node['media'] = check_media(node['port'])
+                node['download_mbps'] = download(node['port']) if node['media']['all_passed'] else None
+                return node
+
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                passed = list(pool.map(enrich, passed))
         finally:
             core.terminate()
             try:
@@ -160,26 +177,41 @@ def check(content, binary):
             except subprocess.TimeoutExpired:
                 core.kill()
                 core.wait()
-    passed = [item for item in reachable if item[3]['passed']]
     if not passed:
         raise ValueError('no node passed at least two AI probes; previous subscription retained')
     output, counts = [], Counter()
     countries = Counter()
     node_results = []
-    for code, name, body, ai in sorted(passed, key=lambda item: (item[3]['latency_ms'], item[1])):
-        # 保留短哈希使同国家、同协议的多个节点仍可区分。
-        short_id = name.rsplit('-', 1)[-1][:8]
+    country_numbers = Counter()
+    for node in sorted(passed, key=lambda n: (n['country'], *quality_key(n['quality']), n['ai']['latency_ms'], n['id'])):
+        code, body, ai = node['country'], node['body'], node['ai']
         protocol = body.split(',', 1)[0]
-        services = '+'.join(k.replace('ChatGPT', 'GPT') for k, v in ai['services'].items() if v['passed'])
-        output.append(f'{country_label(code)} [{services}] {protocol}-{short_id} = {body}')
-        node_results.append(dict(id=short_id, country=code, **ai))
+        country_numbers[code] += 1
+        node['name'] = f'{country_label(code)} {country_numbers[code]:02d}'
+        output.append(f'{node["name"]} = {body}')
+        node_results.append(dict(id=node['id'], name=node['name'], country=code, **ai,
+                                 quality=node['quality'], media=node['media'], download_mbps=node['download_mbps']))
         counts[protocol] += 1
         countries[code] += 1
+    ai_picks, media_picks = select(passed)
+    aliases, recommendations = [], {}
+    for category, labels, picks in (('ai', ('AI推荐', '备选AI'), ai_picks),
+                                     ('media', ('流媒体推荐', '备选流媒体'), media_picks)):
+        recommendations[category] = []
+        for label, node in zip(labels, picks):
+            aliases.append(f'{label}：{node["name"]} = {node["body"]}')
+            recommendations[category].append(dict(label=label, node=node['name'], id=node['id']))
+    output = aliases + output
     metadata = dict(connection_tested=True, test_method='HTTPS trace and at least 2 of ChatGPT/Claude/Gemini; TLS verified',
                     tested_from='GitHub Actions runner', candidates=len(lines),
                     unreachable=len(candidates) - len(reachable), endpoint_rejected=skipped,
                     ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY,
-                    sort_by='median passing AI HTTP response time ascending; not bandwidth',
+                    sort_by='country; IP quality descending; AI response latency ascending',
+                    recommendations=recommendations, recommendation_rows=len(aliases),
+                    media_required=['Netflix','Disney+','YouTube Premium','Prime Video'],
+                    media_all_passed=sum(n['media']['all_passed'] for n in passed),
+                    media_service_passes={k:sum(n['media']['services'][k] for n in passed) for k in ('Netflix','Disney+','YouTube Premium','Prime Video')},
+                    quality_labels=dict(Counter(n['quality']['label'] for n in passed)),
                     node_results=node_results,
                     countries=dict(countries), test_seconds=round(time.monotonic() - started, 1))
     return '\n'.join(output) + '\n', dict(counts), metadata

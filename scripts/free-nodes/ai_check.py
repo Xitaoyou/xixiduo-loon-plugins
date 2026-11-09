@@ -13,7 +13,7 @@ CLAUDE_BLOCKED = {'AF', 'BY', 'CN', 'CU', 'HK', 'IR', 'KP', 'MO', 'RU', 'SY'}
 GEMINI_BLOCKED = {'CHN', 'RUS', 'BLR', 'CUB', 'IRN', 'PRK', 'SYR', 'HKG', 'MAC'}
 
 
-def fetch(port, url):
+def fetch(port, url, headers=None, data=None):
     env = {k: v for k, v in os.environ.items() if k.lower() not in
            ('http_proxy', 'https_proxy', 'all_proxy', 'no_proxy')}
     marker = '\n__LOON_RESPONSE__'
@@ -22,9 +22,14 @@ def fetch(port, url):
                '--max-time', '10', '--connect-timeout', '7', '--max-filesize', '2097152',
                '--noproxy', '', '--proxy', f'http://127.0.0.1:{port}',
                '--user-agent', 'Mozilla/5.0',
-               '--write-out', marker + '%{http_code} %{time_total}', url]
+               '--write-out', marker + '%{http_code} %{time_total}']
+    for key, value in (headers or {}).items():
+        command += ['--header', key + ': ' + value]
+    if data is not None:
+        command += ['--data-binary', '@-']
+    command.append(url)
     proc = subprocess.run(command, capture_output=True, text=True, encoding='utf-8', errors='replace',
-                          timeout=13, env=env)
+                          input=data, timeout=13, env=env)
     if proc.returncode:
         raise ValueError('AI probe failed')
     body, timing = proc.stdout.rsplit(marker, 1)

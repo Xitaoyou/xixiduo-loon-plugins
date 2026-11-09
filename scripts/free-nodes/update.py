@@ -172,16 +172,18 @@ def publish(text, output=ROOT / 'subscriptions/free-nodes.txt'):
     output.parent.mkdir(parents=True, exist_ok=True)
     updated_at = datetime.now(timezone.utc)
     if metadata['connection_tested']:
-        # 在真实已通过节点上显示时间；不增加占位节点或重复连接。
+        # 时间项复用已通过的真实连接；放在推荐项之后，不打乱顶部推荐。
         lines = content.splitlines()
         local_time = updated_at.astimezone(timezone(timedelta(hours=8)))
-        lines[0] = f'🕒 {local_time:%m-%d %H:%M} 更新（北京） · ' + lines[0]
+        first_body = lines[0].split(' = ', 1)[1]
+        lines.insert(metadata.get('recommendation_rows', 0), f'🕒 免费节点刷新 {local_time:%m-%d %H:%M}（北京） = {first_body}')
         content = '\n'.join(lines) + '\n'
     tmp = output.with_suffix('.tmp')
     tmp.write_text(content, encoding='utf-8', newline='\n')
     os.replace(tmp, output)
     status = {'updated_at': updated_at.isoformat(),
               'nodes': sum(counts.values()), 'protocols': counts,
+              'published_rows':len(content.splitlines()),
               **metadata, 'filtered': rejected.get('filtered', 0)}
     output.with_suffix('.json').write_text(json.dumps(status, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     # 中文文件名作为导入名称的兼容提示；旧地址继续提供相同内容。
