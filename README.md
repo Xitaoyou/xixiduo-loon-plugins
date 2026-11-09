@@ -17,6 +17,12 @@
 | SideStore 本机回环 · 官方参数对照测试 | 独立测试版：采用 Loon 官方回环参数，关闭 IPv6 VIF；用于排查 SideStore 0.7 刷新失败，不要与原刷新助手同时启用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Official-Loopback-Test.lpx) · [查看文件](plugins/SideStore-Official-Loopback-Test.lpx) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名和接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
 
+## 节点订阅
+
+| 订阅 | 功能 | 使用 |
+| --- | --- | --- |
+| 免费节点（试用） | 云端每 6 小时更新，保守过滤与去重；连通性需实测 | [一键添加](https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2Ffree-nodes.txt) · [订阅地址](https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/free-nodes.txt) · [使用说明](docs/Free-Nodes.md) |
+
 ## 使用提示
 
 - **哔哩哔哩**：过滤开屏、首页等广告，提供 AI 字幕兼容、导航精简和赞助片段跳过。自动跳过默认关闭，为实验功能，依赖第三方片段数据，效果随视频和客户端版本变化；可能影响播放或字幕。请勿同时启用原版插件。需开启 MitM、MitM over HTTP/2 并信任证书。

@@ -1,0 +1,10 @@
+{
+  "updated_at": "2026-11-09T10:27:18.071140+00:00",
+  "nodes": 114,
+  "protocols": {
+    "VMess": 100,
+    "Hysteria2": 14
+  },
+  "connection_tested": false,
+  "filtered": 2862
+}
