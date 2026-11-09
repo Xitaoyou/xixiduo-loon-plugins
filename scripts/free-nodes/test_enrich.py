@@ -4,12 +4,26 @@ from unittest.mock import patch
 import enrich
 
 
-def node(identity, ip, ai=3, grade=2, risk=0, delay=100, speed=10, media=True):
-    return dict(id=identity, exit_ip=ip, ai={'pass_count':ai,'latency_ms':delay},
+def node(identity, ip, ai=3, grade=2, risk=0, delay=100, speed=10, media=True, country='US'):
+    return dict(id=identity, exit_ip=ip, country=country, ai={'pass_count':ai,'latency_ms':delay},
                 quality={'grade':grade,'risk_score':risk}, media={'all_passed':media},download_mbps=speed)
 
 
 class RecommendationTests(unittest.TestCase):
+    def test_one_country_winner_quality_before_latency(self):
+        candidates=[node('fast','1',grade=2,delay=1),node('best','2',grade=3,delay=500),
+                    node('jp-slow','3',country='JP',delay=300),node('jp-fast','4',country='JP',delay=100)]
+        self.assertEqual([n['id'] for n in enrich.country_best(candidates)],['jp-fast','best'])
+
+    def test_download_selection_not_limited_to_media_unlock(self):
+        candidates=[node('slow','1',speed=10),node('fast','2',speed=100,media=False),node('failed','3',speed=None)]
+        self.assertEqual(enrich.download_best(candidates)[0]['id'],'fast')
+        self.assertEqual(enrich.download_best([node('failed','3',speed=None)]),[])
+
+    def test_names_include_only_real_measurements(self):
+        self.assertEqual(enrich.measured_name('US 01',node('a','1',speed=12.345,delay=99)),'US 01｜99ms · 12.35Mbps')
+        self.assertEqual(enrich.measured_name('US 01',node('a','1',speed=None,delay=99)),'US 01｜99ms')
+
     def test_ai_service_count_before_quality_then_latency(self):
         candidates=[node('two','1',ai=2,grade=3,delay=1),node('three','2',ai=3,grade=2,delay=500)]
         self.assertEqual(enrich.select(candidates)[0][0]['id'],'three')

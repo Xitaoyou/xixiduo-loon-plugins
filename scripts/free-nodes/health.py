@@ -11,7 +11,7 @@ import subprocess
 import tempfile
 import time
 from ai_check import check_ai, POLICY
-from enrich import quality, quality_key, check_media, download, select
+from enrich import quality, quality_key, check_media, download, select, country_best, download_best, measured_name
 
 TARGETS = ('https://www.cloudflare.com/cdn-cgi/trace',
            'https://one.one.one.one/cdn-cgi/trace')
@@ -165,7 +165,7 @@ def check(content, binary):
             def enrich(node):
                 node['quality'] = quality(node['exit_ip'])
                 node['media'] = check_media(node['port'])
-                node['download_mbps'] = download(node['port']) if node['media']['all_passed'] else None
+                node['download_mbps'] = download(node['port'])
                 return node
 
             with ThreadPoolExecutor(max_workers=4) as pool:
@@ -182,21 +182,28 @@ def check(content, binary):
     output, counts = [], Counter()
     countries = Counter()
     node_results = []
+    best = country_best(passed)
+    ai_picks, media_picks = select(passed)
+    download_picks = download_best(passed)
+    # 推荐可以超出同国综合最优项；其余普通条目不再发布。
+    retained = {n['id']:n for n in best + ai_picks + media_picks + download_picks}
+    country_best_ids = {n['id'] for n in best}
     country_numbers = Counter()
-    for node in sorted(passed, key=lambda n: (n['country'], *quality_key(n['quality']), n['ai']['latency_ms'], n['id'])):
+    for node in sorted(retained.values(), key=lambda n: (n['country'], n['id'] not in country_best_ids, n['id'])):
         code, body, ai = node['country'], node['body'], node['ai']
         protocol = body.split(',', 1)[0]
         country_numbers[code] += 1
-        node['name'] = f'{country_label(code)} {country_numbers[code]:02d}'
-        output.append(f'{node["name"]} = {body}')
+        node['name'] = measured_name(f'{country_label(code)} {country_numbers[code]:02d}', node)
+        if node['id'] in country_best_ids:
+            output.append(f'{node["name"]} = {body}')
         node_results.append(dict(id=node['id'], name=node['name'], country=code, **ai,
                                  quality=node['quality'], media=node['media'], download_mbps=node['download_mbps']))
         counts[protocol] += 1
         countries[code] += 1
-    ai_picks, media_picks = select(passed)
     aliases, recommendations = [], {}
     for category, labels, picks in (('ai', ('AI推荐', '备选AI'), ai_picks),
-                                     ('media', ('流媒体推荐', '备选流媒体'), media_picks)):
+                                     ('media', ('流媒体推荐', '备选流媒体'), media_picks),
+                                     ('download', ('下载推荐',), download_picks)):
         recommendations[category] = []
         for label, node in zip(labels, picks):
             aliases.append(f'{label}：{node["name"]} = {node["body"]}')
@@ -205,8 +212,9 @@ def check(content, binary):
     metadata = dict(connection_tested=True, test_method='HTTPS trace and at least 2 of ChatGPT/Claude/Gemini; TLS verified',
                     tested_from='GitHub Actions runner', candidates=len(lines),
                     unreachable=len(candidates) - len(reachable), endpoint_rejected=skipped,
-                    ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY,
-                    sort_by='country; IP quality descending; AI response latency ascending',
+                    ai_rejected=len(reachable) - len(passed), ai_min_pass=2, filter_policy=POLICY+'-country-best-v1',
+                    sort_by='one best per country: IP quality then AI response latency; preserve recommendations',
+                    ai_qualified=len(passed),country_best_count=len(best),
                     recommendations=recommendations, recommendation_rows=len(aliases),
                     media_required=['Netflix','Disney+','YouTube Premium','Prime Video'],
                     media_all_passed=sum(n['media']['all_passed'] for n in passed),

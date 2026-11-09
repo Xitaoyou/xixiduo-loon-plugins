@@ -150,3 +150,26 @@ def select(nodes):
     media = pick_two([n for n in nodes if n['media']['all_passed'] and n.get('download_mbps')],
                      lambda n: (-n['download_mbps'], *quality_key(n['quality']), n['ai']['latency_ms'], n['id']))
     return ai, media
+
+
+def country_best(nodes):
+    """每国只保留质量、延迟综合最优的一条；下载速度作为同分参考。"""
+    result = {}
+    key = lambda n: (*quality_key(n['quality']), n['ai']['latency_ms'], -(n.get('download_mbps') or 0), n['id'])
+    for node in sorted(nodes, key=key):
+        result.setdefault(node['country'], node)
+    return [result[code] for code in sorted(result)]
+
+
+def download_best(nodes):
+    measured = [n for n in nodes if n.get('download_mbps') and n['download_mbps'] > 0]
+    if not measured:
+        return []
+    return sorted(measured, key=lambda n: (-n['download_mbps'], *quality_key(n['quality']), n['ai']['latency_ms'], n['id']))[:1]
+
+
+def measured_name(name, node):
+    suffix = f'{node["ai"]["latency_ms"]}ms'
+    if node.get('download_mbps') is not None:
+        suffix += f' · {node["download_mbps"]:.2f}Mbps'
+    return name + '｜' + suffix
