@@ -42,7 +42,7 @@ def observe(state,results,at,cycle,environment):
         stable=len(last)>=3 and span>=12*3600 and rate>=.95 and p25>=10
         basic=[h['basic'] for h in window if h.get('basic') is not None]
         jitter=(quantile(basic,.95)-quantile(basic,.5)) if basic else 999999
-        r.update(success_rate=rate,conservative_mbps=p25,stable=stable,observation_rounds=len(perf),
+        r.update(observation_cycle=cycle,success_rate=rate,conservative_mbps=p25,stable=stable,observation_rounds=len(perf),
                  observation_span_hours=round(span/3600,2),latency_variation_ms=jitter,
                  selection_score=(p25 or r.get('download_mbps') or 0)*rate)
 
@@ -99,8 +99,9 @@ def recommendations(state,nodes,cycle):
                     trial=trials.get(key,{})
                     improved=challenger.get('selection_score',0)>=previous.get('selection_score',0)*1.2
                     count=trial.get('count',0)+1 if improved and trial.get('id')==challenger['id'] else 1 if improved else 0
-                    if trial.get('cycle')==cycle:count=trial.get('count',count)
-                    trials[key]={'id':challenger['id'],'count':count,'cycle':cycle}
+                    sample_cycle=challenger.get('observation_cycle',cycle)
+                    if trial.get('cycle')==sample_cycle:count=trial.get('count',count)
+                    trials[key]={'id':challenger['id'],'count':count,'cycle':sample_cycle}
                     if count<2:chosen=previous
             picks.append(chosen)
         output[category]=picks;incumbents[category]=[n['id'] for n in picks]

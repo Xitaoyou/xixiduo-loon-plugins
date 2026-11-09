@@ -99,6 +99,18 @@ class StableTests(unittest.TestCase):
             run.return_value.returncode=1
             with self.assertRaises(RuntimeError):pool.state_load()
 
+    def test_retry_round_cannot_recount_an_unchanged_recommendation_sample(self):
+        state={};a,b,c=result(0),result(1),result(2)
+        for r,score in zip((a,b,c),(20,19,18)):r['selection_score']=score
+        policy.recommendations(state,[a,b,c],'full1')
+        c.update(selection_score=30,observation_cycle='full2')
+        policy.recommendations(state,[a,b,c],'full2')
+        picks=policy.recommendations(state,[a,b,c],'retry-other-nodes')
+        self.assertEqual(picks['download'][0]['id'],'0')
+        c['observation_cycle']='full3'
+        picks=policy.recommendations(state,[a,b,c],'full3')
+        self.assertEqual(picks['download'][0]['id'],'2')
+
     def test_two_providers_required_and_unknown_not_zero(self):
         def fake(name,port):
             if name=='google':return {'ms':100}
