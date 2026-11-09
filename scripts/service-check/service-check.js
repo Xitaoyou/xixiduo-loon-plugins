@@ -66,16 +66,25 @@
       asn:asn.asn||(j.isp||{}).asn||'',country:region((j.location||{}).country_code||(j.location||{}).countryCode||'')};
   }
   async function ipQuality() {
-    const first=await request('https://ident.me/json');
-    let j;try{j=JSON.parse(first.body);}catch(_){return {error:first.error||'IP 查询失败'};}
-    if(first.error||first.code!==200||!validIp(j.ip))return {error:first.error||'无有效公网 IP'};
+    let j=null,origin='';
+    for(const [source,url] of [['ident.me','https://ident.me/json'],['ipquery.io','https://api.ipquery.io/?format=json'],['ipify.org','https://api.ipify.org?format=json']]){
+      const r=await request(url);if(r.error||r.code!==200)continue;
+      try{const candidate=JSON.parse(r.body);if(validIp(candidate.ip)){j=candidate;origin=source;break;}}catch(_){}
+    }
+    if(!j)return {error:'IP 查询失败'};
     const ip=j.ip,loc=region(j.cc||j.country_iso||j.country_code||'');
     const type=declaredType(j.type);
-    if(type)return {ip,source:'ident.me',type,inferred:false,flags:{},org:j.aso||'',asn:j.asn||'',country:loc};
+    if(type)return {ip,source:origin,type,inferred:false,flags:{},org:j.aso||'',asn:j.asn||'',country:loc};
     let fallback=null;
+    if(origin==='ipquery.io'){
+      const q=qualityRecord(ip,j,origin);if(!q.country)q.country=loc;
+      if(q.type!=='未知'&&!q.inferred)return q;
+      if(q.inferred)fallback=q;
+    }
     // Query by the explicit observed address: provider routing may differ, so
     // their own outbound address is never silently substituted for this IP.
     for(const [source,url] of [['ipquery.io','https://api.ipquery.io/'+encodeURIComponent(ip)+'?format=json'],['ipapi.is','https://api.ipapi.is/?q='+encodeURIComponent(ip)]]){
+      if(source===origin)continue;
       const r=await request(url);if(r.error||r.code!==200)continue;
       try{
         const obj=JSON.parse(r.body);
@@ -85,7 +94,7 @@
         if(q.inferred)fallback=q;
       }catch(_){}
     }
-    return fallback||{ip,country:loc,type:'未知',source:'ident.me（其他来源不可用）',flags:{},org:j.aso||'',asn:j.asn||''};
+    return fallback||{ip,country:loc,type:'未知',source:origin+'（类型来源不可用）',flags:{},org:j.aso||'',asn:j.asn||''};
   }
   async function reachable(url) { const r=await request(url); return result(r,status(r)); }
   async function chatgpt() {
@@ -156,6 +165,7 @@
   function escapeHtml(s){return String(s===undefined?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function flag(code){code=region(code);if(code==='UK')code='GB';return /^[A-Z]{2}$/.test(code)?String.fromCodePoint(...[...code].map(x=>127397+x.charCodeAt(0))):'🌐';}
   function qualityLevel(q){if(q.flags && (q.flags.tor===true||q.flags.abuse===true))return '风险';return q.type==='未知'?'未知':q.type==='机房'?'一般':'优';}
+  function qualityColor(q){return {'优':'#15966a','一般':'#ac751a','风险':'#ce454c','未知':'#737780'}[qualityLevel(q)];}
   const iconNames={google:'Google',github:'GitHub',youtube:'YouTube',chatgpt:'ChatGPT',claude:'Claude',gemini:'GoogleGemini',netflix:'Netflix',disney:'Disney+',prime:'PrimeVideo',spotify:'Spotify',tiktok:'TikTok',discord:'Discord',bilibili:'Bilibili'};
   function shortStatus(r){return r.status==='available'?'通过':labels[r.status]||'未知';}
   function renderHtml(){
@@ -164,7 +174,7 @@
     if(wantsIp){
       const q=ipResult;
       if(q&&q.ip){
-        html+='<p><b>'+flag(q.country)+' '+esc(q.ip)+'</b><br><font color="#737780">'+esc(q.type)+(q.inferred?'（推断）':'')+' · 质量参考：'+qualityLevel(q)+'</font></p><hr>';
+        html+='<p><b>'+flag(q.country)+' '+esc(q.ip)+'</b><br><font color="#737780">'+esc(q.type)+(q.inferred?'（推断）':'')+' · </font><font color="'+qualityColor(q)+'"><b>'+qualityLevel(q)+'</b></font></p><hr>';
       }else html+='<p><font color="#737780">IP 查询失败</font></p><hr>';
     }
     html+=selected.map((entry,i)=>{
@@ -183,7 +193,7 @@
   function report() {
     if(finished)return;finished=true;
     const lines=selected.map((x,i)=>{const r=results[i] || {status:'timeout'};return (r.status==='available'?'🟢':r.status==='timeout'||r.status==='failed'?'🔴':'🟠')+' '+x[1]+'：'+(labels[r.status]||'未知')+(r.region?' ['+r.region+']':'')+(r.delay?' · '+r.delay+' ms':'');});
-    const ipText=wantsIp&&ipResult&&ipResult.ip?'🌐 '+ipResult.ip+' · '+ipResult.type+' · 质量参考 '+qualityLevel(ipResult)+'\n\n':'';
+    const ipText=wantsIp&&ipResult&&ipResult.ip?'🌐 '+ipResult.ip+' · '+ipResult.type+' · '+qualityLevel(ipResult)+'\n\n':'';
     const content=ipText+selected.map((entry,i)=>{const r=results[i]||{status:'timeout'};return entry[1]+'：'+shortStatus(r)+(r.region?' · '+flag(r.region)+' '+r.region:'')+(r.delay?' · '+r.delay+' ms':'');}).join('\n\n');
     $done({title:'常用服务检测',content,htmlMessage:renderHtml()});
   }
