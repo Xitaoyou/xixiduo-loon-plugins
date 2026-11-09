@@ -4,27 +4,31 @@
 
 ## 添加到 Loon
 
-[一键添加节点订阅](https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2Ffree-nodes.txt)（在安装 Loon 的 iPhone 上打开）。只添加独立订阅，不替换配置。
+[一键添加免费节点](https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2F%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9&name=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9)（在安装 Loon 的 iPhone 上打开）。只添加独立节点订阅，不替换配置。
 
-在 Loon 的配置中找到「订阅节点」，新增订阅，名称填「免费节点（试用）」，地址粘贴：
+导入链接附带名称「免费节点」，同时使用同名文件作为兼容提示。Loon 官方文档没有明确承诺支持导入链接的 `name` 参数；若你的版本仍未预填名称，首次确认时填写「免费节点」即可，之后无需重复填写。
+
+旧版已经添加的 `free-nodes.txt` 地址会继续更新，无需删除重加；原有订阅名称不会被更新任务强制修改。
+
+手动添加时，在「订阅节点」中新建「免费节点」，地址使用：
 
 ```text
-https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/free-nodes.txt
+https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9
 ```
 
-本订阅已是 Loon 标准节点格式，不需要启用额外的资源解析器。建议使用最新版 Loon。
+已生成 Loon 标准节点格式，不需要启用额外资源解析器。建议使用最新版 Loon。
 
-添加后手动更新一次，再对少量节点测速、试连。把需要的节点加入你已有的代理策略组即可。平时只去广告时，保持原来的规则模式和各用途策略组的 DIRECT 选择；不需要使用这些节点。
+下载后选少量节点在手机上试连，再加入已有代理策略组。平时只去广告时，保持原来的规则模式和各用途策略组的 DIRECT 选择。是否自动加入已有自动选择组，取决于该组的订阅引用或节点筛选条件。
 
-不要把此地址当作完整配置导入，也不要替换当前配置。订阅更新后能否自动进入既有策略组，取决于该组是否引用此订阅或使用相应节点筛选。
+不要将此地址当作完整配置导入。
 
 ## 自动更新
 
-- GitHub Actions 计划每 6 小时拉取、解密、过滤并生成订阅，无需开启电脑。
+- GitHub Actions 计划每 6 小时拉取、解密、过滤，并通过 sing-box 逐节点检测 HTTPS 连通后生成订阅，无需开启电脑。
 - 在 Loon 的订阅自动更新设置中选择每天一次（若版本使用统一更新设置，则在统一设置中开启）。GitHub 更新与手机拉取是两个独立步骤。
 - 可在仓库 Actions → Update free nodes → Run workflow 手动触发生成。
-- 源站失败、解密失败、少于 5 个兼容节点或节点数量下降超过 75% 时，任务报错并保留上次发布内容。
-- [生成状态](../subscriptions/free-nodes.json)记录最后生成时间与数量，不能代表节点可用率。
+- 源站失败、解密失败、候选兼容节点少于 5 个、检测目标整体不可达、全部节点失败，或连续两次已检测版本之间节点数量下降超过 75% 时，任务报错并保留上次发布内容。首次由未检测版本迁移到检测版本时，允许正常剔除大部分无响应条目。
+- [生成状态](../subscriptions/free-nodes.json)记录最后生成时间、候选数量、通过数量及国家分布。失败运行不修改此时间；旧订阅可能保留已经失效的节点。
 - GitHub 定时任务可能延迟；公共仓库连续 60 天没有活动时，定时任务可能自动停用，需在 Actions 中重新启用。
 
 ## 范围与限制
@@ -35,7 +39,16 @@ https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptio
 
 按协议、服务器、端口、凭据和输出连接参数去重，生成稳定名称。只发布节点行，不接收上游规则、脚本、DNS 或 Host 配置。
 
-**生成成功不等于节点连通。** 本项目不批量试连服务器，不保证速度、地区、服务解锁或持续可用性。公开订阅中的连接信息人人可见，来源为第三方公共节点，适合备用测试。
+## 检测与国家标记
+
+- 使用固定版本的 sing-box 官方核心，下载时校验官方发布的 SHA256。
+- 每个候选节点建立独立的本地代理入口，通过该入口请求 Cloudflare HTTPS trace；验证 TLS 证书，不允许直连回退。端口开放不算通过。
+- 每次最多并行检测 4 个节点。首次失败再尝试另一个 trace 地址，两次均失败则排除。
+- 从 HTTPS 响应的 `loc` 字段读取实际出口国家/地区，生成如「🇯🇵 日本 VMess-编号」的名称。常见地区使用中文，其他地区显示国旗和两字母代码。不是沿用上游随意填写的节点名称，也不等同于服务器物理位置。
+- 只对经过参数校验且域名解析为公开地址的节点试连，不执行上游代码或脚本。检测时固定一个解析出的公开 IP，因此其他 IP 可用的节点也可能被保守排除。
+- **检测通过仅代表 GitHub 云端当时能经该节点访问检测站。** 不等于从你的手机网络一定可用，也不保证速度、AI/流媒体解锁或持续在线。GitHub 机房受阻、IPv6 不可达、特定网站受限等情况都可能造成误剔除。
+
+公开订阅中的连接信息人人可见，来源为第三方公共节点，适合备用测试。
 
 手机只需偶尔下载订阅，不运行解密脚本。不要把全部节点放进高频自动测速组，以免增加流量与耗电。
 

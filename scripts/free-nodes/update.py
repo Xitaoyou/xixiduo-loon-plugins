@@ -156,10 +156,17 @@ def build(text):
 
 def publish(text, output=ROOT / 'subscriptions/free-nodes.txt'):
     content, counts, rejected = build(text)
+    metadata = {'connection_tested': False}
+    binary = os.environ.get('SING_BOX_BINARY')
+    if binary:
+        from health import check
+        content, counts, metadata = check(content, binary)
     output = Path(output)
     if output.exists():
         old_count = len(output.read_text(encoding='utf-8').splitlines())
-        if len(content.splitlines()) < old_count * 0.25:
+        old_status_path = output.with_suffix('.json')
+        old_tested = old_status_path.exists() and json.loads(old_status_path.read_text(encoding='utf-8')).get('connection_tested')
+        if (not binary or old_tested) and len(content.splitlines()) < old_count * 0.25:
             raise ValueError('abnormal shrink; previous subscription retained')
     output.parent.mkdir(parents=True, exist_ok=True)
     tmp = output.with_suffix('.tmp')
@@ -167,24 +174,31 @@ def publish(text, output=ROOT / 'subscriptions/free-nodes.txt'):
     os.replace(tmp, output)
     status = {'updated_at': datetime.now(timezone.utc).isoformat(),
               'nodes': sum(counts.values()), 'protocols': counts,
-              'connection_tested': False, 'filtered': rejected.get('filtered', 0)}
+              **metadata, 'filtered': rejected.get('filtered', 0)}
     output.with_suffix('.json').write_text(json.dumps(status, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    # 中文文件名作为导入名称的兼容提示；旧地址继续提供相同内容。
+    if output == ROOT / 'subscriptions/free-nodes.txt':
+        output.with_name('免费节点').write_text(content, encoding='utf-8', newline='\n')
     print(json.dumps(status, ensure_ascii=True))
 
 
 def main():
+    text = None
     for index, url in enumerate(MIRRORS):
         try:
             with urlopen(Request(url, headers={'User-Agent': 'xixiduo-loon-free-nodes/1.0'}), timeout=25) as response:
                 payload = response.read(LIMIT + 1)
             if len(payload) > LIMIT:
                 raise ValueError('oversized source')
-            publish(decrypt(payload))
-            return
+            text = decrypt(payload)
+            build(text)
+            break
         except Exception as exc:
             # 不记录响应正文、节点凭据或带参数 URL。
             print(f'Source {index + 1} failed: {type(exc).__name__}', file=sys.stderr)
-    raise SystemExit('All sources failed; previous subscription retained')
+    if text is None:
+        raise SystemExit('All sources failed; previous subscription retained')
+    publish(text)
 
 
 if __name__ == '__main__':

@@ -1,0 +1,173 @@
+"""通过独立本地代理入口逐节点验证 HTTPS，并读取实际出口国家。"""
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+import ipaddress
+import json
+import os
+from pathlib import Path
+import re
+import socket
+import subprocess
+import tempfile
+import time
+
+TARGETS = ('https://www.cloudflare.com/cdn-cgi/trace',
+           'https://one.one.one.one/cdn-cgi/trace')
+COUNTRIES = dict(US='美国', JP='日本', HK='香港', TW='台湾', SG='新加坡', KR='韩国',
+                 DE='德国', GB='英国', FR='法国', NL='荷兰', CA='加拿大', AU='澳大利亚',
+                 RU='俄罗斯', IN='印度', VN='越南', TH='泰国', MY='马来西亚', ID='印度尼西亚',
+                 PH='菲律宾', TR='土耳其', FI='芬兰', SE='瑞典', NO='挪威', CH='瑞士',
+                 PL='波兰', IT='意大利', ES='西班牙', BR='巴西', ZA='南非', AE='阿联酋',
+                 CN='中国', MO='澳门', IE='爱尔兰', AT='奥地利', BE='比利时', CZ='捷克',
+                 RO='罗马尼亚', UA='乌克兰', IL='以色列', NZ='新西兰', AR='阿根廷', MX='墨西哥')
+
+
+def parse_body(body):
+    values = re.split(r',(?=(?:[^"]*"[^"]*")*[^"]*$)', body)
+    head, options = [], {}
+    for value in values:
+        if '=' in value and len(head) >= (5 if values[0] == 'VMess' else 4):
+            key, val = value.split('=', 1)
+            options[key] = json.loads(val) if val.startswith('"') else val
+        else:
+            head.append(json.loads(value) if value.startswith('"') else value)
+    return head, options
+
+
+def public_ip(host):
+    """先解析并固定公开 IP，避免核心再次解析到内网；SNI/WS Host 保持原值。"""
+    host = host.strip('[]')
+    addresses = sorted({item[4][0] for item in socket.getaddrinfo(host, None, type=socket.SOCK_STREAM)},
+                       key=lambda value: (':' in value, value))
+    if not addresses or any(not ipaddress.ip_address(ip).is_global for ip in addresses):
+        raise ValueError('non-public endpoint')
+    return addresses[0]
+
+
+def outbound(body, tag, resolve=public_ip):
+    head, opt = parse_body(body)
+    kind, host, port = head[:3]
+    result = dict(type='vmess' if kind == 'VMess' else 'hysteria2', tag=tag,
+                  server=resolve(host), server_port=int(port), connect_timeout='8s')
+    if kind == 'VMess':
+        if head[3] == 'aes-128-cfb':
+            raise ValueError('legacy cipher unsupported by test core')
+        result.update(uuid=head[4], security=head[3], alter_id=int(opt['alterId']))
+        if opt['transport'] == 'ws':
+            result['transport'] = dict(type='ws', path=opt['path'], headers={'Host': opt['host']})
+        if opt['over-tls'] == 'true':
+            result['tls'] = dict(enabled=True, server_name=opt['sni'], insecure=False)
+    else:
+        result.update(password=head[3], tls=dict(enabled=True, server_name=opt['sni'], insecure=False))
+    return result
+
+
+def parse_trace(text):
+    if len(text) > 4096:
+        raise ValueError('oversized response')
+    fields = dict(line.split('=', 1) for line in text.splitlines() if '=' in line)
+    ip = ipaddress.ip_address(fields.get('ip', ''))
+    country = fields.get('loc', '')
+    if not ip.is_global or not re.fullmatch('[A-Z]{2}', country):
+        raise ValueError('invalid trace')
+    return country
+
+
+def request_trace(proxy_port=None, target=TARGETS[0]):
+    env = {k: v for k, v in os.environ.items() if k.lower() not in
+           ('http_proxy', 'https_proxy', 'all_proxy', 'no_proxy')}
+    # -q 禁用 .curlrc，明确禁止环境代理和 direct fallback，不跟随重定向。
+    command = ['curl', '-q', '--silent', '--fail', '--max-time', '10',
+               '--connect-timeout', '7', '--max-filesize', '4096', '--noproxy', '',
+               '--proxy', f'http://127.0.0.1:{proxy_port}' if proxy_port else '', target]
+    proc = subprocess.run(command, capture_output=True, text=True, timeout=13, env=env)
+    if proc.returncode:
+        raise ValueError('proxy request failed')
+    return parse_trace(proc.stdout)
+
+
+def country_label(code):
+    flag = ''.join(chr(127397 + ord(char)) for char in code)
+    return flag + ' ' + COUNTRIES.get(code, code)
+
+
+def check(content, binary):
+    started = time.monotonic()
+    lines = content.splitlines()
+    if len(lines) > 512:
+        raise ValueError('unexpected candidate count')
+    # 检测站整体不可达时不清空订阅。
+    request_trace()
+    candidates, skipped = [], 0
+    for line in lines:
+        name, body = line.split(' = ', 1)
+        try:
+            tag = 'node-' + str(len(candidates))
+            candidates.append((name, body, outbound(body, tag)))
+        except (ValueError, OSError, KeyError):
+            skipped += 1
+    if not candidates:
+        raise ValueError('no public candidates')
+    config = {'log': {'disabled': True}, 'inbounds': [], 'outbounds': [],
+              'route': {'rules': []}}
+    for index, (_, _, out) in enumerate(candidates):
+        inbound = 'in-' + str(index)
+        config['inbounds'].append(dict(type='mixed', tag=inbound, listen='127.0.0.1', listen_port=20000 + index))
+        config['outbounds'].append(out)
+        config['route']['rules'].append(dict(inbound=[inbound], action='route', outbound=out['tag']))
+    with tempfile.TemporaryDirectory(prefix='loon-health-') as directory:
+        path = Path(directory) / 'config.json'
+        path.write_text(json.dumps(config), encoding='utf-8')
+        path.chmod(0o600)
+        validated = subprocess.run([binary, 'check', '-c', str(path)], capture_output=True, timeout=20)
+        if validated.returncode:
+            raise ValueError('proxy core configuration rejected')
+        core = subprocess.Popen([binary, 'run', '-c', str(path)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        try:
+            deadline = time.monotonic() + 8
+            while True:
+                if core.poll() is not None:
+                    raise ValueError('proxy core stopped')
+                try:
+                    with socket.create_connection(('127.0.0.1', 20000), timeout=0.2):
+                        break
+                except OSError:
+                    if time.monotonic() >= deadline:
+                        raise ValueError('proxy core not ready')
+                    time.sleep(0.1)
+
+            def probe(item):
+                index, (name, body, _) = item
+                for target in TARGETS:
+                    try:
+                        code = request_trace(20000 + index, target)
+                        return code, name, body
+                    except (ValueError, OSError, subprocess.SubprocessError):
+                        pass
+                return None
+
+            with ThreadPoolExecutor(max_workers=4) as pool:
+                passed = [item for item in pool.map(probe, enumerate(candidates)) if item]
+        finally:
+            core.terminate()
+            try:
+                core.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                core.kill()
+                core.wait()
+    if not passed:
+        raise ValueError('no node passed HTTPS test; previous subscription retained')
+    output, counts = [], Counter()
+    countries = Counter()
+    for code, name, body in sorted(passed):
+        # 保留短哈希使同国家、同协议的多个节点仍可区分。
+        short_id = name.rsplit('-', 1)[-1][:8]
+        protocol = body.split(',', 1)[0]
+        output.append(f'{country_label(code)} {protocol}-{short_id} = {body}')
+        counts[protocol] += 1
+        countries[code] += 1
+    metadata = dict(connection_tested=True, test_method='HTTPS trace through each proxy; TLS verified',
+                    tested_from='GitHub Actions runner', candidates=len(lines),
+                    unreachable=len(candidates) - len(passed), endpoint_rejected=skipped,
+                    countries=dict(countries), test_seconds=round(time.monotonic() - started, 1))
+    return '\n'.join(output) + '\n', dict(counts), metadata
