@@ -21,7 +21,7 @@
 
 | 订阅 | 功能 | 使用 |
 | --- | --- | --- |
-| 免费节点（试用） | 每国精选四条免费优质节点，自动推荐 AI/流媒体、下载与纯净 IP的主备节点 | [一键添加](https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2F%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9&name=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [订阅地址](https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [使用说明](docs/Free-Nodes.md) |
+| 免费节点（试用） | 每国精选四条免费优质节点，自动推荐 AI/流媒体解锁、下载与纯净 IP的主备节点 | [一键添加](https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2F%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9&name=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [订阅地址](https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [使用说明](docs/Free-Nodes.md) |
 
 ## 使用提示
 
