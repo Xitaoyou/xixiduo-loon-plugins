@@ -64,6 +64,6 @@ https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptio
 
 手机只需偶尔下载订阅，不运行解密脚本。不要把全部节点放进高频自动测速组，以免增加流量与耗电。
 
-转换器与测试见 [scripts/free-nodes](../scripts/free-nodes)，MIT 许可仅适用于本仓库代码，不代表拥有上游节点或其使用授权。
+转换器与测试见 [scripts/free-nodes](../scripts/free-nodes)。原创独立部分采用 MIT；改编自 FlClash 的 AI 检测模块及其组合使用遵循 GPL-3.0-or-later，许可全文见上文链接。代码许可不代表拥有上游节点或其使用授权。
 
 参考：[Loon 节点格式](https://nsloon.app/docs/Node/)、[Loon 订阅](https://nsloon.app/docs/Node/subscription/)、[GitHub 定时任务说明](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)。

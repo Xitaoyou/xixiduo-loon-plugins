@@ -21,7 +21,7 @@
 
 | 订阅 | 功能 | 使用 |
 | --- | --- | --- |
-| 免费节点（试用） | 云端每 6 小时检测 HTTPS 连通、标注出口国家并去重 | [一键添加](https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2F%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9&name=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [订阅地址](https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [使用说明](docs/Free-Nodes.md) |
+| 免费节点（试用） | 每 6 小时检测，至少两个 AI 服务通过；标注国家并按响应延迟排序 | [一键添加](https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2F%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9&name=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [订阅地址](https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [使用说明](docs/Free-Nodes.md) |
 
 ## 使用提示
 
