@@ -1,44 +1,2215 @@
 {
-  "updated_at": "2026-11-09T10:49:22.207380+00:00",
+  "updated_at": "2026-11-09T11:03:15.929572+00:00",
   "nodes": 106,
   "protocols": {
-    "Hysteria2": 14,
-    "VMess": 92
+    "VMess": 92,
+    "Hysteria2": 14
   },
+  "published_rows": 111,
   "connection_tested": true,
   "test_method": "HTTPS trace and at least 2 of ChatGPT/Claude/Gemini; TLS verified",
   "tested_from": "GitHub Actions runner",
   "candidates": 114,
-  "unreachable": 5,
+  "unreachable": 6,
   "endpoint_rejected": 0,
-  "ai_rejected": 3,
+  "ai_rejected": 2,
   "ai_min_pass": 2,
   "filter_policy": "ai-two-of-three-v1",
-  "sort_by": "median passing AI HTTP response time ascending; not bandwidth",
+  "sort_by": "country; IP quality descending; AI response latency ascending",
+  "recommendations": {
+    "ai": [
+      {
+        "label": "AI推荐",
+        "node": "🇩🇪 德国 01",
+        "id": "13cf089a"
+      },
+      {
+        "label": "备选AI",
+        "node": "🇺🇸 美国 02",
+        "id": "00214c2a"
+      }
+    ],
+    "media": [
+      {
+        "label": "流媒体推荐",
+        "node": "🇺🇸 美国 51",
+        "id": "07f36a2d"
+      },
+      {
+        "label": "备选流媒体",
+        "node": "🇸🇬 新加坡 04",
+        "id": "66bf0978"
+      }
+    ]
+  },
+  "recommendation_rows": 4,
+  "media_required": [
+    "Netflix",
+    "Disney+",
+    "YouTube Premium",
+    "Prime Video"
+  ],
+  "media_all_passed": 3,
+  "media_service_passes": {
+    "Netflix": 91,
+    "Disney+": 7,
+    "YouTube Premium": 90,
+    "Prime Video": 75
+  },
+  "quality_labels": {
+    "机房": 96,
+    "风险": 9,
+    "低风险非机房": 1
+  },
   "node_results": [
     {
-      "id": "c5c1968c",
+      "id": "04d42c8f",
+      "name": "🇦🇹 奥地利 01",
+      "country": "AT",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 532
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 446
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 813
+        }
+      },
+      "latency_ms": 532,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "b8ee19e0",
+      "name": "🇧🇷 巴西 01",
+      "country": "BR",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 566
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 503
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1383
+        }
+      },
+      "latency_ms": 566,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "bcc021c1",
+      "name": "🇨🇦 加拿大 01",
+      "country": "CA",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 118
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 77
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 249
+        }
+      },
+      "latency_ms": 118,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "209ba076",
+      "name": "🇨🇦 加拿大 02",
+      "country": "CA",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 130
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 89
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 270
+        }
+      },
+      "latency_ms": 130,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "22bb735a",
+      "name": "🇨🇦 加拿大 03",
+      "country": "CA",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 142
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 94
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 292
+        }
+      },
+      "latency_ms": 142,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "e7ff70bf",
+      "name": "🇨🇦 加拿大 04",
+      "country": "CA",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 142
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 101
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 299
+        }
+      },
+      "latency_ms": 142,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "13cf089a",
+      "name": "🇩🇪 德国 01",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 286
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 197
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 523
+        }
+      },
+      "latency_ms": 286,
+      "quality": {
+        "grade": 3,
+        "risk_score": 0,
+        "label": "低风险非机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "dfa33ba1",
+      "name": "🇩🇪 德国 02",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 280
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 208
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 481
+        }
+      },
+      "latency_ms": 280,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "343206c8",
+      "name": "🇩🇪 德国 03",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 443
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 384
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 679
+        }
+      },
+      "latency_ms": 443,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "1e22af71",
+      "name": "🇩🇪 德国 04",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 446
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 389
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 881
+        }
+      },
+      "latency_ms": 446,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "6b35a570",
+      "name": "🇩🇪 德国 05",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 494
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 382
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 728
+        }
+      },
+      "latency_ms": 494,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "0377bdb7",
+      "name": "🇩🇪 德国 06",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 396
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 388
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 392,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "9b0cae61",
+      "name": "🇩🇪 德国 07",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 498
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 429
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 797
+        }
+      },
+      "latency_ms": 498,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "cf76a038",
+      "name": "🇩🇪 德国 08",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 500
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 452
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 825
+        }
+      },
+      "latency_ms": 500,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "2aac5afe",
+      "name": "🇩🇪 德国 09",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 518
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 432
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 827
+        }
+      },
+      "latency_ms": 518,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "f1e1fe74",
+      "name": "🇪🇪 EE 01",
+      "country": "EE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 282
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 213
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 544
+        }
+      },
+      "latency_ms": 282,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "f761bd72",
+      "name": "🇫🇷 法国 01",
+      "country": "FR",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 479
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 382
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 823
+        }
+      },
+      "latency_ms": 479,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "00ebe795",
+      "name": "🇫🇷 法国 02",
+      "country": "FR",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 480
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 403
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 716
+        }
+      },
+      "latency_ms": 480,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "2b1c0d8a",
+      "name": "🇫🇷 法国 03",
+      "country": "FR",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 503
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 397
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 756
+        }
+      },
+      "latency_ms": 503,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "2eeff9e0",
+      "name": "🇫🇷 法国 04",
+      "country": "FR",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 3285
+        },
+        "Claude": {
+          "passed": false,
+          "latency_ms": null
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1418
+        }
+      },
+      "latency_ms": 2352,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "70cb4454",
+      "name": "🇬🇧 英国 01",
+      "country": "GB",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 441
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 374
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 711
+        }
+      },
+      "latency_ms": 441,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "4359c85a",
+      "name": "🇮🇳 印度 01",
+      "country": "IN",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 1728
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 2205
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 2588
+        }
+      },
+      "latency_ms": 2205,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "45745141",
+      "name": "🇮🇳 印度 02",
+      "country": "IN",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 3482
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 1238
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 5476
+        }
+      },
+      "latency_ms": 3482,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "fee845a9",
+      "name": "🇮🇳 印度 03",
+      "country": "IN",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": false,
+          "latency_ms": null
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 6209
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 2614
+        }
+      },
+      "latency_ms": 4412,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "4cc48773",
+      "name": "🇮🇹 意大利 01",
+      "country": "IT",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 490
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 419
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 817
+        }
+      },
+      "latency_ms": 490,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "ad308bbb",
+      "name": "🇮🇹 意大利 02",
+      "country": "IT",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 494
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 424
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 823
+        }
+      },
+      "latency_ms": 494,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "e0edd861",
+      "name": "🇮🇹 意大利 03",
+      "country": "IT",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 606
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 563
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1004
+        }
+      },
+      "latency_ms": 606,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "0e32b825",
+      "name": "🇯🇵 日本 01",
+      "country": "JP",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 398
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 330
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 797
+        }
+      },
+      "latency_ms": 398,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "63ed905d",
+      "name": "🇯🇵 日本 02",
+      "country": "JP",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 408
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 325
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 826
+        }
+      },
+      "latency_ms": 408,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "2ce03137",
+      "name": "🇯🇵 日本 03",
+      "country": "JP",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 416
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 335
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 794
+        }
+      },
+      "latency_ms": 416,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "f3dfaeb3",
+      "name": "🇯🇵 日本 04",
+      "country": "JP",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": false,
+          "latency_ms": null
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 2732
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1654
+        }
+      },
+      "latency_ms": 2193,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "77076237",
+      "name": "🇯🇵 日本 05",
+      "country": "JP",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 2874
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 990
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 2794
+        }
+      },
+      "latency_ms": 2794,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "de9839d9",
+      "name": "🇰🇷 韩国 01",
+      "country": "KR",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 711
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 578
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1283
+        }
+      },
+      "latency_ms": 711,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "c370c52b",
+      "name": "🇰🇷 韩国 02",
+      "country": "KR",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 826
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 613
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1383
+        }
+      },
+      "latency_ms": 826,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "132b2a34",
+      "name": "🇰🇿 KZ 01",
+      "country": "KZ",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": false,
+          "latency_ms": null
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 868
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1889
+        }
+      },
+      "latency_ms": 1378,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 0,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "f2962dd3",
+      "name": "🇳🇱 荷兰 01",
+      "country": "NL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 310
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 223
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 266,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "563eb6f9",
+      "name": "🇳🇱 荷兰 02",
+      "country": "NL",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 490
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 395
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 752
+        }
+      },
+      "latency_ms": 490,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "0a04b64f",
+      "name": "🇳🇱 荷兰 03",
+      "country": "NL",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 498
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 402
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 699
+        }
+      },
+      "latency_ms": 498,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "7704da7d",
+      "name": "🇵🇱 波兰 01",
+      "country": "PL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 348
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 265
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 306,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "2c438313",
+      "name": "🇵🇱 波兰 02",
+      "country": "PL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 452
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 256
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 354,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "28dfad16",
+      "name": "🇵🇱 波兰 03",
+      "country": "PL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 354
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 751
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 552,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "558f5af5",
+      "name": "🇵🇱 波兰 04",
+      "country": "PL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 1468
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 258
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 863,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "69260d97",
+      "name": "🇸🇪 瑞典 01",
+      "country": "SE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 564
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 547
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 929
+        }
+      },
+      "latency_ms": 564,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "456414f6",
+      "name": "🇸🇪 瑞典 02",
+      "country": "SE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 578
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 551
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 905
+        }
+      },
+      "latency_ms": 578,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "0c1df7fd",
+      "name": "🇸🇬 新加坡 01",
+      "country": "SG",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 808
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 741
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 774,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "0938ecd2",
+      "name": "🇸🇬 新加坡 02",
+      "country": "SG",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 990
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 690
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 840,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "a7a83ed3",
+      "name": "🇸🇬 新加坡 03",
+      "country": "SG",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 1275
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 677
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 976,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "66bf0978",
+      "name": "🇸🇬 新加坡 04",
+      "country": "SG",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 1215
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 896
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1583
+        }
+      },
+      "latency_ms": 1215,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": true,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 4,
+        "all_passed": true
+      },
+      "download_mbps": 6.7
+    },
+    {
+      "id": "be9e3106",
+      "name": "🇹🇭 泰国 01",
+      "country": "TH",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 986
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 915
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1801
+        }
+      },
+      "latency_ms": 986,
+      "quality": {
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": true,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 4,
+        "all_passed": true
+      },
+      "download_mbps": 6.31
+    },
+    {
+      "id": "8c11fff7",
+      "name": "🇺🇸 美国 01",
+      "country": "US",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 46
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 17
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 32,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "00214c2a",
+      "name": "🇺🇸 美国 02",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 74
+          "latency_ms": 52
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 48
+          "latency_ms": 26
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 227
+          "latency_ms": 221
         }
       },
-      "latency_ms": 74
+      "latency_ms": 52,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "822691ae",
+      "id": "82381f3f",
+      "name": "🇺🇸 美国 03",
+      "country": "US",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 84
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 21
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 52,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "8ecc00c9",
+      "name": "🇺🇸 美国 04",
+      "country": "US",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 84
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 21
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 52,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "647fa441",
+      "name": "🇺🇸 美国 05",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 71
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 60
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 242
+        }
+      },
+      "latency_ms": 71,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "14cbadea",
+      "name": "🇺🇸 美国 06",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 77
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 55
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 230
+        }
+      },
+      "latency_ms": 77,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": true,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "a48a86ae",
+      "name": "🇺🇸 美国 07",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -49,38 +2220,308 @@
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 68
+          "latency_ms": 71
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 197
+          "latency_ms": 142
         }
       },
-      "latency_ms": 92
+      "latency_ms": 92,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "ef68fa1a",
+      "id": "fe499ec2",
+      "name": "🇺🇸 美国 08",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 96
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 88
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 203
+        }
+      },
+      "latency_ms": 96,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "31d81a54",
+      "name": "🇺🇸 美国 09",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 114
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 95
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 166
+        }
+      },
+      "latency_ms": 114,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "7c23b0fa",
+      "name": "🇺🇸 美国 10",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 122
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 102
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 281
+        }
+      },
+      "latency_ms": 122,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "25679e5d",
+      "name": "🇺🇸 美国 11",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 129
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 94
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 290
+        }
+      },
+      "latency_ms": 129,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "17e0b598",
+      "name": "🇺🇸 美国 12",
       "country": "US",
       "passed": true,
       "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 126
+          "latency_ms": 142
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 109
+          "latency_ms": 118
         },
         "Gemini": {
           "passed": false,
           "latency_ms": null
         }
       },
-      "latency_ms": 118
+      "latency_ms": 130,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 0,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "7f7d69be",
+      "id": "96e2ae86",
+      "name": "🇺🇸 美国 13",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 134
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 114
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 265
+        }
+      },
+      "latency_ms": 134,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "99691aa3",
+      "name": "🇺🇸 美国 14",
+      "country": "US",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 150
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 120
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 135,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "ef3faccb",
+      "name": "🇺🇸 美国 15",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -91,66 +2532,822 @@
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 120
+          "latency_ms": 83
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 298
+          "latency_ms": 135
         }
       },
-      "latency_ms": 146
+      "latency_ms": 135,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "418e4893",
+      "id": "c8b0d90a",
+      "name": "🇺🇸 美国 16",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 136
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 117
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 246
+        }
+      },
+      "latency_ms": 136,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "65c9560a",
+      "name": "🇺🇸 美国 17",
       "country": "US",
       "passed": true,
       "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 240
+          "latency_ms": 145
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 55
+          "latency_ms": 132
         },
         "Gemini": {
           "passed": false,
           "latency_ms": null
         }
       },
-      "latency_ms": 148
+      "latency_ms": 138,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "f9106a1b",
+      "id": "7a853f53",
+      "name": "🇺🇸 美国 18",
       "country": "US",
       "passed": true,
-      "pass_count": 3,
+      "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 149
+          "latency_ms": 140
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 133
+          "latency_ms": 141
         },
         "Gemini": {
-          "passed": true,
-          "latency_ms": 302
+          "passed": false,
+          "latency_ms": null
         }
       },
-      "latency_ms": 149
+      "latency_ms": 140,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 0,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "2ae026be",
+      "id": "71856a5d",
+      "name": "🇺🇸 美国 19",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
+          "latency_ms": 142
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 116
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 305
+        }
+      },
+      "latency_ms": 142,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "7c04f81f",
+      "name": "🇺🇸 美国 20",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 146
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 75
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 267
+        }
+      },
+      "latency_ms": 146,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "9e4d1b75",
+      "name": "🇺🇸 美国 21",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 154
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 147
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 329
+        }
+      },
+      "latency_ms": 154,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "7e1d2990",
+      "name": "🇺🇸 美国 22",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 158
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 127
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 385
+        }
+      },
+      "latency_ms": 158,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "f9106a1b",
+      "name": "🇺🇸 美国 23",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 158
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 146
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 326
+        }
+      },
+      "latency_ms": 158,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "1bb6221f",
+      "name": "🇺🇸 美国 24",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 159
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 139
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 325
+        }
+      },
+      "latency_ms": 159,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "3eb4db80",
+      "name": "🇺🇸 美国 25",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 160
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 149
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 427
+        }
+      },
+      "latency_ms": 160,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "256c2ddb",
+      "name": "🇺🇸 美国 26",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 161
+        },
+        "Claude": {
+          "passed": true,
           "latency_ms": 150
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 322
+        }
+      },
+      "latency_ms": 161,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "47b940ed",
+      "name": "🇺🇸 美国 27",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 161
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 150
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 381
+        }
+      },
+      "latency_ms": 161,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "eb62069b",
+      "name": "🇺🇸 美国 28",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 162
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 153
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 375
+        }
+      },
+      "latency_ms": 162,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "7f965710",
+      "name": "🇺🇸 美国 29",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 164
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 151
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 479
+        }
+      },
+      "latency_ms": 164,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "07326122",
+      "name": "🇺🇸 美国 30",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 165
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 150
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 392
+        }
+      },
+      "latency_ms": 165,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "2492b6b3",
+      "name": "🇺🇸 美国 31",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 165
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 136
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 334
+        }
+      },
+      "latency_ms": 165,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "2ae026be",
+      "name": "🇺🇸 美国 32",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 162
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 166
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 317
+        }
+      },
+      "latency_ms": 166,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": true,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "ecb2c81e",
+      "name": "🇺🇸 美国 33",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 166
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 150
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 380
+        }
+      },
+      "latency_ms": 166,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "12c7b346",
+      "name": "🇺🇸 美国 34",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 167
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 118
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 267
+        }
+      },
+      "latency_ms": 167,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "1cca138b",
+      "name": "🇺🇸 美国 35",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 167
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 150
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 342
+        }
+      },
+      "latency_ms": 167,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "c5c1968c",
+      "name": "🇺🇸 美国 36",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 168
         },
         "Claude": {
           "passed": true,
@@ -158,100 +3355,307 @@
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 279
+          "latency_ms": 592
         }
       },
-      "latency_ms": 150
+      "latency_ms": 168,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "b45e56fa",
+      "id": "476e6a23",
+      "name": "🇺🇸 美国 37",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 155
+          "latency_ms": 175
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 133
+          "latency_ms": 135
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 307
+          "latency_ms": 412
         }
       },
-      "latency_ms": 155
-    },
-    {
-      "id": "10a7d43f",
-      "country": "US",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 200
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 174
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
+      "latency_ms": 175,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
       },
-      "latency_ms": 187
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "8ecc00c9",
+      "id": "b45e56fa",
+      "name": "🇺🇸 美国 38",
       "country": "US",
       "passed": true,
-      "pass_count": 2,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
-          "passed": true,
-          "latency_ms": 202
-        },
-        "Claude": {
           "passed": true,
           "latency_ms": 175
         },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 144
+        },
         "Gemini": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 299
         }
       },
-      "latency_ms": 188
+      "latency_ms": 175,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "8c11fff7",
+      "id": "6dfa817a",
+      "name": "🇺🇸 美国 39",
       "country": "US",
       "passed": true,
-      "pass_count": 2,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 198
+          "latency_ms": 188
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 181
+          "latency_ms": 117
         },
         "Gemini": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 268
         }
       },
-      "latency_ms": 190
+      "latency_ms": 188,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "6a731c02",
+      "id": "80f0aed1",
+      "name": "🇺🇸 美国 40",
       "country": "US",
       "passed": true,
-      "pass_count": 2,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 212
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 186
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 382
+        }
+      },
+      "latency_ms": 212,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "b0353309",
+      "name": "🇺🇸 美国 41",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 212
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 189
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 355
+        }
+      },
+      "latency_ms": 212,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "59267314",
+      "name": "🇺🇸 美国 42",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 215
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 188
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 363
+        }
+      },
+      "latency_ms": 215,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": true,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "b4c480f6",
+      "name": "🇺🇸 美国 43",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 215
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 186
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 370
+        }
+      },
+      "latency_ms": 215,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "11162ac7",
+      "name": "🇺🇸 美国 44",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
@@ -259,272 +3663,272 @@
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 170
+          "latency_ms": 188
         },
         "Gemini": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 313
         }
       },
-      "latency_ms": 193
+      "latency_ms": 216,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "17e0b598",
+      "id": "3a9ffd6d",
+      "name": "🇺🇸 美国 45",
       "country": "US",
       "passed": true,
-      "pass_count": 2,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 200
+          "latency_ms": 216
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 189
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 360
+        }
+      },
+      "latency_ms": 216,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "39c869b0",
+      "name": "🇺🇸 美国 46",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 219
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 189
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 338
+        }
+      },
+      "latency_ms": 219,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "f735eb8e",
+      "name": "🇺🇸 美国 47",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 220
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 186
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 352
+        }
+      },
+      "latency_ms": 220,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
+    },
+    {
+      "id": "cf0ff992",
+      "name": "🇺🇸 美国 48",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 223
         },
         "Claude": {
           "passed": true,
           "latency_ms": 198
         },
         "Gemini": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 365
         }
       },
-      "latency_ms": 199
-    },
-    {
-      "id": "82381f3f",
-      "country": "US",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 242
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 170
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
+      "latency_ms": 223,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
       },
-      "latency_ms": 206
-    },
-    {
-      "id": "7a853f53",
-      "country": "US",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 234
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
         },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 185
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
+        "pass_count": 3,
+        "all_passed": false
       },
-      "latency_ms": 210
+      "download_mbps": null
     },
     {
-      "id": "65c9560a",
-      "country": "US",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 234
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 211
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 222
-    },
-    {
-      "id": "99691aa3",
-      "country": "US",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 219
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 227
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 223
-    },
-    {
-      "id": "209ba076",
-      "country": "CA",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 241
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 197
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 589
-        }
-      },
-      "latency_ms": 241
-    },
-    {
-      "id": "7c23b0fa",
+      "id": "bbac3bbd",
+      "name": "🇺🇸 美国 49",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
-          "passed": true,
-          "latency_ms": 248
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 215
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 494
-        }
-      },
-      "latency_ms": 248
-    },
-    {
-      "id": "bcc021c1",
-      "country": "CA",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 248
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 203
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 550
-        }
-      },
-      "latency_ms": 248
-    },
-    {
-      "id": "7f965710",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 250
-        },
-        "Claude": {
           "passed": true,
           "latency_ms": 226
         },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 200
+        },
         "Gemini": {
           "passed": true,
-          "latency_ms": 482
+          "latency_ms": 397
         }
       },
-      "latency_ms": 250
+      "latency_ms": 226,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "47b940ed",
+      "id": "515f4f75",
+      "name": "🇺🇸 美国 50",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 251
+          "latency_ms": 234
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 229
+          "latency_ms": 201
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 1474
+          "latency_ms": 330
         }
       },
-      "latency_ms": 251
-    },
-    {
-      "id": "ecb2c81e",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 254
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 249
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 504
-        }
+      "latency_ms": 234,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
       },
-      "latency_ms": 254
-    },
-    {
-      "id": "31d81a54",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 255
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
         },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 242
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 521
-        }
+        "pass_count": 3,
+        "all_passed": false
       },
-      "latency_ms": 255
+      "download_mbps": null
     },
     {
-      "id": "00214c2a",
+      "id": "07f36a2d",
+      "name": "🇺🇸 美国 51",
       "country": "US",
       "passed": true,
-      "pass_count": 3,
+      "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
@@ -532,377 +3936,77 @@
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 229
+          "latency_ms": 234
         },
         "Gemini": {
-          "passed": true,
-          "latency_ms": 515
+          "passed": false,
+          "latency_ms": null
         }
       },
-      "latency_ms": 256
-    },
-    {
-      "id": "96e2ae86",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 256
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 235
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 517
-        }
+      "latency_ms": 245,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
       },
-      "latency_ms": 256
-    },
-    {
-      "id": "256c2ddb",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 260
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": true,
+          "YouTube Premium": true,
+          "Prime Video": true
         },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 252
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 520
-        }
+        "pass_count": 4,
+        "all_passed": true
       },
-      "latency_ms": 260
+      "download_mbps": 17.86
     },
     {
-      "id": "12c7b346",
+      "id": "6a731c02",
+      "name": "🇺🇸 美国 52",
       "country": "US",
       "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 261
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 241
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 502
-        }
-      },
-      "latency_ms": 261
-    },
-    {
-      "id": "07326122",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 262
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 242
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 658
-        }
-      },
-      "latency_ms": 262
-    },
-    {
-      "id": "6dfa817a",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 262
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 236
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 503
-        }
-      },
-      "latency_ms": 262
-    },
-    {
-      "id": "80f0aed1",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 262
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 238
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 428
-        }
-      },
-      "latency_ms": 262
-    },
-    {
-      "id": "11162ac7",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
+      "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
           "latency_ms": 264
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 245
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 413
-        }
-      },
-      "latency_ms": 264
-    },
-    {
-      "id": "eb62069b",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 264
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 243
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 666
-        }
-      },
-      "latency_ms": 264
-    },
-    {
-      "id": "476e6a23",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 265
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 243
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 468
-        }
-      },
-      "latency_ms": 265
-    },
-    {
-      "id": "1cca138b",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 266
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 240
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 537
-        }
-      },
-      "latency_ms": 266
-    },
-    {
-      "id": "25679e5d",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 266
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 219
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 429
-        }
-      },
-      "latency_ms": 266
-    },
-    {
-      "id": "3a9ffd6d",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 266
         },
         "Claude": {
           "passed": true,
           "latency_ms": 239
         },
         "Gemini": {
-          "passed": true,
-          "latency_ms": 471
+          "passed": false,
+          "latency_ms": null
         }
       },
-      "latency_ms": 266
-    },
-    {
-      "id": "1bb6221f",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 268
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 252
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 477
-        }
+      "latency_ms": 252,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
       },
-      "latency_ms": 268
-    },
-    {
-      "id": "2492b6b3",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 268
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
         },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 227
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 481
-        }
+        "pass_count": 3,
+        "all_passed": false
       },
-      "latency_ms": 268
+      "download_mbps": null
     },
     {
-      "id": "b0353309",
+      "id": "10a7d43f",
+      "name": "🇺🇸 美国 53",
       "country": "US",
       "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 268
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 246
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 471
-        }
-      },
-      "latency_ms": 268
-    },
-    {
-      "id": "59267314",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 270
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 231
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 420
-        }
-      },
-      "latency_ms": 270
-    },
-    {
-      "id": "c8b0d90a",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 270
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 233
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 490
-        }
-      },
-      "latency_ms": 270
-    },
-    {
-      "id": "647fa441",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
+      "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
@@ -910,129 +4014,81 @@
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 255
+          "latency_ms": 239
         },
         "Gemini": {
-          "passed": true,
-          "latency_ms": 538
+          "passed": false,
+          "latency_ms": null
         }
       },
-      "latency_ms": 272
+      "latency_ms": 256,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "9e4d1b75",
+      "id": "ef68fa1a",
+      "name": "🇺🇸 美国 54",
       "country": "US",
       "passed": true,
-      "pass_count": 3,
+      "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 272
+          "latency_ms": 266
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 237
+          "latency_ms": 247
         },
         "Gemini": {
-          "passed": true,
-          "latency_ms": 531
+          "passed": false,
+          "latency_ms": null
         }
       },
-      "latency_ms": 272
+      "latency_ms": 256,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": true,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "b4c480f6",
+      "id": "822691ae",
+      "name": "🇺🇸 美国 55",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 272
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 236
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 417
-        }
-      },
-      "latency_ms": 272
-    },
-    {
-      "id": "bbac3bbd",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 273
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 254
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 428
-        }
-      },
-      "latency_ms": 273
-    },
-    {
-      "id": "515f4f75",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 274
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 243
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 496
-        }
-      },
-      "latency_ms": 274
-    },
-    {
-      "id": "3eb4db80",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 278
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 231
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 529
-        }
-      },
-      "latency_ms": 278
-    },
-    {
-      "id": "cf0ff992",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 284
+          "latency_ms": 285
         },
         "Claude": {
           "passed": true,
@@ -1040,251 +4096,38 @@
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 420
+          "latency_ms": 519
         }
       },
-      "latency_ms": 284
+      "latency_ms": 285,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "fe499ec2",
+      "id": "418e4893",
+      "name": "🇺🇸 美国 56",
       "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 288
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 233
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 514
-        }
-      },
-      "latency_ms": 288
-    },
-    {
-      "id": "39c869b0",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 290
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 235
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 409
-        }
-      },
-      "latency_ms": 290
-    },
-    {
-      "id": "e7ff70bf",
-      "country": "CA",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 292
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 270
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 561
-        }
-      },
-      "latency_ms": 292
-    },
-    {
-      "id": "ef3faccb",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 294
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 285
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 543
-        }
-      },
-      "latency_ms": 294
-    },
-    {
-      "id": "71856a5d",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 296
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 226
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 485
-        }
-      },
-      "latency_ms": 296
-    },
-    {
-      "id": "a48a86ae",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 301
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 294
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 560
-        }
-      },
-      "latency_ms": 301
-    },
-    {
-      "id": "0e32b825",
-      "country": "JP",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 302
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 230
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 586
-        }
-      },
-      "latency_ms": 302
-    },
-    {
-      "id": "f735eb8e",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 303
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 241
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 413
-        }
-      },
-      "latency_ms": 303
-    },
-    {
-      "id": "7e1d2990",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 304
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 218
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 503
-        }
-      },
-      "latency_ms": 304
-    },
-    {
-      "id": "63ed905d",
-      "country": "JP",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 310
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 229
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 573
-        }
-      },
-      "latency_ms": 310
-    },
-    {
-      "id": "7c04f81f",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 312
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 289
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 541
-        }
-      },
-      "latency_ms": 312
-    },
-    {
-      "id": "f1e1fe74",
-      "country": "EE",
       "passed": true,
       "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 350
+          "latency_ms": 302
         },
         "Claude": {
           "passed": true,
@@ -1295,974 +4138,85 @@
           "latency_ms": null
         }
       },
-      "latency_ms": 314
+      "latency_ms": 290,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": null
     },
     {
-      "id": "14cbadea",
+      "id": "7f7d69be",
+      "name": "🇺🇸 美国 57",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 320
+          "latency_ms": 318
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 254
+          "latency_ms": 304
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 517
+          "latency_ms": 575
         }
       },
-      "latency_ms": 320
-    },
-    {
-      "id": "2ce03137",
-      "country": "JP",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 321
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 242
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 629
-        }
+      "latency_ms": 318,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "source": "ipquery.io"
       },
-      "latency_ms": 321
-    },
-    {
-      "id": "13cf089a",
-      "country": "EE",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 364
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
         },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 282
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
+        "pass_count": 3,
+        "all_passed": false
       },
-      "latency_ms": 323
-    },
-    {
-      "id": "22bb735a",
-      "country": "CA",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 336
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 284
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 618
-        }
-      },
-      "latency_ms": 336
-    },
-    {
-      "id": "f2962dd3",
-      "country": "NL",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 401
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 316
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 358
-    },
-    {
-      "id": "7704da7d",
-      "country": "PL",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 412
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 343
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 378
-    },
-    {
-      "id": "0377bdb7",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 487
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 408
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 448
-    },
-    {
-      "id": "1e22af71",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 448
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 339
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 956
-        }
-      },
-      "latency_ms": 448
-    },
-    {
-      "id": "558f5af5",
-      "country": "PL",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 700
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 337
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 518
-    },
-    {
-      "id": "c370c52b",
-      "country": "KR",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 602
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 452
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 527
-    },
-    {
-      "id": "28dfad16",
-      "country": "PL",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 707
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 361
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 534
-    },
-    {
-      "id": "dfa33ba1",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 546
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 292
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 717
-        }
-      },
-      "latency_ms": 546
-    },
-    {
-      "id": "0938ecd2",
-      "country": "SG",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 674
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 552
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 613
-    },
-    {
-      "id": "07f36a2d",
-      "country": "US",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 128
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 1117
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 622
-    },
-    {
-      "id": "a7a83ed3",
-      "country": "SG",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 692
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 572
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 632
-    },
-    {
-      "id": "0a04b64f",
-      "country": "NL",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 634
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 565
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1018
-        }
-      },
-      "latency_ms": 634
-    },
-    {
-      "id": "343206c8",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 634
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 560
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 997
-        }
-      },
-      "latency_ms": 634
-    },
-    {
-      "id": "70cb4454",
-      "country": "GB",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 636
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 584
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 987
-        }
-      },
-      "latency_ms": 636
-    },
-    {
-      "id": "0c1df7fd",
-      "country": "SG",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 732
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 564
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 648
-    },
-    {
-      "id": "563eb6f9",
-      "country": "NL",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 652
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 566
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1036
-        }
-      },
-      "latency_ms": 652
-    },
-    {
-      "id": "6b35a570",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 654
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 560
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1021
-        }
-      },
-      "latency_ms": 654
-    },
-    {
-      "id": "2aac5afe",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 666
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 587
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1133
-        }
-      },
-      "latency_ms": 666
-    },
-    {
-      "id": "00ebe795",
-      "country": "FR",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 672
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 655
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1076
-        }
-      },
-      "latency_ms": 672
-    },
-    {
-      "id": "2b1c0d8a",
-      "country": "FR",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 676
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 624
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1076
-        }
-      },
-      "latency_ms": 676
-    },
-    {
-      "id": "9b0cae61",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 676
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 610
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1217
-        }
-      },
-      "latency_ms": 676
-    },
-    {
-      "id": "f761bd72",
-      "country": "FR",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 685
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 603
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1067
-        }
-      },
-      "latency_ms": 685
-    },
-    {
-      "id": "cf76a038",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 687
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 592
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1302
-        }
-      },
-      "latency_ms": 687
-    },
-    {
-      "id": "ad308bbb",
-      "country": "IT",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 714
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 670
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1135
-        }
-      },
-      "latency_ms": 714
-    },
-    {
-      "id": "04d42c8f",
-      "country": "AT",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 716
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 649
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1195
-        }
-      },
-      "latency_ms": 716
-    },
-    {
-      "id": "456414f6",
-      "country": "SE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 722
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 721
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1173
-        }
-      },
-      "latency_ms": 722
-    },
-    {
-      "id": "69260d97",
-      "country": "SE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 739
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 740
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1162
-        }
-      },
-      "latency_ms": 740
-    },
-    {
-      "id": "4cc48773",
-      "country": "IT",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 747
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 642
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1182
-        }
-      },
-      "latency_ms": 747
-    },
-    {
-      "id": "b8ee19e0",
-      "country": "BR",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 756
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 686
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1648
-        }
-      },
-      "latency_ms": 756
-    },
-    {
-      "id": "2eeff9e0",
-      "country": "FR",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 782
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 611
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1931
-        }
-      },
-      "latency_ms": 782
-    },
-    {
-      "id": "e0edd861",
-      "country": "IT",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 836
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 756
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1312
-        }
-      },
-      "latency_ms": 836
-    },
-    {
-      "id": "be9e3106",
-      "country": "TH",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 856
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 798
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1531
-        }
-      },
-      "latency_ms": 856
-    },
-    {
-      "id": "de9839d9",
-      "country": "KR",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 980
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 437
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1380
-        }
-      },
-      "latency_ms": 980
-    },
-    {
-      "id": "66bf0978",
-      "country": "SG",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 984
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 718
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1282
-        }
-      },
-      "latency_ms": 984
-    },
-    {
-      "id": "2c438313",
-      "country": "PL",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 1267
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 844
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 1056
-    },
-    {
-      "id": "45745141",
-      "country": "IN",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 1190
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 964
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 4352
-        }
-      },
-      "latency_ms": 1190
-    },
-    {
-      "id": "fee845a9",
-      "country": "IN",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 1364
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 2030
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 1697
-    },
-    {
-      "id": "77076237",
-      "country": "JP",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": false,
-          "latency_ms": null
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 1493
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 2148
-        }
-      },
-      "latency_ms": 1820
-    },
-    {
-      "id": "2d4b40b8",
-      "country": "MY",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 4079
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 1231
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 2655
-    },
-    {
-      "id": "4359c85a",
-      "country": "IN",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 3266
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 5997
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1941
-        }
-      },
-      "latency_ms": 3266
-    },
-    {
-      "id": "f3dfaeb3",
-      "country": "JP",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": false,
-          "latency_ms": null
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 3568
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 2990
-        }
-      },
-      "latency_ms": 3279
+      "download_mbps": null
     }
   ],
   "countries": {
-    "US": 57,
+    "AT": 1,
+    "BR": 1,
     "CA": 4,
+    "DE": 9,
+    "EE": 1,
+    "FR": 4,
+    "GB": 1,
+    "IN": 3,
+    "IT": 3,
     "JP": 5,
-    "EE": 2,
+    "KR": 2,
+    "KZ": 1,
     "NL": 3,
     "PL": 4,
-    "DE": 8,
-    "KR": 2,
-    "SG": 4,
-    "GB": 1,
-    "FR": 4,
-    "IT": 3,
-    "AT": 1,
     "SE": 2,
-    "BR": 1,
+    "SG": 4,
     "TH": 1,
-    "IN": 3,
-    "MY": 1
+    "US": 57
   },
-  "test_seconds": 102.6,
+  "test_seconds": 300.3,
   "filtered": 2862
 }
