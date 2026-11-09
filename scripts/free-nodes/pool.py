@@ -104,7 +104,7 @@ def merge(state,documents,version,at):
                 node['status']='restricted';restricted_ids.add(ident);counts['restricted']+=1
                 restricted_credentials.add(json.dumps(health.parse_body(body)[0],ensure_ascii=True))
             elif node['status']=='cooldown' and node['cooldown_until']<=at:
-                node.update(status='pending',queued_at=at)
+                node.update(status='pending',queued_at=at,failure_rounds=0,high_latency_streak=0)
             elif node['status']=='restricted':node.update(status='pending',queued_at=at)
             if not restricted:node['body']=body
     for ident in restricted_ids:state['nodes'][ident]['status']='restricted'
@@ -132,7 +132,7 @@ def prepare(force=False,retry_only=False):
     if not run:
         if output:
             with open(output,'a') as f:f.write('run=false\nmatrix={"index":[0]}\n')
-        print('Upstream unavailable; historical retest not due' if source_error else 'Verified source unchanged; next historical retest not due');return
+        print('Targeted retry deferred or not due' if retry_only else 'Upstream unavailable; historical retest not due' if source_error else 'Verified source unchanged; next historical retest not due');return
     # 迁移已有精选配置；保留原凭据，不把别名当作不同节点。
     if not state['nodes']:
         for line in (ROOT/'subscriptions/free-nodes.txt').read_text(encoding='utf-8').splitlines():

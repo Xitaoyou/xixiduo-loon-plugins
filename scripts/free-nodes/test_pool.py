@@ -105,10 +105,12 @@ class PoolTests(unittest.TestCase):
 
     def test_expired_cooldown_requeues_at_current_time(self):
         uri='trojan://p@node.example.com:443';body=convert(uri)[2];ident=pool.identity(body)
-        state={'nodes':{ident:dict(id=ident,body=body,first_seen='2026-10-01T00:00:00+00:00',status='cooldown',cooldown_until='2026-11-01T00:00:00+00:00')}}
+        state={'nodes':{ident:dict(id=ident,body=body,first_seen='2026-10-01T00:00:00+00:00',status='cooldown',cooldown_until='2026-11-01T00:00:00+00:00',failure_rounds=3,high_latency_streak=2)}}
         pool.merge(state,[('en',uri)],'v',AT)
         self.assertEqual(state['nodes'][ident]['status'],'pending')
         self.assertEqual(state['nodes'][ident]['queued_at'],AT)
+        self.assertEqual(state['nodes'][ident]['failure_rounds'],0)
+        self.assertEqual(state['nodes'][ident]['high_latency_streak'],0)
 
     def test_missing_or_mismatched_shard_never_publishes(self):
         import tempfile
