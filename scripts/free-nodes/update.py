@@ -10,21 +10,12 @@ from pathlib import Path
 import re
 import sys
 from urllib.parse import parse_qs, unquote, urlsplit
-from urllib.request import Request, urlopen
 import uuid
 
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.padding import PKCS7
 
 ROOT = Path(__file__).resolve().parents[2]
-MIRRORS = (
-    'https://raw.githubusercontent.com/pixelor/ecfg/refs/heads/main/data/ecfg6_en',
-    'https://cdn.shadowrockets.app/ecfg/data/ecfg6_en',
-    'https://files.shadowrockets.app/ecfg/data/ecfg6_en',
-)
-LIMIT = 8 * 1024 * 1024
-
-
 def decrypt(payload):
     # 来自公开 APK 的格式常量；不是个人订阅或账号密钥。
     key = b'd3JV8tcWGPzgcVbB'
@@ -202,22 +193,7 @@ def publish(text, output=ROOT / 'subscriptions/free-nodes.txt'):
 
 
 def main():
-    text = None
-    for index, url in enumerate(MIRRORS):
-        try:
-            with urlopen(Request(url, headers={'User-Agent': 'xixiduo-loon-free-nodes/1.0'}), timeout=25) as response:
-                payload = response.read(LIMIT + 1)
-            if len(payload) > LIMIT:
-                raise ValueError('oversized source')
-            text = decrypt(payload)
-            build(text)
-            break
-        except Exception as exc:
-            # 不记录响应正文、节点凭据或带参数 URL。
-            print(f'Source {index + 1} failed: {type(exc).__name__}', file=sys.stderr)
-    if text is None:
-        raise SystemExit('All sources failed; previous subscription retained')
-    publish(text)
+    raise SystemExit('Use the Update free nodes workflow (pool.py prepare/shard/finalize/publish); direct single-source replacement is disabled.')
 
 
 if __name__ == '__main__':

@@ -105,8 +105,6 @@ def country_label(code):
 def check(content, binary):
     started = time.monotonic()
     lines = content.splitlines()
-    if len(lines) > 512:
-        raise ValueError('unexpected candidate count')
     # 检测站整体不可达时不清空订阅。
     request_trace()
     candidates, skipped = [], 0
