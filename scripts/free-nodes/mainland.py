@@ -12,6 +12,7 @@ from pathlib import Path
 import shutil
 import subprocess
 from urllib.request import Request, urlopen
+from urllib.parse import urlsplit, parse_qsl, urlencode
 import zipfile
 
 from update import decrypt, convert
@@ -73,6 +74,18 @@ def fetch_bytes(url, limit=64 * 1024 * 1024):
     return data
 
 
+def normalize_source_uri(line):
+    """TCP headerType=none explicitly disables headers; no connection setting is lost."""
+    u = urlsplit(line)
+    if u.scheme not in ('vless', 'trojan'):
+        return line
+    query = parse_qsl(u.query, keep_blank_values=True)
+    headers = [v for k, v in query if k == 'headerType']
+    if headers == ['none']:
+        return u._replace(query=urlencode([(k, v) for k, v in query if k != 'headerType'])).geturl()
+    return line
+
+
 def source():
     version = api('repos/pixelor/ecfg/commits/main')['sha']
     tree = api('repos/pixelor/ecfg/git/trees/' + version + '?recursive=1')
@@ -96,7 +109,7 @@ def source():
         if not line.strip() or line.startswith('#'):
             continue
         try:
-            _, _, body = convert(line.strip())
+            _, _, body = convert(normalize_source_uri(line.strip()))
             ident = identity(body)
             if ident in nodes:
                 rejects['duplicates'] += 1
@@ -120,10 +133,11 @@ def prepare(folder, smoke=False):
         if state.get('cycle') != previous['cycle']:
             raise RuntimeError('previous_state_cycle_mismatch')
     cycle = hashlib.sha256((now() + os.environ.get('GITHUB_RUN_ID', 'local') + version).encode()).hexdigest()[:24]
+    source_total = len(nodes)
     if smoke:
         nodes = nodes[:3]
     doc = dict(cycle=cycle, source_version=version, source_file='ecfg6', nodes=nodes,
-               source_counts=counts, prepared_at=now(), smoke=smoke,
+               source_counts=counts, source_total=source_total, prepared_at=now(), smoke=smoke,
                previous_cycle=previous.get('cycle'))
     write(folder / 'input.json', doc)
     write(folder / 'previous-state.json', state)
@@ -154,7 +168,7 @@ def prepare(folder, smoke=False):
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 destination.write_bytes(z.read(entry))
     shutil.rmtree(wheel_folder)
-    print(json.dumps(dict(cycle=cycle, candidates=len(nodes), source='ecfg6', smoke=smoke)))
+    print(json.dumps(dict(cycle=cycle, candidates=len(nodes), source_total=source_total, source='ecfg6', smoke=smoke)))
 
 
 def validate(doc, result):

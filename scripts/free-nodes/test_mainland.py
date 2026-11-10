@@ -130,6 +130,14 @@ class BudgetTests(unittest.TestCase):
 
 
 class PublicationTests(unittest.TestCase):
+    def test_only_explicit_no_header_is_normalized(self):
+        prefix = 'vless://52396e06-041a-4cc2-be5c-8525eb457809@node.example.com:443?security=none'
+        ordinary = update.convert(prefix)[2]
+        self.assertEqual(update.convert(mainland.normalize_source_uri(prefix+'&headerType=none'))[2], ordinary)
+        for query in ('headerType=http', 'headerType=none&headerType=none', 'spx=/required', 'packetEncoding=xudp'):
+            with self.assertRaises(ValueError):
+                update.convert(mainland.normalize_source_uri(prefix+'&'+query))
+
     def test_only_ecfg6_and_source_cap(self):
         blob = b'verified-encrypted-placeholder'
         sha = hashlib.sha1(b'blob ' + str(len(blob)).encode() + b'\0' + blob).hexdigest()
