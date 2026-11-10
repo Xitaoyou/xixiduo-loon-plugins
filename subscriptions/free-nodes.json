@@ -2,16 +2,16 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 863,
-  "unreachable": 57,
+  "candidates": 31,
+  "unreachable": 26,
   "endpoint_rejected": 0,
-  "ai_rejected": 737,
+  "ai_rejected": 738,
   "ai_min_pass": 2,
   "filter_policy": "stable-best30-v1",
   "sort_by": "P25 recent throughput × 7-day valid success rate; jitter, latency, quality; US/JP/SG/DE reservation",
-  "ai_qualified": 685,
-  "quality_qualified": 424,
-  "quality_rejected": 20,
+  "ai_qualified": 1,
+  "quality_qualified": 0,
+  "quality_rejected": 0,
   "country_best_count": 30,
   "country_limit": null,
   "country_count": 5,
@@ -1882,7 +1882,7 @@
   },
   "test_seconds": 0,
   "node_limit": 30,
-  "updated_at": "2026-11-10T08:36:14.540153+00:00",
+  "updated_at": "2026-11-10T13:29:08.894795+00:00",
   "nodes": 30,
   "protocols": {
     "Hysteria2": 5,
@@ -1891,36 +1891,25 @@
     "VMess": 11
   },
   "published_rows": 37,
-  "cycle": "5309aae67d3489be81ee",
+  "cycle": "4e9acdb023891f940c21",
   "source_version": "6a6424b2ddd92832ab504fc7922bea909e02739b",
   "source_error": null,
   "pool": {
-    "active": 767,
+    "active": 768,
     "cooldown": 198,
-    "slow": 102,
+    "slow": 103,
     "restricted": 8,
-    "isolated": 31
+    "isolated": 29
   },
-  "merge": {
-    "reject_unsupported options": 5263,
-    "reject_unsupported fingerprint": 1685,
-    "duplicates": 6521,
-    "reject_insecure tls": 1893,
-    "restricted": 8,
-    "restricted_unparsed": 17,
-    "new": 42,
-    "reject_invalid_or_nonportable": 200,
-    "reject_unsupported transport": 95,
-    "reject_unsupported cipher": 5
-  },
-  "checked": 863,
-  "reachable_checked": 806,
-  "active_candidates": 767,
+  "merge": {},
+  "checked": 31,
+  "reachable_checked": 5,
+  "active_candidates": 768,
   "selection_phase": "stable",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 2246.77,
+    "direct_mbps": 2258.34,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -1931,5 +1920,5 @@
     "span_hours_min": 12,
     "success_rate_min": 0.95
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/42775928197"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/42824310968"
 }
