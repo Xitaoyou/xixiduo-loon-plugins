@@ -310,6 +310,7 @@ def execute(doc, binary, budget):
     http = Http(budget)
     domestic_controls(http)
     before = baseline(http)
+    print(json.dumps({'stage': 'server_baseline_before', **before}), flush=True)
     config, ports, rejected = make_config(doc['nodes'])
     with tempfile.TemporaryDirectory(prefix='cn-core-') as folder:
         path = Path(folder) / 'config.json'
@@ -335,6 +336,9 @@ def execute(doc, binary, budget):
 
         with ThreadPoolExecutor(max_workers=4) as pool:
             results = list(pool.map(probe, doc['nodes']))
+        for index, r in enumerate(results, 1):
+            print(json.dumps(dict(stage='node_basic', number=index, status=r['status'],
+                                  latency_ms=r['basic_latency_ms'], ai_pass=r['ai']['pass_count'])), flush=True)
         if len(results) >= 3 and not any(r['status'] == 'alive' for r in results):
             raise RuntimeError('all_nodes_failed')
         enrich.fetch = http.fetch  # Only this dedicated worker process; overseas code is unaffected.
@@ -359,6 +363,8 @@ def execute(doc, binary, budget):
                 if r['quality']['grade'] == 0:
                     continue
                 r.update(download(http, port))  # All bulk transfers are serial.
+                print(json.dumps(dict(stage='node_download', number=results.index(r) + 1,
+                                      mbps=r['download_mbps'], samples=r['download_samples_mbps'])), flush=True)
                 if r['download_mbps'] < MIN_DOWNLOAD_MBPS:
                     continue
                 r['media'] = enrich.check_media(port)
@@ -372,6 +378,7 @@ def execute(doc, binary, budget):
                 raise RuntimeError('core_stopped')
         domestic_controls(http)
         after = baseline(http)
+        print(json.dumps({'stage': 'server_baseline_after', **after}), flush=True)
         if not valid_baseline(before, after):
             raise RuntimeError('domestic_baseline_unstable')
         if core.poll() is not None:
