@@ -2,7 +2,7 @@
 #!desc = 仅为 Apple Intelligence、Siri 和 Siri 搜索相关域名使用所选策略；无自动测速、脚本或 MITM。安装后必须手动指定代理节点。
 #!author = 西西多
 #!homepage = https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/docs/SiriAI-Split-Proxy.md
-#!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/images/siri-ai-icon.jpg
+#!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/siri-ai.png
 #!date = 2026-11-10
 
 # IMPORTANT: select a fixed, working proxy node in the plugin's policy settings.

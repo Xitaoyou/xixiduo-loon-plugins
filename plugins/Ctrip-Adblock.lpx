@@ -1,7 +1,7 @@
 #!name = 携程旅行 · 精准去广告
 #!desc = 拦截携程指定广告域名和接口；接口拦截需要 MitM。
 #!author = Custom Loon rules
-#!icon = https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/5d/fd/cd/5dfdcdbf-71d1-89f4-9658-0f01c8532f09/AppIcon-0-0-1x_U007emarketing-0-5-0-85-220.png/512x512bb.jpg
+#!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/ctrip.png
 #!date = 2026-10-31
 #!tag = 广告拦截,携程
 #!type = normal

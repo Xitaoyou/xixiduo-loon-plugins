@@ -1,4 +1,5 @@
 #!name=菜鸟去广告 · 联动完整版 v3
+#!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/cainiao.png
 #!desc = 清理菜鸟开屏及页面广告；需配合可莉广告平台和本库补充拦截器。
 #!author=Xitaoyou
 #!tag=去广告,菜鸟,开屏,首页净化

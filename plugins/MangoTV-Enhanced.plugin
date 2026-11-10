@@ -5,7 +5,7 @@
 #!system=iOS, iPadOS
 #!loon_version=3.5.1(998)
 #!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/MangoTV-Enhanced.plugin
-#!icon=https://raw.githubusercontent.com/Moli-X/Tool/X/Icon/App/Pixel120/Mango_TV.png
+#!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/mangotv.png
 #!date=2026-11-02
 
 # 根据芒果TV iOS 9.4.6抓包（288次请求）制作；不是可莉官方更新。

@@ -1,4 +1,5 @@
 #!name = 常用服务检测
+#!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/service-check.png
 #!desc = 参考 FlClash 检测服务连通与地区状态，提供图文报告和可选 IP 类型/质量参考；仅手动运行。
 #!author = 西西多；FlClash contributors（检测规则来源）
 #!homepage = https://github.com/Xitaoyou/xixiduo-loon-plugins

@@ -1,4 +1,5 @@
 #!name=广告平台补充拦截器 · DNS 优先版
+#!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/adblock.png
 #!desc = 补充可莉广告平台的域名拦截规则，无需 MitM。
 #!author=Xitaoyou
 #!tag=去广告, 依赖, 广告SDK
