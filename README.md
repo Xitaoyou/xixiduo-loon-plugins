@@ -6,6 +6,7 @@
 
 | 插件 | 功能 | 安装 |
 | --- | --- | --- |
+| Siri AI 定向代理 · 手动节点轻量版 | 只代理 Siri、Apple Intelligence 的 6 个相关域名；在插件设置手动指定固定节点，无测速、无脚本、无 MITM，不改动去广告配置 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSiriAI-Split-Proxy.plugin) · [使用说明](docs/SiriAI-Split-Proxy.md) |
 | 常用服务检测（测试版） | 图文展示服务连通与地区状态，附可选 IP 类型/质量参考；手动运行 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FService-Check.plugin) · [使用说明](docs/Service-Check.md) |
 | 哔哩哔哩去广告 · 字幕修复+自动空降版 | 修复原版插件AI字幕丢失的问题，增加支持自动空降恰饭广告的功能，过滤开屏广告，首页信息流广告和视频下方广告；支持首页精简，搜索页和我的页精简；支持解锁后台播放与投屏 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FBilibili-AI-Enhanced.plugin) · [查看文件](plugins/Bilibili-AI-Enhanced.plugin) |
 | 芒果TV去广告 · 开屏摇一摇增强版 | 清理开屏、摇一摇及页面推广，支持导航精简 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FMangoTV-Enhanced.plugin) · [查看文件](plugins/MangoTV-Enhanced.plugin) |
