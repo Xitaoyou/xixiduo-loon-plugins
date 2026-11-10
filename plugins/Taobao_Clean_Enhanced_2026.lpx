@@ -1,0 +1,54 @@
+#!name = 淘宝净化增强版（10.68.10）
+#!desc = 保留可莉开屏脚本；针对 2026-11-10 抓包增加双11惊喜券页面拦截、首页营销弹层清理、已标记的推荐流广告过滤。Discover 底栏图标尚无可验证的下发接口。
+#!author = 可莉/RuCu6 原有规则参考 + 抓包适配
+#!date = 2026-11-10
+#!system = iOS,iPadOS
+#!loon_version = 3.5.1(978)
+#!tag = 淘宝,去广告,实验
+
+# 独立替代版：不要与原版 Taobao_remove_ads.lpx 同时启用，以免重叠改写。
+# 数据处理只在手机 Loon 本地进行；原版开屏脚本仍按源地址下载。
+# 规则不屏蔽整个 acs.m.taobao.com、cloud.video.taobao.com、poplayer.template.alibaba.com。
+
+[Argument]
+popup_clean = switch,true,tag=清理首页弹层,desc=去除首页营销弹窗、浮窗和首页活动条，不修改普通商品卡
+coupon_block = switch,true,tag=屏蔽双11惊喜券,desc=针对抓包中发现的双11券活动页面返回空白页面
+feed_filter = switch,true,tag=过滤带广告标记的信息流,desc=仅对推荐/信息流 API 中明确标记广告的列表项生效，未抓到该类响应时不保证生效
+
+[Rule]
+# 可明确归属淘宝广告/追踪的主机（保留普通交易、推荐和 CDN 请求）。
+DOMAIN,adashx.m.taobao.com,REJECT
+DOMAIN,h-adashx.ut.taobao.com,REJECT
+# 原版也屏蔽 ut.taobao.com、ossgw.alicdn.com 等共享域；此处未直接屏蔽，避免干扰淘宝正常功能。
+
+[Rewrite]
+# 原版淘宝去广告已知的广告投放接口：仅按接口路径屏蔽，不拦通用 mtop。
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alibaba\.advertisementservice\.getadv(?:\/|\?|$)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimama\.etao\.config\.query\/.*etao_advertise/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.etao\.noah\.query\/.*tao_splash/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.alimusic\.common\.mobileservice\.startinit(?:\/|\?|$)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.trip\.activity\.querytmsresources(?:\/|\?|$)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.film\.mtopadvertiseapi\.queryadvertise(?:\/|\?|$)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.o2o\.ad\.gateway\.get(?:\/|\?|$)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/acs\.m\.taobao\.com\/gw\/mtop\.fliggy\.crm\.screen\.(?:allresource|predict)(?:\/|\?|$)/i then reject_dict(200)
+request if ${url} ~= /^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(?:volvo\.secondfloor\.getconfig|wireless\.home\.newface\.awesome\.get)(?:\/|\?|$)/i then reject_dict(200)
+
+# 抓包中真实出现的“11.11 惊喜券”活动页。mock 比跳转错误页更温和，但可能残留空白弹窗容器。
+response if ${coupon_block} == true && ${url} ~= /^https:\/\/outfliggys\.m\.taobao\.com\/xj\/page\/pcraft\/pcraft\/common\/shuang11qqlxjh_copy(?:\?|\/|$)/i then response.body.mock("html", `<html><head><meta name="viewport" content="width=device-width,initial-scale=1"></head><body style="margin:0;background:transparent"></body></html>`, 200)
+
+# 2026-11-10 实测 /popcdn/2/config.json：清掉首页弹窗/浮层场景与底栏视频弹层。
+# 不删除其他页面的 scene，不影响商品详情/购物车/订单正常弹层。
+# 只修改 .sc，保持 .ac 原始结构，防止未引用活动数据的关联字段发生变化。
+response if ${popup_clean} == true && ${url} ~= /^https:\/\/poplayer\.template\.alibaba\.com\/(?:popcdn\/\d+\/config\.json|[^\/]+\.json)(?:\?|$)/i then response.json.jq("if (.sc | type) == \"object\" then .sc |= with_entries(select((.key | test(\"^poplayer://Page_Home@(?:popup|float|tb_top_float_banner)|^TBLTabBarViewController$\";\"i\")) | not)) else . end")
+
+# 推荐/信息流只对明确标记为广告的项目做结构化移除，绝不删除一般商品推荐。
+# 注意：本次抓包未包含完整首页 JSON；该规则属于预置的保守试验过滤器。
+response if ${feed_filter} == true && ${url} ~= /^https:\/\/(?:acs|guide-acs)\.m\.taobao\.com\/gw\/mtop\.[^\/?]*(?:recommend|recmd|feed)[^\/?]*(?:\/|\?|$)/i then response.json.jq("walk(if type == \"array\" then map(select(if type == \"object\" then ((.isAd? != true) and (.is_ad? != true) and (.isAdvertisement? != true) and ((.bizType? // .itemType? // .contentType? // .type? // \"\" | tostring | test(\"^(ad|ads|advertisement|sponsored)$\"; \"i\")) | not)) else true end)) else . end)")
+
+[Script]
+# 保留可莉原版开屏广告脚本；与独立的本地 JSON 规则同时工作。
+http-response ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get) script-path=https://kelee.one/Resource/JavaScript/Taobao/Taobao_remove_ads.js,requires-body=true,tag=淘宝原版开屏清理
+http-response ^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json script-path=https://kelee.one/Resource/JavaScript/Taobao/Taobao_remove_ads.js,requires-body=true,tag=淘宝原版弹层脚本
+
+[Mitm]
+hostname = acs.m.taobao.com,guide-acs.m.taobao.com,heic.alicdn.com,poplayer.template.alibaba.com,outfliggys.m.taobao.com
