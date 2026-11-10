@@ -16,7 +16,7 @@ import time
 import ai_check
 import enrich
 import health
-from mainland_policy import PROFILE
+from mainland_policy import PROFILE, MIN_DOWNLOAD_MBPS, MIN_BASELINE_MBPS, valid_baseline
 
 MiB = 1024 ** 2
 GiB = 1024 ** 3
@@ -207,6 +207,31 @@ def domestic_controls(http):
         raise RuntimeError('domestic_controls_failed')
 
 
+def baseline(http):
+    """Two domestic mirror routes; no node, GitHub download or foreign direct control."""
+    size = 2 * MiB
+    providers = {}
+    for name, url in (('aliyun', 'https://mirrors.aliyun.com/ubuntu/ls-lR.gz'),
+                      ('huawei', 'https://mirrors.huaweicloud.com/ubuntu/ls-lR.gz')):
+        rates = []
+        for _ in range(3):
+            try:
+                r = http.fetch(None, url, headers={'Range': f'bytes=0-{size-1}'}, limit=size, download=True)
+                if r['code'] == 206 and r['size'] == size and r['seconds'] > 0:
+                    rates.append(round(size * 8 / r['seconds'] / 1_000_000, 2))
+            except (ValueError, OSError, subprocess.SubprocessError):
+                pass
+        if len(rates) >= 2:
+            providers[name] = dict(samples_mbps=rates, median_mbps=statistics.median(rates))
+    if len(providers) < 2:
+        raise RuntimeError('domestic_baseline_unavailable')
+    speed = statistics.median(p['median_mbps'] for p in providers.values())
+    if speed < MIN_BASELINE_MBPS:
+        raise RuntimeError('domestic_baseline_too_slow')
+    return dict(median_mbps=round(speed, 2), providers=providers, sample_bytes=size,
+                method='direct-domestic-range-3x2MiB-total-time')
+
+
 def basic(http, port):
     medians, exit_ip, country = [], '', 'ZZ'
     providers = [('https://www.cloudflare.com/cdn-cgi/trace', 'trace'),
@@ -284,6 +309,7 @@ def make_config(nodes):
 def execute(doc, binary, budget):
     http = Http(budget)
     domestic_controls(http)
+    before = baseline(http)
     config, ports, rejected = make_config(doc['nodes'])
     with tempfile.TemporaryDirectory(prefix='cn-core-') as folder:
         path = Path(folder) / 'config.json'
@@ -333,7 +359,7 @@ def execute(doc, binary, budget):
                 if r['quality']['grade'] == 0:
                     continue
                 r.update(download(http, port))  # All bulk transfers are serial.
-                if r['download_mbps'] < 10:
+                if r['download_mbps'] < MIN_DOWNLOAD_MBPS:
                     continue
                 r['media'] = enrich.check_media(port)
                 after = json.loads(http.fetch(port, 'https://api.ipify.org?format=json', limit=4096)['body'])['ip']
@@ -345,11 +371,15 @@ def execute(doc, binary, budget):
             if core.poll() is not None:
                 raise RuntimeError('core_stopped')
         domestic_controls(http)
+        after = baseline(http)
+        if not valid_baseline(before, after):
+            raise RuntimeError('domestic_baseline_unstable')
         if core.poll() is not None:
             raise RuntimeError('core_stopped')
         budget.check()
         return dict(cycle=doc['cycle'], source_version=doc['source_version'], results=results,
                     endpoint_rejected=rejected, complete=True, tested_at=datetime.now(timezone.utc).isoformat(),
+                    baseline=dict(before=before, after=after),
                     measurement_profile=PROFILE, measured_from='广州云测 · 100Mbps 服务器')
 
 

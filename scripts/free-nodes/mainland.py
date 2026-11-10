@@ -177,6 +177,9 @@ def validate(doc, result):
             or result.get('measurement_profile') != policy.PROFILE):
         raise RuntimeError('incomplete_or_mismatched_result')
     expected = {n['id'] for n in doc['nodes']}
+    baseline = result.get('baseline', {})
+    if not policy.valid_baseline(baseline.get('before', {}), baseline.get('after', {})):
+        raise RuntimeError('invalid_server_baseline')
     rows = result.get('results', [])
     if len(rows) != len(expected) or {n['id'] for n in rows} != expected:
         raise RuntimeError('missing_candidate_results')
@@ -212,7 +215,8 @@ def render_selection(doc, result, previous):
                 checked=len(rows), tested_from='广州云测 · 100Mbps 服务器',
                 measurement_profile=policy.PROFILE, country_limit=4, node_limit=30,
                 filter_policy='mainland-daily-v1', sort_by='quality, latency, recent conservative throughput',
-                thresholds={'basic_ms_max': 1000, 'download_mbps_min': 10, 'ai_pass_min': 2},
+                thresholds={'basic_ms_max': 1000, 'download_mbps_min': policy.MIN_DOWNLOAD_MBPS, 'ai_pass_min': 2},
+                server_baseline=result['baseline'],
                 last_attempt={'at': now(), 'ok': True}, traffic=result.get('traffic', {}),
                 selection_phase='stable' if all(n['stable'] for n in selected) else 'observation')
     for n in meta['node_results']:

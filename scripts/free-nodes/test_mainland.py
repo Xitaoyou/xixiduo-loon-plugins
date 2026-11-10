@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 import mainland
 import mainland_policy as policy
-from mainland_worker import Budget, BudgetExceeded, download, make_config, RX_LIMIT, TX_LIMIT, MONTH_LIMIT, MiB
+from mainland_worker import Budget, BudgetExceeded, download, baseline, make_config, RX_LIMIT, TX_LIMIT, MONTH_LIMIT, MiB
 from test_update import vmess
 import update
 from export_clients import brand_overseas
@@ -33,8 +33,8 @@ class SelectionTests(unittest.TestCase):
         return policy.update_history(previous or {}, rows, (AT + timedelta(days=day)).isoformat(), str(day))
 
     def test_thresholds_and_unknown_quality(self):
-        self.assertTrue(policy.eligible(row(speed=10, latency=1000)))
-        for change in ({'download_mbps': 9.99}, {'basic_latency_ms': 1001},
+        self.assertTrue(policy.eligible(row(speed=5, latency=1000)))
+        for change in ({'download_mbps': 4.99}, {'basic_latency_ms': 1001},
                        {'download_mbps': None}, {'basic_latency_ms': None},
                        {'quality': {'grade': 0}}, {'ai': {'pass_count': 1}},
                        {'measurement_profile': 'overseas'}, {'status': 'dead'}):
@@ -94,6 +94,20 @@ class SelectionTests(unittest.TestCase):
         result = download(http, 21000)
         self.assertEqual(http.calls, 3)
         self.assertEqual(result['download_mbps'], 8.39)
+
+    def test_domestic_baseline_is_direct_bounded_and_two_providers(self):
+        class Http:
+            calls = []
+            def fetch(self, port, url, **kw):
+                self.calls.append((port, url, kw))
+                return dict(code=206, size=2*MiB, seconds=1)
+        http = Http()
+        self.assertEqual(baseline(http)['median_mbps'], 16.78)
+        self.assertEqual(len(http.calls), 6)
+        self.assertTrue(all(port is None and kw['limit']==2*MiB and 'Range' in kw['headers'] for port,url,kw in http.calls))
+        self.assertFalse(policy.valid_baseline({'median_mbps': 9}, {'median_mbps': 90}))
+        self.assertFalse(policy.valid_baseline({'median_mbps': 10}, {'median_mbps': 90}))
+        self.assertTrue(policy.valid_baseline({'median_mbps': 50}, {'median_mbps': 90}))
 
 
 class BudgetTests(unittest.TestCase):
@@ -159,6 +173,7 @@ class PublicationTests(unittest.TestCase):
         _, _, body = update.convert(vmess())
         doc = dict(cycle='testcycle', source_version='commit', nodes=[dict(id='0', body=body)])
         result = dict(cycle='testcycle', source_version='commit', complete=True,
+                      baseline=dict(before={'median_mbps':50}, after={'median_mbps':50}),
                       measurement_profile=policy.PROFILE, tested_at=AT.isoformat(), results=[n])
         return doc, result
 

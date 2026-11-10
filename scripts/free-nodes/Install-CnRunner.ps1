@@ -6,6 +6,7 @@ param(
     [SecureString]$RegistrationToken
 )
 $ErrorActionPreference = 'Stop'
+$ProgressPreference = 'SilentlyContinue'
 $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object Security.Principal.WindowsPrincipal($identity)
 if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) { throw 'Run as Administrator on the ECS server.' }
@@ -31,7 +32,14 @@ if ($LASTEXITCODE -ne 0) { throw 'Root directory ACL failed.' }
 Set-Content -LiteralPath "$root\managed-install-v1" -Value 'xixiduo-cn-probe-v1' -Encoding Ascii
 function Get-VerifiedArchive([string]$Url, [string]$Hash, [string]$Path) {
     if ((Test-Path $Path) -and (Get-FileHash $Path -Algorithm SHA256).Hash -eq $Hash) { return }
-    Invoke-WebRequest -UseBasicParsing -Uri $Url -OutFile ($Path + '.download') -TimeoutSec 900
+    $partial = $Path + '.download'
+    if ((Test-Path $partial) -and (Get-FileHash $partial -Algorithm SHA256).Hash -eq $Hash) {
+        Move-Item -LiteralPath $partial -Destination $Path -Force
+        return
+    }
+    Write-Host ('Downloading official archive (resuming partial file): ' + (Split-Path $Path -Leaf))
+    & curl.exe --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 900 --retry 2 --retry-delay 2 --continue-at - --output $partial $Url
+    if ($LASTEXITCODE -ne 0) { throw 'Official download interrupted. Partial file retained for the next attempt.' }
     if ((Get-FileHash ($Path + '.download') -Algorithm SHA256).Hash -ne $Hash) { throw 'Official archive checksum mismatch.' }
     Move-Item -LiteralPath ($Path + '.download') -Destination $Path -Force
 }

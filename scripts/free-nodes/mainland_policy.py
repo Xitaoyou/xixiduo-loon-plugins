@@ -3,13 +3,23 @@ from collections import Counter
 from datetime import datetime, timedelta, timezone
 import statistics
 
-PROFILE = 'guangzhou-100m-v1-3x4MiB-total-time'
+PROFILE = 'guangzhou-100m-v2-baseline-3x4MiB-total-time'
+MIN_DOWNLOAD_MBPS = 5
+MIN_BASELINE_MBPS = 10
+BASELINE_MAX_RATIO = 3
+
+
+def valid_baseline(before, after):
+    a, b = before.get('median_mbps'), after.get('median_mbps')
+    return (type(a) in (int, float) and type(b) in (int, float)
+            and a >= MIN_BASELINE_MBPS and b >= MIN_BASELINE_MBPS
+            and max(a, b) / min(a, b) <= BASELINE_MAX_RATIO)
 
 
 def eligible(n):
     latency, speed = n.get('basic_latency_ms'), n.get('download_mbps')
     return (n.get('status') == 'alive' and latency is not None and 0 < latency <= 1000
-            and speed is not None and speed >= 10 and n.get('exit_ip')
+            and speed is not None and speed >= MIN_DOWNLOAD_MBPS and n.get('exit_ip')
             and n.get('ai', {}).get('pass_count', 0) >= 2
             and n.get('quality', {}).get('grade', 0) >= 1
             and n.get('measurement_profile') == PROFILE)
