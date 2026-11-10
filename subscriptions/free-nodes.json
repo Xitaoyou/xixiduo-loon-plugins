@@ -19,36 +19,36 @@
     "ai": [
       {
         "label": "AI推荐",
-        "node": "🇺🇸 美国 26｜18ms · 929.09Mbps",
+        "node": "海外测｜🇺🇸 美国 26｜18ms · 929.09Mbps",
         "id": "787312c2fa846848149a9f9d900f4c4b0841de6ce14c0704a8f3f075bf3530c0"
       },
       {
         "label": "备选AI",
-        "node": "🇯🇵 日本 01｜238ms · 446.96Mbps",
+        "node": "海外测｜🇯🇵 日本 01｜238ms · 446.96Mbps",
         "id": "bf0a542b9499962746b951a4a3d07f04c993bdef045d3dfa962d349ec1b7d0ae"
       }
     ],
     "media": [
       {
         "label": "流媒体推荐",
-        "node": "🇺🇸 美国 42｜194ms · 185.76Mbps",
+        "node": "海外测｜🇺🇸 美国 42｜194ms · 185.76Mbps",
         "id": "814605a9a28065c7815f1298b918c1e7e400eee02334fbd33b4df3b8d10bf12e"
       },
       {
         "label": "备选流媒体",
-        "node": "🇺🇸 美国 10｜162ms · 160.18Mbps",
+        "node": "海外测｜🇺🇸 美国 10｜162ms · 160.18Mbps",
         "id": "6305ce135c1e1f6308e0e7f7894429b1a0e5d7b269ebddd0416af95d76804af9"
       }
     ],
     "download": [
       {
         "label": "下载推荐",
-        "node": "🇺🇸 美国 26｜18ms · 929.09Mbps",
+        "node": "海外测｜🇺🇸 美国 26｜18ms · 929.09Mbps",
         "id": "787312c2fa846848149a9f9d900f4c4b0841de6ce14c0704a8f3f075bf3530c0"
       },
       {
         "label": "备选下载",
-        "node": "🇯🇵 日本 01｜238ms · 446.96Mbps",
+        "node": "海外测｜🇯🇵 日本 01｜238ms · 446.96Mbps",
         "id": "bf0a542b9499962746b951a4a3d07f04c993bdef045d3dfa962d349ec1b7d0ae"
       }
     ],
@@ -74,7 +74,7 @@
   "node_results": [
     {
       "id": "cd78ec32f1fcdb96cabec7fa2900d4aab5e5f6a11f55a900e1da8a4f0d96fba8",
-      "name": "🇩🇪 德国 01｜325ms · 336.43Mbps",
+      "name": "海外测｜🇩🇪 德国 01｜325ms · 336.43Mbps",
       "country": "DE",
       "passed": true,
       "pass_count": 3,
@@ -134,7 +134,7 @@
     },
     {
       "id": "bf0a542b9499962746b951a4a3d07f04c993bdef045d3dfa962d349ec1b7d0ae",
-      "name": "🇯🇵 日本 01｜238ms · 446.96Mbps",
+      "name": "海外测｜🇯🇵 日本 01｜238ms · 446.96Mbps",
       "country": "JP",
       "passed": true,
       "pass_count": 3,
@@ -194,7 +194,7 @@
     },
     {
       "id": "c458a975b47026fe32350cc3f9cd9f67e2c5453e35b96cbb76057cda82ebfba3",
-      "name": "🇳🇱 荷兰 01｜319ms · 338.99Mbps",
+      "name": "海外测｜🇳🇱 荷兰 01｜319ms · 338.99Mbps",
       "country": "NL",
       "passed": true,
       "pass_count": 2,
@@ -254,7 +254,7 @@
     },
     {
       "id": "79c28dad90119c0075d0e1ffac780de10364b6e7dfb188003f5317cbd8247e06",
-      "name": "🇳🇱 荷兰 04｜310ms · 275.70Mbps",
+      "name": "海外测｜🇳🇱 荷兰 04｜310ms · 275.70Mbps",
       "country": "NL",
       "passed": true,
       "pass_count": 2,
@@ -314,7 +314,7 @@
     },
     {
       "id": "ee09b38750ce4c3245f9e6cdc65d38efa1716e37d69ca8f1f8bbc991f244dd67",
-      "name": "🇸🇬 新加坡 01｜694ms · 46.03Mbps",
+      "name": "海外测｜🇸🇬 新加坡 01｜694ms · 46.03Mbps",
       "country": "SG",
       "passed": true,
       "pass_count": 2,
@@ -374,7 +374,7 @@
     },
     {
       "id": "787312c2fa846848149a9f9d900f4c4b0841de6ce14c0704a8f3f075bf3530c0",
-      "name": "🇺🇸 美国 26｜18ms · 929.09Mbps",
+      "name": "海外测｜🇺🇸 美国 26｜18ms · 929.09Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -434,7 +434,7 @@
     },
     {
       "id": "c32d3b33e30d0dea5ea96a7f8860bb879b608bcb1685cd2317e6f7cc4e0896ca",
-      "name": "🇺🇸 美国 38｜66ms · 456.08Mbps",
+      "name": "海外测｜🇺🇸 美国 38｜66ms · 456.08Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -494,7 +494,7 @@
     },
     {
       "id": "1de1e5a6b76b9b9c7bbf25872bd32d7080983c7d997a7e794587f6f3de52ff34",
-      "name": "🇺🇸 美国 29｜134ms · 188.27Mbps",
+      "name": "海外测｜🇺🇸 美国 29｜134ms · 188.27Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -554,7 +554,7 @@
     },
     {
       "id": "377a6171aa13840ab149de8d31f36ec0a03379f156d4967c9eb6754683e7ce71",
-      "name": "🇺🇸 美国 31｜131ms · 188.30Mbps",
+      "name": "海外测｜🇺🇸 美国 31｜131ms · 188.30Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 2,
@@ -614,7 +614,7 @@
     },
     {
       "id": "773b8872f387807faa73fa538080378cb8ee9c1444a0ecd329f38611c3260b3a",
-      "name": "🇺🇸 美国 30｜134ms · 176.17Mbps",
+      "name": "海外测｜🇺🇸 美国 30｜134ms · 176.17Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 2,
@@ -674,7 +674,7 @@
     },
     {
       "id": "010e3125b2700942e6c53cfaed435a21a42554078052774428d4b39af838fbc6",
-      "name": "🇺🇸 美国 39｜221ms · 171.77Mbps",
+      "name": "海外测｜🇺🇸 美国 39｜221ms · 171.77Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -734,7 +734,7 @@
     },
     {
       "id": "bc828efae33d8b070d8a382fd2b8e467cb81df273c01e6ea0e08157cc907a262",
-      "name": "🇺🇸 美国 14｜205ms · 163.44Mbps",
+      "name": "海外测｜🇺🇸 美国 14｜205ms · 163.44Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -794,7 +794,7 @@
     },
     {
       "id": "da6fde3caeeb5f7ed01dd914b93869c3cedd9b4fd188ae661e257455d60a0d0b",
-      "name": "🇺🇸 美国 32｜183ms · 184.41Mbps",
+      "name": "海外测｜🇺🇸 美国 32｜183ms · 184.41Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -854,7 +854,7 @@
     },
     {
       "id": "c93b6f8e7c4f01480a201651a8559f1195196216ebc52b3d3d45a71b873323b5",
-      "name": "🇺🇸 美国 12｜233ms · 165.86Mbps",
+      "name": "海外测｜🇺🇸 美国 12｜233ms · 165.86Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -914,7 +914,7 @@
     },
     {
       "id": "bb8f907b2801b889ec17a161d3661c036291502a24675c014bf7a66fbc5819af",
-      "name": "🇺🇸 美国 40｜235ms · 167.22Mbps",
+      "name": "海外测｜🇺🇸 美国 40｜235ms · 167.22Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -974,7 +974,7 @@
     },
     {
       "id": "d2e009c6812b9b9473f58ea9282e68432e2cd442b44ff3f2522a37dad613a653",
-      "name": "🇺🇸 美国 11｜214ms · 162.47Mbps",
+      "name": "海外测｜🇺🇸 美国 11｜214ms · 162.47Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1034,7 +1034,7 @@
     },
     {
       "id": "1ff60429041963fc474a351dde6909a9b7dec7d776f46abab66f435dd29fd50d",
-      "name": "🇺🇸 美国 41｜40ms · 743.56Mbps",
+      "name": "海外测｜🇺🇸 美国 41｜40ms · 743.56Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1094,7 +1094,7 @@
     },
     {
       "id": "bfdaaa5d26f11ce1d5caae35ec0b90fe62ccea2b1bc60ff2141f46fc8d463164",
-      "name": "🇺🇸 美国 09｜222ms · 167.28Mbps",
+      "name": "海外测｜🇺🇸 美国 09｜222ms · 167.28Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1154,7 +1154,7 @@
     },
     {
       "id": "5886d77a7b7cfab28758a39dca65a5cd227a0ce02ab076f59949a30eb512b20b",
-      "name": "🇺🇸 美国 35｜135ms · 180.73Mbps",
+      "name": "海外测｜🇺🇸 美国 35｜135ms · 180.73Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 2,
@@ -1214,7 +1214,7 @@
     },
     {
       "id": "814605a9a28065c7815f1298b918c1e7e400eee02334fbd33b4df3b8d10bf12e",
-      "name": "🇺🇸 美国 42｜194ms · 185.76Mbps",
+      "name": "海外测｜🇺🇸 美国 42｜194ms · 185.76Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1274,7 +1274,7 @@
     },
     {
       "id": "6305ce135c1e1f6308e0e7f7894429b1a0e5d7b269ebddd0416af95d76804af9",
-      "name": "🇺🇸 美国 10｜162ms · 160.18Mbps",
+      "name": "海外测｜🇺🇸 美国 10｜162ms · 160.18Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1334,7 +1334,7 @@
     },
     {
       "id": "de129f7dd26a5a52aa18c2057486faa2e6c36a96a08872b0bddae73dfb3fa617",
-      "name": "🇺🇸 美国 33｜187ms · 184.25Mbps",
+      "name": "海外测｜🇺🇸 美国 33｜187ms · 184.25Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1394,7 +1394,7 @@
     },
     {
       "id": "8fbd531ee594561f42ed37cb24eb5a72fac43fab291f4a369f60ffa73c2e5050",
-      "name": "🇺🇸 美国 34｜137ms · 168.73Mbps",
+      "name": "海外测｜🇺🇸 美国 34｜137ms · 168.73Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1454,7 +1454,7 @@
     },
     {
       "id": "83b868b0176cce036ea8ff42404d8591fc689ef851b5e17fa673a6eabf586895",
-      "name": "🇺🇸 美国 43｜18ms · 1526.21Mbps",
+      "name": "海外测｜🇺🇸 美国 43｜18ms · 1526.21Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1514,7 +1514,7 @@
     },
     {
       "id": "1b11d55f0e4af6dd0dc8440f44194ffec6985331d3847e057ecce34633bf6283",
-      "name": "🇺🇸 美国 05｜186ms · 155.97Mbps",
+      "name": "海外测｜🇺🇸 美国 05｜186ms · 155.97Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1574,7 +1574,7 @@
     },
     {
       "id": "2b187c7ad8d170ede022cd816c6cc37b770ea476051667fb527e864a26623d55",
-      "name": "🇺🇸 美国 13｜208ms · 161.38Mbps",
+      "name": "海外测｜🇺🇸 美国 13｜208ms · 161.38Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1634,7 +1634,7 @@
     },
     {
       "id": "9578934c518dac59ebeab30ec8b0222287c5e5491046a717aa86ebed854f7142",
-      "name": "🇺🇸 美国 44｜141ms · 174.83Mbps",
+      "name": "海外测｜🇺🇸 美国 44｜141ms · 174.83Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1694,7 +1694,7 @@
     },
     {
       "id": "c786950c56a0eab40f83e83985179fabfcf74c543dc37ce4ab06ff1b1866b3ad",
-      "name": "🇺🇸 美国 45｜172ms · 137.47Mbps",
+      "name": "海外测｜🇺🇸 美国 45｜172ms · 137.47Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1754,7 +1754,7 @@
     },
     {
       "id": "4f844050e44de38ac595b77b92c1b9ff07b7722cf97fa995d780dc0fb39168c1",
-      "name": "🇺🇸 美国 46｜84ms · 404.14Mbps",
+      "name": "海外测｜🇺🇸 美国 46｜84ms · 404.14Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 2,
@@ -1814,7 +1814,7 @@
     },
     {
       "id": "86036cfa3cc4d1b0a734d4749c6425c0f38f81cfcf588162980d1a290e6ab3c9",
-      "name": "🇺🇸 美国 47｜43ms · 435.31Mbps",
+      "name": "海外测｜🇺🇸 美国 47｜43ms · 435.31Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
@@ -1920,5 +1920,7 @@
     "span_hours_min": 12,
     "success_rate_min": 0.95
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/42824310968"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/42824310968",
+  "edition": "overseas",
+  "subscription_name": "免费节点海外版"
 }
