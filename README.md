@@ -25,7 +25,8 @@
 
 | 订阅 | 功能 | 使用 |
 | --- | --- | --- |
-| 免费节点（试用） | 最多 30 个不同出口，持续筛选速度与稳定性，提供 AI、流媒体、下载主备推荐 | [一键添加](https://xitaoyou.github.io/xixiduo-loon-plugins/) · [订阅地址](https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9) · [使用说明](docs/Free-Nodes.md) |
+| 免费节点海外版 | GitHub 海外云测，最多 30 个精选出口，保留原订阅地址 | [导入页面](https://xitaoyou.github.io/xixiduo-loon-plugins/#overseas) · [使用说明](docs/Free-Nodes.md) |
+| 免费节点大陆版 | 广州 100Mbps 线路，每日检测 App 默认来源；首轮验证完成后开放导入 | [检测状态与导入](https://xitaoyou.github.io/xixiduo-loon-plugins/#mainland) · [使用说明](docs/Free-Nodes.md#免费节点大陆版) |
 
 ## 使用提示
 

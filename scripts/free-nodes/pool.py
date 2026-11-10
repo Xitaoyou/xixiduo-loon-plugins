@@ -352,11 +352,12 @@ def finalize():
     lines=content.splitlines()
     if ' = ' in lines[0]:lines.insert(metadata['recommendation_rows'],f'🕒 免费节点刷新 {stamp:%m-%d %H:%M}（北京时间） = '+lines[0].split(' = ',1)[1])
     content='\n'.join(lines)+'\n'
-    from export_clients import render,write_exports
+    from export_clients import render,write_exports,brand_overseas
+    content=brand_overseas(content,metadata)
     render(content,allow_empty=True)
     folder=ROOT/'subscriptions'
-    for name in ('free-nodes.txt','免费节点'):(folder/name).write_text(content,encoding='utf-8',newline='\n')
-    write_exports(content)
+    for name in ('free-nodes.txt','免费节点','免费节点海外版'):(folder/name).write_text(content,encoding='utf-8',newline='\n')
+    write_exports(content,title='免费节点海外版')
     metadata.update(updated_at=at,nodes=sum(counts.values()),protocols=counts,published_rows=len(lines),cycle=manifest['cycle'],
         source_version=manifest['source_version'],source_error=manifest.get('source_error'),
         pool=dict(Counter(n['status'] for n in state['nodes'].values())),merge=manifest['summary'],checked=len(ids),

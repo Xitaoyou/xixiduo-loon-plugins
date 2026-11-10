@@ -41,7 +41,7 @@ def convert(name, body):
     return proxy, uri
 
 
-def render(content, allow_empty=False):
+def render(content, allow_empty=False, title='免费节点'):
     proxies, uris = [], []
     for line in content.splitlines():
         if not line or line.startswith('#'):
@@ -57,17 +57,38 @@ def render(content, allow_empty=False):
     yaml = 'mixed-port: 7890\nallow-lan: false\nmode: rule\nlog-level: warning\nproxies:\n'
     if not proxies: yaml = yaml.removesuffix('proxies:\n') + 'proxies: []\n'
     yaml += ''.join('  - ' + dump(p) + '\n' for p in proxies)
-    yaml += 'proxy-groups:\n  - ' + dump({'name':'免费节点','type':'select','proxies':['DIRECT']+[p['name'] for p in proxies]}) + '\n'
-    yaml += 'rules:\n  - ' + dump('MATCH,免费节点') + '\n'
+    yaml += 'proxy-groups:\n  - ' + dump({'name':title,'type':'select','proxies':['DIRECT']+[p['name'] for p in proxies]}) + '\n'
+    yaml += 'rules:\n  - ' + dump('MATCH,' + title) + '\n'
     return yaml, base64.b64encode(('\n'.join(uris)+'\n').encode()).decode() + '\n'
 
 
-def write_exports(content, folder=ROOT/'subscriptions'):
-    clash, shadowrocket = render(content, allow_empty=True)
+def write_exports(content, folder=ROOT/'subscriptions', title='免费节点'):
+    clash, shadowrocket = render(content, allow_empty=True, title=title)
     Path(folder).mkdir(parents=True,exist_ok=True)
     (Path(folder)/'free-nodes-clash.yaml').write_text(clash,encoding='utf-8',newline='\n')
     (Path(folder)/'free-nodes-shadowrocket.txt').write_text(shadowrocket,encoding='utf-8',newline='\n')
 
 
+def brand_overseas(content, metadata):
+    def brand(name):
+        return name if name.startswith('海外测｜') else '海外测｜' + name
+    lines = [brand(line.split(' = ', 1)[0]) + ' = ' + line.split(' = ', 1)[1]
+             if ' = ' in line and not line.startswith('#') else line for line in content.splitlines()]
+    for n in metadata.get('node_results', []):
+        n['name'] = brand(n['name'])
+    for group in metadata.get('recommendations', {}).values():
+        for n in group:
+            n['node'] = brand(n['node'])
+    metadata['edition'] = 'overseas'
+    metadata['subscription_name'] = '免费节点海外版'
+    return '\n'.join(lines) + '\n'
+
+
 if __name__ == '__main__':
-    write_exports((ROOT/'subscriptions/free-nodes.txt').read_text(encoding='utf-8'))
+    path = ROOT/'subscriptions/free-nodes.txt'
+    metadata = json.loads(path.with_suffix('.json').read_text(encoding='utf-8'))
+    content = brand_overseas(path.read_text(encoding='utf-8'), metadata)
+    for name in ('free-nodes.txt', '免费节点', '免费节点海外版'):
+        path.with_name(name).write_text(content, encoding='utf-8', newline='\n')
+    path.with_suffix('.json').write_text(json.dumps(metadata, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    write_exports(content, title='免费节点海外版')

@@ -1,5 +1,37 @@
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>免费节点 · 西西多</title><link rel="icon" href="data:,"><style>
-:root{font-family:system-ui,-apple-system,sans-serif;color:#17202c;background:#f5f7fa;color-scheme:light dark}*{box-sizing:border-box}body{max-width:680px;margin:0 auto;padding:40px 20px}h1{font-size:28px;margin:0 0 10px}header p{color:#627084;line-height:1.7;margin:0 0 26px}section{background:#fff;border:1px solid #e3e8ef;border-radius:18px;padding:22px;margin:16px 0}h2{font-size:19px;margin:0 0 10px}p{font-size:14px;line-height:1.7;color:#627084}a{color:#1762d1}.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 12px}.import,button{border:0;border-radius:10px;padding:11px 15px;font-size:14px;cursor:pointer;text-decoration:none}.import{background:#1762d1;color:white}button{color:#253247;background:#edf1f6}input{width:100%;font-size:12px;padding:9px;color:#627084;background:transparent;border:1px solid #e3e8ef;border-radius:7px}footer{font-size:13px;color:#627084;margin-top:24px;line-height:1.8}#status{min-height:20px;font-size:13px;color:#1762d1}@media(prefers-color-scheme:dark){:root{color:#e6edf7;background:#11151c}section{background:#1a202b;border-color:#303948}p,header p,footer,input{color:#a1aec0}button{color:#e6edf7;background:#303948}input{border-color:#303948}}
-</style></head><body><header><h1>免费节点</h1><p>西西多 · 同一批云端精选节点，按客户端选择导入。<br>跟随上游更新，至少每 6 小时复测；推荐与测速结果同步。</p></header><section><h2>Clash / Mihomo</h2><p>用于 FlClash、Clash Verge Rev 等 Mihomo 客户端。完整配置，默认直连；需要代理时在「免费节点」组选择节点。</p><div class="actions"><a class="import" href="clash://install-config?url=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2Ffree-nodes-clash.yaml&amp;name=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9">导入Clash</a><button data-copy="0">复制订阅地址</button></div><input aria-label="Clash / Mihomo订阅地址" id="url0" readonly value="https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/free-nodes-clash.yaml"></section><section><h2>Shadowrocket</h2><p>通用 Base64 节点订阅，添加后沿用你现有的路由与配置。</p><div class="actions"><a class="import" href="shadowrocket://add/sub://aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1hpdGFveW91L3hpeGlkdW8tbG9vbi1wbHVnaW5zL21haW4vc3Vic2NyaXB0aW9ucy9mcmVlLW5vZGVzLXNoYWRvd3JvY2tldC50eHQ=?remark=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9">导入Shadowrocket</a><button data-copy="1">复制订阅地址</button></div><input aria-label="Shadowrocket订阅地址" id="url1" readonly value="https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/free-nodes-shadowrocket.txt"></section><section><h2>Loon</h2><p>原版 Loon 节点订阅，不替换当前配置。</p><div class="actions"><a class="import" href="https://www.nsloon.com/openloon/import?nodelist=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fsubscriptions%2F%25E5%2585%258D%25E8%25B4%25B9%25E8%258A%2582%25E7%2582%25B9&amp;name=%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9">导入Loon</a><button data-copy="2">复制订阅地址</button></div><input aria-label="Loon订阅地址" id="url2" readonly value="https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9"></section><p id="status" role="status"></p><footer>请先安装对应客户端。按钮无法唤起应用时，复制订阅地址，在应用中手动添加。<br>Clash 版需要支持 Hysteria2 的 Mihomo 内核；原版旧 Clash 不适用。<br>检测和速度为云端当时的结果，不保证手机实际速度或账号服务可用。<br><a href="https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/docs/Free-Nodes.md">使用说明</a> · <a href="https://github.com/Xitaoyou/xixiduo-loon-plugins">GitHub</a></footer><script>
-document.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{const input=document.getElementById('url'+b.dataset.copy),status=document.getElementById('status');try{await navigator.clipboard.writeText(input.value);status.textContent='已复制订阅地址';}catch(e){input.focus();input.select();status.textContent='请长按或按 Ctrl+C 复制已选中的地址';}}));
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>免费节点 · 西西多</title><link rel="icon" href="data:,"><style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#17202c;background:#f5f7fa;color-scheme:light dark}*{box-sizing:border-box}body{max-width:700px;margin:auto;padding:36px 20px}h1{font-size:27px;margin:0 0 10px}h2{font-size:20px;margin:0 0 8px}p,footer{font-size:14px;line-height:1.7;color:#627084}section{background:#fff;border:1px solid #e3e8ef;border-radius:16px;padding:22px;margin:20px 0}ul{list-style:none;margin:16px 0 0;padding:0}li{display:flex;align-items:center;gap:12px;border-top:1px solid #e3e8ef;padding:13px 0}li span{flex:1;font-size:14px}a{color:#1762d1}li a,button{font:inherit;font-size:13px;padding:8px 11px;border-radius:8px;text-decoration:none}li a{background:#1762d1;color:white}button{border:0;background:#edf1f6;color:#253247;cursor:pointer}.state{font-size:13px;margin-bottom:0}footer{margin-top:25px}#notice{min-height:22px;font-size:13px}[hidden]{display:none!important}@media(prefers-color-scheme:dark){:root{color:#e6edf7;background:#11151c}section{background:#1a202b;border-color:#303948}p,footer{color:#a1aec0}li{border-color:#303948}button{color:#e6edf7;background:#303948}}
+</style></head><body>
+<header><h1>免费节点</h1><p>西西多 · 按检测线路选择版本，再选择客户端导入。</p></header>
+<section id="mainland"><h2>免费节点大陆版</h2><p>广州云测 · 100Mbps 服务器。每天北京时间10:00检测 App 默认来源，不代表所有省份或运营商的速度。</p><p class="state" role="status">尚未完成大陆检测，暂不提供导入。</p><ul hidden></ul></section>
+<section id="overseas"><h2>免费节点海外版</h2><p>GitHub 海外云测。沿用现有检测流程，原订阅地址继续有效。</p><p class="state" role="status">正在读取最近检测结果…</p><ul></ul></section>
+<p id="notice" role="status"></p>
+<footer>按钮无法唤起应用时，可复制地址到客户端添加。Clash 版默认 DIRECT，使用代理时在对应节点组选择节点。<br>云端测速不等于手机实际速度；AI 与流媒体为端点及地区检测，不保证账号或播放可用。<br><a href="https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/docs/Free-Nodes.md">使用说明</a> · <a href="https://github.com/Xitaoyou/xixiduo-loon-plugins">GitHub</a></footer>
+<script>
+const base='https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/';
+function links(id){
+  const title=id==='mainland'?'免费节点大陆版':'免费节点海外版',root=base+(id==='mainland'?'mainland/':'');
+  const rows=[['Loon',root+encodeURIComponent(title),'loon'],['Clash / Mihomo',root+'free-nodes-clash.yaml','clash'],['Shadowrocket',root+'free-nodes-shadowrocket.txt','rocket']];
+  const ul=document.querySelector('#'+id+' ul');ul.replaceChildren();
+  for(const [label,url,client] of rows){
+    const li=document.createElement('li'),name=document.createElement('span'),a=document.createElement('a'),b=document.createElement('button');
+    name.textContent=label;a.textContent='一键导入';a.setAttribute('aria-label','导入'+title+'到'+label);
+    a.href=client==='loon'?'https://www.nsloon.com/openloon/import?nodelist='+encodeURIComponent(url)+'&name='+encodeURIComponent(title):client==='clash'?'clash://install-config?url='+encodeURIComponent(url)+'&name='+encodeURIComponent(title):'shadowrocket://add/sub://'+btoa(url)+'?remark='+encodeURIComponent(title);
+    b.textContent='复制地址';b.onclick=async()=>{try{await navigator.clipboard.writeText(url);document.getElementById('notice').textContent='已复制'+title+' · '+label+'订阅地址';}catch{window.prompt('复制订阅地址',url);}};
+    li.append(name,a,b);ul.append(li);
+  }ul.hidden=false;
+}
+async function status(id){
+  const state=document.querySelector('#'+id+' .state');
+  try{
+    const response=await fetch(base+(id==='mainland'?'mainland/status.json':'free-nodes.json'),{cache:'no-store'});
+    if(!response.ok)throw Error();const d=await response.json();
+    if(d.nodes>0&&d.updated_at){
+      const stamp=new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',dateStyle:'short',timeStyle:'short'}).format(new Date(d.updated_at));
+      state.textContent=d.nodes+' 个精选出口 · 最近成功检测 '+stamp+'（北京时间）'+(d.last_attempt?.ok===false?' · 本次检测失败，保留上次结果':'');links(id);
+    }else{state.textContent=id==='mainland'?'尚无合格的大陆检测结果，暂不提供导入。':'当前没有合格的海外精选节点。';document.querySelector('#'+id+' ul').hidden=true;}
+  }catch{state.textContent=id==='mainland'?'大陆检测状态暂不可用，暂不提供导入。':'暂时无法读取检测状态；可使用原订阅地址。';}
+}
+links('overseas');status('overseas');status('mainland');
 </script></body></html>

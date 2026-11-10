@@ -1,0 +1,308 @@
+"""Hosted preparation and atomic mainland-only publishing. Never measures overseas."""
+import argparse
+import base64
+from collections import Counter
+from datetime import datetime, timezone, timedelta
+import hashlib
+import io
+import json
+import math
+import os
+from pathlib import Path
+import shutil
+import subprocess
+from urllib.request import Request, urlopen
+import zipfile
+
+from update import decrypt, convert
+import health
+from pool import identity
+import mainland_policy as policy
+from export_clients import render
+
+PUBLIC = 'Xitaoyou/xixiduo-loon-plugins'
+CONTROL = 'Xitaoyou/xixiduo-cn-probe'
+CORE_VERSION = '1.14.4'
+CORE_SHA = '99185d75d314a07dbba4a130c8ad986cbeb629a07927975636b341ca61f991df'
+HERE = Path(__file__).resolve().parent
+
+
+def now():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def read(path, default=None):
+    return json.loads(Path(path).read_text(encoding='utf-8')) if Path(path).exists() else default
+
+
+def write(path, data):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+
+def api(path, data=None):
+    args = ['gh', 'api', path]
+    if data is not None:
+        args += ['--method', 'PUT', '--input', '-']
+    r = subprocess.run(args, input=json.dumps(data) if data is not None else None,
+                       capture_output=True, text=True, encoding='utf-8', timeout=45)
+    if r.returncode:
+        raise RuntimeError('github_api_failed')
+    return json.loads(r.stdout)
+
+
+def remote_json(repo, path, ref='main', optional=False):
+    try:
+        r = api(f'repos/{repo}/contents/{path}?ref={ref}')
+    except RuntimeError:
+        # Optional only for the very first installation, not a way to reset history.
+        if optional:
+            listing = api(f'repos/{repo}/git/trees/{ref}?recursive=1')
+            if not any(x['path'] == path for x in listing['tree']):
+                return None
+        raise
+    return json.loads(base64.b64decode(r['content']))
+
+
+def fetch_bytes(url, limit=64 * 1024 * 1024):
+    with urlopen(Request(url, headers={'User-Agent': 'xixiduo-cn-probe'}), timeout=45) as r:
+        data = r.read(limit + 1)
+    if len(data) > limit:
+        raise RuntimeError('download_oversize')
+    return data
+
+
+def source():
+    version = api('repos/pixelor/ecfg/commits/main')['sha']
+    tree = api('repos/pixelor/ecfg/git/trees/' + version + '?recursive=1')
+    expected = next(x['sha'] for x in tree['tree'] if x['path'] == 'data/ecfg6')
+    payload = None
+    for url in (f'https://raw.githubusercontent.com/pixelor/ecfg/{version}/data/ecfg6',
+                f'https://cdn.jsdelivr.net/gh/pixelor/ecfg@{version}/data/ecfg6',
+                'https://cdn.shadowrockets.app/ecfg/data/ecfg6',
+                'https://files.shadowrockets.app/ecfg/data/ecfg6'):
+        try:
+            blob = fetch_bytes(url, 2 * 1024 * 1024)
+            if hashlib.sha1(b'blob ' + str(len(blob)).encode() + b'\0' + blob).hexdigest() == expected:
+                payload = decrypt(blob)
+                break
+        except (ValueError, OSError):
+            pass
+    if payload is None:
+        raise RuntimeError('verified_ecfg6_unavailable')
+    nodes, rejects = {}, Counter()
+    for line in payload.splitlines():
+        if not line.strip() or line.startswith('#'):
+            continue
+        try:
+            _, _, body = convert(line.strip())
+            ident = identity(body)
+            if ident in nodes:
+                rejects['duplicates'] += 1
+            nodes[ident] = dict(id=ident, body=body,
+                               outbound=health.outbound(body, 'pending', resolve=lambda h: h.strip('[]')))
+        except (ValueError, KeyError, TypeError, OverflowError):
+            rejects['unsupported_or_restricted'] += 1
+    if not 1 <= len(nodes) <= 128:
+        raise RuntimeError('ecfg6_count_out_of_range')
+    return version, sorted(nodes.values(), key=lambda n: n['id']), dict(rejects)
+
+
+def prepare(folder, smoke=False):
+    folder = Path(folder)
+    folder.mkdir(parents=True, exist_ok=True)
+    version, nodes, counts = source()
+    previous = remote_json(PUBLIC, 'subscriptions/mainland/status.json', optional=True) or {}
+    state = {}
+    if previous.get('cycle'):
+        state = remote_json(CONTROL, 'cycles/' + previous['cycle'] + '.json', ref='state')
+        if state.get('cycle') != previous['cycle']:
+            raise RuntimeError('previous_state_cycle_mismatch')
+    cycle = hashlib.sha256((now() + os.environ.get('GITHUB_RUN_ID', 'local') + version).encode()).hexdigest()[:24]
+    if smoke:
+        nodes = nodes[:3]
+    doc = dict(cycle=cycle, source_version=version, source_file='ecfg6', nodes=nodes,
+               source_counts=counts, prepared_at=now(), smoke=smoke,
+               previous_cycle=previous.get('cycle'))
+    write(folder / 'input.json', doc)
+    write(folder / 'previous-state.json', state)
+    for name in ('mainland_worker.py', 'mainland_policy.py', 'ai_check.py', 'enrich.py', 'health.py'):
+        shutil.copyfile(HERE / name, folder / name)
+    filename = f'sing-box-{CORE_VERSION}-windows-amd64'
+    blob = fetch_bytes(f'https://github.com/SagerNet/sing-box/releases/download/v{CORE_VERSION}/{filename}.zip')
+    if hashlib.sha256(blob).hexdigest() != CORE_SHA:
+        raise RuntimeError('core_checksum_failed')
+    with zipfile.ZipFile(io.BytesIO(blob)) as z:
+        (folder / 'sing-box.exe').write_bytes(z.read(filename + '/sing-box.exe'))
+    # Install only a fixed ABI3 wheel into the artifact, with no install hook execution.
+    wheel_folder = folder / 'wheels'
+    subprocess.run(['python', '-m', 'pip', 'download', '--only-binary=:all:', '--no-deps',
+                    '--platform', 'win_amd64', '--python-version', '312', '--implementation', 'cp',
+                    '--abi', 'cp37m', '--abi', 'abi3', '--dest', str(wheel_folder), 'psutil==7.0.0'],
+                   check=True, timeout=120, stdout=subprocess.DEVNULL)
+    wheels = list(wheel_folder.glob('psutil-7.0.0-*-win_amd64.whl'))
+    if len(wheels) != 1:
+        raise RuntimeError('psutil_wheel_missing')
+    with zipfile.ZipFile(wheels[0]) as z:
+        target = folder / 'site-packages'
+        for entry in z.infolist():
+            if entry.filename.startswith('psutil/') and not entry.is_dir():
+                destination = target / entry.filename
+                if '..' in Path(entry.filename).parts:
+                    raise RuntimeError('unsafe_wheel_path')
+                destination.parent.mkdir(parents=True, exist_ok=True)
+                destination.write_bytes(z.read(entry))
+    shutil.rmtree(wheel_folder)
+    print(json.dumps(dict(cycle=cycle, candidates=len(nodes), source='ecfg6', smoke=smoke)))
+
+
+def validate(doc, result):
+    if (not result or not result.get('complete') or result.get('cycle') != doc['cycle']
+            or result.get('source_version') != doc['source_version']
+            or result.get('measurement_profile') != policy.PROFILE):
+        raise RuntimeError('incomplete_or_mismatched_result')
+    expected = {n['id'] for n in doc['nodes']}
+    rows = result.get('results', [])
+    if len(rows) != len(expected) or {n['id'] for n in rows} != expected:
+        raise RuntimeError('missing_candidate_results')
+    for n in rows:
+        for field in ('download_mbps', 'basic_latency_ms'):
+            v = n.get(field)
+            if v is not None and (type(v) not in (int, float) or not math.isfinite(v) or v <= 0):
+                raise RuntimeError('invalid_measurement')
+        if n.get('measurement_profile') != policy.PROFILE:
+            raise RuntimeError('mixed_measurement_profile')
+    return rows
+
+
+def render_selection(doc, result, previous):
+    rows = validate(doc, result)
+    state = policy.update_history(previous, rows, result['tested_at'], doc['cycle'])
+    selected = policy.choose(state, rows)
+    if not selected:
+        raise RuntimeError('no_eligible_nodes')
+    bodies = {n['id']: n['body'] for n in doc['nodes']}
+    for n in selected:
+        n['body'] = bodies[n['id']]
+    picks = policy.recommendations(selected)
+    content, counts, meta = health.render_results(selected, rows, len(rows), 0,
+                                                selected_only=True, picks=picks)
+    stamp = datetime.fromisoformat(result['tested_at']).astimezone(timezone(timedelta(hours=8)))
+    lines = content.splitlines()
+    lines.insert(meta['recommendation_rows'], f'🕒 免费节点大陆版刷新 {stamp:%m-%d %H:%M}（北京时间） = ' + selected[0]['body'])
+    content = '\n'.join('大陆测｜' + line for line in lines) + '\n'
+    clash, rocket = render(content, title='免费节点大陆版')
+    meta.update(updated_at=result['tested_at'], cycle=doc['cycle'], nodes=len(selected),
+                published_rows=len(lines), source_version=doc['source_version'], source_file='ecfg6',
+                checked=len(rows), tested_from='广州云测 · 100Mbps 服务器',
+                measurement_profile=policy.PROFILE, country_limit=4, node_limit=30,
+                filter_policy='mainland-daily-v1', sort_by='quality, latency, recent conservative throughput',
+                thresholds={'basic_ms_max': 1000, 'download_mbps_min': 10, 'ai_pass_min': 2},
+                last_attempt={'at': now(), 'ok': True}, traffic=result.get('traffic', {}),
+                selection_phase='stable' if all(n['stable'] for n in selected) else 'observation')
+    for n in meta['node_results']:
+        n['name'] = '大陆测｜' + n['name']
+    for group in meta['recommendations'].values():
+        for n in group:
+            n['node'] = '大陆测｜' + n['node']
+    state['cycle'] = doc['cycle']
+    return {'free-nodes.txt': content, '免费节点大陆版': content,
+            'free-nodes-clash.yaml': clash, 'free-nodes-shadowrocket.txt': rocket,
+            'status.json': json.dumps(meta, ensure_ascii=False, indent=2) + '\n'}, state
+
+
+def persist_state(state):
+    # Immutable state snapshot first; public status points to it only after atomic public commit.
+    try:
+        api(f'repos/{CONTROL}/git/ref/heads/state')
+    except RuntimeError:
+        sha = api(f'repos/{CONTROL}/git/ref/heads/main')['object']['sha']
+        r = subprocess.run(['gh', 'api', '--method', 'POST', f'repos/{CONTROL}/git/refs', '--input', '-'],
+                           input=json.dumps({'ref': 'refs/heads/state', 'sha': sha}),
+                           capture_output=True, text=True, timeout=45)
+        if r.returncode:
+            raise RuntimeError('state_branch_unavailable')
+    path = 'cycles/' + state['cycle'] + '.json'
+    existing = remote_json(CONTROL, path, ref='state', optional=True)
+    if existing is not None:
+        if existing != state:
+            raise RuntimeError('immutable_state_conflict')
+        return
+    api(f'repos/{CONTROL}/contents/{path}', dict(message='Persist mainland cycle ' + state['cycle'],
+        branch='state', content=base64.b64encode(json.dumps(state).encode()).decode()))
+
+
+def commit_files(repo, files):
+    folder = Path(repo) / 'subscriptions/mainland'
+    folder.mkdir(parents=True, exist_ok=True)
+    for name, content in files.items():
+        (folder / name).write_text(content, encoding='utf-8', newline='\n')
+    def git(*args):
+        subprocess.run(['git', '-C', str(repo), *args], check=True, timeout=60,
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    git('config', 'user.name', 'github-actions[bot]')
+    git('config', 'user.email', '41898282+github-actions[bot]@users.noreply.github.com')
+    git('add', 'subscriptions/mainland')
+    changed = subprocess.run(['git', '-C', str(repo), 'diff', '--cached', '--quiet']).returncode
+    if not changed:
+        return
+    git('commit', '-m', 'chore: update mainland node results')
+    for attempt in range(3):
+        try:
+            git('push', 'origin', 'HEAD:main')
+            return
+        except subprocess.CalledProcessError:
+            if attempt == 2:
+                raise RuntimeError('publication_conflict')
+            git('pull', '--rebase', 'origin', 'main')
+
+
+def finish(folder, result_path, repo, smoke=False):
+    doc = read(Path(folder) / 'input.json')
+    result = read(result_path)
+    if smoke:
+        rows = validate(doc, result)
+        if not any(n['status'] == 'alive' for n in rows):
+            raise RuntimeError('smoke_no_reachable_node')
+        render_selection(doc, result, {})
+        print('Three-node smoke test completed; no subscriptions or history changed.')
+        return
+    if doc.get('smoke'):
+        raise RuntimeError('smoke_result_cannot_publish')
+    current = read(Path(repo) / 'subscriptions/mainland/status.json', {})
+    if current.get('cycle') != doc.get('previous_cycle'):
+        raise RuntimeError('publication_base_changed')
+    try:
+        files, state = render_selection(doc, result, read(Path(folder) / 'previous-state.json', {}))
+    except Exception as e:
+        reason = str(e) if isinstance(e, RuntimeError) else 'invalid_results'
+        current['last_attempt'] = dict(at=now(), ok=False, reason=reason)
+        commit_files(repo, {'status.json': json.dumps(current, ensure_ascii=False, indent=2) + '\n'})
+        raise RuntimeError(reason)
+    persist_state(state)
+    commit_files(repo, files)
+    print('Published complete mainland cycle ' + doc['cycle'])
+
+
+def report_failure(repo, reason):
+    status = read(Path(repo) / 'subscriptions/mainland/status.json', {})
+    status['last_attempt'] = dict(at=now(), ok=False, reason=reason)
+    commit_files(repo, {'status.json': json.dumps(status, ensure_ascii=False, indent=2) + '\n'})
+
+
+if __name__ == '__main__':
+    p = argparse.ArgumentParser()
+    p.add_argument('command', choices=['prepare', 'finish', 'failure'])
+    p.add_argument('--folder', default='bundle')
+    p.add_argument('--result', default='result/result.json')
+    p.add_argument('--repo', default='public')
+    p.add_argument('--smoke', action='store_true')
+    p.add_argument('--reason', choices=['source_preparation_failed', 'worker_failed'], default='worker_failed')
+    a = p.parse_args()
+    if a.command == 'prepare':
+        prepare(a.folder, a.smoke)
+    elif a.command == 'finish':
+        finish(a.folder, a.result, a.repo, a.smoke)
+    else:
+        report_failure(a.repo, a.reason)
