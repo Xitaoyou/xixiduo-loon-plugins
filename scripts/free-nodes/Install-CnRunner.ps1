@@ -38,7 +38,7 @@ function Get-VerifiedArchive([string]$Url, [string]$Hash, [string]$Path) {
         return
     }
     Write-Host ('Downloading official archive (resuming partial file): ' + (Split-Path $Path -Leaf))
-    & curl.exe --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 900 --retry 2 --retry-delay 2 --continue-at - --output $partial $Url
+    & curl.exe --fail --location --proto '=https' --proto-redir '=https' --connect-timeout 15 --max-time 300 --speed-limit 2048 --speed-time 30 --retry 0 --continue-at - --output $partial $Url
     if ($LASTEXITCODE -ne 0) { throw 'Official download interrupted. Partial file retained for the next attempt.' }
     if ((Get-FileHash ($Path + '.download') -Algorithm SHA256).Hash -ne $Hash) { throw 'Official archive checksum mismatch.' }
     Move-Item -LiteralPath ($Path + '.download') -Destination $Path -Force
