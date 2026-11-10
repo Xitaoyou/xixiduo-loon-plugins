@@ -1,7 +1,197 @@
 {
-  "edition": "mainland",
-  "subscription_name": "免费节点大陆版",
-  "nodes": 0,
-  "updated_at": null,
-  "status": "awaiting_first_verified_run"
+  "connection_tested": true,
+  "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
+  "tested_from": "广州云测 · 100Mbps 服务器",
+  "candidates": 39,
+  "unreachable": 0,
+  "endpoint_rejected": 0,
+  "ai_rejected": 38,
+  "ai_min_pass": 2,
+  "filter_policy": "mainland-daily-latency-fallback-v2",
+  "sort_by": "quality, latency, recent conservative throughput",
+  "ai_qualified": 1,
+  "quality_qualified": 1,
+  "quality_rejected": 0,
+  "country_best_count": 1,
+  "country_limit": 4,
+  "country_count": 1,
+  "recommendations": {
+    "ai": [
+      {
+        "label": "AI推荐",
+        "node": "大陆测｜🇮🇹 意大利 01｜963ms · 9.05Mbps",
+        "id": "77721698a3311a6c2f588caa94def77bca9c700eccec32113428588fda82a7fb"
+      }
+    ],
+    "media": [],
+    "download": [
+      {
+        "label": "下载推荐",
+        "node": "大陆测｜🇮🇹 意大利 01｜963ms · 9.05Mbps",
+        "id": "77721698a3311a6c2f588caa94def77bca9c700eccec32113428588fda82a7fb"
+      }
+    ],
+    "clean_ip": [
+      {
+        "label": "纯净IP推荐",
+        "node": "大陆测｜🇮🇹 意大利 01｜963ms · 9.05Mbps",
+        "id": "77721698a3311a6c2f588caa94def77bca9c700eccec32113428588fda82a7fb"
+      }
+    ]
+  },
+  "recommendation_rows": 3,
+  "media_required": [
+    "Netflix",
+    "Disney+",
+    "YouTube Premium",
+    "Prime Video"
+  ],
+  "media_all_passed": 0,
+  "media_service_passes": {
+    "Netflix": 1,
+    "Disney+": 0,
+    "YouTube Premium": 1,
+    "Prime Video": 0
+  },
+  "quality_labels": {
+    "低风险非机房": 1
+  },
+  "node_results": [
+    {
+      "id": "77721698a3311a6c2f588caa94def77bca9c700eccec32113428588fda82a7fb",
+      "name": "大陆测｜🇮🇹 意大利 01｜963ms · 9.05Mbps",
+      "country": "IT",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 970
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 835
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 902,
+      "quality": {
+        "grade": 3,
+        "risk_score": 0,
+        "label": "低风险非机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": false
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 9.05,
+      "exit_ip": "80.174.118.78",
+      "basic_latency_ms": 963,
+      "stable": false,
+      "conservative_mbps": 9.05,
+      "observation_rounds": 1,
+      "selection_score": 9.05,
+      "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
+      "download_samples_mbps": [
+        10.71,
+        8.64,
+        9.05
+      ]
+    }
+  ],
+  "countries": {
+    "IT": 1
+  },
+  "test_seconds": 0,
+  "node_limit": 30,
+  "updated_at": "2026-11-10T20:08:31.237439+00:00",
+  "cycle": "3ff072d28c63a47ad4dcd0c5",
+  "nodes": 1,
+  "published_rows": 5,
+  "source_version": "c8b05c023bd00984f1c6ac52c96eb3bbaffa942e",
+  "source_file": "ecfg6",
+  "checked": 39,
+  "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
+  "selection_tier": "strict",
+  "fallback_thresholds": {
+    "basic_ms_max": 1000
+  },
+  "thresholds": {
+    "basic_ms_max": 1000,
+    "download_mbps_min": 5,
+    "ai_pass_min": 2
+  },
+  "server_baseline": {
+    "before": {
+      "median_mbps": 88.87,
+      "providers": {
+        "aliyun": {
+          "samples_mbps": [
+            128.18,
+            148.89,
+            217.09
+          ],
+          "median_mbps": 148.89
+        },
+        "huawei": {
+          "samples_mbps": [
+            28.85,
+            28.66,
+            31.55
+          ],
+          "median_mbps": 28.85
+        }
+      },
+      "sample_bytes": 2097152,
+      "method": "direct-domestic-range-3x2MiB-total-time"
+    },
+    "after": {
+      "median_mbps": 91.1,
+      "providers": {
+        "aliyun": {
+          "samples_mbps": [
+            123.98,
+            152.81,
+            168.64
+          ],
+          "median_mbps": 152.81
+        },
+        "huawei": {
+          "samples_mbps": [
+            29.39,
+            34.71,
+            27.26
+          ],
+          "median_mbps": 29.39
+        }
+      },
+      "sample_bytes": 2097152,
+      "method": "direct-domestic-range-3x2MiB-total-time"
+    }
+  },
+  "last_attempt": {
+    "at": "2026-11-10T20:08:51.743587+00:00",
+    "ok": true
+  },
+  "traffic": {
+    "rx_upper_bound": 120871416,
+    "tx_upper_bound": 4154147
+  },
+  "selection_phase": "observation"
 }
