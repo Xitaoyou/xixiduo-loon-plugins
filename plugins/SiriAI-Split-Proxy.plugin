@@ -3,8 +3,6 @@
 #!author = 西西多
 #!homepage = https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/docs/SiriAI-Split-Proxy.md
 #!date = 2026-11-10
-#!tag = Siri,Apple Intelligence,手动分流
-#!type = normal
 
 # IMPORTANT: select a fixed, working proxy node in the plugin's policy settings.
 # PROXY below means the policy explicitly assigned to THIS plugin.
