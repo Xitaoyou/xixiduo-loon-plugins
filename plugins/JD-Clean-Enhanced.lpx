@@ -1,0 +1,28 @@
+#!name = 京东去广告 · 开屏浮窗精简增强版
+#!desc = 兼容 Base64 新协议；清理开屏广告、悬浮挂件、营销弹窗与推广楼层
+#!author = 西西多 / zbsdsb（MIT 协议适配参考）
+#!homepage = https://github.com/Xitaoyou/xixiduo-loon-plugins
+#!icon = https://raw.githubusercontent.com/luestr/IconResource/main/App_icon/120px/JD.png
+#!date = 2026-11-10
+#!system = iOS,iPadOS
+#!loon_version = 3.5.1(983)
+#!tag = 京东,去广告,精简
+
+# 独立替代版：请停用 kelee 京东原版和其他京东去广告插件。
+# 限定京东主 API；不阻断商品、支付、物流、图片等共享域名。
+# 极简工具栏可能隐藏实用入口，默认关闭。
+[Argument]
+block_splash = switch,true,tag=过滤开屏广告,desc=清理 start/startup 开屏广告
+block_floating = switch,true,tag=过滤悬浮广告,desc=移除首页活动挂件、悬浮推广楼层
+block_popup = switch,true,tag=过滤营销弹窗,desc=清理首页和我的页面推广弹层
+simplify_page = switch,true,tag=精简推广楼层,desc=移除订单、物流和我的页面营销卡片
+compact_tools = switch,false,tag=极简工具入口（可选）,desc=可能隐藏常用功能入口，默认关闭
+
+[Rule]
+URL-REGEX,^http:\/\/\w{32}\.jddebug\.com\/diagnose\?,REJECT
+
+[Script]
+response if ${url} ~= /^https:\/\/api\.m\.jd\.com\/client\.action(?:\?|$)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/jd-clean-enhanced.js", {${block_splash}, ${block_floating}, ${block_popup}, ${simplify_page}, ${compact_tools}}) with requires_body=true, timeout=15, tag="京东广告与页面精简"
+
+[MitM]
+hostname = api.m.jd.com
