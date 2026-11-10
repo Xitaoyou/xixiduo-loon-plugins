@@ -1,0 +1,22 @@
+#!name = Siri AI 定向代理 · 手动节点轻量版
+#!desc = 仅为 Apple Intelligence、Siri 和 Siri 搜索相关域名使用所选策略；无自动测速、脚本或 MITM。安装后必须手动指定代理节点。
+#!author = 西西多
+#!homepage = https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/docs/SiriAI-Split-Proxy.md
+#!date = 2026-11-10
+#!tag = Siri,Apple Intelligence,手动分流
+#!type = normal
+
+# IMPORTANT: select a fixed, working proxy node in the plugin's policy settings.
+# PROXY below means the policy explicitly assigned to THIS plugin.
+# Without a policy selection, Loon may silently fall back to its first global node.
+# Use Loon's automatic routing/filter mode with default DIRECT, NOT global DIRECT.
+# Local DIRECT rules for these hosts can take precedence over plugin rules.
+# smoot.apple.com is shared with Spotlight and other Apple Search services.
+
+[Rule]
+DOMAIN,guzzoni.apple.com,PROXY
+DOMAIN-SUFFIX,smoot.apple.com,PROXY
+DOMAIN,apple-relay.cloudflare.com,PROXY
+DOMAIN,apple-relay.fastly-edge.com,PROXY
+DOMAIN,cp4.cloudflare.com,PROXY
+DOMAIN,apple-relay.apple.com,PROXY
