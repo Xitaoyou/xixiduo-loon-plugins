@@ -1,6 +1,7 @@
 #!name = 淘宝净化增强版（10.68.10）
-#!desc = 保留可莉开屏脚本；针对 2026-11-10 抓包增加双11惊喜券页面拦截、首页营销弹层清理、已标记的推荐流广告过滤。Discover 底栏图标尚无可验证的下发接口。
-#!author = 可莉/RuCu6 原有规则参考 + 抓包适配
+#!desc = 屏蔽开屏广告、双十一惊喜券、飞猪旅行节推广；清理首页弹窗、悬浮广告及部分信息流广告
+#!author = 西西多增强
+#!icon = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taobao.png
 #!date = 2026-11-10
 #!system = iOS,iPadOS
 #!loon_version = 3.5.1(978)
@@ -13,7 +14,8 @@
 [Argument]
 popup_clean = switch,true,tag=清理首页弹层,desc=去除首页营销弹窗、浮窗和首页活动条，不修改普通商品卡
 coupon_block = switch,true,tag=屏蔽双11惊喜券,desc=针对抓包中发现的双11券活动页面返回空白页面
-feed_filter = switch,true,tag=过滤带广告标记的信息流,desc=仅对推荐/信息流 API 中明确标记广告的列表项生效，未抓到该类响应时不保证生效
+feed_filter = switch,true,tag=过滤信息流广告,desc=过滤推荐流中带明确广告标记的内容
+trip_banner_clean = switch,true,tag=隐藏飞猪旅行节,desc=过滤首页飞猪旅行节活动卡片
 
 [Rule]
 # 可明确归属淘宝广告/追踪的主机（保留普通交易、推荐和 CDN 请求）。
@@ -44,6 +46,10 @@ response if ${popup_clean} == true && ${url} ~= /^https:\/\/poplayer\.template\.
 # 推荐/信息流只对明确标记为广告的项目做结构化移除，绝不删除一般商品推荐。
 # 注意：本次抓包未包含完整首页 JSON；该规则属于预置的保守试验过滤器。
 response if ${feed_filter} == true && ${url} ~= /^https:\/\/(?:acs|guide-acs)\.m\.taobao\.com\/gw\/mtop\.[^\/?]*(?:recommend|recmd|feed)[^\/?]*(?:\/|\?|$)/i then response.json.jq("walk(if type == \"array\" then map(select(if type == \"object\" then ((.isAd? != true) and (.is_ad? != true) and (.isAdvertisement? != true) and ((.bizType? // .itemType? // .contentType? // .type? // \"\" | tostring | test(\"^(ad|ads|advertisement|sponsored)$\"; \"i\")) | not)) else true end)) else . end)")
+
+# 定向去除淘宝首页接口下发的飞猪旅行节活动卡片，不屏蔽普通旅行商品或购物服务。
+# 此广告入口的完整首页 JSON 未包含在当前抓包中；实际命中情况仍需在手机端验证。
+response if ${trip_banner_clean} == true && ${url} ~= /^https:\/\/(?:acs|guide-acs)\.m\.taobao\.com\/gw\/mtop\.[^\/?]*(?:home|recommend|recmd|feed|floor|marketing|banner|activity|resource|navigation)[^\/?]*(?:\/|\?|$)/i then response.json.jq("walk(if type == \"array\" then map(select(if type == \"object\" then ([.title?, .name?, .mainTitle?, .subTitle?, .subtitle?, .text?, .label?, .marketingTitle?, .promotionTitle?, .jumpUrl?, .linkUrl?, .url?, .targetUrl?, .landingUrl?, .activityUrl?, .h5Url?] | map(select(type == \"string\")) | any(.[]; test(\"飞猪.{0,12}(旅行节|旅游节)|全球旅行节|双11全球旅行|shuang11qqlxjh_copy\"; \"i\"))) | not else true end)) else . end)")
 
 [Script]
 # 保留可莉原版开屏广告脚本；与独立的本地 JSON 规则同时工作。
