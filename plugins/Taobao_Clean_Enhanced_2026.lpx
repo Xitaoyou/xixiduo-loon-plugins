@@ -1,6 +1,6 @@
-#!name = 淘宝净化增强版（10.68.10）
-#!desc = 屏蔽开屏广告、双十一惊喜券、飞猪旅行节推广；清理首页弹窗、悬浮广告及部分信息流广告
-#!author = 西西多增强
+#!name = 淘宝净化增强版
+#!desc = 屏蔽开屏广告、双十一惊喜券、11.11促销卡片；隐藏飞猪入口，清理首页弹窗、悬浮广告和部分信息流广告
+#!author = 可莉 / RuCu6 / 西西多增强
 #!icon = https://raw.githubusercontent.com/Koolson/Qure/master/IconSet/Color/Taobao.png
 #!date = 2026-11-10
 #!system = iOS,iPadOS
@@ -12,10 +12,10 @@
 # 规则不屏蔽整个 acs.m.taobao.com、cloud.video.taobao.com、poplayer.template.alibaba.com。
 
 [Argument]
-popup_clean = switch,true,tag=清理首页弹层,desc=去除首页营销弹窗、浮窗和首页活动条，不修改普通商品卡
+popup_clean = switch,true,tag=清理首页/我的页面弹层,desc=去除首页和我的淘宝页面的营销弹窗、浮窗
 coupon_block = switch,true,tag=屏蔽双11惊喜券,desc=针对抓包中发现的双11券活动页面返回空白页面
 feed_filter = switch,true,tag=过滤信息流广告,desc=过滤推荐流中带明确广告标记的内容
-trip_banner_clean = switch,true,tag=隐藏飞猪旅行节,desc=过滤首页飞猪旅行节活动卡片
+trip_banner_clean = switch,true,tag=隐藏飞猪旅行节,desc=过滤飞猪旅行节活动卡片
 
 [Rule]
 # 可明确归属淘宝广告/追踪的主机（保留普通交易、推荐和 CDN 请求）。
@@ -41,7 +41,7 @@ response if ${coupon_block} == true && ${url} ~= /^https:\/\/outfliggys\.m\.taob
 # 2026-11-10 实测 /popcdn/2/config.json：清掉首页弹窗/浮层场景与底栏视频弹层。
 # 不删除其他页面的 scene，不影响商品详情/购物车/订单正常弹层。
 # 只修改 .sc，保持 .ac 原始结构，防止未引用活动数据的关联字段发生变化。
-response if ${popup_clean} == true && ${url} ~= /^https:\/\/poplayer\.template\.alibaba\.com\/(?:popcdn\/\d+\/config\.json|[^\/]+\.json)(?:\?|$)/i then response.json.jq("if (.sc | type) == \"object\" then .sc |= with_entries(select((.key | test(\"^poplayer://Page_Home@(?:popup|float|tb_top_float_banner)|^TBLTabBarViewController$\";\"i\")) | not)) else . end")
+response if ${popup_clean} == true && ${url} ~= /^https:\/\/poplayer\.template\.alibaba\.com\/(?:popcdn\/\d+\/config\.json|[^\/]+\.json)(?:\?|$)/i then response.json.jq("if (.sc | type) == \"object\" then .sc |= with_entries(select((.key | test(\"^poplayer://Page_(?:Home|MyTaobao)@(?:popup|float|tb_top_float_banner)|^TBLTabBarViewController$\";\"i\")) | not)) else . end")
 
 # 推荐/信息流只对明确标记为广告的项目做结构化移除，绝不删除一般商品推荐。
 # 注意：本次抓包未包含完整首页 JSON；该规则属于预置的保守试验过滤器。
@@ -56,5 +56,9 @@ response if ${trip_banner_clean} == true && ${url} ~= /^https:\/\/(?:acs|guide-a
 http-response ^https:\/\/guide-acs\.m\.taobao\.com\/gw\/mtop\.taobao\.(cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get) script-path=https://kelee.one/Resource/JavaScript/Taobao/Taobao_remove_ads.js,requires-body=true,tag=淘宝原版开屏清理
 http-response ^https:\/\/poplayer\.template\.alibaba\.com\/\w+\.json script-path=https://kelee.one/Resource/JavaScript/Taobao/Taobao_remove_ads.js,requires-body=true,tag=淘宝原版弹层脚本
 
+# 个人页活动卡与飞猪快捷入口定向清理：仅在响应包含相关文案时修改 JSON。
+http-response ^https:\/\/(?:acs|guide-acs)\.m\.taobao\.com\/gw\/mtop\.(?!taobao\.(?:cloudvideo\.video\.query|wireless\.home\.splash\.awesome\.get)) script-path=https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/taobao-profile-clean.js,requires-body=true,tag=我的淘宝推广净化
+http-response ^https:\/\/h5api\.m\.taobao\.com\/h5\/mtop\. script-path=https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/taobao-profile-clean.js,requires-body=true,tag=我的淘宝H5推广净化
+
 [Mitm]
-hostname = acs.m.taobao.com,guide-acs.m.taobao.com,heic.alicdn.com,poplayer.template.alibaba.com,outfliggys.m.taobao.com
+hostname = acs.m.taobao.com,guide-acs.m.taobao.com,h5api.m.taobao.com,heic.alicdn.com,poplayer.template.alibaba.com,outfliggys.m.taobao.com
