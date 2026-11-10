@@ -60,9 +60,10 @@ def rank(r):
 def choose(state,results,at):
     provisional=age(at,state['stable_policy_started_at'])<12*3600
     eligible=[r for r in results if current_eligible(r) and (provisional or r.get('stable'))]
-    ordered=sorted(eligible,key=rank);selected=[];exits=set()
+    ordered=sorted(eligible,key=rank);selected=[];exits=set();countries={}
     def add(r):
-        if r['exit_ip'] not in exits and len(selected)<30:selected.append(r);exits.add(r['exit_ip'])
+        if r['exit_ip'] not in exits and len(selected)<30 and countries.get(r['country'],0)<4:
+            selected.append(r);exits.add(r['exit_ip']);countries[r['country']]=countries.get(r['country'],0)+1
     for country in PREFERRED:
         for r in ordered:
             if r['country']==country:add(r);break

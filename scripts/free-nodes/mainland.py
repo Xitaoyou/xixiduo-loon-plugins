@@ -204,7 +204,7 @@ def render_selection(doc, result, previous):
         n['body'] = bodies[n['id']]
     picks = policy.recommendations(selected)
     content, counts, meta = health.render_results(selected, rows, len(rows), 0,
-                                                selected_only=True, picks=picks)
+                                                selected_only=True, picks=picks, eligibility=policy.latency_eligible)
     stamp = datetime.fromisoformat(result['tested_at']).astimezone(timezone(timedelta(hours=8)))
     lines = content.splitlines()
     lines.insert(meta['recommendation_rows'], f'🕒 免费节点大陆版刷新 {stamp:%m-%d %H:%M}（北京时间） = ' + selected[0]['body'])
@@ -214,13 +214,18 @@ def render_selection(doc, result, previous):
                 published_rows=len(lines), source_version=doc['source_version'], source_file='ecfg6',
                 checked=len(rows), tested_from='广州云测 · 100Mbps 服务器',
                 measurement_profile=policy.PROFILE, country_limit=4, node_limit=30,
-                filter_policy='mainland-daily-v1', sort_by='quality, latency, recent conservative throughput',
+                filter_policy='mainland-daily-latency-fallback-v2', sort_by='quality, latency, recent conservative throughput',
+                selection_tier='latency_fallback' if any(n.get('selection_tier') == 'latency_fallback' for n in selected) else 'strict',
+                fallback_thresholds={'basic_ms_max': 1000},
                 thresholds={'basic_ms_max': 1000, 'download_mbps_min': policy.MIN_DOWNLOAD_MBPS, 'ai_pass_min': 2},
                 server_baseline=result['baseline'],
                 last_attempt={'at': now(), 'ok': True}, traffic=result.get('traffic', {}),
                 selection_phase='stable' if all(n['stable'] for n in selected) else 'observation')
     for n in meta['node_results']:
         n['name'] = '大陆测｜' + n['name']
+    if meta['selection_tier'] == 'latency_fallback':
+        meta.update(test_method='Verified proxied HTTPS; latency <=1000ms; AI and throughput not required',
+                    ai_min_pass=0, thresholds={'basic_ms_max': 1000}, selection_phase='latency_fallback')
     for group in meta['recommendations'].values():
         for n in group:
             n['node'] = '大陆测｜' + n['node']

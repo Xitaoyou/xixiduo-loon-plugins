@@ -185,18 +185,19 @@ def check(content, binary):
     return render_results(passed, reachable, len(lines), time.monotonic()-started)
 
 
-def render_results(passed, reachable, total, seconds, selected_only=False, picks=None):
+def render_results(passed, reachable, total, seconds, selected_only=False, picks=None, eligibility=None):
     output, counts = [], Counter()
     countries = Counter()
     node_results = []
-    eligible = [n for n in passed if qualified(n)]
+    eligible = [n for n in passed if (eligibility or qualified)(n)]
     if not eligible:
         raise ValueError('no quality-qualified measured candidates; previous subscription retained')
     best = eligible if selected_only else country_best(eligible)
-    ai_picks, media_picks = select(eligible)
-    download_picks = download_best(eligible)
-    clean_picks = clean_ip_best(eligible)
-    if picks is not None:
+    if picks is None:
+        ai_picks, media_picks = select(eligible)
+        download_picks = download_best(eligible)
+        clean_picks = clean_ip_best(eligible)
+    else:
         ai_picks,media_picks,download_picks,clean_picks=(picks[k] for k in ('ai','media','download','clean_ip'))
     # 推荐可以超出同国综合最优项；其余普通条目不再发布。
     retained = {n['id']:n for n in best + ai_picks + media_picks + download_picks + clean_picks}
@@ -240,7 +241,7 @@ def render_results(passed, reachable, total, seconds, selected_only=False, picks
                     node_results=node_results,
                     countries=dict(countries), test_seconds=round(seconds, 1))
     if selected_only:
-        metadata.update(filter_policy='stable-best30-v1',country_limit=None,node_limit=30,
+        metadata.update(filter_policy='stable-best30-country4-v2',country_limit=4,node_limit=30,
                         sort_by='P25 recent throughput × 7-day valid success rate; jitter, latency, quality; US/JP/SG/DE reservation',
                         test_method='2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified')
     return '\n'.join(output) + '\n', dict(counts), metadata

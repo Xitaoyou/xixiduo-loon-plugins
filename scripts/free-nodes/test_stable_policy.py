@@ -62,7 +62,8 @@ class StableTests(unittest.TestCase):
         rows += [result(41,'JP',10),result(42,'SG',10),result(43,'DE',10),result(44,exit_ip=rows[0]['exit_ip'])]
         state={'stable_policy_started_at':AT.isoformat()}
         chosen,phase=policy.choose(state,rows,AT.isoformat())
-        self.assertEqual(len(chosen),30);self.assertEqual(len({r['exit_ip'] for r in chosen}),30)
+        self.assertEqual(len(chosen),7);self.assertEqual(len({r['exit_ip'] for r in chosen}),7)
+        self.assertTrue(all(sum(r['country']==c for r in chosen)<=4 for c in {r['country'] for r in chosen}))
         self.assertTrue(set(policy.PREFERRED)<={r['country'] for r in chosen})
         self.assertEqual(phase,'observation')
 

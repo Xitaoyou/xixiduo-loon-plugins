@@ -26,8 +26,8 @@
 
 | 订阅 | 功能 | 使用 |
 | --- | --- | --- |
-| 免费节点海外版 | GitHub 海外云测，最多 30 个精选出口，保留原订阅地址 | [导入页面](https://xitaoyou.github.io/xixiduo-loon-plugins/#overseas) · [使用说明](docs/Free-Nodes.md) |
-| 免费节点大陆版 | 广州 100Mbps 线路，每日检测 App 默认来源；首轮验证完成后开放导入 | [检测状态与导入](https://xitaoyou.github.io/xixiduo-loon-plugins/#mainland) · [使用说明](docs/Free-Nodes.md#免费节点大陆版) |
+| 免费节点海外版 | GitHub 海外云测，每国最多 4 个、总计最多 30 个精选出口，保留原订阅地址 | [导入页面](https://xitaoyou.github.io/xixiduo-loon-plugins/#overseas) · [使用说明](docs/Free-Nodes.md) |
+| 免费节点大陆版 | 广州每日检测 ecfg6；优先精选，无精选时回退至连通且延迟≤1000ms | [检测状态与导入](https://xitaoyou.github.io/xixiduo-loon-plugins/#mainland) · [使用说明](docs/Free-Nodes.md#免费节点大陆版) |
 
 ## 使用提示
 

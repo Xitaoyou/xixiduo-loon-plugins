@@ -67,7 +67,7 @@ class SelectionTests(unittest.TestCase):
         failed.update(status='dead', exit_ip='', download_mbps=None, basic_latency_ms=None)
         s = self.observe([failed], s, 2)
         s = self.observe([n], s, 3)
-        self.assertEqual(policy.choose(s, [n]), [])
+        self.assertEqual(policy.choose(s, [n])[0]['selection_tier'], 'latency_fallback')
         n['exit_ip'] = '1.1.1.1'
         s = self.observe([n], s, 4)
         self.assertEqual(len(s['history']['0']), 1)
@@ -83,6 +83,20 @@ class SelectionTests(unittest.TestCase):
             self.assertEqual(len({n['exit_ip'] for n in picks[kind]}), 2)
         self.assertEqual(picks['media'], [])
         self.assertEqual(picks['clean_ip'], [])
+
+    def test_latency_fallback_only_when_no_strict_selection(self):
+        weak = row(1, speed=None, latency=1000)
+        weak['ai']['pass_count'] = 0
+        slow = row(2, speed=None, latency=1001)
+        dead = row(3)
+        dead['status'] = 'dead'
+        rows = [weak, slow, dead]
+        chosen = policy.choose(self.observe(rows), rows)
+        self.assertEqual([n['id'] for n in chosen], ['1'])
+        self.assertTrue(all(not v for v in policy.recommendations(chosen).values()))
+        strong = row(4)
+        rows.append(strong)
+        self.assertEqual([n['id'] for n in policy.choose(self.observe(rows), rows)], ['4'])
 
     def test_download_uses_total_time_and_three_complete_samples(self):
         class Http:
@@ -200,6 +214,19 @@ class PublicationTests(unittest.TestCase):
             r.update(change)
             with self.assertRaises(RuntimeError):
                 mainland.validate(doc, r)
+
+    def test_fallback_exports_unknown_speed_without_fake_recommendations(self):
+        doc, result = self.fixture()
+        result['results'][0].update(download_mbps=None, basic_latency_ms=900)
+        result['results'][0]['ai'].update(pass_count=0, passed=False, latency_ms=None)
+        files, _ = mainland.render_selection(doc, result, {})
+        status = json.loads(files['status.json'])
+        self.assertEqual(status['selection_tier'], 'latency_fallback')
+        self.assertEqual(status['nodes'], 1)
+        self.assertTrue(all(not v for v in status['recommendations'].values()))
+        self.assertIn('900ms', files['free-nodes.txt'])
+        self.assertNotIn('Mbps', files['free-nodes.txt'])
+        self.assertIn('proxies:', files['free-nodes-clash.yaml'])
 
     def test_failure_preserves_content_and_success_time(self):
         with tempfile.TemporaryDirectory() as d:

@@ -25,6 +25,12 @@ def eligible(n):
             and n.get('measurement_profile') == PROFILE)
 
 
+def latency_eligible(n):
+    latency = n.get('basic_latency_ms')
+    return (n.get('status') == 'alive' and type(latency) in (int, float)
+            and 0 < latency <= 1000 and n.get('measurement_profile') == PROFILE)
+
+
 def update_history(previous, results, at, cycle):
     """Keep metric-only history, with one observation per Beijing calendar day."""
     cutoff = datetime.fromisoformat(at) - timedelta(days=7)
@@ -61,9 +67,16 @@ def choose(state, results):
     key = lambda n: (-n['quality']['grade'], n['quality'].get('risk_score')
                      if n['quality'].get('risk_score') is not None else 101,
                      n['basic_latency_ms'], -n['conservative_mbps'], n['id'])
+    if not candidates:
+        candidates = [n for n in results if latency_eligible(n)]
+        for n in candidates:
+            n.update(selection_tier='latency_fallback', conservative_mbps=n.get('download_mbps'),
+                     observation_rounds=1, stable=False)
+        key = lambda n: (n['basic_latency_ms'], n['id'])
     counts, exits, chosen = Counter(), set(), []
     for n in sorted(candidates, key=key):
-        if n['exit_ip'] in exits or counts[n['country']] >= 4:
+        exit_key = n.get('exit_ip') or n['id']
+        if exit_key in exits or counts[n['country']] >= 4:
             continue
         numbers = state['numbers'].setdefault(n['country'], {})
         if n['id'] not in numbers:
@@ -71,7 +84,7 @@ def choose(state, results):
         n['serial'] = numbers[n['id']]
         chosen.append(n)
         counts[n['country']] += 1
-        exits.add(n['exit_ip'])
+        exits.add(exit_key)
         if len(chosen) == 30:
             break
     return chosen
@@ -79,6 +92,7 @@ def choose(state, results):
 
 def recommendations(nodes):
     from enrich import pick_two, quality_key, clean_ip_best
+    nodes = [n for n in nodes if eligible(n)]
     ai = lambda n: (-n['ai']['pass_count'], *quality_key(n['quality']),
                     n['basic_latency_ms'], -n['conservative_mbps'], n['id'])
     speed = lambda n: (-n['conservative_mbps'], n['basic_latency_ms'],
