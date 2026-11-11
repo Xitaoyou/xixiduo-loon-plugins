@@ -268,16 +268,18 @@ def render_selection(doc, result, previous):
         n['body'] = bodies[n['id']]
     picks = policy.recommendations(selected)
     groups = [(key, labels, picks[key]) for key, labels in (
-        ('gpt', ('GPT 解锁|', 'GPT 备选|')), ('gemini', ('Gemini解锁|', 'Gemini备选|')),
-        ('media', ('流媒体推荐', '备选流媒体')), ('download', ('下载推荐', '备选下载')),
-        ('daily', ('日常推荐', '备选日常')))]
+        ('ai', ('AI解锁丨', '备选AI解锁丨')),
+        ('gpt', ('GPT 解锁|',)), ('gemini', ('Gemini解锁|',)),
+        ('media', ('流媒体推荐',)), ('download', ('下载推荐', '备选下载')),
+        ('daily', ('日常推荐',)))]
     content, counts, meta = health.render_results(selected, rows, len(rows), 0,
                                                 selected_only=True, picks=picks, eligibility=policy.latency_eligible,
                                                 recommendation_groups=groups)
     stamp = datetime.fromisoformat(result['tested_at']).astimezone(timezone(timedelta(hours=8)))
     lines = content.splitlines()
-    lines.insert(meta['recommendation_rows'], f'🕒 免费节点大陆版刷新 {stamp:%m-%d %H:%M}（北京时间） = ' + selected[0]['body'])
-    content = '\n'.join(line.replace('|', '|大陆测｜', 1) if line.startswith(('GPT ', 'Gemini')) else '大陆测｜' + line for line in lines) + '\n'
+    lines = ['# 西西多大陆用免费节点 · DIRECT（直连请选择Loon内置DIRECT）',
+             f'🕒 免费节点大陆版刷新 {stamp:%m-%d %H:%M}（北京时间） = ' + selected[0]['body']] + lines
+    content = '\n'.join(lines) + '\n'
     clash, rocket = render(content, title='免费节点大陆版')
     meta.update(updated_at=result['tested_at'], cycle=doc['cycle'], nodes=len(selected),
                 published_rows=len(lines), source_version=doc['source_version'], source_file=doc.get('source_file', 'ecfg6'),
@@ -297,11 +299,6 @@ def render_selection(doc, result, previous):
                 pending_download=sum(n.get('download_mbps') is None for n in selected),
                 last_attempt={'at': now(), 'ok': True}, traffic=result.get('traffic', {}),
                 selection_phase='stable' if all(n['stable'] for n in selected) else 'observation')
-    for n in meta['node_results']:
-        n['name'] = '大陆测｜' + n['name']
-    for group in meta['recommendations'].values():
-        for n in group:
-            n['node'] = '大陆测｜' + n['node']
     state['cycle'] = doc['cycle']
     return {'free-nodes.txt': content, '免费节点大陆版': content,
             'free-nodes-clash.yaml': clash, 'free-nodes-shadowrocket.txt': rocket,

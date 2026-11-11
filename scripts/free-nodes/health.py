@@ -224,7 +224,7 @@ def render_results(passed, reachable, total, seconds, selected_only=False, picks
     for category, labels, picks in groups:
         recommendations[category] = []
         for label, node in zip(labels, picks):
-            separator = '' if label.endswith('|') else '：'
+            separator = '' if label.endswith(('|', '丨')) else '：'
             aliases.append(f'{label}{separator}{node["name"]} = {node["body"]}')
             recommendations[category].append(dict(label=label, node=node['name'], id=node['id']))
     output = aliases + output

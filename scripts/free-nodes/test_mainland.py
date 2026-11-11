@@ -77,7 +77,7 @@ class SelectionTests(unittest.TestCase):
             n.update(conservative_mbps=20)
         rows[1]['exit_ip'] = rows[0]['exit_ip']
         picks = policy.recommendations(rows)
-        for kind in ('daily', 'download'):
+        for kind in ('download',):
             self.assertEqual(len({n['exit_ip'] for n in picks[kind]}), 2)
         self.assertEqual(picks['media'], [])
         self.assertEqual(picks['clean_ip'], [])
@@ -106,6 +106,16 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual([n['id'] for n in picks['gpt']], ['1'])
         self.assertEqual([n['id'] for n in picks['gemini']], ['2'])
         self.assertEqual(picks['daily'][0]['id'], '2')
+
+    def test_dual_ai_uses_combined_primary_backup_without_service_duplicates(self):
+        rows = [row(1), row(2), row(3)]
+        for n in rows:
+            n['ai']['services'] = {'ChatGPT': {'passed': True}, 'Gemini': {'passed': True}}
+        picks = policy.recommendations(rows)
+        self.assertEqual(len(picks['ai']), 2)
+        self.assertEqual(picks['gpt'], [])
+        self.assertEqual(picks['gemini'], [])
+        self.assertEqual(len(picks['daily']), 1)
 
     def test_download_uses_total_time_and_three_complete_samples(self):
         class Http:
@@ -247,7 +257,7 @@ class PublicationTests(unittest.TestCase):
     def test_three_exports_same_names_and_no_detection_time_rewrite(self):
         doc, result = self.fixture()
         files, state = mainland.render_selection(doc, result, {})
-        loon = [line.split(' = ', 1)[0] for line in files['free-nodes.txt'].splitlines()]
+        loon = [line.split(' = ', 1)[0] for line in files['free-nodes.txt'].splitlines() if not line.startswith('#')]
         proxies = [json.loads(line.strip()[2:]) for line in
                    files['free-nodes-clash.yaml'].split('proxy-groups:')[0].splitlines()
                    if line.strip().startswith('- ')]
@@ -255,7 +265,7 @@ class PublicationTests(unittest.TestCase):
         uris = base64.b64decode(files['free-nodes-shadowrocket.txt']).decode().splitlines()
         self.assertEqual(len(uris), len(loon))
         self.assertEqual([json.loads(base64.b64decode(uri[8:]))['ps'] for uri in uris], loon)
-        self.assertTrue(all(n.startswith('大陆测｜') for n in loon))
+        self.assertTrue(all('大陆测' not in n for n in loon))
         status = json.loads(files['status.json'])
         self.assertEqual(status['updated_at'], AT.isoformat())
         self.assertEqual(state['cycle'], doc['cycle'])
@@ -279,6 +289,8 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(status['recommendations']['gpt'], [])
         self.assertEqual(status['recommendations']['gemini'], [])
         self.assertTrue(status['recommendations']['daily'])
+        self.assertTrue(files['free-nodes.txt'].splitlines()[0].startswith('# 西西多大陆用免费节点'))
+        self.assertTrue(files['free-nodes.txt'].splitlines()[1].startswith('🕒 免费节点大陆版刷新'))
         self.assertIn('900ms', files['free-nodes.txt'])
         self.assertNotIn('Mbps', files['free-nodes.txt'])
         self.assertIn('proxies:', files['free-nodes-clash.yaml'])

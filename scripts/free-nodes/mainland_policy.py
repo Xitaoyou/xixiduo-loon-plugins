@@ -75,9 +75,10 @@ def recommendations(nodes):
     latency = lambda n: (n['basic_latency_ms'], n['id'])
     speed = lambda n: (-(n.get('download_mbps') or 0), *latency(n))
     service = lambda n, key: n.get('ai', {}).get('services', {}).get(key, {}).get('passed') is True
-    return dict(ai=[], clean_ip=[],
-                gpt=pick_two([n for n in nodes if service(n, 'ChatGPT')], latency),
-                gemini=pick_two([n for n in nodes if service(n, 'Gemini')], latency),
-                daily=pick_two(nodes, latency),
-                media=pick_two([n for n in nodes if n['media']['all_passed']], speed),
+    dual = pick_two([n for n in nodes if service(n, 'ChatGPT') and service(n, 'Gemini')], latency)
+    return dict(ai=dual, clean_ip=[],
+                gpt=[] if dual else pick_two([n for n in nodes if service(n, 'ChatGPT')], latency)[:1],
+                gemini=[] if dual else pick_two([n for n in nodes if service(n, 'Gemini')], latency)[:1],
+                daily=pick_two(nodes, latency)[:1],
+                media=pick_two([n for n in nodes if n['media']['all_passed']], speed)[:1],
                 download=pick_two([n for n in nodes if n.get('download_mbps')], speed))
