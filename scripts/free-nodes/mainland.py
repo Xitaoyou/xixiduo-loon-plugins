@@ -122,7 +122,7 @@ def source():
     return version, sorted(nodes.values(), key=lambda n: n['id']), dict(rejects)
 
 
-def combined_source():
+def combined_source(priority_ids=()):
     version, nodes, counts = source()
     merged = {n['id']: n for n in nodes}
     repo = 'Pawdroid/Free-servers'
@@ -167,8 +167,15 @@ def combined_source():
     ids = sorted(extra)
     day = datetime.now(timezone(timedelta(hours=8))).date().toordinal()
     take = min(128, 256 - len(merged), len(ids))
-    for i in range(take):
+    priority = sorted(set(priority_ids).intersection(extra))[:16]
+    chosen = list(priority)
+    for i in range(len(ids)):
+        if len(chosen) >= take:
+            break
         ident = ids[(day * 128 + i) % len(ids)]
+        if ident not in chosen:
+            chosen.append(ident)
+    for ident in chosen:
         merged[ident] = extra[ident]
     counts.update(ecfg6_en_extra_available=len(ids), ecfg6_en_extra_tested=take)
     if len(merged) > 256:
@@ -180,8 +187,9 @@ def combined_source():
 def prepare(folder, smoke=False):
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
-    version, nodes, counts = combined_source()
     previous = remote_json(PUBLIC, 'subscriptions/mainland/status.json', optional=True) or {}
+    pending = [n['id'] for n in previous.get('node_results', []) if n.get('download_mbps') is None]
+    version, nodes, counts = combined_source(pending)
     state = {}
     if previous.get('cycle'):
         state = remote_json(CONTROL, 'cycles/' + previous['cycle'] + '.json', ref='state')
@@ -234,7 +242,8 @@ def validate(doc, result):
     expected = {n['id'] for n in doc['nodes']}
     baseline = result.get('baseline', {})
     if not policy.valid_baseline(baseline.get('before', {}), baseline.get('after', {})):
-        raise RuntimeError('invalid_server_baseline')
+        if 'download_baseline_unverified' not in result.get('warnings', []) or any(n.get('download_mbps') is not None for n in result.get('results', [])):
+            raise RuntimeError('invalid_server_baseline')
     rows = result.get('results', [])
     if len(rows) != len(expected) or {n['id'] for n in rows} != expected:
         raise RuntimeError('missing_candidate_results')
@@ -284,7 +293,8 @@ def render_selection(doc, result, previous):
                 latency_rejected=sum(n.get('status') == 'alive' and not policy.eligible(n) for n in rows),
                 ai_qualified=sum(n.get('ai', {}).get('pass_count', 0) >= 2 for n in rows),
                 test_method='Verified proxy HTTPS; latency <1200ms; AI, media and download measured independently',
-                server_baseline=result['baseline'],
+                server_baseline=result['baseline'], warnings=result.get('warnings', []),
+                pending_download=sum(n.get('download_mbps') is None for n in selected),
                 last_attempt={'at': now(), 'ok': True}, traffic=result.get('traffic', {}),
                 selection_phase='stable' if all(n['stable'] for n in selected) else 'observation')
     for n in meta['node_results']:

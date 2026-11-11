@@ -232,6 +232,28 @@ def baseline(http):
                 method='direct-domestic-range-3x2MiB-total-time')
 
 
+def optional_baseline(http):
+    try:
+        return baseline(http)
+    except BudgetExceeded:
+        raise
+    except RuntimeError as exc:
+        if str(exc) not in ('domestic_baseline_unavailable', 'domestic_baseline_too_slow'):
+            raise
+        return {'error': str(exc), 'median_mbps': None}
+
+
+def finalize_downloads(results, before, after):
+    trusted = valid_baseline(before, after)
+    for r in results:
+        if not trusted and r.get('download_mbps') is not None:
+            r['unverified_download_mbps'] = r['download_mbps']
+            r['download_mbps'] = None
+        r['download_status'] = ('measured' if r.get('download_mbps') is not None
+                                else 'pending_retry' if trusted else 'baseline_unverified')
+    return [] if trusted else ['download_baseline_unverified']
+
+
 def basic(http, port):
     medians, exit_ip, country = [], '', 'ZZ'
     providers = [('https://www.cloudflare.com/cdn-cgi/trace', 'trace'),
@@ -309,7 +331,7 @@ def make_config(nodes):
 def execute(doc, binary, budget):
     http = Http(budget)
     domestic_controls(http)
-    before = baseline(http)
+    before = optional_baseline(http)
     print(json.dumps({'stage': 'server_baseline_before', **before}), flush=True)
     config, ports, rejected = make_config(doc['nodes'])
     with tempfile.TemporaryDirectory(prefix='cn-core-') as folder:
@@ -376,16 +398,15 @@ def execute(doc, binary, budget):
             if core.poll() is not None:
                 raise RuntimeError('core_stopped')
         domestic_controls(http)
-        after = baseline(http)
+        after = optional_baseline(http)
         print(json.dumps({'stage': 'server_baseline_after', **after}), flush=True)
-        if not valid_baseline(before, after):
-            raise RuntimeError('domestic_baseline_unstable')
+        warnings = finalize_downloads(results, before, after)
         if core.poll() is not None:
             raise RuntimeError('core_stopped')
         budget.check()
         return dict(cycle=doc['cycle'], source_version=doc['source_version'], results=results,
                     endpoint_rejected=rejected, complete=True, tested_at=datetime.now(timezone.utc).isoformat(),
-                    baseline=dict(before=before, after=after),
+                    baseline=dict(before=before, after=after), warnings=warnings,
                     measurement_profile=PROFILE, measured_from='广州云测 · 100Mbps 服务器')
 
 

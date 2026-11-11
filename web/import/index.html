@@ -29,7 +29,7 @@ async function status(id){
     if(!response.ok)throw Error();const d=await response.json();
     if(d.nodes>0&&d.updated_at){
       const stamp=new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',dateStyle:'short',timeStyle:'short'}).format(new Date(d.updated_at));
-      state.textContent=d.nodes+(['latency_fallback','latency'].includes(d.selection_tier)?' 个低延迟可用节点':' 个精选出口')+' · 最近成功检测 '+stamp+'（北京时间）'+(id==='mainland'&&d.server_baseline?.before?.median_mbps?' · 国内直连基准 '+d.server_baseline.before.median_mbps+'Mbps':'')+(d.last_attempt?.ok===false?' · 本次检测失败，保留上次结果':'');links(id);
+      state.textContent=d.nodes+(['latency_fallback','latency'].includes(d.selection_tier)?' 个低延迟可用节点':' 个精选出口')+' · 最近成功检测 '+stamp+'（北京时间）'+(id==='mainland'&&d.server_baseline?.before?.median_mbps?' · 国内直连基准 '+d.server_baseline.before.median_mbps+'Mbps':'')+(d.warnings?.includes('download_baseline_unverified')?' · 基准测速异常，下载推荐暂停':'')+(d.pending_download?' · '+d.pending_download+'个节点速度待测':'')+(d.last_attempt?.ok===false?' · 本次检测失败，保留上次结果':'');links(id);
     }else{state.textContent=id==='mainland'?'尚无合格的大陆检测结果，暂不提供导入。':'当前没有合格的海外精选节点。';document.querySelector('#'+id+' ul').hidden=true;}
   }catch{state.textContent=id==='mainland'?'大陆检测状态暂不可用，暂不提供导入。':'暂时无法读取检测状态；可使用原订阅地址。';}
 }

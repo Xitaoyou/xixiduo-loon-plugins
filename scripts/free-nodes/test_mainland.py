@@ -119,6 +119,27 @@ class SelectionTests(unittest.TestCase):
         self.assertEqual(http.calls, 3)
         self.assertEqual(result['download_mbps'], 8.39)
 
+    def test_failed_download_preserved_and_fastest_success_selected(self):
+        from mainland_worker import finalize_downloads
+        rows = [row(1, speed=None), row(2, speed=10), row(3, speed=30)]
+        self.assertEqual(finalize_downloads(rows, {'median_mbps':50}, {'median_mbps':50}), [])
+        self.assertTrue(policy.eligible(rows[0]))
+        self.assertEqual(rows[0]['download_status'], 'pending_retry')
+        self.assertEqual(policy.recommendations(rows)['download'][0]['id'], '3')
+
+    def test_baseline_failure_only_invalidates_throughput(self):
+        from mainland_worker import finalize_downloads, optional_baseline
+        rows = [row(1)]
+        warnings = finalize_downloads(rows, {'median_mbps':50}, {'error':'unavailable'})
+        self.assertEqual(warnings, ['download_baseline_unverified'])
+        self.assertTrue(policy.eligible(rows[0]))
+        self.assertIsNone(rows[0]['download_mbps'])
+        self.assertFalse(policy.recommendations(rows)['download'])
+        with patch('mainland_worker.baseline', side_effect=RuntimeError('domestic_baseline_unavailable')):
+            self.assertIsNone(optional_baseline(None)['median_mbps'])
+        with patch('mainland_worker.baseline', side_effect=BudgetExceeded('traffic_limit')):
+            with self.assertRaises(BudgetExceeded): optional_baseline(None)
+
     def test_domestic_baseline_is_direct_bounded_and_two_providers(self):
         class Http:
             calls = []
