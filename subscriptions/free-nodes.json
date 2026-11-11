@@ -2,16 +2,16 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 898,
-  "unreachable": 66,
+  "candidates": 78,
+  "unreachable": 69,
   "endpoint_rejected": 0,
-  "ai_rejected": 758,
+  "ai_rejected": 763,
   "ai_min_pass": 2,
   "filter_policy": "stable-best30-country4-v2",
   "sort_by": "P25 recent throughput × 7-day valid success rate; jitter, latency, quality; US/JP/SG/DE reservation",
-  "ai_qualified": 722,
-  "quality_qualified": 447,
-  "quality_rejected": 10,
+  "ai_qualified": 2,
+  "quality_qualified": 0,
+  "quality_rejected": 0,
   "country_best_count": 30,
   "country_limit": 4,
   "country_count": 13,
@@ -1887,7 +1887,7 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-11T03:57:31.252942+00:00",
+  "updated_at": "2026-11-11T07:49:07.378746+00:00",
   "nodes": 30,
   "protocols": {
     "VMess": 11,
@@ -1897,35 +1897,25 @@
     "Hysteria2": 6
   },
   "published_rows": 36,
-  "cycle": "d612dd77c4c9a473cfc9",
+  "cycle": "070910af6bae6acd1244",
   "source_version": "ef2ea5d72f4b546aec5df436c3e83c48c4ef8d0e",
   "source_error": null,
   "pool": {
-    "active": 788,
-    "cooldown": 270,
-    "slow": 174,
+    "active": 793,
+    "cooldown": 285,
+    "slow": 175,
     "restricted": 8,
-    "isolated": 78
+    "isolated": 57
   },
-  "merge": {
-    "reject_unsupported options": 5303,
-    "reject_unsupported fingerprint": 1710,
-    "duplicates": 6864,
-    "reject_insecure tls": 2143,
-    "restricted": 8,
-    "restricted_unparsed": 17,
-    "new": 71,
-    "reject_unsupported transport": 135,
-    "reject_invalid_or_nonportable": 245
-  },
-  "checked": 898,
-  "reachable_checked": 832,
-  "active_candidates": 788,
+  "merge": {},
+  "checked": 78,
+  "reachable_checked": 9,
+  "active_candidates": 793,
   "selection_phase": "stable",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 600.54,
+    "direct_mbps": 1635.84,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -1936,5 +1926,5 @@
     "span_hours_min": 12,
     "success_rate_min": 0.95
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/42948932346"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/42981516470"
 }
