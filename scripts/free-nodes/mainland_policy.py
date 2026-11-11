@@ -55,7 +55,7 @@ def choose(state, results):
     counts, exits, chosen = Counter(), set(), []
     for n in sorted(candidates, key=key):
         exit_key = n.get('exit_ip') or n['id']
-        if exit_key in exits or counts[n['country']] >= 4:
+        if exit_key in exits:
             continue
         numbers = state['numbers'].setdefault(n['country'], {})
         if n['id'] not in numbers:

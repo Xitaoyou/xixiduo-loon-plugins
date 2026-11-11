@@ -41,14 +41,13 @@ class SelectionTests(unittest.TestCase):
         n = row(); n['status'] = 'dead'
         self.assertFalse(policy.eligible(n))
 
-    def test_country_cap_30_cap_and_distinct_egress(self):
-        rows = [row(i, country=f'{chr(65+i//6)}A') for i in range(60)]
+    def test_no_country_cap_30_cap_and_distinct_egress(self):
+        rows = [row(i, country='US') for i in range(60)]
         rows[1]['exit_ip'] = rows[0]['exit_ip']
         selected = policy.choose(self.observe(rows), rows)
         self.assertEqual(len(selected), 30)
         self.assertEqual(len({n['exit_ip'] for n in selected}), 30)
-        self.assertLessEqual(max(sum(n['country'] == c for n in selected)
-                                 for c in {n['country'] for n in selected}), 4)
+        self.assertEqual(sum(n['country'] == 'US' for n in selected), 30)
 
     def test_no_historical_candidate_accumulation(self):
         previous = self.observe([row(1), row(2)])

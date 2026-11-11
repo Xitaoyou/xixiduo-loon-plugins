@@ -283,7 +283,7 @@ def render_selection(doc, result, previous):
                 published_rows=len(lines), source_version=doc['source_version'], source_file=doc.get('source_file', 'ecfg6'),
                 source_counts=doc.get('source_counts', {}),
                 checked=len(rows), tested_from='广州云测 · 100Mbps 服务器',
-                measurement_profile=policy.PROFILE, country_limit=4, node_limit=30,
+                measurement_profile=policy.PROFILE, country_limit=None, node_limit=30,
                 filter_policy='mainland-latency1200-service-recommendations-v3', sort_by='latency, measured throughput',
                 selection_tier='latency',
                 thresholds={'basic_ms_exclusive_max': 1200, 'ai_pass_min': 0},
