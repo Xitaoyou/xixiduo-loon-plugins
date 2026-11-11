@@ -47,8 +47,17 @@ def primary_counter():
     name = names[0]
 
     def read():
-        row = psutil.net_io_counters(pernic=True, nowrap=False)[name]
-        return row.bytes_recv, row.bytes_sent
+        # Brief Windows adapter enumeration errors must not abort a long probe.
+        for attempt in range(3):
+            try:
+                row = psutil.net_io_counters(pernic=True, nowrap=False).get(name)
+                if row is None:
+                    raise OSError('primary_adapter_missing')
+                return row.bytes_recv, row.bytes_sent
+            except (OSError, RuntimeError):
+                if attempt == 2:
+                    raise
+                time.sleep(.05)
     return read
 
 
@@ -64,6 +73,7 @@ class Budget:
         self.state = json.loads(self.ledger.read_text()) if self.ledger.exists() else {}
         self.base_tx = self.state.get('tx_upper_bound', 0) if self.state.get('month') == self.month else 0
         self.error = None
+        self.failure_detail = None
         self.processes = set()
         self.lock = threading.RLock()
         self.stop = threading.Event()
@@ -104,21 +114,27 @@ class Budget:
                                last_rx_upper_bound=rx, last_tx_upper_bound=tx,
                                accounting='primary-adapter-during-test-upper-bound'))
 
+    def record_failure(self, exc, stage):
+        self.error = str(exc) if isinstance(exc, BudgetExceeded) else 'budget_monitor_failed'
+        self.failure_detail = dict(stage=stage, exception=type(exc).__name__,
+                                   errno=getattr(exc, 'errno', None), winerror=getattr(exc, 'winerror', None))
+        print(json.dumps(dict(stage='budget_failure', detail=self.failure_detail)), flush=True)
+
     def watch(self):
-        last_save = 0
+        # Full TX_LIMIT is durably reserved before any test; per-second file writes
+        # add no crash protection. Settle actual usage once after all processes stop.
         while not self.stop.wait(.1):
             try:
                 self.check()
-                if time.monotonic() - last_save >= 1:
-                    with self.lock:
-                        self.checkpoint()
-                    last_save = time.monotonic()
-            except Exception as e:
+            except Exception as exc:
                 with self.lock:
-                    self.error = str(e) if isinstance(e, BudgetExceeded) else 'budget_monitor_failed'
+                    self.record_failure(exc, 'counter_check')
                     for process in list(self.processes):
                         if process.poll() is None:
-                            process.terminate()
+                            try:
+                                process.terminate()
+                            except OSError:
+                                pass
                 return
 
     def spawn(self, args, **kw):
@@ -159,9 +175,12 @@ class Budget:
             try:
                 self.check()
             except Exception as e:
-                self.error = str(e) if isinstance(e, BudgetExceeded) else 'budget_monitor_failed'
+                self.record_failure(e, 'final_counter_check')
             # Faulted counters/monitor retain the entire reservation, never settle to zero.
-            self.checkpoint(final=self.error is None)
+            try:
+                self.checkpoint(final=self.error is None)
+            except OSError as exc:
+                self.record_failure(exc, 'ledger_settlement')
 
 
 class Http:
@@ -416,6 +435,7 @@ def main():
     p.add_argument('--binary', required=True)
     p.add_argument('--output', required=True)
     p.add_argument('--ledger', required=True)
+    p.add_argument('--monitor-seconds', type=int, default=0)
     a = p.parse_args()
     budget = None
     try:
@@ -425,7 +445,18 @@ def main():
         if not 1 <= len(doc['nodes']) <= 256:
             raise RuntimeError('source_count_invalid')
         budget = Budget(a.ledger).start()
-        result = execute(doc, a.binary, budget)
+        if a.monitor_seconds:
+            if not 1 <= a.monitor_seconds <= 120:
+                raise RuntimeError('invalid_monitor_duration')
+            http = Http(budget)
+            domestic_controls(http)
+            for _ in range(a.monitor_seconds * 10):
+                time.sleep(.1)
+                budget.check()
+            result = dict(complete=False, diagnostic='budget_monitor', passed=True,
+                          seconds=a.monitor_seconds)
+        else:
+            result = execute(doc, a.binary, budget)
         budget.close()
         if budget.error:
             raise BudgetExceeded(budget.error)
@@ -435,7 +466,7 @@ def main():
     except Exception as e:
         # Never log upstream configs, credentials, URLs or exception payloads.
         reason = str(e) if isinstance(e, (BudgetExceeded, RuntimeError)) else type(e).__name__
-        save(a.output, dict(complete=False, error=reason))
+        save(a.output, dict(complete=False, error=reason, budget_detail=budget.failure_detail if budget else None))
         raise SystemExit('Mainland probe failed; results not published: ' + reason)
     finally:
         if budget is not None:

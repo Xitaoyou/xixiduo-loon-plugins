@@ -178,6 +178,29 @@ class BudgetTests(unittest.TestCase):
             with self.assertRaises(BudgetExceeded):
                 Budget(ledger, counter=lambda: tuple(values)).start()
 
+    def test_monitor_only_writes_reservation_and_final_settlement(self):
+        import time
+        import mainland_worker
+        with tempfile.TemporaryDirectory() as d:
+            with patch('mainland_worker.save', wraps=mainland_worker.save) as writer:
+                b = Budget(Path(d)/'b.json', counter=lambda:(10,20)).start()
+                time.sleep(1.2)
+                self.assertEqual(writer.call_count, 1)
+                b.close()
+                self.assertEqual(writer.call_count, 2)
+                self.assertIsNone(b.error)
+
+    def test_monitor_error_preserves_reservation_and_safe_detail(self):
+        with tempfile.TemporaryDirectory() as d:
+            ledger = Path(d)/'b.json'
+            b = Budget(ledger, counter=lambda:(10,20)).start()
+            b.stop.set(); b.thread.join()
+            b.counter = lambda: (_ for _ in ()).throw(PermissionError(13, 'private path omitted'))
+            b.close()
+            self.assertEqual(b.failure_detail['exception'], 'PermissionError')
+            self.assertNotIn('private', json.dumps(b.failure_detail))
+            self.assertEqual(json.loads(ledger.read_text())['tx_upper_bound'], TX_LIMIT)
+
     def test_counter_reset_fails_closed(self):
         with tempfile.TemporaryDirectory() as d:
             values = [100, 100]
