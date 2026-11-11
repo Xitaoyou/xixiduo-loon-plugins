@@ -48,11 +48,19 @@ def update_history(previous, results, at, cycle):
 def choose(state, results):
     candidates = [n for n in results if eligible(n)]
     for n in candidates:
-        samples = state['history'][n['id']][-3:]
+        samples = state['history'][n['id']][-7:]
         speeds = [h['speed'] for h in samples if h['ok'] and h.get('speed') is not None]
+        # One sample per Beijing day; recent failures matter more than old successes.
+        weights = list(range(1, len(samples) + 1))
+        success = sum(w for w, h in zip(weights, samples) if h['ok']) / sum(weights)
+        prior_selected = sum(h.get('selected', False) and h['ok'] for h in samples[:-1])
+        bonus = .25 * min(prior_selected / 5, 1) * success
+        effective = n['basic_latency_ms'] * (1 + .5 * (1-success) - bonus)
         n.update(selection_tier='latency', conservative_mbps=min(speeds) if speeds else None,
-                 observation_rounds=len(samples), stable=len(samples) >= 3 and all(h['ok'] for h in samples))
-    key = lambda n: (n['basic_latency_ms'], -(n.get('download_mbps') or 0), n['id'])
+                 observation_rounds=len(samples), stable=len(samples) >= 3 and all(h['ok'] for h in samples[-3:]),
+                 recent_selected_days=prior_selected, recent_success_rate=round(success, 4),
+                 stability_bonus=round(bonus, 4), stability_rank_ms=round(effective, 2))
+    key = stability_key
     counts, exits, chosen = Counter(), set(), []
     def add(n, tier):
         exit_key = n.get('exit_ip') or n['id']
@@ -78,7 +86,15 @@ def choose(state, results):
     for n in sorted(candidates, key=key):
         if n['basic_latency_ms'] <= 1500:
             add(n, 'latency')
+    for n in chosen:
+        state['history'][n['id']][-1]['selected'] = True
     return chosen
+
+
+def stability_key(n):
+    return (n.get('stability_rank_ms', n['basic_latency_ms']),
+            -n.get('quality', {}).get('grade', 1),
+            -(n.get('download_mbps') or 0), n['id'])
 
 
 def recommendations(nodes):
@@ -87,10 +103,10 @@ def recommendations(nodes):
     latency = lambda n: (n['basic_latency_ms'], n['id'])
     speed = lambda n: (-(n.get('download_mbps') or 0), *latency(n))
     service = lambda n, key: n.get('ai', {}).get('services', {}).get(key, {}).get('passed') is True
-    dual = pick_two([n for n in nodes if service(n, 'ChatGPT') and service(n, 'Gemini')], latency)
+    dual = pick_two([n for n in nodes if service(n, 'ChatGPT') and service(n, 'Gemini')], stability_key)
     return dict(ai=dual, clean_ip=[],
-                gpt=[] if dual else pick_two([n for n in nodes if service(n, 'ChatGPT')], latency)[:1],
-                gemini=[] if dual else pick_two([n for n in nodes if service(n, 'Gemini')], latency)[:1],
+                gpt=[] if dual else pick_two([n for n in nodes if service(n, 'ChatGPT')], stability_key)[:1],
+                gemini=[] if dual else pick_two([n for n in nodes if service(n, 'Gemini')], stability_key)[:1],
                 daily=pick_two(nodes, latency)[:1],
                 media=pick_two([n for n in nodes if n['media']['all_passed']], speed)[:1],
                 download=pick_two([n for n in nodes if n.get('download_mbps')], speed))

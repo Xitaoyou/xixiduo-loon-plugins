@@ -213,7 +213,7 @@ def render_results(passed, reachable, total, seconds, selected_only=False, picks
             output.append(f'{node["name"]} = {body}')
         node_results.append(dict(id=node['id'], name=node['name'], country=code, **ai,
                                  quality=node['quality'], media=node['media'], download_mbps=node['download_mbps'],
-                                 **{k:node[k] for k in ('exit_ip','basic_latency_ms','stable','success_rate','conservative_mbps','observation_rounds','observation_span_hours','selection_score','measurement_profile','measurement_environment','download_samples_mbps','download_status','selection_tier') if k in node}))
+                                 **{k:node[k] for k in ('exit_ip','basic_latency_ms','stable','success_rate','conservative_mbps','observation_rounds','observation_span_hours','selection_score','measurement_profile','measurement_environment','download_samples_mbps','download_status','selection_tier','recent_selected_days','recent_success_rate','stability_bonus','stability_rank_ms') if k in node}))
         counts[protocol] += 1
         countries[code] += 1
     aliases, recommendations = [], {}

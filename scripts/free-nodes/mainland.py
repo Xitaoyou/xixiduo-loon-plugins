@@ -217,6 +217,11 @@ def prepare(folder, smoke=False):
         state = remote_json(CONTROL, 'cycles/' + previous['cycle'] + '.json', ref='state')
         if state.get('cycle') != previous['cycle']:
             raise RuntimeError('previous_state_cycle_mismatch')
+        # Seed one proven published day when upgrading metric-only historical state.
+        for published in previous.get('node_results', []):
+            samples = state.get('history', {}).get(published['id'], [])
+            if samples and samples[-1].get('cycle') == previous['cycle'] and samples[-1].get('ok') and samples[-1].get('exit') == published.get('exit_ip'):
+                samples[-1]['selected'] = True
     cycle = hashlib.sha256((now() + os.environ.get('GITHUB_RUN_ID', 'local') + version).encode()).hexdigest()[:24]
     source_total = len(nodes)
     if smoke:
@@ -307,7 +312,7 @@ def render_selection(doc, result, previous):
                 source_counts=doc.get('source_counts', {}),
                 checked=len(rows), tested_from='广州云测 · 100Mbps 服务器',
                 measurement_profile=policy.PROFILE, country_limit=None, node_limit=30,
-                filter_policy='mainland-latency1500-country2500-retained-v4', sort_by='latency, measured throughput',
+                filter_policy='mainland-stability-country-retained-v5', sort_by='country coverage, recent stability-adjusted latency, quality, throughput',
                 selection_tier='latency',
                 thresholds={'basic_ms_max': 1500, 'country_fallback_ms_max': 2500, 'ai_pass_min': 0},
                 preferred_countries=list(policy.PREFERRED_COUNTRIES),

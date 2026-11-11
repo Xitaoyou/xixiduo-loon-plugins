@@ -55,6 +55,60 @@ class SelectionTests(unittest.TestCase):
         self.assertTrue(policy.eligible(row(country='FR', latency=1500)))
         self.assertFalse(policy.eligible(row(country='FR', latency=1501)))
 
+    def test_stability_bonus_accumulates_once_per_day_and_is_bounded(self):
+        previous = {}
+        bonuses = []
+        for day in range(7):
+            n = row(1, latency=1000)
+            previous = self.observe([n], previous, day)
+            policy.choose(previous, [n])
+            bonuses.append(n['stability_bonus'])
+        self.assertEqual(bonuses[0], 0)
+        self.assertGreater(bonuses[4], bonuses[1])
+        self.assertEqual(bonuses[-1], .25)
+        # Repeat selection/observation on the same day cannot manufacture extra days.
+        n = row(1, latency=1000)
+        previous = self.observe([n], previous, 6)
+        policy.choose(previous, [n])
+        self.assertEqual(n['stability_bonus'], .25)
+        self.assertEqual(len(previous['history']['1']), 7)
+        n['exit_ip'] = '1.1.1.1'
+        previous = self.observe([n], previous, 7)
+        policy.choose(previous, [n])
+        self.assertEqual(n['stability_bonus'], 0)
+
+    def test_stability_outweighs_small_latency_difference_but_not_large_one(self):
+        s = {}
+        for day in range(6):
+            old = row(1, latency=1000)
+            s = self.observe([old], s, day)
+            policy.choose(s, [old])
+        old, new = row(1, latency=1000), row(2, latency=850)
+        s = self.observe([old, new], s, 6)
+        picked = policy.choose(s, [old,new])
+        self.assertEqual(picked[0]['id'], '1')
+        new['basic_latency_ms'] = 600
+        s = self.observe([old, new], s, 6)
+        picked = policy.choose(s, [old,new])
+        self.assertLess(policy.stability_key(new), policy.stability_key(old))
+        self.assertEqual(policy.recommendations(picked)['daily'][0]['id'], '2')
+        old.update(status='dead', basic_latency_ms=None)
+        self.assertFalse(policy.eligible(old))
+
+    def test_recent_failure_reduces_bonus(self):
+        s = {}
+        for day in range(5):
+            n = row(1)
+            s = self.observe([n], s, day)
+            policy.choose(s, [n])
+        n.update(status='dead', basic_latency_ms=None)
+        s = self.observe([n], s, 5)
+        n = row(1)
+        s = self.observe([n], s, 6)
+        policy.choose(s, [n])
+        self.assertLess(n['stability_bonus'], .25)
+        self.assertLess(n['recent_success_rate'], 1)
+
     def test_no_country_cap_30_cap_and_distinct_egress(self):
         rows = [row(i, country='US') for i in range(60)]
         rows[1]['exit_ip'] = rows[0]['exit_ip']
