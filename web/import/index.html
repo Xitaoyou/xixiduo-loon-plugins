@@ -12,12 +12,12 @@
 const base='https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/subscriptions/';
 function links(id){
   const title=id==='mainland'?'免费节点大陆版':'免费节点海外版',root=base+(id==='mainland'?'mainland/':'');
-  const rows=[['Loon',root+encodeURIComponent(title),'loon'],['Clash / Mihomo',root+'free-nodes-clash.yaml','clash'],['Shadowrocket',root+'free-nodes-shadowrocket.txt','rocket']];
+  const rows=[['Loon',root+'free-nodes.txt','loon'],['Clash / Mihomo',root+'free-nodes-clash.yaml','clash'],['Shadowrocket',root+'free-nodes-shadowrocket.txt','rocket']];
   const ul=document.querySelector('#'+id+' ul');ul.replaceChildren();
   for(const [label,url,client] of rows){
     const li=document.createElement('li'),name=document.createElement('span'),a=document.createElement('a'),b=document.createElement('button');
     name.textContent=label;a.textContent='一键导入';a.setAttribute('aria-label','导入'+title+'到'+label);
-    a.href=client==='loon'?'https://www.nsloon.com/openloon/import?nodelist='+encodeURIComponent(url)+'&name='+encodeURIComponent(title):client==='clash'?'clash://install-config?url='+encodeURIComponent(url)+'&name='+encodeURIComponent(title):'shadowrocket://add/sub://'+btoa(url)+'?remark='+encodeURIComponent(title);
+    a.href=client==='loon'?'https://www.nsloon.com/openloon/import?nodelist='+encodeURIComponent(url):client==='clash'?'clash://install-config?url='+encodeURIComponent(url)+'&name='+encodeURIComponent(title):'shadowrocket://add/sub://'+btoa(url)+'?remark='+encodeURIComponent(title);
     b.textContent='复制地址';b.onclick=async()=>{try{await navigator.clipboard.writeText(url);document.getElementById('notice').textContent='已复制'+title+' · '+label+'订阅地址';}catch{window.prompt('复制订阅地址',url);}};
     li.append(name,a,b);ul.append(li);
   }ul.hidden=false;
