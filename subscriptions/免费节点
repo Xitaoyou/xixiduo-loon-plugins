@@ -3,7 +3,7 @@
 海外测｜流媒体推荐：🇬🇧 英国 03｜371ms · 68.86Mbps = Shadowsocks,142.202.51.22,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜下载推荐：🇺🇸 美国 26｜93ms · 986.40Mbps = Hysteria2,155.248.209.237,33333,"bce6c821-200d-421f-bf3d-7159e5246ea0",skip-cert-verify=false,sni="hy2.123266.xyz",udp=true
 海外测｜备选下载：🇯🇵 日本 01｜284ms · 389.91Mbps = Hysteria2,freedom.chenlan.top,12765,"STYyftThFn",skip-cert-verify=false,sni="freedom.chenlan.top",udp=true
-海外测｜🕒 免费节点刷新 11-11 07:26（北京时间） = Hysteria2,155.248.209.237,33333,"bce6c821-200d-421f-bf3d-7159e5246ea0",skip-cert-verify=false,sni="hy2.123266.xyz",udp=true
+海外测｜🕒 免费节点刷新 11-11 09:02（北京时间） = Hysteria2,155.248.209.237,33333,"bce6c821-200d-421f-bf3d-7159e5246ea0",skip-cert-verify=false,sni="hy2.123266.xyz",udp=true
 海外测｜🇨🇦 加拿大 04｜120ms · 358.10Mbps = Trojan,216.128.185.90,46977,"5t6i121em5lkmsmk",skip-cert-verify=false,sni="ca001.zestapp778.com",tls-profile=chrome,transport=tcp,udp=true
 海外测｜🇨🇦 加拿大 01｜149ms · 239.02Mbps = VMess,134.195.196.154,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇨🇦 加拿大 03｜226ms · 197.85Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
