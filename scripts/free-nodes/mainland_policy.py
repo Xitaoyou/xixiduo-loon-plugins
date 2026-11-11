@@ -17,18 +17,12 @@ def valid_baseline(before, after):
 
 
 def eligible(n):
-    latency, speed = n.get('basic_latency_ms'), n.get('download_mbps')
-    return (n.get('status') == 'alive' and latency is not None and 0 < latency <= 1000
-            and speed is not None and speed >= MIN_DOWNLOAD_MBPS and n.get('exit_ip')
-            and n.get('ai', {}).get('pass_count', 0) >= 2
-            and n.get('quality', {}).get('grade', 0) >= 1
-            and n.get('measurement_profile') == PROFILE)
-
-
-def latency_eligible(n):
     latency = n.get('basic_latency_ms')
     return (n.get('status') == 'alive' and type(latency) in (int, float)
-            and 0 < latency <= 1000 and n.get('measurement_profile') == PROFILE)
+            and 0 < latency < 1200 and n.get('measurement_profile') == PROFILE)
+
+
+latency_eligible = eligible
 
 
 def update_history(previous, results, at, cycle):
@@ -51,28 +45,13 @@ def update_history(previous, results, at, cycle):
 
 
 def choose(state, results):
-    candidates = []
-    for n in results:
-        if not eligible(n):
-            continue
+    candidates = [n for n in results if eligible(n)]
+    for n in candidates:
         samples = state['history'][n['id']][-3:]
-        # Once three daily samples exist, failures remain part of stability evidence.
-        if len(samples) >= 3 and not all(s['ok'] for s in samples):
-            continue
-        n['conservative_mbps'] = min(s['speed'] for s in samples if s['ok'])
-        n['observation_rounds'] = len(samples)
-        n['stable'] = len(samples) >= 3
-        n['selection_score'] = n['conservative_mbps']
-        candidates.append(n)
-    key = lambda n: (-n['quality']['grade'], n['quality'].get('risk_score')
-                     if n['quality'].get('risk_score') is not None else 101,
-                     n['basic_latency_ms'], -n['conservative_mbps'], n['id'])
-    if not candidates:
-        candidates = [n for n in results if latency_eligible(n)]
-        for n in candidates:
-            n.update(selection_tier='latency_fallback', conservative_mbps=n.get('download_mbps'),
-                     observation_rounds=1, stable=False)
-        key = lambda n: (n['basic_latency_ms'], n['id'])
+        speeds = [h['speed'] for h in samples if h['ok'] and h.get('speed') is not None]
+        n.update(selection_tier='latency', conservative_mbps=min(speeds) if speeds else None,
+                 observation_rounds=len(samples), stable=len(samples) >= 3 and all(h['ok'] for h in samples))
+    key = lambda n: (n['basic_latency_ms'], -(n.get('download_mbps') or 0), n['id'])
     counts, exits, chosen = Counter(), set(), []
     for n in sorted(candidates, key=key):
         exit_key = n.get('exit_ip') or n['id']
@@ -91,12 +70,14 @@ def choose(state, results):
 
 
 def recommendations(nodes):
-    from enrich import pick_two, quality_key, clean_ip_best
-    nodes = [n for n in nodes if eligible(n)]
-    ai = lambda n: (-n['ai']['pass_count'], *quality_key(n['quality']),
-                    n['basic_latency_ms'], -n['conservative_mbps'], n['id'])
-    speed = lambda n: (-n['conservative_mbps'], n['basic_latency_ms'],
-                       *quality_key(n['quality']), n['id'])
-    return dict(ai=pick_two(nodes, ai),
+    from enrich import pick_two
+    nodes = [n for n in nodes if eligible(n) and n.get('exit_ip')]
+    latency = lambda n: (n['basic_latency_ms'], n['id'])
+    speed = lambda n: (-(n.get('download_mbps') or 0), *latency(n))
+    service = lambda n, key: n.get('ai', {}).get('services', {}).get(key, {}).get('passed') is True
+    return dict(ai=[], clean_ip=[],
+                gpt=pick_two([n for n in nodes if service(n, 'ChatGPT')], latency),
+                gemini=pick_two([n for n in nodes if service(n, 'Gemini')], latency),
+                daily=pick_two(nodes, latency),
                 media=pick_two([n for n in nodes if n['media']['all_passed']], speed),
-                download=pick_two(nodes, speed), clean_ip=clean_ip_best(nodes))
+                download=pick_two([n for n in nodes if n.get('download_mbps')], speed))

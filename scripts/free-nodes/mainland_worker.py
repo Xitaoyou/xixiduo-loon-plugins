@@ -324,13 +324,13 @@ def execute(doc, binary, budget):
             raise RuntimeError('core_start_failed')
 
         def probe(n):
-            r = dict(id=n['id'], measurement_profile=PROFILE, ai={'pass_count': 0},
+            r = dict(id=n['id'], measurement_profile=PROFILE, ai={'pass_count': 0, 'latency_ms': None, 'services': {}},
                      quality={'grade': 1, 'risk_score': None, 'label': '未知'},
                      media={'all_passed': False, 'services': {k: False for k in enrich.MEDIA}},
                      download_mbps=None)
             r.update(basic(http, ports[n['id']]) if n['id'] in ports else
                      dict(status='dead', basic_latency_ms=None, exit_ip='', country='ZZ'))
-            if r.get('basic_latency_ms') is not None and r['basic_latency_ms'] <= 1000:
+            if r.get('basic_latency_ms') is not None and 0 < r['basic_latency_ms'] < 1200:
                 r['ai'] = ai(http, ports[n['id']])
             return r
 
@@ -343,7 +343,7 @@ def execute(doc, binary, budget):
             raise RuntimeError('all_nodes_failed')
         enrich.fetch = http.fetch  # Only this dedicated worker process; overseas code is unaffected.
         for r in results:
-            if r['ai']['pass_count'] < 2:
+            if r['status'] != 'alive' or not (0 < (r.get('basic_latency_ms') or 99999) < 1200):
                 continue
             port = ports[r['id']]
             try:
@@ -360,19 +360,18 @@ def execute(doc, binary, budget):
                         r['country'] = code if len(code) == 2 and code.isalpha() else 'ZZ'
                 except (ValueError, KeyError, TypeError, OSError, subprocess.SubprocessError):
                     pass
-                if r['quality']['grade'] == 0:
-                    continue
                 r.update(download(http, port))  # All bulk transfers are serial.
                 print(json.dumps(dict(stage='node_download', number=results.index(r) + 1,
                                       mbps=r['download_mbps'], samples=r['download_samples_mbps'])), flush=True)
-                if r['download_mbps'] < MIN_DOWNLOAD_MBPS:
-                    continue
-                r['media'] = enrich.check_media(port)
                 after = json.loads(http.fetch(port, 'https://api.ipify.org?format=json', limit=4096)['body'])['ip']
                 if after != r['exit_ip']:
                     r['download_mbps'] = None
             except (ValueError, KeyError, TypeError, OSError, subprocess.SubprocessError):
                 r['download_mbps'] = None
+            try:
+                r['media'] = enrich.check_media(port)
+            except (ValueError, KeyError, TypeError, OSError, subprocess.SubprocessError):
+                pass
             budget.check()
             if core.poll() is not None:
                 raise RuntimeError('core_stopped')
@@ -402,7 +401,7 @@ def main():
         if os.name != 'nt':
             raise RuntimeError('Windows worker required')
         doc = json.loads(Path(a.input).read_text(encoding='utf-8'))
-        if not 1 <= len(doc['nodes']) <= 128:
+        if not 1 <= len(doc['nodes']) <= 256:
             raise RuntimeError('source_count_invalid')
         budget = Budget(a.ledger).start()
         result = execute(doc, a.binary, budget)

@@ -122,10 +122,65 @@ def source():
     return version, sorted(nodes.values(), key=lambda n: n['id']), dict(rejects)
 
 
+def combined_source():
+    version, nodes, counts = source()
+    merged = {n['id']: n for n in nodes}
+    repo = 'Pawdroid/Free-servers'
+    extra_version = api(f'repos/{repo}/commits/main')['sha']
+    tree = api(f'repos/{repo}/git/trees/{extra_version}?recursive=1')
+    expected = next(x['sha'] for x in tree['tree'] if x['path'] == 'sub')
+    blob = fetch_bytes(f'https://raw.githubusercontent.com/{repo}/{extra_version}/sub', 2 * 1024 * 1024)
+    if hashlib.sha1(b'blob ' + str(len(blob)).encode() + b'\0' + blob).hexdigest() != expected:
+        raise RuntimeError('pawdroid_source_hash_mismatch')
+    payload = base64.b64decode(b''.join(blob.split()), validate=True).decode('utf-8')
+    counts = dict(counts, ecfg6_unique=len(nodes), pawdroid_added=0, pawdroid_duplicates=0, pawdroid_rejected=0)
+    for line in payload.splitlines():
+        if not line.strip():
+            continue
+        try:
+            _, _, body = convert(normalize_source_uri(line.strip()))
+            ident = identity(body)
+            if ident in merged:
+                counts['pawdroid_duplicates'] += 1
+                continue
+            merged[ident] = dict(id=ident, body=body,
+                                outbound=health.outbound(body, 'pending', resolve=lambda h: h.strip('[]')))
+            counts['pawdroid_added'] += 1
+        except (ValueError, KeyError, TypeError, OverflowError):
+            counts['pawdroid_rejected'] += 1
+    ecfg_tree = api('repos/pixelor/ecfg/git/trees/' + version + '?recursive=1')
+    en_hash = next(x['sha'] for x in ecfg_tree['tree'] if x['path'] == 'data/ecfg6_en')
+    en_blob = fetch_bytes(f'https://raw.githubusercontent.com/pixelor/ecfg/{version}/data/ecfg6_en', 2 * 1024 * 1024)
+    if hashlib.sha1(b'blob ' + str(len(en_blob)).encode() + b'\0' + en_blob).hexdigest() != en_hash:
+        raise RuntimeError('ecfg6_en_source_hash_mismatch')
+    extra = {}
+    for line in decrypt(en_blob).splitlines():
+        try:
+            _, _, body = convert(normalize_source_uri(line.strip()))
+            ident = identity(body)
+            if ident not in merged:
+                extra[ident] = dict(id=ident, body=body,
+                                    outbound=health.outbound(body, 'pending', resolve=lambda h: h.strip('[]')))
+        except (ValueError, KeyError, TypeError, OverflowError):
+            pass
+    # Fixed daily rotation: bounded work, while different extra nodes get a chance each day.
+    ids = sorted(extra)
+    day = datetime.now(timezone(timedelta(hours=8))).date().toordinal()
+    take = min(128, 256 - len(merged), len(ids))
+    for i in range(take):
+        ident = ids[(day * 128 + i) % len(ids)]
+        merged[ident] = extra[ident]
+    counts.update(ecfg6_en_extra_available=len(ids), ecfg6_en_extra_tested=take)
+    if len(merged) > 256:
+        raise RuntimeError('combined_source_count_out_of_range')
+    version = hashlib.sha256((version + ':' + extra_version).encode()).hexdigest()
+    return version, sorted(merged.values(), key=lambda n: n['id']), counts
+
+
 def prepare(folder, smoke=False):
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
-    version, nodes, counts = source()
+    version, nodes, counts = combined_source()
     previous = remote_json(PUBLIC, 'subscriptions/mainland/status.json', optional=True) or {}
     state = {}
     if previous.get('cycle'):
@@ -136,7 +191,7 @@ def prepare(folder, smoke=False):
     source_total = len(nodes)
     if smoke:
         nodes = nodes[:3]
-    doc = dict(cycle=cycle, source_version=version, source_file='ecfg6', nodes=nodes,
+    doc = dict(cycle=cycle, source_version=version, source_file='ecfg6 + ecfg6_en (daily rotation) + Pawdroid/sub', nodes=nodes,
                source_counts=counts, source_total=source_total, prepared_at=now(), smoke=smoke,
                previous_cycle=previous.get('cycle'))
     write(folder / 'input.json', doc)
@@ -203,29 +258,37 @@ def render_selection(doc, result, previous):
     for n in selected:
         n['body'] = bodies[n['id']]
     picks = policy.recommendations(selected)
+    groups = [(key, labels, picks[key]) for key, labels in (
+        ('gpt', ('GPT 解锁|', 'GPT 备选|')), ('gemini', ('Gemini解锁|', 'Gemini备选|')),
+        ('media', ('流媒体推荐', '备选流媒体')), ('download', ('下载推荐', '备选下载')),
+        ('daily', ('日常推荐', '备选日常')))]
     content, counts, meta = health.render_results(selected, rows, len(rows), 0,
-                                                selected_only=True, picks=picks, eligibility=policy.latency_eligible)
+                                                selected_only=True, picks=picks, eligibility=policy.latency_eligible,
+                                                recommendation_groups=groups)
     stamp = datetime.fromisoformat(result['tested_at']).astimezone(timezone(timedelta(hours=8)))
     lines = content.splitlines()
     lines.insert(meta['recommendation_rows'], f'🕒 免费节点大陆版刷新 {stamp:%m-%d %H:%M}（北京时间） = ' + selected[0]['body'])
-    content = '\n'.join('大陆测｜' + line for line in lines) + '\n'
+    content = '\n'.join(line.replace('|', '|大陆测｜', 1) if line.startswith(('GPT ', 'Gemini')) else '大陆测｜' + line for line in lines) + '\n'
     clash, rocket = render(content, title='免费节点大陆版')
     meta.update(updated_at=result['tested_at'], cycle=doc['cycle'], nodes=len(selected),
-                published_rows=len(lines), source_version=doc['source_version'], source_file='ecfg6',
+                published_rows=len(lines), source_version=doc['source_version'], source_file=doc.get('source_file', 'ecfg6'),
+                source_counts=doc.get('source_counts', {}),
                 checked=len(rows), tested_from='广州云测 · 100Mbps 服务器',
                 measurement_profile=policy.PROFILE, country_limit=4, node_limit=30,
-                filter_policy='mainland-daily-latency-fallback-v2', sort_by='quality, latency, recent conservative throughput',
-                selection_tier='latency_fallback' if any(n.get('selection_tier') == 'latency_fallback' for n in selected) else 'strict',
-                fallback_thresholds={'basic_ms_max': 1000},
-                thresholds={'basic_ms_max': 1000, 'download_mbps_min': policy.MIN_DOWNLOAD_MBPS, 'ai_pass_min': 2},
+                filter_policy='mainland-latency1200-service-recommendations-v3', sort_by='latency, measured throughput',
+                selection_tier='latency',
+                thresholds={'basic_ms_exclusive_max': 1200, 'ai_pass_min': 0},
+                ai_min_pass=0, ai_rejected=0,
+                unreachable=sum(n.get('status') != 'alive' for n in rows),
+                latency_qualified=sum(policy.eligible(n) for n in rows),
+                latency_rejected=sum(n.get('status') == 'alive' and not policy.eligible(n) for n in rows),
+                ai_qualified=sum(n.get('ai', {}).get('pass_count', 0) >= 2 for n in rows),
+                test_method='Verified proxy HTTPS; latency <1200ms; AI, media and download measured independently',
                 server_baseline=result['baseline'],
                 last_attempt={'at': now(), 'ok': True}, traffic=result.get('traffic', {}),
                 selection_phase='stable' if all(n['stable'] for n in selected) else 'observation')
     for n in meta['node_results']:
         n['name'] = '大陆测｜' + n['name']
-    if meta['selection_tier'] == 'latency_fallback':
-        meta.update(test_method='Verified proxied HTTPS; latency <=1000ms; AI and throughput not required',
-                    ai_min_pass=0, thresholds={'basic_ms_max': 1000}, selection_phase='latency_fallback')
     for group in meta['recommendations'].values():
         for n in group:
             n['node'] = '大陆测｜' + n['node']

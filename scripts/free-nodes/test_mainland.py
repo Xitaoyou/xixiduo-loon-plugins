@@ -32,15 +32,14 @@ class SelectionTests(unittest.TestCase):
     def observe(self, rows, previous=None, day=0):
         return policy.update_history(previous or {}, rows, (AT + timedelta(days=day)).isoformat(), str(day))
 
-    def test_thresholds_and_unknown_quality(self):
-        self.assertTrue(policy.eligible(row(speed=5, latency=1000)))
-        for change in ({'download_mbps': 4.99}, {'basic_latency_ms': 1001},
-                       {'download_mbps': None}, {'basic_latency_ms': None},
-                       {'quality': {'grade': 0}}, {'ai': {'pass_count': 1}},
-                       {'measurement_profile': 'overseas'}, {'status': 'dead'}):
-            n = row()
-            n.update(change)
-            self.assertFalse(policy.eligible(n))
+    def test_latency_only_thresholds(self):
+        for change in ({'download_mbps': None}, {'quality': {'grade': 0}}, {'ai': {'pass_count': 0}}):
+            n = row(latency=1199); n.update(change)
+            self.assertTrue(policy.eligible(n))
+        for latency in (1200, 1201, 0, None):
+            self.assertFalse(policy.eligible(row(latency=latency)))
+        n = row(); n['status'] = 'dead'
+        self.assertFalse(policy.eligible(n))
 
     def test_country_cap_30_cap_and_distinct_egress(self):
         rows = [row(i, country=f'{chr(65+i//6)}A') for i in range(60)]
@@ -67,7 +66,7 @@ class SelectionTests(unittest.TestCase):
         failed.update(status='dead', exit_ip='', download_mbps=None, basic_latency_ms=None)
         s = self.observe([failed], s, 2)
         s = self.observe([n], s, 3)
-        self.assertEqual(policy.choose(s, [n])[0]['selection_tier'], 'latency_fallback')
+        self.assertEqual(policy.choose(s, [n])[0]['selection_tier'], 'latency')
         n['exit_ip'] = '1.1.1.1'
         s = self.observe([n], s, 4)
         self.assertEqual(len(s['history']['0']), 1)
@@ -79,24 +78,35 @@ class SelectionTests(unittest.TestCase):
             n.update(conservative_mbps=20)
         rows[1]['exit_ip'] = rows[0]['exit_ip']
         picks = policy.recommendations(rows)
-        for kind in ('ai', 'download'):
+        for kind in ('daily', 'download'):
             self.assertEqual(len({n['exit_ip'] for n in picks[kind]}), 2)
         self.assertEqual(picks['media'], [])
         self.assertEqual(picks['clean_ip'], [])
 
-    def test_latency_fallback_only_when_no_strict_selection(self):
+    def test_latency_selection_does_not_require_ai_or_speed(self):
         weak = row(1, speed=None, latency=1000)
         weak['ai']['pass_count'] = 0
-        slow = row(2, speed=None, latency=1001)
+        slow = row(2, speed=None, latency=1200)
         dead = row(3)
         dead['status'] = 'dead'
         rows = [weak, slow, dead]
         chosen = policy.choose(self.observe(rows), rows)
         self.assertEqual([n['id'] for n in chosen], ['1'])
-        self.assertTrue(all(not v for v in policy.recommendations(chosen).values()))
+        self.assertEqual(policy.recommendations(chosen)['gpt'], [])
+        self.assertEqual(policy.recommendations(chosen)['download'], [])
         strong = row(4)
         rows.append(strong)
-        self.assertEqual([n['id'] for n in policy.choose(self.observe(rows), rows)], ['4'])
+        self.assertEqual([n['id'] for n in policy.choose(self.observe(rows), rows)], ['4', '1'])
+
+    def test_service_recommendations_are_independent(self):
+        a, b, c = row(1, latency=100), row(2, latency=50), row(3, latency=80)
+        a['ai']['services'] = {'ChatGPT': {'passed': True}, 'Gemini': {'passed': False}}
+        b['ai']['services'] = {'ChatGPT': {'passed': False}, 'Gemini': {'passed': True}}
+        c['ai']['services'] = {}
+        picks = policy.recommendations([a,b,c])
+        self.assertEqual([n['id'] for n in picks['gpt']], ['1'])
+        self.assertEqual([n['id'] for n in picks['gemini']], ['2'])
+        self.assertEqual(picks['daily'][0]['id'], '2')
 
     def test_download_uses_total_time_and_three_complete_samples(self):
         class Http:
@@ -221,9 +231,11 @@ class PublicationTests(unittest.TestCase):
         result['results'][0]['ai'].update(pass_count=0, passed=False, latency_ms=None)
         files, _ = mainland.render_selection(doc, result, {})
         status = json.loads(files['status.json'])
-        self.assertEqual(status['selection_tier'], 'latency_fallback')
+        self.assertEqual(status['selection_tier'], 'latency')
         self.assertEqual(status['nodes'], 1)
-        self.assertTrue(all(not v for v in status['recommendations'].values()))
+        self.assertEqual(status['recommendations']['gpt'], [])
+        self.assertEqual(status['recommendations']['gemini'], [])
+        self.assertTrue(status['recommendations']['daily'])
         self.assertIn('900ms', files['free-nodes.txt'])
         self.assertNotIn('Mbps', files['free-nodes.txt'])
         self.assertIn('proxies:', files['free-nodes-clash.yaml'])

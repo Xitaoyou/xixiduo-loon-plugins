@@ -185,7 +185,7 @@ def check(content, binary):
     return render_results(passed, reachable, len(lines), time.monotonic()-started)
 
 
-def render_results(passed, reachable, total, seconds, selected_only=False, picks=None, eligibility=None):
+def render_results(passed, reachable, total, seconds, selected_only=False, picks=None, eligibility=None, recommendation_groups=None):
     output, counts = [], Counter()
     countries = Counter()
     node_results = []
@@ -217,13 +217,15 @@ def render_results(passed, reachable, total, seconds, selected_only=False, picks
         counts[protocol] += 1
         countries[code] += 1
     aliases, recommendations = [], {}
-    for category, labels, picks in (('ai', ('AI推荐', '备选AI'), ai_picks),
+    groups = recommendation_groups if recommendation_groups is not None else (('ai', ('AI推荐', '备选AI'), ai_picks),
                                      ('media', ('流媒体推荐', '备选流媒体'), media_picks),
                                      ('download', ('下载推荐','备选下载'), download_picks),
-                                     ('clean_ip', ('纯净IP推荐',), clean_picks)):
+                                     ('clean_ip', ('纯净IP推荐',), clean_picks))
+    for category, labels, picks in groups:
         recommendations[category] = []
         for label, node in zip(labels, picks):
-            aliases.append(f'{label}：{node["name"]} = {node["body"]}')
+            separator = '' if label.endswith('|') else '：'
+            aliases.append(f'{label}{separator}{node["name"]} = {node["body"]}')
             recommendations[category].append(dict(label=label, node=node['name'], id=node['id']))
     output = aliases + output
     metadata = dict(connection_tested=True, test_method='HTTPS trace and at least 2 of ChatGPT/Claude/Gemini; TLS verified',

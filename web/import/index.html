@@ -4,7 +4,7 @@
 :root{font-family:system-ui,-apple-system,sans-serif;color:#17202c;background:#f5f7fa;color-scheme:light dark}*{box-sizing:border-box}body{max-width:700px;margin:auto;padding:36px 20px}h1{font-size:27px;margin:0 0 10px}h2{font-size:20px;margin:0 0 8px}p,footer{font-size:14px;line-height:1.7;color:#627084}section{background:#fff;border:1px solid #e3e8ef;border-radius:16px;padding:22px;margin:20px 0}ul{list-style:none;margin:16px 0 0;padding:0}li{display:flex;align-items:center;gap:12px;border-top:1px solid #e3e8ef;padding:13px 0}li span{flex:1;font-size:14px}a{color:#1762d1}li a,button{font:inherit;font-size:13px;padding:8px 11px;border-radius:8px;text-decoration:none}li a{background:#1762d1;color:white}button{border:0;background:#edf1f6;color:#253247;cursor:pointer}.state{font-size:13px;margin-bottom:0}footer{margin-top:25px}#notice{min-height:22px;font-size:13px}[hidden]{display:none!important}@media(prefers-color-scheme:dark){:root{color:#e6edf7;background:#11151c}section{background:#1a202b;border-color:#303948}p,footer{color:#a1aec0}li{border-color:#303948}button{color:#e6edf7;background:#303948}}
 </style></head><body>
 <header><h1>免费节点</h1><p>西西多 · 按检测线路选择版本，再选择客户端导入。</p></header>
-<section id="mainland"><h2>免费节点大陆版</h2><p>广州云测，每天北京时间10:00检测 ecfg6。优先精选；无精选时提供实际连通且延迟≤1000ms的节点。每国最多4个，不代表所有地区或运营商的速度。</p><p class="state" role="status">正在准备首次检测，结果通过后开放导入。</p><ul hidden></ul></section>
+<section id="mainland"><h2>免费节点大陆版</h2><p>广州云测，每天北京时间10:00检测 ecfg6、扩展节点和 Pawdroid。实际连通且延迟<1200ms即可入选，GPT、Gemini及其他推荐分别检测。每国最多4个，不代表所有地区或运营商的速度。</p><p class="state" role="status">正在准备首次检测，结果通过后开放导入。</p><ul hidden></ul></section>
 <section id="overseas"><h2>免费节点海外版</h2><p>GitHub 海外云测。沿用现有检测流程，原订阅地址继续有效。</p><p class="state" role="status">正在读取最近检测结果…</p><ul></ul></section>
 <p id="notice" role="status"></p>
 <footer>按钮无法唤起应用时，可复制地址到客户端添加。Clash 版默认 DIRECT，使用代理时在对应节点组选择节点。<br>云端测速不等于手机实际速度；AI 与流媒体为端点及地区检测，不保证账号或播放可用。<br><a href="https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/docs/Free-Nodes.md">使用说明</a> · <a href="https://github.com/Xitaoyou/xixiduo-loon-plugins">GitHub</a></footer>
@@ -29,7 +29,7 @@ async function status(id){
     if(!response.ok)throw Error();const d=await response.json();
     if(d.nodes>0&&d.updated_at){
       const stamp=new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',dateStyle:'short',timeStyle:'short'}).format(new Date(d.updated_at));
-      state.textContent=d.nodes+(d.selection_tier==='latency_fallback'?' 个低延迟可用节点':' 个精选出口')+' · 最近成功检测 '+stamp+'（北京时间）'+(id==='mainland'&&d.server_baseline?.before?.median_mbps?' · 国内直连基准 '+d.server_baseline.before.median_mbps+'Mbps':'')+(d.last_attempt?.ok===false?' · 本次检测失败，保留上次结果':'');links(id);
+      state.textContent=d.nodes+(['latency_fallback','latency'].includes(d.selection_tier)?' 个低延迟可用节点':' 个精选出口')+' · 最近成功检测 '+stamp+'（北京时间）'+(id==='mainland'&&d.server_baseline?.before?.median_mbps?' · 国内直连基准 '+d.server_baseline.before.median_mbps+'Mbps':'')+(d.last_attempt?.ok===false?' · 本次检测失败，保留上次结果':'');links(id);
     }else{state.textContent=id==='mainland'?'尚无合格的大陆检测结果，暂不提供导入。':'当前没有合格的海外精选节点。';document.querySelector('#'+id+' ul').hidden=true;}
   }catch{state.textContent=id==='mainland'?'大陆检测状态暂不可用，暂不提供导入。':'暂时无法读取检测状态；可使用原订阅地址。';}
 }
