@@ -1,4 +1,4 @@
-"""Mainland daily selection; history never expands today's source set."""
+"""Mainland selection with bounded published-node retesting and country coverage."""
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 import statistics
@@ -7,6 +7,7 @@ PROFILE = 'guangzhou-100m-v2-baseline-3x4MiB-total-time'
 MIN_DOWNLOAD_MBPS = 5
 MIN_BASELINE_MBPS = 10
 BASELINE_MAX_RATIO = 3
+PREFERRED_COUNTRIES = ('US', 'JP', 'SG', 'HK', 'TW', 'GB', 'DE', 'IT')
 
 
 def valid_baseline(before, after):
@@ -19,7 +20,7 @@ def valid_baseline(before, after):
 def eligible(n):
     latency = n.get('basic_latency_ms')
     return (n.get('status') == 'alive' and type(latency) in (int, float)
-            and 0 < latency < 1200 and n.get('measurement_profile') == PROFILE)
+            and 0 < latency <= (2500 if n.get('country') in PREFERRED_COUNTRIES else 1500) and n.get('measurement_profile') == PROFILE)
 
 
 latency_eligible = eligible
@@ -53,19 +54,30 @@ def choose(state, results):
                  observation_rounds=len(samples), stable=len(samples) >= 3 and all(h['ok'] for h in samples))
     key = lambda n: (n['basic_latency_ms'], -(n.get('download_mbps') or 0), n['id'])
     counts, exits, chosen = Counter(), set(), []
-    for n in sorted(candidates, key=key):
+    def add(n, tier):
         exit_key = n.get('exit_ip') or n['id']
-        if exit_key in exits:
-            continue
+        if exit_key in exits or len(chosen) >= 30:
+            return False
         numbers = state['numbers'].setdefault(n['country'], {})
         if n['id'] not in numbers:
             numbers[n['id']] = max(numbers.values(), default=0) + 1
         n['serial'] = numbers[n['id']]
+        n['selection_tier'] = tier
         chosen.append(n)
         counts[n['country']] += 1
         exits.add(exit_key)
-        if len(chosen) == 30:
-            break
+        return True
+    # Reserve one qualified exit per common country before the global low-latency fill.
+    quality_key = lambda n: (-n.get('quality', {}).get('grade', 1), *key(n))
+    for country in PREFERRED_COUNTRIES:
+        normal = [n for n in candidates if n['country'] == country and n['basic_latency_ms'] <= 1500]
+        options = normal or [n for n in candidates if n['country'] == country]
+        for n in sorted(options, key=quality_key):
+            if add(n, 'latency' if n['basic_latency_ms'] <= 1500 else 'country_fallback'):
+                break
+    for n in sorted(candidates, key=key):
+        if n['basic_latency_ms'] <= 1500:
+            add(n, 'latency')
     return chosen
 
 

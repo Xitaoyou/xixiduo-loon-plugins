@@ -36,10 +36,24 @@ class SelectionTests(unittest.TestCase):
         for change in ({'download_mbps': None}, {'quality': {'grade': 0}}, {'ai': {'pass_count': 0}}):
             n = row(latency=1199); n.update(change)
             self.assertTrue(policy.eligible(n))
-        for latency in (1200, 1201, 0, None):
+        for latency in (2501, 0, None):
             self.assertFalse(policy.eligible(row(latency=latency)))
         n = row(); n['status'] = 'dead'
         self.assertFalse(policy.eligible(n))
+
+    def test_country_coverage_and_fallback_only_one(self):
+        rows = [row(i, country='US', latency=100+i) for i in range(40)]
+        rows += [row(41, country='JP', latency=2500), row(42, country='JP', latency=2000),
+                 row(43, country='IT', latency=1500), row(44, country='FR', latency=1501)]
+        picked = policy.choose(self.observe(rows), rows)
+        self.assertEqual(len(picked), 30)
+        self.assertEqual(sum(n['country']=='JP' for n in picked), 1)
+        self.assertTrue(any(n['country']=='IT' for n in picked))
+        self.assertFalse(any(n['country']=='FR' for n in picked))
+        self.assertEqual(next(n for n in picked if n['country']=='JP')['selection_tier'], 'country_fallback')
+        self.assertTrue(policy.eligible(row(country='JP', latency=2500)))
+        self.assertTrue(policy.eligible(row(country='FR', latency=1500)))
+        self.assertFalse(policy.eligible(row(country='FR', latency=1501)))
 
     def test_no_country_cap_30_cap_and_distinct_egress(self):
         rows = [row(i, country='US') for i in range(60)]
@@ -85,7 +99,7 @@ class SelectionTests(unittest.TestCase):
     def test_latency_selection_does_not_require_ai_or_speed(self):
         weak = row(1, speed=None, latency=1000)
         weak['ai']['pass_count'] = 0
-        slow = row(2, speed=None, latency=1200)
+        slow = row(2, speed=None, latency=2501)
         dead = row(3)
         dead['status'] = 'dead'
         rows = [weak, slow, dead]
@@ -221,6 +235,17 @@ class BudgetTests(unittest.TestCase):
 
 
 class PublicationTests(unittest.TestCase):
+    def test_published_configuration_survives_upstream_removal_and_requires_retest(self):
+        _, _, body = update.convert(vmess())
+        ident = mainland.identity(body)
+        previous = {'node_results': [{'id': ident, 'name': 'saved Italy'}]}
+        retained = mainland.retained_nodes(previous, 'saved Italy = '+body)
+        self.assertEqual(retained[0]['id'], ident)
+        self.assertNotIn('basic_latency_ms', retained[0])
+        self.assertNotIn('status', retained[0])
+        with self.assertRaises(RuntimeError):
+            mainland.retained_nodes(previous, 'different name = '+body)
+
     def test_only_explicit_no_header_is_normalized(self):
         prefix = 'vless://52396e06-041a-4cc2-be5c-8525eb457809@node.example.com:443?security=none'
         ordinary = update.convert(prefix)[2]

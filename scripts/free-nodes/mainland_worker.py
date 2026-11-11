@@ -16,7 +16,7 @@ import time
 import ai_check
 import enrich
 import health
-from mainland_policy import PROFILE, MIN_DOWNLOAD_MBPS, MIN_BASELINE_MBPS, valid_baseline
+from mainland_policy import PROFILE, MIN_DOWNLOAD_MBPS, MIN_BASELINE_MBPS, valid_baseline, eligible
 
 MiB = 1024 ** 2
 GiB = 1024 ** 3
@@ -371,7 +371,7 @@ def execute(doc, binary, budget):
                      download_mbps=None)
             r.update(basic(http, ports[n['id']]) if n['id'] in ports else
                      dict(status='dead', basic_latency_ms=None, exit_ip='', country='ZZ'))
-            if r.get('basic_latency_ms') is not None and 0 < r['basic_latency_ms'] < 1200:
+            if eligible(r):
                 r['ai'] = ai(http, ports[n['id']])
             return r
 
@@ -384,7 +384,7 @@ def execute(doc, binary, budget):
             raise RuntimeError('all_nodes_failed')
         enrich.fetch = http.fetch  # Only this dedicated worker process; overseas code is unaffected.
         for r in results:
-            if r['status'] != 'alive' or not (0 < (r.get('basic_latency_ms') or 99999) < 1200):
+            if not eligible(r):
                 continue
             port = ports[r['id']]
             try:

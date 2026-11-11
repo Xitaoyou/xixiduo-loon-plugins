@@ -122,9 +122,11 @@ def source():
     return version, sorted(nodes.values(), key=lambda n: n['id']), dict(rejects)
 
 
-def combined_source(priority_ids=()):
+def combined_source(priority_ids=(), retained=()):
     version, nodes, counts = source()
     merged = {n['id']: n for n in nodes}
+    for n in retained:
+        merged.setdefault(n['id'], n)
     repo = 'Pawdroid/Free-servers'
     extra_version = api(f'repos/{repo}/commits/main')['sha']
     tree = api(f'repos/{repo}/git/trees/{extra_version}?recursive=1')
@@ -133,7 +135,7 @@ def combined_source(priority_ids=()):
     if hashlib.sha1(b'blob ' + str(len(blob)).encode() + b'\0' + blob).hexdigest() != expected:
         raise RuntimeError('pawdroid_source_hash_mismatch')
     payload = base64.b64decode(b''.join(blob.split()), validate=True).decode('utf-8')
-    counts = dict(counts, ecfg6_unique=len(nodes), pawdroid_added=0, pawdroid_duplicates=0, pawdroid_rejected=0)
+    counts = dict(counts, ecfg6_unique=len(nodes), pawdroid_added=0, pawdroid_duplicates=0, pawdroid_rejected=0, published_retested=len(retained))
     for line in payload.splitlines():
         if not line.strip():
             continue
@@ -167,7 +169,7 @@ def combined_source(priority_ids=()):
     ids = sorted(extra)
     day = datetime.now(timezone(timedelta(hours=8))).date().toordinal()
     take = min(128, 256 - len(merged), len(ids))
-    priority = sorted(set(priority_ids).intersection(extra))[:16]
+    priority = sorted(set(priority_ids).intersection(extra))[:min(16, take)]
     chosen = list(priority)
     for i in range(len(ids)):
         if len(chosen) >= take:
@@ -184,12 +186,32 @@ def combined_source(priority_ids=()):
     return version, sorted(merged.values(), key=lambda n: n['id']), counts
 
 
+def retained_nodes(previous, content):
+    records = previous.get('node_results', [])
+    if len(records) > 30:
+        raise RuntimeError('retained_node_count_invalid')
+    bodies = {line.split(' = ', 1)[0]: line.split(' = ', 1)[1]
+              for line in content.splitlines() if ' = ' in line and not line.startswith('#')}
+    result = []
+    for n in records:
+        body = bodies.get(n['name'])
+        if body is None or identity(body) != n['id']:
+            raise RuntimeError('retained_node_identity_mismatch')
+        result.append(dict(id=n['id'], body=body,
+                           outbound=health.outbound(body, 'pending', resolve=lambda h: h.strip('[]'))))
+    return result
+
+
 def prepare(folder, smoke=False):
     folder = Path(folder)
     folder.mkdir(parents=True, exist_ok=True)
     previous = remote_json(PUBLIC, 'subscriptions/mainland/status.json', optional=True) or {}
     pending = [n['id'] for n in previous.get('node_results', []) if n.get('download_mbps') is None]
-    version, nodes, counts = combined_source(pending)
+    retained = []
+    if previous.get('nodes'):
+        data = api(f'repos/{PUBLIC}/contents/subscriptions/mainland/free-nodes.txt?ref=main')
+        retained = retained_nodes(previous, base64.b64decode(data['content']).decode('utf-8'))
+    version, nodes, counts = combined_source(pending, retained)
     state = {}
     if previous.get('cycle'):
         state = remote_json(CONTROL, 'cycles/' + previous['cycle'] + '.json', ref='state')
@@ -285,15 +307,17 @@ def render_selection(doc, result, previous):
                 source_counts=doc.get('source_counts', {}),
                 checked=len(rows), tested_from='广州云测 · 100Mbps 服务器',
                 measurement_profile=policy.PROFILE, country_limit=None, node_limit=30,
-                filter_policy='mainland-latency1200-service-recommendations-v3', sort_by='latency, measured throughput',
+                filter_policy='mainland-latency1500-country2500-retained-v4', sort_by='latency, measured throughput',
                 selection_tier='latency',
-                thresholds={'basic_ms_exclusive_max': 1200, 'ai_pass_min': 0},
+                thresholds={'basic_ms_max': 1500, 'country_fallback_ms_max': 2500, 'ai_pass_min': 0},
+                preferred_countries=list(policy.PREFERRED_COUNTRIES),
+                country_fallback_nodes=sum(n.get('selection_tier') == 'country_fallback' for n in selected),
                 ai_min_pass=0, ai_rejected=0,
                 unreachable=sum(n.get('status') != 'alive' for n in rows),
                 latency_qualified=sum(policy.eligible(n) for n in rows),
                 latency_rejected=sum(n.get('status') == 'alive' and not policy.eligible(n) for n in rows),
                 ai_qualified=sum(n.get('ai', {}).get('pass_count', 0) >= 2 for n in rows),
-                test_method='Verified proxy HTTPS; latency <1200ms; AI, media and download measured independently',
+                test_method='Verified proxy HTTPS; latency <=1500ms, common-country fallback <=2500ms; AI, media and download measured independently',
                 server_baseline=result['baseline'], warnings=result.get('warnings', []),
                 pending_download=sum(n.get('download_mbps') is None for n in selected),
                 last_attempt={'at': now(), 'ok': True}, traffic=result.get('traffic', {}),
