@@ -277,8 +277,7 @@ def render_selection(doc, result, previous):
                                                 recommendation_groups=groups)
     stamp = datetime.fromisoformat(result['tested_at']).astimezone(timezone(timedelta(hours=8)))
     lines = content.splitlines()
-    lines = ['# 西西多大陆用免费节点 · DIRECT（直连请选择Loon内置DIRECT）',
-             f'🕒 免费节点大陆版刷新 {stamp:%m-%d %H:%M}（北京时间） = ' + selected[0]['body']] + lines
+    lines = [f'西西多大陆用免费节点：{stamp:%m-%d %H:%M}（北京时间） = ' + selected[0]['body']] + lines
     content = '\n'.join(lines) + '\n'
     clash, rocket = render(content, title='免费节点大陆版')
     meta.update(updated_at=result['tested_at'], cycle=doc['cycle'], nodes=len(selected),

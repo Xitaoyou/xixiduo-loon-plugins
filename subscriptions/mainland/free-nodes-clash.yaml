@@ -3,23 +3,20 @@ allow-lan: false
 mode: rule
 log-level: warning
 proxies:
-  - {"name":"GPT 解锁|大陆测｜🇮🇹 意大利 02｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"GPT 备选|大陆测｜🇮🇹 意大利 03｜1116ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"Gemini解锁|大陆测｜🇮🇹 意大利 02｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"Gemini备选|大陆测｜🇮🇹 意大利 03｜1116ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜流媒体推荐：🇮🇹 意大利 02｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜日常推荐：🇮🇹 意大利 02｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜备选日常：🇮🇹 意大利 03｜1116ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🕒 免费节点大陆版刷新 11-11 19:17（北京时间）","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🇮🇹 意大利 02｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🇮🇹 意大利 03｜1116ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🇮🇹 意大利 04｜1119ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🇮🇹 意大利 05｜1121ms","type":"ss","server":"202.50.253.54","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🇮🇹 意大利 06｜1124ms","type":"ss","server":"202.50.253.90","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🇮🇹 意大利 07｜1132ms","type":"ss","server":"202.50.253.27","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🇮🇹 意大利 08｜1139ms","type":"ss","server":"202.50.253.99","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"大陆测｜🇮🇹 意大利 01｜1168ms","type":"ss","server":"202.50.253.81","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"西西多大陆用免费节点：11-11 19:17（北京时间）","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"AI解锁丨🇮🇹 意大利 01｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"备选AI解锁丨🇮🇹 意大利 02｜1116ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"流媒体推荐：🇮🇹 意大利 01｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"日常推荐：🇮🇹 意大利 01｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 01｜1108ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 02｜1116ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 03｜1119ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 04｜1121ms","type":"ss","server":"202.50.253.54","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 05｜1124ms","type":"ss","server":"202.50.253.90","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 06｜1132ms","type":"ss","server":"202.50.253.27","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 07｜1139ms","type":"ss","server":"202.50.253.99","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 08｜1168ms","type":"ss","server":"202.50.253.81","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
 proxy-groups:
-  - {"name":"免费节点大陆版","type":"select","proxies":["DIRECT","GPT 解锁|大陆测｜🇮🇹 意大利 02｜1108ms","GPT 备选|大陆测｜🇮🇹 意大利 03｜1116ms","Gemini解锁|大陆测｜🇮🇹 意大利 02｜1108ms","Gemini备选|大陆测｜🇮🇹 意大利 03｜1116ms","大陆测｜流媒体推荐：🇮🇹 意大利 02｜1108ms","大陆测｜日常推荐：🇮🇹 意大利 02｜1108ms","大陆测｜备选日常：🇮🇹 意大利 03｜1116ms","大陆测｜🕒 免费节点大陆版刷新 11-11 19:17（北京时间）","大陆测｜🇮🇹 意大利 02｜1108ms","大陆测｜🇮🇹 意大利 03｜1116ms","大陆测｜🇮🇹 意大利 04｜1119ms","大陆测｜🇮🇹 意大利 05｜1121ms","大陆测｜🇮🇹 意大利 06｜1124ms","大陆测｜🇮🇹 意大利 07｜1132ms","大陆测｜🇮🇹 意大利 08｜1139ms","大陆测｜🇮🇹 意大利 01｜1168ms"]}
+  - {"name":"免费节点大陆版","type":"select","proxies":["DIRECT","西西多大陆用免费节点：11-11 19:17（北京时间）","AI解锁丨🇮🇹 意大利 01｜1108ms","备选AI解锁丨🇮🇹 意大利 02｜1116ms","流媒体推荐：🇮🇹 意大利 01｜1108ms","日常推荐：🇮🇹 意大利 01｜1108ms","🇮🇹 意大利 01｜1108ms","🇮🇹 意大利 02｜1116ms","🇮🇹 意大利 03｜1119ms","🇮🇹 意大利 04｜1121ms","🇮🇹 意大利 05｜1124ms","🇮🇹 意大利 06｜1132ms","🇮🇹 意大利 07｜1139ms","🇮🇹 意大利 08｜1168ms"]}
 rules:
   - "MATCH,免费节点大陆版"

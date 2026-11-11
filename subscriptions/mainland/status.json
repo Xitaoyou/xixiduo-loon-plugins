@@ -16,34 +16,24 @@
   "country_limit": null,
   "country_count": 1,
   "recommendations": {
-    "gpt": [
+    "ai": [
       {
-        "label": "GPT 解锁|",
-        "node": "大陆测｜🇮🇹 意大利 02｜1108ms",
+        "label": "AI解锁丨",
+        "node": "🇮🇹 意大利 01｜1108ms",
         "id": "f4311e6c7542a9b33688d1f69952a55503a5dc13228561f3e69331d3c66d8e28"
       },
       {
-        "label": "GPT 备选|",
-        "node": "大陆测｜🇮🇹 意大利 03｜1116ms",
+        "label": "备选AI解锁丨",
+        "node": "🇮🇹 意大利 02｜1116ms",
         "id": "5d6df59215e7c8bfcd0e2b4515e0ef3cef136d9ffa30bde19e660b0e3354197c"
       }
     ],
-    "gemini": [
-      {
-        "label": "Gemini解锁|",
-        "node": "大陆测｜🇮🇹 意大利 02｜1108ms",
-        "id": "f4311e6c7542a9b33688d1f69952a55503a5dc13228561f3e69331d3c66d8e28"
-      },
-      {
-        "label": "Gemini备选|",
-        "node": "大陆测｜🇮🇹 意大利 03｜1116ms",
-        "id": "5d6df59215e7c8bfcd0e2b4515e0ef3cef136d9ffa30bde19e660b0e3354197c"
-      }
-    ],
+    "gpt": [],
+    "gemini": [],
     "media": [
       {
         "label": "流媒体推荐",
-        "node": "大陆测｜🇮🇹 意大利 02｜1108ms",
+        "node": "🇮🇹 意大利 01｜1108ms",
         "id": "f4311e6c7542a9b33688d1f69952a55503a5dc13228561f3e69331d3c66d8e28"
       }
     ],
@@ -51,17 +41,12 @@
     "daily": [
       {
         "label": "日常推荐",
-        "node": "大陆测｜🇮🇹 意大利 02｜1108ms",
+        "node": "🇮🇹 意大利 01｜1108ms",
         "id": "f4311e6c7542a9b33688d1f69952a55503a5dc13228561f3e69331d3c66d8e28"
-      },
-      {
-        "label": "备选日常",
-        "node": "大陆测｜🇮🇹 意大利 03｜1116ms",
-        "id": "5d6df59215e7c8bfcd0e2b4515e0ef3cef136d9ffa30bde19e660b0e3354197c"
       }
     ]
   },
-  "recommendation_rows": 7,
+  "recommendation_rows": 4,
   "media_required": [
     "Netflix",
     "Disney+",
@@ -82,7 +67,7 @@
   "node_results": [
     {
       "id": "f4311e6c7542a9b33688d1f69952a55503a5dc13228561f3e69331d3c66d8e28",
-      "name": "大陆测｜🇮🇹 意大利 02｜1108ms",
+      "name": "🇮🇹 意大利 01｜1108ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
@@ -139,7 +124,7 @@
     },
     {
       "id": "5d6df59215e7c8bfcd0e2b4515e0ef3cef136d9ffa30bde19e660b0e3354197c",
-      "name": "大陆测｜🇮🇹 意大利 03｜1116ms",
+      "name": "🇮🇹 意大利 02｜1116ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
@@ -191,7 +176,7 @@
     },
     {
       "id": "92bba3bb2c4379fb8960595bf7f8d2e8b1b680f2fac24a2eb67b047c952fef22",
-      "name": "大陆测｜🇮🇹 意大利 04｜1119ms",
+      "name": "🇮🇹 意大利 03｜1119ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
@@ -248,7 +233,7 @@
     },
     {
       "id": "1c32524b8ec366bd555d4d602838327327967023c431c205e1407c3adde8c234",
-      "name": "大陆测｜🇮🇹 意大利 05｜1121ms",
+      "name": "🇮🇹 意大利 04｜1121ms",
       "country": "IT",
       "passed": true,
       "pass_count": 2,
@@ -298,7 +283,7 @@
     },
     {
       "id": "fd003e79bcc6262d909c0bd0c279f3ca5ad2807aca1f3bf76ae3ee4288624c1e",
-      "name": "大陆测｜🇮🇹 意大利 06｜1124ms",
+      "name": "🇮🇹 意大利 05｜1124ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
@@ -355,7 +340,7 @@
     },
     {
       "id": "82df30249524e2a81ca957edb1aa760e254282b0e2b9c990d6b048e1e81432db",
-      "name": "大陆测｜🇮🇹 意大利 07｜1132ms",
+      "name": "🇮🇹 意大利 06｜1132ms",
       "country": "IT",
       "passed": true,
       "pass_count": 2,
@@ -407,7 +392,7 @@
     },
     {
       "id": "452cede3c31ca26aead6408ee001dbf45c2e990c88c2d67dbac678128b627742",
-      "name": "大陆测｜🇮🇹 意大利 08｜1139ms",
+      "name": "🇮🇹 意大利 07｜1139ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
@@ -464,7 +449,7 @@
     },
     {
       "id": "77721698a3311a6c2f588caa94def77bca9c700eccec32113428588fda82a7fb",
-      "name": "大陆测｜🇮🇹 意大利 01｜1168ms",
+      "name": "🇮🇹 意大利 08｜1168ms",
       "country": "IT",
       "passed": true,
       "pass_count": 2,
@@ -523,7 +508,7 @@
   "updated_at": "2026-11-11T11:17:55.774627+00:00",
   "cycle": "5ca8d03c6beec7f2e4f7eb89",
   "nodes": 8,
-  "published_rows": 16,
+  "published_rows": 13,
   "source_version": "fcb69d8755dfb2b8686550ab78757f491c222f05d4d04935f7bc7c223cf384e0",
   "source_file": "ecfg6 + ecfg6_en (daily rotation) + Pawdroid/sub",
   "source_counts": {
