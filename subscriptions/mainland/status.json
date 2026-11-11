@@ -186,8 +186,9 @@
     }
   },
   "last_attempt": {
-    "at": "2026-11-10T20:08:51.743587+00:00",
-    "ok": true
+    "at": "2026-11-11T08:16:37.204815+00:00",
+    "ok": false,
+    "reason": "incomplete_or_mismatched_result"
   },
   "traffic": {
     "rx_upper_bound": 120871416,
