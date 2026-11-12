@@ -14,8 +14,8 @@
 | 广告平台补充拦截器 · DNS优先版 v3 | 补充广告平台域名拦截，无需 MitM | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FAdPlatform-Supplement.plugin) · [查看文件](plugins/AdPlatform-Supplement.plugin) |
 | 123云盘去广告 · 精简专用版 v6 | 清理应用内广告开关，需配合两个广告平台拦截器 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Enhanced.plugin) · [查看文件](plugins/123Pan-Splash-Enhanced.plugin) |
 | 123云盘去广告 · 完整版 | 清理应用内广告并拦截常见广告域名，可独立使用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2F123Pan-Splash-Full.plugin) · [查看文件](plugins/123Pan-Splash-Full.plugin) |
-| SideStore 刷新助手 · 兼容版 v2 | 提供 SideStore 设备端点本地回环；关闭 IPv6 VIF 以兼容新版 SideStore | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |
-| SideStore 本机回环 · 官方参数对照测试 | 独立测试版：采用 Loon 官方回环参数，关闭 IPv6 VIF；用于排查 SideStore 0.7 刷新失败，不要与原刷新助手同时启用 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Official-Loopback-Test.lpx) · [查看文件](plugins/SideStore-Official-Loopback-Test.lpx) |
+| SideStore 刷新助手 · 兼容版 v2 | 常驻基础回环插件；SideStore 0.7+ 刷新时需另启 IPv6 按需兼容开关 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Refresh.lpx) · [查看文件](plugins/SideStore-Refresh.lpx) |\n| SideStore IPv6 按需兼容开关 | SideStore 0.7+ 刷新前启用，完成后停用；启用期间全局关闭 Loon TUN IPv6 VIF | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-IPv6-OnDemand.lpx) · [查看文件](plugins/SideStore-IPv6-OnDemand.lpx) |
+| SideStore 本机回环 · 官方参数对照测试 | 独立诊断版；启用期间关闭 IPv6 VIF，可单独隔离回环问题 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Official-Loopback-Test.lpx) · [查看文件](plugins/SideStore-Official-Loopback-Test.lpx) |
 | 京东去广告 · 开屏浮窗精简增强版 | 兼容京东新版 Base64 响应；清理开屏、首页悬浮挂件、活动弹窗、促销楼层；5 个可选开关，默认保留常用工具入口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FJD-Clean-Enhanced.lpx) · [使用说明](docs/JD-Clean-Enhanced.md) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名和接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
 
@@ -37,8 +37,8 @@
 - **123 云盘**：精简版需搭配上述两个广告平台拦截器；完整版可独立使用。两版任选其一，接口清理需要 MitM 和受信任的证书。
 - **京东**：适配新版 Base64/旧版 JSON 接口，默认开启开屏、悬浮、弹窗与推广楼层清理；「极简工具入口」默认关闭。需要 Loon 3.5.1 (983) 或更高、MitM 已开启且证书受信任。请停用可莉原版京东插件及其他相同 API 的京东响应脚本。若京东页面异常，可在插件设置中关闭「精简推广楼层」再测试。详情见 [使用说明](docs/JD-Clean-Enhanced.md)。
 - **携程**：拦截指定广告域名和接口；接口拦截需要开启 MitM 并信任证书。
-- **SideStore**：需 Loon Build 1007+。正式插件包含 `ipv6-vif = off`，用于兼容 SideStore 0.7 的 utun 筛选。更新并启用插件后，断开再连接 Loon VPN；Health Check 中 Loon 的 IPv4 utun 应不再带 IPv6 地址，Tunnel Peer IP 与 Device Reachability 应恢复。只有 Peer IP 已出现、但 TCP 探测失败时，才继续检查 RemotePairing 动态端口：开启 Auto Retry RemotePairing Port、清空手动端口，并允许 SideStore 访问本地网络。插件不固定端口，也不修复配对文件。
-- **SideStore 官方参数对照测试版**：保留为最小化诊断配置，包含 `ipv6-vif = off`、`include-tun = 10.7.0.1/32` 与 `10.7.0.1 = reflect`。正式插件已应用 IPv6 VIF 设置；仅在需要隔离排查时使用测试插件，并避免与正式插件同时启用。
+- **SideStore**：需 Loon Build 1007+。常驻启用「SideStore 刷新助手」基础插件。SideStore 0.7+ 刷新前，手动启用「SideStore IPv6 按需兼容开关」，完成刷新后再停用；启用期间它会关闭整个 Loon TUN 的 IPv6 VIF，停用后按主配置恢复。Loon 没有公开的 SideStore 刷新事件钩子，因此不能由插件自动在刷新开始/结束时切换。首次启用后断开并重新连接 Loon VPN；Health Check 中 Loon 的 IPv4 utun 应不再带 IPv6 地址。若 Peer IP 已出现但 TCP 探测失败，再检查 RemotePairing 动态端口。插件不固定端口，也不修复配对文件。
+- **SideStore 官方参数对照测试版**：独立诊断配置，自带 `ipv6-vif = off` 和官方回环参数。仅用于隔离排查；启用期间同样会关闭整个 Loon TUN 的 IPv6 VIF。
 
 不同应用版本和网络环境可能影响效果。若出现异常，可先停用对应插件排查；部分广告缓存可能需要完全退出应用后才会更新。
 
@@ -49,6 +49,8 @@
 
 ## SideStore 0.7 及更新版本
 
-SideStore 0.7 的 `minimuxer` 会筛选本地 VPN 的 `utun` 接口：候选接口必须有 IPv4 地址且没有 IPv6 地址。Health Check 截图中，Loon 的 `utun4` 同时有 IPv4 `198.19.0.1` 和 IPv6 `fe80::…`，因此 SideStore 将它排除，Tunnel Peer IP 留为 N/A，最终报 `DeviceEndpointNotInitialized`。正式插件加入 `ipv6-vif = off`；更新并启用插件后，断开再重新连接 Loon VPN，让接口重新建立。此设置会关闭 Loon TUN 的 IPv6 虚拟接口；若依赖 IPv6 TUN，请停用此插件并另行配置。
+SideStore 的新版 `minimuxer` 只接受有 IPv4 且没有 IPv6 地址的本地 VPN `utun`。Health Check 中 Loon 的 `utun4` 同时有 IPv4 `198.19.0.1` 和链路本地 IPv6 `fe80::…`，因此被排除，Tunnel Peer IP 留为 N/A，并报 `DeviceEndpointNotInitialized`。
 
-如果关闭 IPv6 VIF 后 Tunnel Peer IP 已有值，但 TCP 端口探测仍失败，再检查 RemotePairing 端口：开启 **Auto Retry RemotePairing Port**，清空手动填写的端口，并允许 SideStore 访问本地网络。
+为避免常驻关闭 IPv6，配置拆为两个插件：常驻启用「SideStore 刷新助手」，它提供本机回环路由与 IP Rewrite；仅在 SideStore 0.7+ 刷新前启用「SideStore IPv6 按需兼容开关」，完成后停用。IPv6 开关插件启用期间会关闭整个 Loon TUN 的 IPv6 VIF，不会只影响 SideStore 的流量。停用后，若没有其他启用插件声明 `ipv6-vif = off`，Loon 按主配置恢复 IPv6 VIF 模式。
+
+Loon 当前公开配置没有基于 SideStore 前台状态或刷新事件自动切换该设置的入口，因此需要手动启停。首次启用开关后断开并重新连接 Loon VPN，让接口重建。确认 Health Check 的 IPv4 utun 不再带 IPv6、Tunnel Peer IP 已出现且 Device Reachability 可达。若 Peer IP 已出现但 TCP 探测仍失败，再检查 RemotePairing 动态端口。
