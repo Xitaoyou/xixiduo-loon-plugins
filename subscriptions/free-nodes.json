@@ -9,43 +9,33 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-12T02:45:43.519949+00:00",
+  "updated_at": "2026-11-12T03:28:42.670729+00:00",
   "nodes": 0,
   "protocols": {},
   "published_rows": 1,
-  "cycle": "85c623fc94eff2d3e6ab",
+  "cycle": "ea005816ea9d9a92fbae",
   "source_version": "00dda22d0c1f02705b5917d32f4c2f2b769aebd2",
   "source_error": null,
   "pool": {
-    "active": 849,
-    "slow": 138,
+    "active": 865,
+    "slow": 140,
     "cooldown": 330,
-    "isolated": 119,
+    "isolated": 101,
     "restricted": 8
   },
-  "merge": {
-    "reject_unsupported options": 5308,
-    "reject_unsupported fingerprint": 1675,
-    "duplicates": 6963,
-    "reject_insecure tls": 2263,
-    "restricted": 8,
-    "restricted_unparsed": 17,
-    "new": 126,
-    "reject_invalid_or_nonportable": 260,
-    "reject_unsupported transport": 85
-  },
-  "checked": 1106,
-  "unreachable": 162,
-  "reachable_checked": 944,
-  "active_candidates": 849,
-  "ai_qualified": 772,
-  "quality_qualified": 464,
-  "quality_rejected": 15,
+  "merge": {},
+  "checked": 117,
+  "unreachable": 98,
+  "reachable_checked": 19,
+  "active_candidates": 865,
+  "ai_qualified": 9,
+  "quality_qualified": 1,
+  "quality_rejected": 0,
   "selection_phase": "stable",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 1166.44,
+    "direct_mbps": 1436.19,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -56,5 +46,5 @@
     "span_hours_min": 12,
     "success_rate_min": 0.95
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/43135546314"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/43147433760"
 }
