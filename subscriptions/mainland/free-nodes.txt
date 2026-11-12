@@ -1,13 +1,14 @@
-西西多大陆用免费节点：11-11 19:17（北京时间） = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-AI解锁丨🇮🇹 意大利 01｜1108ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-备选AI解锁丨🇮🇹 意大利 02｜1116ms = Shadowsocks,202.50.253.45,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-流媒体推荐：🇮🇹 意大利 01｜1108ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-日常推荐：🇮🇹 意大利 01｜1108ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 01｜1108ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 02｜1116ms = Shadowsocks,202.50.253.45,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 03｜1119ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 04｜1121ms = Shadowsocks,202.50.253.54,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 05｜1124ms = Shadowsocks,202.50.253.90,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 06｜1132ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 07｜1139ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 08｜1168ms = Shadowsocks,202.50.253.81,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+西西多大陆用免费节点：11-12 17:41（北京时间） = Shadowsocks,202.50.253.54,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+AI解锁丨🇮🇹 意大利 05｜881ms = Shadowsocks,202.50.253.54,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+备选AI解锁丨🇮🇹 意大利 08｜895ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+流媒体推荐：🇮🇹 意大利 02｜932ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+日常推荐：🇵🇱 波兰 01｜781ms = Hysteria2,13.143.189.143,4444,"a35c508f-4d5d-4531-842e-6e9d43c762c0",skip-cert-verify=false,sni="pl3.nexfile.net",udp=true
+🇮🇹 意大利 05｜881ms = Shadowsocks,202.50.253.54,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 08｜895ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 07｜903ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 09｜873ms = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 01｜928ms = Shadowsocks,202.50.253.81,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 02｜932ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 04｜947ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 03｜1285ms = Shadowsocks,202.50.253.45,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇵🇱 波兰 01｜781ms = Hysteria2,13.143.189.143,4444,"a35c508f-4d5d-4531-842e-6e9d43c762c0",skip-cert-verify=false,sni="pl3.nexfile.net",udp=true
