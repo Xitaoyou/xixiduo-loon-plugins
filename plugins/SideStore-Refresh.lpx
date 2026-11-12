@@ -1,25 +1,19 @@
 #!name = SideStore 刷新助手
 #!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/sidestore.png
-#!desc = Loon 本地回环兼容版 v2：兼容常见 SideStore 设备地址；需要 Build 1007+
+#!desc = SideStore 本地回环；兼容新版 SideStore 的 utun 检查，关闭 Loon IPv6 VIF。需要 Loon Build 1007+。
 #!author = 西西多
-#!date = 2026-11-08
+#!date = 2026-11-12
 #!tag = SideStore,工具
 
-# 使用条件：
-# 1. Loon Build 1007+，启用本插件后，断开并重新连接 Loon VPN 让 TUN 路由生效。
-# 2. SideStore 的 Connection Config 中设备端点应匹配实际使用的地址。
-# 3. 如果出现 DeviceEndpointNotInitialized，请在 SideStore > Settings >
-#    Experimental Features > Network Discovery > Local 查看带绿勾的
-#    _remotepairing._tcp. 的 IPv4 端口，填写至 Connection Config 的
-#    RemotePairPort；端口可能改变，此插件不能替 SideStore 自动发现端口。
-# 4. 同时不要运行 LocalDevVPN / WireGuard 的同类隧道。
-#
-# 仅接管以下两个精确 IPv4 目标，不改 DNS、代理策略、MitM 或 IPv6。
-# 10.7.0.1 是 SideStore 常见设备端点；10.7.0.0 仅供旧版/特殊配置兼容。
-# 如果使用其他自定义设备端点，须同步调整 include-tun 与 IP Rewrite。
-# 注意：此插件无法修复 SideStore 自身的配对文件或设备端点初始化故障。
-
+# 使用说明：
+# 1. Loon Build 1007+；ipv6-vif = off 用于兼容 SideStore 0.7 的 utun 候选筛选。
+# 2. 更新并启用插件后，断开再连接 Loon VPN，让 TUN 路由和接口重建。
+# 3. 若 Tunnel Peer IP 仍为 N/A，确认 Health Check 中 Loon 的 IPv4 utun 不再带 IPv6 地址。
+# 4. 只有 Peer IP 已出现而 TCP 探测失败时，再检查 RemotePairing 动态端口；开启自动重试并清空手动端口。
+# 5. 关闭 LocalDevVPN / WireGuard 等其他 VPN 隧道。SideStore 常见设备端点为 10.7.0.1。
+# IP Rewrite 保留 TCP/UDP 端口，不固定 49152；本插件不修改配对文件或签名行为。
 [General]
+ipv6-vif = off
 include-tun = 10.7.0.1/32,10.7.0.0/32
 
 [IP Rewrite]
