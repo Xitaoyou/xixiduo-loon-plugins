@@ -6,7 +6,8 @@
 #!tag = SideStore,工具
 
 # 仅用于 SideStore 0.7+ 的 utun 接口筛选兼容。
-# 操作：刷新前启用此插件，刷新完成后停用。
+# 开关开启 = 关闭 TUN IPv6 VIF；开关关闭 = 恢复主配置（无其他 off 插件时）。
+# 操作：刷新前启用此插件，刷新完成后停用；切换未生效时重连 Loon VPN。
 # 注意：ipv6-vif 是 Loon TUN 的全局设置，并非只作用于 SideStore 流量。
 # 插件停用后，若没有其他已启用插件声明 ipv6-vif = off，则恢复主配置的 IPv6 VIF 模式。
 
