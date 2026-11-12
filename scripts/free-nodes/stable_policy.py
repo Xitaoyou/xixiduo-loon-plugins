@@ -31,7 +31,8 @@ def observe(state,results,at,cycle,environment):
                     exit=r.get('exit_ip') or n.get('performance_exit',''),profile=r.get('measurement_profile'),
                     env=r.get('measurement_environment'),speed=r.get('download_mbps')))
         n['observations']=history
-        window=[h for h in history if h['at']>=epoch]
+        window=[h for h in history if h['at']>=epoch and h.get('exit')==n.get('performance_exit')
+                and h.get('profile')==PROFILE and h.get('env')==environment]
         rate=sum(h['ok'] for h in window)/len(window) if window else 0
         perf=[h for h in window if age(at,h['at'])<=86400 and h.get('profile')==PROFILE
               and h.get('env')==environment and h.get('exit')==n.get('performance_exit') and h.get('speed') is not None]
@@ -42,13 +43,16 @@ def observe(state,results,at,cycle,environment):
         stable=len(last)>=3 and span>=12*3600 and rate>=.95 and p25>=10
         basic=[h['basic'] for h in window if h.get('basic') is not None]
         jitter=(quantile(basic,.95)-quantile(basic,.5)) if basic else 999999
-        r.update(observation_cycle=cycle,success_rate=rate,conservative_mbps=p25,stable=stable,observation_rounds=len(perf),
+        confidence=min(len(perf)/3,1)*min(span/(12*3600),1)
+        recent_speed=p25 if p25 is not None else (r.get('download_mbps') or 0)
+        weighted_score=((r.get('download_mbps') or 0)+recent_speed)/2*(.5+.5*rate)*(1+.25*confidence*rate)
+        r.update(stability_weight=round(1+.25*confidence*rate,4), observation_cycle=cycle,success_rate=rate,conservative_mbps=p25,stable=stable,observation_rounds=len(perf),
                  observation_span_hours=round(span/3600,2),latency_variation_ms=jitter,
-                 selection_score=(p25 or r.get('download_mbps') or 0)*rate)
+                 selection_score=weighted_score)
 
 
 def current_eligible(r):
-    return (qualified(r) and r.get('basic_latency_ms') is not None and r['basic_latency_ms']<=1000
+    return (r.get('status') == 'alive' and qualified(r) and r.get('basic_latency_ms') is not None and r['basic_latency_ms']<=1000
             and r.get('download_mbps',0)>=10 and bool(r.get('exit_ip')) and r.get('measurement_profile')==PROFILE)
 
 
@@ -58,8 +62,7 @@ def rank(r):
 
 
 def choose(state,results,at):
-    provisional=age(at,state['stable_policy_started_at'])<12*3600
-    eligible=[r for r in results if current_eligible(r) and (provisional or r.get('stable'))]
+    eligible=[r for r in results if current_eligible(r)]
     ordered=sorted(eligible,key=rank);selected=[];exits=set();countries={}
     def add(r):
         if r['exit_ip'] not in exits and len(selected)<30 and countries.get(r['country'],0)<4:
@@ -68,7 +71,7 @@ def choose(state,results,at):
         for r in ordered:
             if r['country']==country:add(r);break
     for r in ordered:add(r)
-    return selected,'observation' if provisional else 'stable'
+    return selected,'weighted'
 
 
 def recommendations(state,nodes,cycle):

@@ -367,7 +367,8 @@ def finalize():
         quality_qualified=sum(stable_policy.current_eligible(r) for r in all_results),
         quality_rejected=sum(r['ai']['pass_count']>=2 and r['quality']['grade']==0 for r in all_results),
         selection_phase=phase,measurement_profile=stable_policy.PROFILE,measurement_environment=measured['environment'],
-        thresholds={'basic_ms_max':1000,'current_mbps_min':10,'recent_p25_mbps_min':10,'rounds_min':3,'span_hours_min':12,'success_rate_min':.95},
+        thresholds={'basic_ms_max':1000,'current_mbps_min':10,'stability_hard_gate':False},
+        stability_weighting={'history_days':7,'throughput_history_hours':24,'bonus_max':.25,'full_bonus_rounds':3,'full_bonus_span_hours':12},
         workflow_run='https://github.com/'+os.environ.get('GITHUB_REPOSITORY','Xitaoyou/xixiduo-loon-plugins')+'/actions/runs/'+os.environ.get('GITHUB_RUN_ID','local'))
     write(folder/'free-nodes.json',metadata)
     state.update(source_version=manifest['source_version'],last_cycle_id=manifest['cycle'])

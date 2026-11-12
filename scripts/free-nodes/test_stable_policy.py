@@ -29,7 +29,7 @@ class StableTests(unittest.TestCase):
     def test_three_rounds_twelve_hours(self):
         state,r,at=self.history()
         self.assertTrue(r['stable']);self.assertEqual(r['observation_span_hours'],12)
-        self.assertEqual(policy.choose(state,[r],at)[1],'stable')
+        self.assertEqual(policy.choose(state,[r],at)[1],'weighted')
         self.assertEqual(len(policy.choose(state,[r],at)[0]),1)
 
     def test_fast_rounds_do_not_fake_stability(self):
@@ -41,7 +41,26 @@ class StableTests(unittest.TestCase):
 
     def test_spike_does_not_hide_slow_history(self):
         state,r,at=self.history((1,1,100));self.assertFalse(r['stable'])
+        self.assertEqual(len(policy.choose(state,[r],at)[0]),1)
+        self.assertLess(r['selection_score'],r['download_mbps'])
+
+    def test_new_and_low_success_nodes_can_enter_when_currently_qualified(self):
+        state,r,at=self.history(hours=(0,1,2))
+        r['success_rate']=.5
+        r['stable']=False
+        self.assertEqual(len(policy.choose(state,[r],at)[0]),1)
+        r['download_mbps']=9
         self.assertEqual(policy.choose(state,[r],at)[0],[])
+
+    def test_stability_adds_weight_without_barring_newcomers(self):
+        old,r,at=self.history()
+        self.assertEqual(r['stability_weight'],1.25)
+        newstate={'nodes':{'0':{'id':'0'}}}
+        fresh=result();fresh['tested_at']=at
+        policy.observe(newstate,[fresh],at,'first','test')
+        self.assertEqual(fresh['stability_weight'],1)
+        self.assertGreater(r['selection_score'],fresh['selection_score'])
+        self.assertEqual(len(policy.choose(newstate,[fresh],at)[0]),1)
 
     def test_egress_or_profile_change_resets_performance(self):
         for change in ({'exit_ip':'1.1.1.1'},{'measurement_profile':'old-profile'},{'measurement_environment':'elsewhere'}):
@@ -65,7 +84,7 @@ class StableTests(unittest.TestCase):
         self.assertEqual(len(chosen),7);self.assertEqual(len({r['exit_ip'] for r in chosen}),7)
         self.assertTrue(all(sum(r['country']==c for r in chosen)<=4 for c in {r['country'] for r in chosen}))
         self.assertTrue(set(policy.PREFERRED)<={r['country'] for r in chosen})
-        self.assertEqual(phase,'observation')
+        self.assertEqual(phase,'weighted')
 
     def test_hard_cutoffs_unknown_quality_allowed(self):
         self.assertTrue(policy.current_eligible(result(speed=10,latency=1000)))

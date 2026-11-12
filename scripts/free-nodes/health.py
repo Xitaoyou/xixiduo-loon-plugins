@@ -213,7 +213,7 @@ def render_results(passed, reachable, total, seconds, selected_only=False, picks
             output.append(f'{node["name"]} = {body}')
         node_results.append(dict(id=node['id'], name=node['name'], country=code, **ai,
                                  quality=node['quality'], media=node['media'], download_mbps=node['download_mbps'],
-                                 **{k:node[k] for k in ('exit_ip','basic_latency_ms','stable','success_rate','conservative_mbps','observation_rounds','observation_span_hours','selection_score','measurement_profile','measurement_environment','download_samples_mbps','download_status','selection_tier','recent_selected_days','recent_success_rate','stability_bonus','stability_rank_ms') if k in node}))
+                                 **{k:node[k] for k in ('exit_ip','basic_latency_ms','stable','success_rate','conservative_mbps','observation_rounds','observation_span_hours','selection_score','measurement_profile','measurement_environment','download_samples_mbps','download_status','selection_tier','recent_selected_days','recent_success_rate','stability_bonus','stability_rank_ms','stability_weight') if k in node}))
         counts[protocol] += 1
         countries[code] += 1
     aliases, recommendations = [], {}
@@ -243,7 +243,7 @@ def render_results(passed, reachable, total, seconds, selected_only=False, picks
                     node_results=node_results,
                     countries=dict(countries), test_seconds=round(seconds, 1))
     if selected_only:
-        metadata.update(filter_policy='stable-best30-country4-v2',country_limit=4,node_limit=30,
-                        sort_by='P25 recent throughput × 7-day valid success rate; jitter, latency, quality; US/JP/SG/DE reservation',
+        metadata.update(filter_policy='weighted-best30-country4-v3',country_limit=4,node_limit=30,
+                        sort_by='Current and recent throughput weighted by compatible-exit success rate and bounded stability bonus; jitter, latency, quality',
                         test_method='2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified')
     return '\n'.join(output) + '\n', dict(counts), metadata
