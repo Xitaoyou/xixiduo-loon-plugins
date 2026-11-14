@@ -2,16 +2,16 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 859,
-  "unreachable": 46,
+  "candidates": 171,
+  "unreachable": 80,
   "endpoint_rejected": 0,
-  "ai_rejected": 762,
+  "ai_rejected": 771,
   "ai_min_pass": 2,
   "filter_policy": "weighted-best30-country4-v3",
   "sort_by": "Current and recent throughput weighted by compatible-exit success rate and bounded stability bonus; jitter, latency, quality",
-  "ai_qualified": 738,
-  "quality_qualified": 416,
-  "quality_rejected": 14,
+  "ai_qualified": 9,
+  "quality_qualified": 4,
+  "quality_rejected": 1,
   "country_best_count": 30,
   "country_limit": 4,
   "country_count": 12,
@@ -66,8 +66,8 @@
   "media_service_passes": {
     "Netflix": 29,
     "Disney+": 3,
-    "YouTube Premium": 21,
-    "Prime Video": 29
+    "YouTube Premium": 20,
+    "Prime Video": 28
   },
   "quality_labels": {
     "机房": 28,
@@ -1844,26 +1844,26 @@
       "stability_weight": 1.25
     },
     {
-      "id": "bb8f907b2801b889ec17a161d3661c036291502a24675c014bf7a66fbc5819af",
-      "name": "海外测｜🇺🇸 美国 40｜141ms · 428.61Mbps",
+      "id": "27ec6b2f73dccc9974472483510f59747530f8f842f6e66fa6231e7755fca3dc",
+      "name": "海外测｜🇺🇸 美国 55｜68ms · 617.77Mbps",
       "country": "US",
       "passed": true,
-      "pass_count": 3,
+      "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 194
+          "latency_ms": 121
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 136
+          "latency_ms": 87
         },
         "Gemini": {
-          "passed": true,
-          "latency_ms": 570
+          "passed": false,
+          "latency_ms": null
         }
       },
-      "latency_ms": 194,
+      "latency_ms": 104,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1880,27 +1880,27 @@
         "services": {
           "Netflix": true,
           "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
+          "YouTube Premium": false,
+          "Prime Video": false
         },
-        "pass_count": 3,
+        "pass_count": 1,
         "all_passed": false
       },
-      "download_mbps": 428.61,
-      "exit_ip": "38.64.138.135",
-      "basic_latency_ms": 141,
+      "download_mbps": 617.77,
+      "exit_ip": "185.95.231.156",
+      "basic_latency_ms": 68,
       "stable": true,
       "success_rate": 1.0,
-      "conservative_mbps": 287.795,
+      "conservative_mbps": 119.285,
       "observation_rounds": 4,
-      "observation_span_hours": 19.13,
-      "selection_score": 447.75312499999995,
+      "observation_span_hours": 23.7,
+      "selection_score": 460.65937499999995,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
       "measurement_environment": "github-ubuntu-x64/US",
       "download_samples_mbps": [
-        433.08,
-        276.13,
-        428.61
+        237.89,
+        617.77,
+        619.19
       ],
       "stability_weight": 1.25
     }
@@ -1923,45 +1923,34 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-14T04:19:37.890955+00:00",
+  "updated_at": "2026-11-14T08:31:19.555686+00:00",
   "nodes": 30,
   "protocols": {
-    "VMess": 12,
+    "VMess": 11,
     "Shadowsocks": 3,
-    "VLESS": 7,
+    "VLESS": 8,
     "Hysteria2": 8
   },
   "published_rows": 37,
-  "cycle": "a1c0ec914b6a55e8c0be",
+  "cycle": "8bbbdb9ccdd05d3f356f",
   "source_version": "ba98707b7ed3f92cbbb74d54476609b1b61405db",
   "source_error": null,
   "pool": {
-    "active": 792,
-    "cooldown": 612,
-    "slow": 264,
+    "active": 801,
+    "cooldown": 646,
+    "slow": 256,
     "restricted": 16,
-    "isolated": 84
+    "isolated": 49
   },
-  "merge": {
-    "reject_unsupported transport": 117,
-    "reject_unsupported options": 5366,
-    "reject_insecure tls": 2131,
-    "restricted": 16,
-    "restricted_unparsed": 17,
-    "duplicates": 7407,
-    "new": 52,
-    "reject_unsupported cipher": 5,
-    "reject_unsupported fingerprint": 1470,
-    "reject_invalid_or_nonportable": 280
-  },
-  "checked": 859,
-  "reachable_checked": 813,
-  "active_candidates": 792,
+  "merge": {},
+  "checked": 171,
+  "reachable_checked": 91,
+  "active_candidates": 801,
   "selection_phase": "weighted",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 1175.18,
+    "direct_mbps": 1474.79,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -1976,5 +1965,5 @@
     "full_bonus_rounds": 3,
     "full_bonus_span_hours": 12
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/43551418214"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/43575605416"
 }
