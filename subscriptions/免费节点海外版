@@ -4,7 +4,7 @@
 海外测｜下载推荐：🇺🇸 美国 26｜91ms · 1063.25Mbps = Hysteria2,155.248.209.237,33333,"bce6c821-200d-421f-bf3d-7159e5246ea0",skip-cert-verify=false,sni="hy2.123266.xyz",udp=true
 海外测｜备选下载：🇳🇱 荷兰 01｜232ms · 463.96Mbps = Hysteria2,89.105.218.106,8443,"ba3aeb91-2ed0-45d3-8dcf-81e5ed45168b",skip-cert-verify=false,sni="speedtestmark.com",udp=true
 海外测｜纯净IP推荐：🇩🇪 德国 11｜253ms · 306.80Mbps = Hysteria2,201.8.71.59,443,"23c82941-70f4-4381-90db-bd28e9a902e9",skip-cert-verify=false,sni="steel7.hadsvpn.com",udp=true
-海外测｜🕒 免费节点刷新 11-15 07:35（北京时间） = Hysteria2,155.248.209.237,33333,"bce6c821-200d-421f-bf3d-7159e5246ea0",skip-cert-verify=false,sni="hy2.123266.xyz",udp=true
+海外测｜🕒 免费节点刷新 11-15 07:53（北京时间） = Hysteria2,155.248.209.237,33333,"bce6c821-200d-421f-bf3d-7159e5246ea0",skip-cert-verify=false,sni="hy2.123266.xyz",udp=true
 海外测｜🇦🇹 奥地利 02｜549ms · 62.07Mbps = VMess,154.47.19.225,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,tls-profile=chrome,udp=true
 海外测｜🇨🇦 加拿大 01｜149ms · 234.83Mbps = VMess,134.195.196.154,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇨🇦 加拿大 08｜216ms · 204.62Mbps = VLESS,66.70.179.198,2053,"dc620cd6-a9d8-4a0f-8f18-006b895db77e",over-tls=true,public-key="k4l6TxwkBbx9DhZAFpByq5rfCWFSgyOex3f_eFe9CWU",short-id="83f8317a948bb769",skip-cert-verify=false,sni="www.cloudflare.com",tls-profile=chrome,transport=tcp,udp=true
