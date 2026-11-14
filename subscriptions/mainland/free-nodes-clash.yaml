@@ -3,24 +3,21 @@ allow-lan: false
 mode: rule
 log-level: warning
 proxies:
-  - {"name":"西西多大陆用免费节点：11-13 17:35（北京时间）","type":"ss","server":"154.36.158.197","port":8388,"udp":true,"cipher":"aes-256-gcm","password":"BeaUf9c0AEWH40Pu"}
-  - {"name":"AI解锁丨🇮🇹 意大利 01｜797ms · 7.02Mbps","type":"ss","server":"202.50.253.81","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"备选AI解锁丨🇮🇹 意大利 04｜831ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"下载推荐：🇮🇹 意大利 01｜797ms · 7.02Mbps","type":"ss","server":"202.50.253.81","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"日常推荐：🇮🇹 意大利 09｜789ms","type":"ss","server":"202.50.253.18","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇪🇸 西班牙 01｜1359ms","type":"vless","server":"9.247.174.134","port":8443,"udp":true,"uuid":"585a421d-d782-4420-912e-dd58ff5966d7","network":"tcp","tls":true,"servername":"play.googleapis.com","skip-cert-verify":false,"reality-opts":{"public-key":"7jPluypHwPilf_Mq7JOY96SwKkbK35WuIlN1HwGQ_0A","short-id":"974f7f8f"},"client-fingerprint":"chrome"}
-  - {"name":"🇮🇹 意大利 01｜797ms · 7.02Mbps","type":"ss","server":"202.50.253.81","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 04｜831ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 09｜789ms","type":"ss","server":"202.50.253.18","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 02｜844ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 08｜854ms","type":"ss","server":"202.50.253.99","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 07｜860ms","type":"ss","server":"202.50.253.27","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 06｜851ms","type":"ss","server":"202.50.253.90","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 03｜903ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 10｜835ms","type":"ss","server":"202.50.253.63","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 05｜1232ms","type":"ss","server":"202.50.253.54","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇯🇵 日本 01｜1118ms","type":"ss","server":"154.36.158.197","port":8388,"udp":true,"cipher":"aes-256-gcm","password":"BeaUf9c0AEWH40Pu"}
+  - {"name":"西西多大陆用免费节点：11-14 17:00（北京时间）","type":"ss","server":"154.36.158.197","port":8388,"udp":true,"cipher":"aes-256-gcm","password":"BeaUf9c0AEWH40Pu"}
+  - {"name":"AI解锁丨🇮🇹 意大利 07｜891ms","type":"ss","server":"202.50.253.27","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"备选AI解锁丨🇮🇹 意大利 08｜897ms","type":"ss","server":"202.50.253.99","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"日常推荐：🇮🇹 意大利 07｜891ms","type":"ss","server":"202.50.253.27","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇫🇮 芬兰 01｜1182ms","type":"vmess","server":"65.108.240.210","port":39018,"udp":true,"uuid":"8ca123a8-720b-47c5-bd0c-637431418b09","alterId":0,"cipher":"auto","network":"tcp","tls":false}
+  - {"name":"🇮🇹 意大利 07｜891ms","type":"ss","server":"202.50.253.27","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 08｜897ms","type":"ss","server":"202.50.253.99","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 06｜908ms","type":"ss","server":"202.50.253.90","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 01｜978ms","type":"ss","server":"202.50.253.81","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 03｜1121ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 05｜1143ms","type":"ss","server":"202.50.253.54","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 10｜1014ms","type":"ss","server":"202.50.253.63","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 09｜1200ms","type":"ss","server":"202.50.253.18","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇯🇵 日本 01｜1196ms","type":"ss","server":"154.36.158.197","port":8388,"udp":true,"cipher":"aes-256-gcm","password":"BeaUf9c0AEWH40Pu"}
 proxy-groups:
-  - {"name":"免费节点大陆版","type":"select","proxies":["DIRECT","西西多大陆用免费节点：11-13 17:35（北京时间）","AI解锁丨🇮🇹 意大利 01｜797ms · 7.02Mbps","备选AI解锁丨🇮🇹 意大利 04｜831ms","下载推荐：🇮🇹 意大利 01｜797ms · 7.02Mbps","日常推荐：🇮🇹 意大利 09｜789ms","🇪🇸 西班牙 01｜1359ms","🇮🇹 意大利 01｜797ms · 7.02Mbps","🇮🇹 意大利 04｜831ms","🇮🇹 意大利 09｜789ms","🇮🇹 意大利 02｜844ms","🇮🇹 意大利 08｜854ms","🇮🇹 意大利 07｜860ms","🇮🇹 意大利 06｜851ms","🇮🇹 意大利 03｜903ms","🇮🇹 意大利 10｜835ms","🇮🇹 意大利 05｜1232ms","🇯🇵 日本 01｜1118ms"]}
+  - {"name":"免费节点大陆版","type":"select","proxies":["DIRECT","西西多大陆用免费节点：11-14 17:00（北京时间）","AI解锁丨🇮🇹 意大利 07｜891ms","备选AI解锁丨🇮🇹 意大利 08｜897ms","日常推荐：🇮🇹 意大利 07｜891ms","🇫🇮 芬兰 01｜1182ms","🇮🇹 意大利 07｜891ms","🇮🇹 意大利 08｜897ms","🇮🇹 意大利 06｜908ms","🇮🇹 意大利 01｜978ms","🇮🇹 意大利 03｜1121ms","🇮🇹 意大利 05｜1143ms","🇮🇹 意大利 10｜1014ms","🇮🇹 意大利 09｜1200ms","🇯🇵 日本 01｜1196ms"]}
 rules:
   - "MATCH,免费节点大陆版"
