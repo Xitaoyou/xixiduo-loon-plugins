@@ -30611,8 +30611,8 @@
       "id": "349030b96ca8a7f914cdec793127afd4f56b7ad74fb2bffb10e3bac83d626a7f",
       "body": "Shadowsocks,51.222.155.113,5601,aes-256-gcm,\"Y6R9pAtvxxzmGC\",udp=true",
       "first_seen": "2026-11-09T13:52:52.654842+00:00",
-      "status": "slow",
-      "high_latency_streak": 2,
+      "status": "active",
+      "high_latency_streak": 0,
       "last_seen": "2026-11-14T11:38:01.497261+00:00",
       "source_version": "248be020a4da2c12ad7b1dec75b05e43180726d6",
       "sources": [
@@ -30628,56 +30628,83 @@
         "country": "CA",
         "exit_ip": "51.222.155.113",
         "status": "alive",
-        "basic_latency_ms": 2474,
+        "basic_latency_ms": 613,
         "ai": {
-          "passed": false,
-          "pass_count": 0,
-          "latency_ms": null,
-          "services": {}
+          "passed": true,
+          "pass_count": 3,
+          "services": {
+            "ChatGPT": {
+              "passed": true,
+              "latency_ms": 739
+            },
+            "Claude": {
+              "passed": true,
+              "latency_ms": 2055
+            },
+            "Gemini": {
+              "passed": true,
+              "latency_ms": 1967
+            }
+          },
+          "latency_ms": 1967
         },
         "quality": {
-          "grade": 1,
-          "risk_score": null,
-          "label": "未知",
-          "source": "not-tested"
+          "grade": 2,
+          "risk_score": 0,
+          "label": "机房",
+          "flags": {
+            "is_vpn": false,
+            "is_tor": false,
+            "is_proxy": false,
+            "is_datacenter": true
+          },
+          "source": "ipquery.io"
         },
         "media": {
-          "all_passed": false,
           "services": {
-            "Netflix": false,
+            "Netflix": true,
             "Disney+": false,
-            "YouTube Premium": false,
-            "Prime Video": false
-          }
+            "YouTube Premium": true,
+            "Prime Video": true
+          },
+          "pass_count": 3,
+          "all_passed": false
         },
-        "download_mbps": null,
-        "tested_at": "2026-11-13T22:44:10.084222+00:00",
+        "download_mbps": 16.37,
+        "tested_at": "2026-11-14T23:52:47.212942+00:00",
         "basic_providers": {
           "cloudflare": {
             "successes": 3,
-            "median_ms": 2734
+            "median_ms": 1876
           },
           "google": {
             "successes": 3,
-            "median_ms": 2474
+            "median_ms": 613
           },
           "apple": {
             "successes": 3,
-            "median_ms": 1848
+            "median_ms": 610
           }
         },
+        "download_samples_mbps": [
+          28.33,
+          16.37,
+          15.39
+        ],
+        "measurement_profile": "steady-v1-3x8MiB-body-time",
+        "measurement_environment": "github-ubuntu-x64/US",
         "stability_weight": 1.0,
-        "observation_cycle": "fa20231e4f91bdcd09ba",
+        "observation_cycle": "eb5c662779ee9bf95fed",
         "success_rate": 1.0,
-        "conservative_mbps": 20.107499999999998,
+        "conservative_mbps": 16.37,
         "stable": false,
-        "observation_rounds": 2,
+        "observation_rounds": 1,
         "observation_span_hours": 0.0,
-        "latency_variation_ms": 235.79999999999995,
-        "selection_score": 10.053749999999999
+        "latency_variation_ms": 233.19999999999993,
+        "selection_score": 16.37
       },
-      "last_checked": "2026-11-13T23:39:16.519547+00:00",
-      "last_queue_test": "2026-11-13T23:39:16.519547+00:00",
+      "last_checked": "2026-11-14T23:53:44.246546+00:00",
+      "last_queue_test": "2026-11-14T23:53:44.246546+00:00",
       "performance_exit": "51.222.155.113",
       "exit_epoch": "2026-11-09T15:40:10.767903+00:00",
       "observations": [
@@ -30780,6 +30807,16 @@
           "profile": null,
           "env": null,
           "speed": null
+        },
+        {
+          "at": "2026-11-14T23:52:47.212942+00:00",
+          "cycle": "eb5c662779ee9bf95fed",
+          "ok": true,
+          "basic": 613,
+          "exit": "51.222.155.113",
+          "profile": "steady-v1-3x8MiB-body-time",
+          "env": "github-ubuntu-x64/US",
+          "speed": 16.37
         }
       ],
       "failure_rounds": 0,
@@ -66610,8 +66647,8 @@
       "id": "11c6e95bbc247940320fd307b5591f5d477ae7675d40d59d0ce2c05e01a1c89a",
       "body": "VMess,132.145.80.230,80,auto,\"5155860e-d07d-46c3-9128-3afbd84626c7\",transport=ws,alterId=0,path=\"/cctv13.m3u8\",host=\"132.145.80.230\",over-tls=false,udp=true",
       "first_seen": "2026-11-09T13:52:52.654842+00:00",
-      "status": "slow",
-      "high_latency_streak": 2,
+      "status": "active",
+      "high_latency_streak": 0,
       "last_seen": "2026-11-14T18:19:54.360385+00:00",
       "source_version": "6c01ee7a5a7eff45b8e29b899d2db0591d5bc306",
       "sources": [
@@ -66627,18 +66664,37 @@
         "country": "KR",
         "exit_ip": "132.145.80.230",
         "status": "alive",
-        "basic_latency_ms": 2442,
+        "basic_latency_ms": 533,
         "ai": {
-          "passed": false,
-          "pass_count": 0,
-          "latency_ms": null,
-          "services": {}
+          "passed": true,
+          "pass_count": 3,
+          "services": {
+            "ChatGPT": {
+              "passed": true,
+              "latency_ms": 673
+            },
+            "Claude": {
+              "passed": true,
+              "latency_ms": 513
+            },
+            "Gemini": {
+              "passed": true,
+              "latency_ms": 1504
+            }
+          },
+          "latency_ms": 673
         },
         "quality": {
-          "grade": 1,
-          "risk_score": null,
-          "label": "未知",
-          "source": "not-tested"
+          "grade": 2,
+          "risk_score": 0,
+          "label": "机房",
+          "flags": {
+            "is_vpn": false,
+            "is_tor": false,
+            "is_proxy": false,
+            "is_datacenter": true
+          },
+          "source": "ipquery.io"
         },
         "media": {
           "all_passed": false,
@@ -66650,33 +66706,37 @@
           }
         },
         "download_mbps": null,
-        "tested_at": "2026-11-13T22:44:06.545521+00:00",
+        "tested_at": "2026-11-14T23:52:45.122581+00:00",
         "basic_providers": {
           "cloudflare": {
-            "successes": 2,
-            "median_ms": 3157.0
+            "successes": 3,
+            "median_ms": 533
           },
           "google": {
             "successes": 3,
-            "median_ms": 1728
+            "median_ms": 601
           },
           "apple": {
-            "successes": 1,
-            "median_ms": null
+            "successes": 3,
+            "median_ms": 518
           }
         },
+        "download_samples_mbps": [],
+        "measurement_error": "rotating_exit",
+        "measurement_profile": "steady-v1-3x8MiB-body-time",
+        "measurement_environment": "github-ubuntu-x64/US",
         "stability_weight": 1.0,
-        "observation_cycle": "fa20231e4f91bdcd09ba",
+        "observation_cycle": "eb5c662779ee9bf95fed",
         "success_rate": 1.0,
-        "conservative_mbps": 25.48,
+        "conservative_mbps": null,
         "stable": false,
-        "observation_rounds": 2,
+        "observation_rounds": 0,
         "observation_span_hours": 0.0,
-        "latency_variation_ms": 55.0,
-        "selection_score": 12.74
+        "latency_variation_ms": 73.0,
+        "selection_score": 0.0
       },
-      "last_checked": "2026-11-13T23:39:16.519547+00:00",
-      "last_queue_test": "2026-11-13T23:39:16.519547+00:00",
+      "last_checked": "2026-11-14T23:53:44.246546+00:00",
+      "last_queue_test": "2026-11-14T23:53:44.246546+00:00",
       "performance_exit": "132.145.80.230",
       "exit_epoch": "2026-11-09T16:05:50.714885+00:00",
       "observations": [
@@ -66819,6 +66879,16 @@
           "profile": null,
           "env": null,
           "speed": null
+        },
+        {
+          "at": "2026-11-14T23:52:45.122581+00:00",
+          "cycle": "eb5c662779ee9bf95fed",
+          "ok": true,
+          "basic": 533,
+          "exit": "132.145.80.230",
+          "profile": "steady-v1-3x8MiB-body-time",
+          "env": "github-ubuntu-x64/US",
+          "speed": null
         }
       ],
       "failure_rounds": 0,
@@ -66828,8 +66898,8 @@
       "id": "fcbc82f9d35801b6c004f40d9f089fc3dfc1f95ef5a5f8babe62407c25f60c75",
       "body": "VMess,132.145.80.230,80,auto,\"5155860e-d07d-46c3-9128-3afbd84626c7\",transport=ws,alterId=0,path=\"/cctv13.m3u8\",host=\"kr02.a0a.xyz\",over-tls=false,udp=true",
       "first_seen": "2026-11-09T13:52:52.654842+00:00",
-      "status": "slow",
-      "high_latency_streak": 2,
+      "status": "active",
+      "high_latency_streak": 0,
       "last_seen": "2026-11-14T18:19:54.360385+00:00",
       "source_version": "6c01ee7a5a7eff45b8e29b899d2db0591d5bc306",
       "sources": [
@@ -66845,18 +66915,37 @@
         "country": "KR",
         "exit_ip": "132.145.80.230",
         "status": "alive",
-        "basic_latency_ms": 1692,
+        "basic_latency_ms": 520,
         "ai": {
-          "passed": false,
-          "pass_count": 0,
-          "latency_ms": null,
-          "services": {}
+          "passed": true,
+          "pass_count": 3,
+          "services": {
+            "ChatGPT": {
+              "passed": true,
+              "latency_ms": 672
+            },
+            "Claude": {
+              "passed": true,
+              "latency_ms": 520
+            },
+            "Gemini": {
+              "passed": true,
+              "latency_ms": 1333
+            }
+          },
+          "latency_ms": 672
         },
         "quality": {
-          "grade": 1,
-          "risk_score": null,
-          "label": "未知",
-          "source": "not-tested"
+          "grade": 2,
+          "risk_score": 0,
+          "label": "机房",
+          "flags": {
+            "is_vpn": false,
+            "is_tor": false,
+            "is_proxy": false,
+            "is_datacenter": true
+          },
+          "source": "ipquery.io"
         },
         "media": {
           "all_passed": false,
@@ -66868,33 +66957,37 @@
           }
         },
         "download_mbps": null,
-        "tested_at": "2026-11-13T22:44:08.342259+00:00",
+        "tested_at": "2026-11-14T23:52:45.135237+00:00",
         "basic_providers": {
           "cloudflare": {
             "successes": 3,
-            "median_ms": 1647
+            "median_ms": 520
           },
           "google": {
-            "successes": 2,
-            "median_ms": 1738.0
+            "successes": 3,
+            "median_ms": 602
           },
           "apple": {
-            "successes": 1,
-            "median_ms": null
+            "successes": 3,
+            "median_ms": 520
           }
         },
+        "download_samples_mbps": [],
+        "measurement_error": "rotating_exit",
+        "measurement_profile": "steady-v1-3x8MiB-body-time",
+        "measurement_environment": "github-ubuntu-x64/US",
         "stability_weight": 1.0,
-        "observation_cycle": "fa20231e4f91bdcd09ba",
+        "observation_cycle": "eb5c662779ee9bf95fed",
         "success_rate": 1.0,
-        "conservative_mbps": 23.52,
+        "conservative_mbps": null,
         "stable": false,
-        "observation_rounds": 2,
+        "observation_rounds": 0,
         "observation_span_hours": 0.0,
-        "latency_variation_ms": 58.09999999999991,
-        "selection_score": 11.76
+        "latency_variation_ms": 71.0,
+        "selection_score": 0.0
       },
-      "last_checked": "2026-11-13T23:39:16.519547+00:00",
-      "last_queue_test": "2026-11-13T23:39:16.519547+00:00",
+      "last_checked": "2026-11-14T23:53:44.246546+00:00",
+      "last_queue_test": "2026-11-14T23:53:44.246546+00:00",
       "performance_exit": "132.145.80.230",
       "exit_epoch": "2026-11-09T16:05:51.421663+00:00",
       "observations": [
@@ -67036,6 +67129,16 @@
           "exit": "132.145.80.230",
           "profile": null,
           "env": null,
+          "speed": null
+        },
+        {
+          "at": "2026-11-14T23:52:45.135237+00:00",
+          "cycle": "eb5c662779ee9bf95fed",
+          "ok": true,
+          "basic": 520,
+          "exit": "132.145.80.230",
+          "profile": "steady-v1-3x8MiB-body-time",
+          "env": "github-ubuntu-x64/US",
           "speed": null
         }
       ],
@@ -210692,8 +210795,8 @@
       "body": "Trojan,66.163.118.244,443,\"0ab6c98dae3b48e8b9c4a776b6c9c19a\",skip-cert-verify=false,sni=\"api.discovergreatjobsandadvanceyourcareer.com\",tls-profile=chrome,transport=tcp,udp=true",
       "first_seen": "2026-11-10T07:32:02.367744+00:00",
       "queued_at": "2026-11-10T07:32:02.367744+00:00",
-      "status": "slow",
-      "high_latency_streak": 2,
+      "status": "active",
+      "high_latency_streak": 0,
       "last_seen": "2026-11-14T22:38:14.466730+00:00",
       "source_version": "01704bcdb8dbf6d6df6fbf2d9941213ff24b9cc8",
       "sources": [
@@ -210703,8 +210806,8 @@
         "ecfg6_ru",
         "ecfg6_zh"
       ],
-      "performance_exit": "66.163.118.115",
-      "exit_epoch": "2026-11-13T22:46:41.388941+00:00",
+      "performance_exit": "66.163.118.166",
+      "exit_epoch": "2026-11-14T23:52:45.247752+00:00",
       "observations": [
         {
           "at": "2026-11-10T07:35:25.272883+00:00",
@@ -210785,26 +210888,55 @@
           "profile": null,
           "env": null,
           "speed": null
+        },
+        {
+          "at": "2026-11-14T23:52:45.247752+00:00",
+          "cycle": "eb5c662779ee9bf95fed",
+          "ok": true,
+          "basic": 698,
+          "exit": "66.163.118.166",
+          "profile": null,
+          "env": null,
+          "speed": null
         }
       ],
       "last_result": {
         "id": "7c05a032103ca38828fb24630a516f5b4370dab0ad502229d7b348895e433835",
         "body": "Trojan,66.163.118.244,443,\"0ab6c98dae3b48e8b9c4a776b6c9c19a\",skip-cert-verify=false,sni=\"api.discovergreatjobsandadvanceyourcareer.com\",tls-profile=chrome,transport=tcp,udp=true",
         "country": "ES",
-        "exit_ip": "66.163.118.115",
+        "exit_ip": "66.163.118.166",
         "status": "alive",
-        "basic_latency_ms": 1510,
+        "basic_latency_ms": 698,
         "ai": {
-          "passed": false,
-          "pass_count": 0,
-          "latency_ms": null,
-          "services": {}
+          "passed": true,
+          "pass_count": 2,
+          "services": {
+            "ChatGPT": {
+              "passed": true,
+              "latency_ms": 466
+            },
+            "Claude": {
+              "passed": true,
+              "latency_ms": 397
+            },
+            "Gemini": {
+              "passed": false,
+              "latency_ms": null
+            }
+          },
+          "latency_ms": 432
         },
         "quality": {
-          "grade": 1,
-          "risk_score": null,
-          "label": "未知",
-          "source": "not-tested"
+          "grade": 2,
+          "risk_score": 0,
+          "label": "机房",
+          "flags": {
+            "is_vpn": false,
+            "is_tor": false,
+            "is_proxy": false,
+            "is_datacenter": true
+          },
+          "source": "ipquery.io"
         },
         "media": {
           "all_passed": false,
@@ -210816,23 +210948,24 @@
           }
         },
         "download_mbps": null,
-        "tested_at": "2026-11-13T22:46:41.388941+00:00",
+        "tested_at": "2026-11-14T23:52:45.247752+00:00",
         "basic_providers": {
           "cloudflare": {
             "successes": 3,
-            "median_ms": 1510
+            "median_ms": 787
           },
           "google": {
             "successes": 3,
-            "median_ms": 1712
+            "median_ms": 698
           },
           "apple": {
             "successes": 3,
-            "median_ms": 677
+            "median_ms": 691
           }
         },
+        "measurement_error": "rotating_exit",
         "stability_weight": 1.0,
-        "observation_cycle": "fa20231e4f91bdcd09ba",
+        "observation_cycle": "eb5c662779ee9bf95fed",
         "success_rate": 0,
         "conservative_mbps": null,
         "stable": false,
@@ -210841,8 +210974,8 @@
         "latency_variation_ms": 999999,
         "selection_score": 0.0
       },
-      "last_checked": "2026-11-13T23:39:16.519547+00:00",
-      "last_queue_test": "2026-11-13T23:39:16.519547+00:00",
+      "last_checked": "2026-11-14T23:53:44.246546+00:00",
+      "last_queue_test": "2026-11-14T23:53:44.246546+00:00",
       "failure_rounds": 0,
       "retry_at": "2026-11-14T23:39:16.519547+00:00"
     },
@@ -256938,7 +257071,7 @@
       "first_seen": "2026-11-12T01:35:39.518665+00:00",
       "queued_at": "2026-11-12T01:35:39.518665+00:00",
       "status": "slow",
-      "high_latency_streak": 2,
+      "high_latency_streak": 3,
       "last_seen": "2026-11-14T11:38:01.497261+00:00",
       "source_version": "248be020a4da2c12ad7b1dec75b05e43180726d6",
       "sources": [
@@ -257010,6 +257143,16 @@
           "profile": null,
           "env": null,
           "speed": null
+        },
+        {
+          "at": "2026-11-14T23:52:02.819511+00:00",
+          "cycle": "eb5c662779ee9bf95fed",
+          "ok": true,
+          "basic": 1105,
+          "exit": "2a12:6fc3:8000::3d9",
+          "profile": null,
+          "env": null,
+          "speed": null
         }
       ],
       "last_result": {
@@ -257018,7 +257161,7 @@
         "country": "GR",
         "exit_ip": "2a12:6fc3:8000::3d9",
         "status": "alive",
-        "basic_latency_ms": 1613,
+        "basic_latency_ms": 1105,
         "ai": {
           "passed": false,
           "pass_count": 0,
@@ -257041,35 +257184,35 @@
           }
         },
         "download_mbps": null,
-        "tested_at": "2026-11-13T22:45:30.303170+00:00",
+        "tested_at": "2026-11-14T23:52:02.819511+00:00",
         "basic_providers": {
           "cloudflare": {
             "successes": 3,
-            "median_ms": 1613
+            "median_ms": 582
           },
           "google": {
             "successes": 3,
-            "median_ms": 2627
+            "median_ms": 1576
           },
           "apple": {
-            "successes": 3,
-            "median_ms": 982
+            "successes": 2,
+            "median_ms": 1105.0
           }
         },
         "stability_weight": 1.0,
-        "observation_cycle": "fa20231e4f91bdcd09ba",
+        "observation_cycle": "eb5c662779ee9bf95fed",
         "success_rate": 1.0,
-        "conservative_mbps": 41.01,
+        "conservative_mbps": null,
         "stable": false,
-        "observation_rounds": 1,
+        "observation_rounds": 0,
         "observation_span_hours": 0.0,
         "latency_variation_ms": 41.85000000000002,
-        "selection_score": 20.505
+        "selection_score": 0.0
       },
-      "last_checked": "2026-11-13T23:39:16.519547+00:00",
-      "last_queue_test": "2026-11-13T23:39:16.519547+00:00",
+      "last_checked": "2026-11-14T23:53:44.246546+00:00",
+      "last_queue_test": "2026-11-14T23:53:44.246546+00:00",
       "failure_rounds": 0,
-      "retry_at": "2026-11-14T23:39:16.519547+00:00"
+      "retry_at": "2026-11-15T23:53:44.246546+00:00"
     },
     "a719d165d47d374792ee7161448eb8ea9083c907568426d3f06034370dd40535": {
       "id": "a719d165d47d374792ee7161448eb8ea9083c907568426d3f06034370dd40535",
@@ -278809,7 +278952,7 @@
       "first_seen": "2026-11-13T00:35:10.998347+00:00",
       "queued_at": "2026-11-13T00:35:10.998347+00:00",
       "status": "slow",
-      "high_latency_streak": 2,
+      "high_latency_streak": 3,
       "last_seen": "2026-11-14T03:24:11.633271+00:00",
       "source_version": "ba98707b7ed3f92cbbb74d54476609b1b61405db",
       "sources": [
@@ -278861,6 +279004,16 @@
           "profile": null,
           "env": null,
           "speed": null
+        },
+        {
+          "at": "2026-11-14T23:52:06.928406+00:00",
+          "cycle": "eb5c662779ee9bf95fed",
+          "ok": true,
+          "basic": 2121,
+          "exit": "79.182.39.144",
+          "profile": null,
+          "env": null,
+          "speed": null
         }
       ],
       "last_result": {
@@ -278869,37 +279022,18 @@
         "country": "NL",
         "exit_ip": "79.182.39.144",
         "status": "alive",
-        "basic_latency_ms": 2747,
+        "basic_latency_ms": 2121,
         "ai": {
-          "passed": true,
-          "pass_count": 2,
-          "services": {
-            "ChatGPT": {
-              "passed": true,
-              "latency_ms": 1059
-            },
-            "Claude": {
-              "passed": true,
-              "latency_ms": 841
-            },
-            "Gemini": {
-              "passed": false,
-              "latency_ms": null
-            }
-          },
-          "latency_ms": 950
+          "passed": false,
+          "pass_count": 0,
+          "latency_ms": null,
+          "services": {}
         },
         "quality": {
-          "grade": 2,
-          "risk_score": 0,
-          "label": "机房",
-          "flags": {
-            "is_vpn": false,
-            "is_tor": false,
-            "is_proxy": false,
-            "is_datacenter": true
-          },
-          "source": "ipquery.io"
+          "grade": 1,
+          "risk_score": null,
+          "label": "未知",
+          "source": "not-tested"
         },
         "media": {
           "all_passed": false,
@@ -278911,35 +279045,35 @@
           }
         },
         "download_mbps": null,
-        "tested_at": "2026-11-13T23:33:46.462641+00:00",
+        "tested_at": "2026-11-14T23:52:06.928406+00:00",
         "basic_providers": {
           "cloudflare": {
             "successes": 3,
-            "median_ms": 1812
+            "median_ms": 2289
           },
           "google": {
-            "successes": 2,
-            "median_ms": 4431.0
+            "successes": 3,
+            "median_ms": 2121
           },
           "apple": {
             "successes": 3,
-            "median_ms": 2747
+            "median_ms": 1966
           }
         },
         "stability_weight": 1.0,
-        "observation_cycle": "fa20231e4f91bdcd09ba",
+        "observation_cycle": "eb5c662779ee9bf95fed",
         "success_rate": 1.0,
-        "conservative_mbps": 13.99,
+        "conservative_mbps": null,
         "stable": false,
-        "observation_rounds": 1,
+        "observation_rounds": 0,
         "observation_span_hours": 0.0,
         "latency_variation_ms": 0.0,
-        "selection_score": 6.995
+        "selection_score": 0.0
       },
-      "last_checked": "2026-11-13T23:39:16.519547+00:00",
-      "last_queue_test": "2026-11-13T23:39:16.519547+00:00",
+      "last_checked": "2026-11-14T23:53:44.246546+00:00",
+      "last_queue_test": "2026-11-14T23:53:44.246546+00:00",
       "failure_rounds": 0,
-      "retry_at": "2026-11-14T23:39:16.519547+00:00"
+      "retry_at": "2026-11-15T23:53:44.246546+00:00"
     },
     "9499ab36d29ef56e8f5ada76019fcb84e21f1aa549099b115149887d76b31f20": {
       "id": "9499ab36d29ef56e8f5ada76019fcb84e21f1aa549099b115149887d76b31f20",
@@ -285472,7 +285606,7 @@
       "body": "VLESS,13.140.253.35,443,\"f1a7e2c8-b140-50d1-8acf-e62090f96599\",host=\"xray-bprkdwje-clever-comet-4.cloady.io\",over-tls=true,path=\"/27dbf143acdd7bca\",skip-cert-verify=false,sni=\"xray-bprkdwje-clever-comet-4.cloady.io\",tls-profile=chrome,transport=ws,udp=true",
       "first_seen": "2026-11-13T16:34:29.434652+00:00",
       "queued_at": "2026-11-13T16:34:29.434652+00:00",
-      "status": "slow",
+      "status": "isolated",
       "high_latency_streak": 2,
       "last_seen": "2026-11-14T11:38:01.497261+00:00",
       "source_version": "248be020a4da2c12ad7b1dec75b05e43180726d6",
@@ -285505,15 +285639,25 @@
           "profile": null,
           "env": null,
           "speed": null
+        },
+        {
+          "at": "2026-11-14T23:52:06.982591+00:00",
+          "cycle": "eb5c662779ee9bf95fed",
+          "ok": false,
+          "basic": null,
+          "exit": "2400:d321:2372:4088::1",
+          "profile": null,
+          "env": null,
+          "speed": null
         }
       ],
       "last_result": {
         "id": "a4915ef42131586a5cf7718bfd577bd8a1d263323dcd89c2961be11c956de3b1",
         "body": "VLESS,13.140.253.35,443,\"f1a7e2c8-b140-50d1-8acf-e62090f96599\",host=\"xray-bprkdwje-clever-comet-4.cloady.io\",over-tls=true,path=\"/27dbf143acdd7bca\",skip-cert-verify=false,sni=\"xray-bprkdwje-clever-comet-4.cloady.io\",tls-profile=chrome,transport=ws,udp=true",
-        "country": "IN",
-        "exit_ip": "2400:d321:2372:4088::1",
-        "status": "alive",
-        "basic_latency_ms": 1312,
+        "country": "ZZ",
+        "exit_ip": "",
+        "status": "dead",
+        "basic_latency_ms": null,
         "ai": {
           "passed": false,
           "pass_count": 0,
@@ -285536,23 +285680,23 @@
           }
         },
         "download_mbps": null,
-        "tested_at": "2026-11-13T22:47:12.838606+00:00",
+        "tested_at": "2026-11-14T23:52:06.982591+00:00",
         "basic_providers": {
           "cloudflare": {
-            "successes": 3,
-            "median_ms": 1494
+            "successes": 0,
+            "median_ms": null
           },
           "google": {
-            "successes": 2,
-            "median_ms": 1312.5
+            "successes": 0,
+            "median_ms": null
           },
           "apple": {
-            "successes": 3,
-            "median_ms": 1236
+            "successes": 0,
+            "median_ms": null
           }
         },
         "stability_weight": 1.0,
-        "observation_cycle": "fa20231e4f91bdcd09ba",
+        "observation_cycle": "eb5c662779ee9bf95fed",
         "success_rate": 0,
         "conservative_mbps": null,
         "stable": false,
@@ -285561,10 +285705,10 @@
         "latency_variation_ms": 999999,
         "selection_score": 0.0
       },
-      "last_checked": "2026-11-13T23:39:16.519547+00:00",
-      "last_queue_test": "2026-11-13T23:39:16.519547+00:00",
-      "failure_rounds": 0,
-      "retry_at": "2026-11-14T23:39:16.519547+00:00"
+      "last_checked": "2026-11-14T23:53:44.246546+00:00",
+      "last_queue_test": "2026-11-14T23:53:44.246546+00:00",
+      "failure_rounds": 1,
+      "retry_at": "2026-11-15T00:23:44.246546+00:00"
     },
     "584f036ae26062d02495912aa3a95da5ec978ee442a8c75344461d01808c147a": {
       "id": "584f036ae26062d02495912aa3a95da5ec978ee442a8c75344461d01808c147a",
@@ -306091,7 +306235,7 @@
   },
   "source_version": "01704bcdb8dbf6d6df6fbf2d9941213ff24b9cc8",
   "last_cycle": "2026-11-14T23:35:13.007732+00:00",
-  "last_cycle_id": "3ff4dc33c364e56af531",
+  "last_cycle_id": "eb5c662779ee9bf95fed",
   "stable_policy_started_at": "2026-11-09T16:52:48.606933+00:00",
   "country_numbers": {
     "US": {
@@ -306301,11 +306445,5 @@
       "2d47598e46aa12fc5e6bb8e7b68a51dcb297fc44cd36b4fb8e2d1da7cc92ebea"
     ]
   },
-  "recommendation_trials": {
-    "ai1": {
-      "id": "814605a9a28065c7815f1298b918c1e7e400eee02334fbd33b4df3b8d10bf12e",
-      "count": 0,
-      "cycle": "5166f4ec0dc02bfd8ab9"
-    }
-  }
+  "recommendation_trials": {}
 }
