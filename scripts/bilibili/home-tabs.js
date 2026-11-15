@@ -8,14 +8,14 @@
   var keys = [
     "customizeHomeTabs", "homeTopTabOrder", "hideTopGameCenter",
     "hideBottomPublish", "hideBottomMall", "hideBottomDynamic",
-    "hideBottomMessages", "hideBottomLive", "hideTopActivity"
+    "hideTopActivity", "hideBottomMessages", "hideBottomLive"
   ];
   var defaults = {
-    customizeHomeTabs: false,
-    homeTopTabOrder: "全部",
+    customizeHomeTabs: true,
+    homeTopTabOrder: "我的,热门",
     hideTopGameCenter: true,
-    hideBottomPublish: true,
-    hideBottomMall: true,
+    hideBottomPublish: false,
+    hideBottomMall: false,
     hideBottomDynamic: false,
     hideBottomMessages: false,
     hideBottomLive: false,
