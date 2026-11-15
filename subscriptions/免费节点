@@ -3,7 +3,7 @@
 海外测｜流媒体推荐：🇫🇮 芬兰 02｜283ms · 240.00Mbps = Hysteria2,94.183.164.119,24433,"549766c3-fa5f-471e-8031-ffc1f8d5064f",skip-cert-verify=false,sni="lakes.blog-forme.ru",udp=true
 海外测｜下载推荐：🇺🇸 美国 20｜13ms · 2396.49Mbps = Shadowsocks,45.86.51.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜备选下载：🇺🇸 美国 21｜14ms · 2185.67Mbps = Shadowsocks,185.230.230.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-海外测｜🕒 免费节点刷新 11-15 20:05（北京时间） = Shadowsocks,185.230.230.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+海外测｜🕒 免费节点刷新 11-16 02:07（北京时间） = Shadowsocks,185.230.230.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜🇨🇦 加拿大 03｜117ms · 409.13Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇨🇦 加拿大 10｜240ms · 385.89Mbps = Shadowsocks,198.100.154.175,8080,chacha20-ietf-poly1305,"3h3hb2gptqz6suyt",udp=true
 海外测｜🇨🇦 加拿大 01｜89ms · 354.54Mbps = VMess,134.195.196.154,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
