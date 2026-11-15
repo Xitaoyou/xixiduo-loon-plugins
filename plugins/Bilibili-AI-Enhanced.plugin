@@ -8,25 +8,25 @@
 #!loon_version=3.5.1(998)
 #!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/Bilibili-AI-Enhanced.plugin
 #!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/bilibili.png
-#!date=2026-11-04
+#!date=2026-11-15
 
 [Argument]
 disableSubtitleProtection=switch, false, true, tag=清理互动弹幕（可能影响AI字幕）, desc=关：保护AI字幕，保留部分互动弹幕；开：清理互动弹幕，可能导致AI字幕加载失败。
 safeVideoAds=switch, true, false, tag=精准清理视频下方广告（推荐）, desc=开：只删明确广告字段，尽量保留AI字幕；关：保留原始视频详情和广告。
 rewriteVideoDetails=switch, false, true, tag=原版视频详情深度清理（有风险）, desc=关：使用精准过滤，保护AI字幕；开：恢复原版深度清理，可能再次导致AI字幕失效。
 optimizePlayer=switch, false, true, tag=播放器增强, desc=开：尝试解锁后台播放、投屏并减少提示，可能影响AI字幕；关：保持原生播放器，字幕更稳定。
-customizeHomeTabs=switch, false, true, tag=精简首页顶部频道, desc=关：保留全部频道；开：只保留下方填写的频道（填“全部”则不变）。
-homeTopTabOrder=input, 全部, tag=保留的顶部频道, desc=填写推荐,热门,影视等，用逗号分隔；填“全部”则不精简。
+customizeHomeTabs=switch, true, false, tag=精简首页顶部频道, desc=关：保留全部频道；开：只保留下方填写的频道（填“全部”则不变）。
+homeTopTabOrder=input, 我的,热门, tag=保留的顶部频道, desc=填写推荐,热门,影视等，用逗号分隔；填“全部”则不精简。
 hideTopGameCenter=switch, true, false, tag=隐藏顶部游戏中心, desc=关：显示游戏中心；开：隐藏游戏中心。
-hideBottomPublish=switch, true, false, tag=隐藏底部发布, desc=关：显示发布按钮；开：隐藏发布按钮。
-hideBottomMall=switch, true, false, tag=隐藏底部会员购, desc=关：显示会员购；开：隐藏会员购。
+hideBottomPublish=switch, false, true, tag=隐藏底部发布, desc=关：显示发布按钮；开：隐藏发布按钮。
+hideBottomMall=switch, false, true, tag=隐藏底部会员购, desc=关：显示会员购；开：隐藏会员购。
 hideBottomDynamic=switch, false, true, tag=隐藏底部动态, desc=关：显示动态；开：隐藏动态，无法从底栏直接进入。
 hideTopActivity=switch, true, false, tag=过滤顶部广告, desc=关：保留顶部活动入口；开：隐藏明确标记为广告的入口。
 displayUpList=select, "show", "hide", "auto", tag=动态页最常访问, desc=show始终显示；hide始终隐藏；auto仅有直播时显示。
 purifyComment=switch, true, false, tag=清理置顶推广评论, desc=关：保留原评论；开：过滤疑似推广的置顶评论，可能误删正常评论。
 optimizeRequest=switch, true, false, tag=修复评论区加载, desc=关：使用原始请求；开：尝试修复评论加载异常，可能增加请求处理。
 sponsorBlock=switch, false, true, tag=原版弹幕空降（点击跳过）, desc=显示空降提示，需手动点击；与自动跳过可独立开关。
-autoSkipExperimental=switch, false, true, tag=自动跳过视频内赞助广告（实验）, desc=使用本地缓存减少同视频重复查询，只有发现赞助片段才额外处理播放响应；与原版弹幕空降独立切换。异常时关闭。
+autoSkipExperimental=switch, true, false, tag=自动跳过视频内赞助广告（实验）, desc=使用本地缓存减少同视频重复查询，只有发现赞助片段才额外处理播放响应；与原版弹幕空降独立切换。异常时关闭。
 logLevel=select, "off", "error", "warn", "info", "debug", tag=排障：日志级别, desc=off关闭；error仅错误；warn警告；info普通信息；debug详细排查。
 
 [Rule]
