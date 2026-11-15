@@ -2,14 +2,14 @@
   "connection_tested": true,
   "test_method": "Verified proxy HTTPS; latency <=1500ms, common-country fallback <=2500ms; AI, media and download measured independently",
   "tested_from": "广州云测 · 100Mbps 服务器",
-  "candidates": 152,
-  "unreachable": 136,
+  "candidates": 150,
+  "unreachable": 130,
   "endpoint_rejected": 0,
   "ai_rejected": 0,
   "ai_min_pass": 0,
   "filter_policy": "mainland-stability-country-retained-v5",
   "sort_by": "country coverage, recent stability-adjusted latency, quality, throughput",
-  "ai_qualified": 10,
+  "ai_qualified": 12,
   "quality_qualified": 10,
   "quality_rejected": 0,
   "country_best_count": 10,
@@ -19,28 +19,39 @@
     "ai": [
       {
         "label": "AI解锁丨",
-        "node": "🇮🇹 意大利 07｜891ms",
-        "id": "82df30249524e2a81ca957edb1aa760e254282b0e2b9c990d6b048e1e81432db"
+        "node": "🇮🇹 意大利 04｜869ms",
+        "id": "92bba3bb2c4379fb8960595bf7f8d2e8b1b680f2fac24a2eb67b047c952fef22"
       },
       {
         "label": "备选AI解锁丨",
-        "node": "🇮🇹 意大利 08｜897ms",
+        "node": "🇮🇹 意大利 08｜929ms",
         "id": "452cede3c31ca26aead6408ee001dbf45c2e990c88c2d67dbac678128b627742"
       }
     ],
     "gpt": [],
     "gemini": [],
     "media": [],
-    "download": [],
+    "download": [
+      {
+        "label": "下载推荐",
+        "node": "🇵🇱 波兰 02｜477ms · 29.20Mbps",
+        "id": "dba72a5941463c888a4ebf00daff9dd109ae546bf471b69861ee95e220790b3c"
+      },
+      {
+        "label": "备选下载",
+        "node": "🇮🇹 意大利 01｜1452ms · 4.00Mbps",
+        "id": "77721698a3311a6c2f588caa94def77bca9c700eccec32113428588fda82a7fb"
+      }
+    ],
     "daily": [
       {
         "label": "日常推荐",
-        "node": "🇮🇹 意大利 07｜891ms",
-        "id": "82df30249524e2a81ca957edb1aa760e254282b0e2b9c990d6b048e1e81432db"
+        "node": "🇵🇱 波兰 02｜477ms · 29.20Mbps",
+        "id": "dba72a5941463c888a4ebf00daff9dd109ae546bf471b69861ee95e220790b3c"
       }
     ]
   },
-  "recommendation_rows": 3,
+  "recommendation_rows": 5,
   "media_required": [
     "Netflix",
     "Disney+",
@@ -49,94 +60,39 @@
   ],
   "media_all_passed": 0,
   "media_service_passes": {
-    "Netflix": 3,
-    "Disney+": 2,
-    "YouTube Premium": 8,
-    "Prime Video": 9
+    "Netflix": 8,
+    "Disney+": 1,
+    "YouTube Premium": 10,
+    "Prime Video": 5
   },
   "quality_labels": {
-    "低风险非机房": 9,
+    "低风险非机房": 7,
+    "风险": 1,
+    "未知": 1,
     "机房": 1
   },
   "node_results": [
     {
-      "id": "44ede3f1bddef218d0ea26dd85b258c1be553b51e236eb50c9fe4d540528b883",
-      "name": "🇫🇮 芬兰 01｜1182ms",
-      "country": "FI",
-      "passed": false,
-      "pass_count": 0,
-      "services": {
-        "ChatGPT": {
-          "passed": false,
-          "latency_ms": null
-        },
-        "Claude": {
-          "passed": false,
-          "latency_ms": null
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": null,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": false,
-          "Disney+": false,
-          "YouTube Premium": false,
-          "Prime Video": true
-        },
-        "pass_count": 1,
-        "all_passed": false
-      },
-      "download_mbps": null,
-      "exit_ip": "2a01:4f9:c012:fc34::1",
-      "basic_latency_ms": 1182,
-      "stable": false,
-      "conservative_mbps": null,
-      "observation_rounds": 1,
-      "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
-      "download_status": "pending_retry",
-      "selection_tier": "latency",
-      "recent_selected_days": 0,
-      "recent_success_rate": 1.0,
-      "stability_bonus": 0.0,
-      "stability_rank_ms": 1182.0
-    },
-    {
-      "id": "82df30249524e2a81ca957edb1aa760e254282b0e2b9c990d6b048e1e81432db",
-      "name": "🇮🇹 意大利 07｜891ms",
+      "id": "92bba3bb2c4379fb8960595bf7f8d2e8b1b680f2fac24a2eb67b047c952fef22",
+      "name": "🇮🇹 意大利 04｜869ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 981
+          "latency_ms": 908
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 874
+          "latency_ms": 866
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 6065
+          "latency_ms": 3704
         }
       },
-      "latency_ms": 981,
+      "latency_ms": 908,
       "quality": {
         "grade": 3,
         "risk_score": 0,
@@ -151,8 +107,8 @@
       },
       "media": {
         "services": {
-          "Netflix": false,
-          "Disney+": true,
+          "Netflix": true,
+          "Disney+": false,
           "YouTube Premium": true,
           "Prime Video": true
         },
@@ -160,40 +116,40 @@
         "all_passed": false
       },
       "download_mbps": null,
-      "exit_ip": "80.174.118.24",
-      "basic_latency_ms": 891,
+      "exit_ip": "80.174.118.69",
+      "basic_latency_ms": 869,
       "stable": true,
       "conservative_mbps": null,
-      "observation_rounds": 4,
+      "observation_rounds": 5,
       "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
       "download_status": "pending_retry",
       "selection_tier": "latency",
       "recent_selected_days": 3,
       "recent_success_rate": 1.0,
       "stability_bonus": 0.15,
-      "stability_rank_ms": 757.35
+      "stability_rank_ms": 738.65
     },
     {
       "id": "452cede3c31ca26aead6408ee001dbf45c2e990c88c2d67dbac678128b627742",
-      "name": "🇮🇹 意大利 08｜897ms",
+      "name": "🇮🇹 意大利 08｜929ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 1731
+          "latency_ms": 972
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 829
+          "latency_ms": 826
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 5990
+          "latency_ms": 5884
         }
       },
-      "latency_ms": 1731,
+      "latency_ms": 972,
       "quality": {
         "grade": 3,
         "risk_score": 0,
@@ -218,33 +174,28 @@
       },
       "download_mbps": null,
       "exit_ip": "80.174.118.96",
-      "basic_latency_ms": 897,
+      "basic_latency_ms": 929,
       "stable": true,
       "conservative_mbps": null,
-      "observation_rounds": 4,
+      "observation_rounds": 5,
       "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
-      "download_samples_mbps": [
-        6.16,
-        2.98,
-        4.42
-      ],
       "download_status": "pending_retry",
       "selection_tier": "latency",
-      "recent_selected_days": 3,
+      "recent_selected_days": 4,
       "recent_success_rate": 1.0,
-      "stability_bonus": 0.15,
-      "stability_rank_ms": 762.45
+      "stability_bonus": 0.2,
+      "stability_rank_ms": 743.2
     },
     {
-      "id": "fd003e79bcc6262d909c0bd0c279f3ca5ad2807aca1f3bf76ae3ee4288624c1e",
-      "name": "🇮🇹 意大利 06｜908ms",
+      "id": "afd62d6cfcef33d1ada6bdd4d6e1f71724c4b7eeb323de84fdc187e8a786109e",
+      "name": "🇮🇹 意大利 09｜887ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 1835
+          "latency_ms": 1354
         },
         "Claude": {
           "passed": true,
@@ -252,10 +203,10 @@
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 7529
+          "latency_ms": 3389
         }
       },
-      "latency_ms": 1835,
+      "latency_ms": 1354,
       "quality": {
         "grade": 3,
         "risk_score": 0,
@@ -271,48 +222,105 @@
       "media": {
         "services": {
           "Netflix": false,
-          "Disney+": false,
+          "Disney+": true,
           "YouTube Premium": true,
-          "Prime Video": true
+          "Prime Video": false
         },
         "pass_count": 2,
         "all_passed": false
       },
       "download_mbps": null,
-      "exit_ip": "80.174.118.87",
-      "basic_latency_ms": 908,
+      "exit_ip": "80.174.118.15",
+      "basic_latency_ms": 887,
       "stable": true,
       "conservative_mbps": null,
       "observation_rounds": 4,
       "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
       "download_status": "pending_retry",
       "selection_tier": "latency",
-      "recent_selected_days": 2,
+      "recent_selected_days": 3,
       "recent_success_rate": 1.0,
-      "stability_bonus": 0.1,
-      "stability_rank_ms": 817.2
+      "stability_bonus": 0.15,
+      "stability_rank_ms": 753.95
     },
     {
-      "id": "77721698a3311a6c2f588caa94def77bca9c700eccec32113428588fda82a7fb",
-      "name": "🇮🇹 意大利 01｜978ms",
+      "id": "fd003e79bcc6262d909c0bd0c279f3ca5ad2807aca1f3bf76ae3ee4288624c1e",
+      "name": "🇮🇹 意大利 06｜888ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 976
+          "latency_ms": 1282
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 949
+          "latency_ms": 861
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 5402
+          "latency_ms": 5388
         }
       },
-      "latency_ms": 976,
+      "latency_ms": 1282,
+      "quality": {
+        "grade": 3,
+        "risk_score": 0,
+        "label": "低风险非机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": false
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": null,
+      "exit_ip": "80.174.118.87",
+      "basic_latency_ms": 888,
+      "stable": true,
+      "conservative_mbps": null,
+      "observation_rounds": 5,
+      "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
+      "download_status": "pending_retry",
+      "selection_tier": "latency",
+      "recent_selected_days": 3,
+      "recent_success_rate": 1.0,
+      "stability_bonus": 0.15,
+      "stability_rank_ms": 754.8
+    },
+    {
+      "id": "f4311e6c7542a9b33688d1f69952a55503a5dc13228561f3e69331d3c66d8e28",
+      "name": "🇮🇹 意大利 02｜892ms",
+      "country": "IT",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 1176
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 951
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 1064,
       "quality": {
         "grade": 3,
         "risk_score": 0,
@@ -336,40 +344,40 @@
         "all_passed": false
       },
       "download_mbps": null,
-      "exit_ip": "80.174.118.78",
-      "basic_latency_ms": 978,
+      "exit_ip": "80.174.118.33",
+      "basic_latency_ms": 892,
       "stable": true,
-      "conservative_mbps": 7.02,
-      "observation_rounds": 4,
+      "conservative_mbps": null,
+      "observation_rounds": 5,
       "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
       "download_status": "pending_retry",
       "selection_tier": "latency",
       "recent_selected_days": 3,
       "recent_success_rate": 1.0,
       "stability_bonus": 0.15,
-      "stability_rank_ms": 831.3
+      "stability_rank_ms": 758.2
     },
     {
       "id": "5d6df59215e7c8bfcd0e2b4515e0ef3cef136d9ffa30bde19e660b0e3354197c",
-      "name": "🇮🇹 意大利 03｜1121ms",
+      "name": "🇮🇹 意大利 03｜1069ms",
       "country": "IT",
       "passed": true,
-      "pass_count": 2,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 1649
+          "latency_ms": 1135
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 843
+          "latency_ms": 814
         },
         "Gemini": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 3598
         }
       },
-      "latency_ms": 1246,
+      "latency_ms": 1135,
       "quality": {
         "grade": 3,
         "risk_score": 0,
@@ -394,96 +402,39 @@
       },
       "download_mbps": null,
       "exit_ip": "80.174.118.42",
-      "basic_latency_ms": 1121,
+      "basic_latency_ms": 1069,
       "stable": true,
       "conservative_mbps": null,
-      "observation_rounds": 4,
+      "observation_rounds": 5,
       "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
       "download_status": "pending_retry",
       "selection_tier": "latency",
-      "recent_selected_days": 3,
+      "recent_selected_days": 4,
       "recent_success_rate": 1.0,
-      "stability_bonus": 0.15,
-      "stability_rank_ms": 952.85
-    },
-    {
-      "id": "1c32524b8ec366bd555d4d602838327327967023c431c205e1407c3adde8c234",
-      "name": "🇮🇹 意大利 05｜1143ms",
-      "country": "IT",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 4036
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 1914
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 2975,
-      "quality": {
-        "grade": 3,
-        "risk_score": 0,
-        "label": "低风险非机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": false
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": false,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": null,
-      "exit_ip": "80.174.118.51",
-      "basic_latency_ms": 1143,
-      "stable": true,
-      "conservative_mbps": null,
-      "observation_rounds": 4,
-      "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
-      "download_status": "pending_retry",
-      "selection_tier": "latency",
-      "recent_selected_days": 3,
-      "recent_success_rate": 1.0,
-      "stability_bonus": 0.15,
-      "stability_rank_ms": 971.55
+      "stability_bonus": 0.2,
+      "stability_rank_ms": 855.2
     },
     {
       "id": "e869656922f3dd6f72ba43f2ca14beb68330375c147717b38d0c9e41722e4a36",
-      "name": "🇮🇹 意大利 10｜1014ms",
+      "name": "🇮🇹 意大利 10｜913ms",
       "country": "IT",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 2010
+          "latency_ms": 1014
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 1852
+          "latency_ms": 3576
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 8867
+          "latency_ms": 4967
         }
       },
-      "latency_ms": 2010,
+      "latency_ms": 3576,
       "quality": {
         "grade": 3,
         "risk_score": 0,
@@ -498,65 +449,8 @@
       },
       "media": {
         "services": {
-          "Netflix": false,
+          "Netflix": true,
           "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": null,
-      "exit_ip": "80.174.118.60",
-      "basic_latency_ms": 1014,
-      "stable": true,
-      "conservative_mbps": null,
-      "observation_rounds": 4,
-      "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
-      "download_status": "pending_retry",
-      "selection_tier": "latency",
-      "recent_selected_days": 1,
-      "recent_success_rate": 0.9,
-      "stability_bonus": 0.045,
-      "stability_rank_ms": 1019.07
-    },
-    {
-      "id": "afd62d6cfcef33d1ada6bdd4d6e1f71724c4b7eeb323de84fdc187e8a786109e",
-      "name": "🇮🇹 意大利 09｜1200ms",
-      "country": "IT",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 1346
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 1504
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 4550
-        }
-      },
-      "latency_ms": 1504,
-      "quality": {
-        "grade": 3,
-        "risk_score": 0,
-        "label": "低风险非机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": false
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": false,
-          "Disney+": true,
           "YouTube Premium": true,
           "Prime Video": true
         },
@@ -564,101 +458,219 @@
         "all_passed": false
       },
       "download_mbps": null,
-      "exit_ip": "80.174.118.15",
-      "basic_latency_ms": 1200,
+      "exit_ip": "80.174.118.60",
+      "basic_latency_ms": 913,
       "stable": true,
       "conservative_mbps": null,
-      "observation_rounds": 3,
+      "observation_rounds": 5,
       "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
       "download_status": "pending_retry",
       "selection_tier": "latency",
       "recent_selected_days": 2,
-      "recent_success_rate": 1.0,
-      "stability_bonus": 0.1,
-      "stability_rank_ms": 1080.0
+      "recent_success_rate": 0.9333,
+      "stability_bonus": 0.0933,
+      "stability_rank_ms": 858.22
     },
     {
-      "id": "97114aefb1df2fb4c813914e21197a1eb599e78c00c5d0b0f29580ce4f3b2771",
-      "name": "🇯🇵 日本 01｜1196ms",
-      "country": "JP",
-      "passed": false,
-      "pass_count": 0,
+      "id": "77721698a3311a6c2f588caa94def77bca9c700eccec32113428588fda82a7fb",
+      "name": "🇮🇹 意大利 01｜1452ms · 4.00Mbps",
+      "country": "IT",
+      "passed": true,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 996
         },
         "Claude": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 880
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 4968
+        }
+      },
+      "latency_ms": 996,
+      "quality": {
+        "grade": 1,
+        "risk_score": null,
+        "label": "未知"
+      },
+      "media": {
+        "services": {
+          "Netflix": false,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": 4.0,
+      "exit_ip": "80.174.118.78",
+      "basic_latency_ms": 1452,
+      "stable": true,
+      "conservative_mbps": 4.0,
+      "observation_rounds": 5,
+      "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
+      "download_samples_mbps": [
+        4.96,
+        4.0,
+        3.05
+      ],
+      "download_status": "measured",
+      "selection_tier": "latency",
+      "recent_selected_days": 4,
+      "recent_success_rate": 1.0,
+      "stability_bonus": 0.2,
+      "stability_rank_ms": 1161.6
+    },
+    {
+      "id": "dba72a5941463c888a4ebf00daff9dd109ae546bf471b69861ee95e220790b3c",
+      "name": "🇵🇱 波兰 02｜477ms · 29.20Mbps",
+      "country": "PL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 542
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 475
         },
         "Gemini": {
           "passed": false,
           "latency_ms": null
         }
       },
-      "latency_ms": null,
+      "latency_ms": 508,
       "quality": {
-        "grade": 3,
-        "risk_score": 0,
-        "label": "低风险非机房",
+        "grade": 0,
+        "risk_score": 85,
+        "label": "风险",
+        "source": "ipquery.io",
         "flags": {
           "is_vpn": false,
           "is_tor": false,
           "is_proxy": false,
-          "is_datacenter": false
+          "is_datacenter": true
+        }
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 29.2,
+      "exit_ip": "179.254.191.252",
+      "basic_latency_ms": 477,
+      "stable": false,
+      "conservative_mbps": 29.2,
+      "observation_rounds": 1,
+      "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
+      "download_samples_mbps": [
+        12.04,
+        31.04,
+        29.2
+      ],
+      "download_status": "measured",
+      "selection_tier": "latency",
+      "recent_selected_days": 0,
+      "recent_success_rate": 1.0,
+      "stability_bonus": 0.0,
+      "stability_rank_ms": 477.0
+    },
+    {
+      "id": "65b47943aad1584a14d2e8ab03b0acf2b5d3f442cc18aad93757089f0bef6022",
+      "name": "🇹🇷 土耳其 01｜1442ms",
+      "country": "TR",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 1522
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 2127
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 1824,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
         },
         "source": "ipquery.io"
       },
       "media": {
         "services": {
-          "Netflix": false,
+          "Netflix": true,
           "Disney+": false,
-          "YouTube Premium": false,
+          "YouTube Premium": true,
           "Prime Video": false
         },
-        "pass_count": 0,
+        "pass_count": 2,
         "all_passed": false
       },
       "download_mbps": null,
-      "exit_ip": "154.36.158.197",
-      "basic_latency_ms": 1196,
+      "exit_ip": "31.210.52.74",
+      "basic_latency_ms": 1442,
       "stable": false,
       "conservative_mbps": null,
-      "observation_rounds": 2,
+      "observation_rounds": 1,
       "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
       "download_status": "pending_retry",
       "selection_tier": "latency",
-      "recent_selected_days": 1,
+      "recent_selected_days": 0,
       "recent_success_rate": 1.0,
-      "stability_bonus": 0.05,
-      "stability_rank_ms": 1136.2
+      "stability_bonus": 0.0,
+      "stability_rank_ms": 1442.0
     }
   ],
   "countries": {
-    "FI": 1,
     "IT": 8,
-    "JP": 1
+    "PL": 1,
+    "TR": 1
   },
   "test_seconds": 0,
   "node_limit": 30,
-  "updated_at": "2026-11-14T09:00:07.016784+00:00",
-  "cycle": "2f039e10e2e44f36b5c067db",
+  "updated_at": "2026-11-15T09:19:24.171949+00:00",
+  "cycle": "e172e5d122f77c7f9b7163dd",
   "nodes": 10,
-  "published_rows": 14,
-  "source_version": "ecee488bf6960491157c155920425f40925a5e6726b37d69204bd6342b31364d",
+  "published_rows": 16,
+  "source_version": "2f6e881898694e2f4be127695721e29445e0bde0710fe274b6ab6251438eeaa3",
   "source_file": "ecfg6 + ecfg6_en (daily rotation) + Pawdroid/sub",
   "source_counts": {
-    "unsupported_or_restricted": 56,
+    "unsupported_or_restricted": 69,
+    "duplicates": 8,
     "ecfg6_unique": 21,
-    "pawdroid_added": 2,
-    "pawdroid_duplicates": 4,
-    "pawdroid_rejected": 3,
-    "published_retested": 12,
-    "ecfg6_en_extra_available": 993,
+    "pawdroid_added": 0,
+    "pawdroid_duplicates": 8,
+    "pawdroid_rejected": 4,
+    "published_retested": 10,
+    "ecfg6_en_extra_available": 864,
     "ecfg6_en_extra_tested": 128
   },
-  "checked": 152,
+  "checked": 150,
   "measurement_profile": "guangzhou-100m-v2-baseline-3x4MiB-total-time",
   "selection_tier": "latency",
   "thresholds": {
@@ -678,49 +690,49 @@
   ],
   "country_fallback_nodes": 0,
   "latency_qualified": 12,
-  "latency_rejected": 4,
+  "latency_rejected": 8,
   "server_baseline": {
     "before": {
-      "median_mbps": 45.32,
+      "median_mbps": 41.8,
       "providers": {
         "aliyun": {
           "samples_mbps": [
-            58.32,
-            56.15,
-            54.47
+            30.78,
+            54.25,
+            54.39
           ],
-          "median_mbps": 56.15
+          "median_mbps": 54.25
         },
         "huawei": {
           "samples_mbps": [
-            32.3,
-            34.49,
-            36.1
+            29.0,
+            32.01,
+            29.35
           ],
-          "median_mbps": 34.49
+          "median_mbps": 29.35
         }
       },
       "sample_bytes": 2097152,
       "method": "direct-domestic-range-3x2MiB-total-time"
     },
     "after": {
-      "median_mbps": 88.84,
+      "median_mbps": 105.64,
       "providers": {
         "aliyun": {
           "samples_mbps": [
-            151.87,
-            184.92,
-            124.77
+            134.92,
+            180.22,
+            204.4
           ],
-          "median_mbps": 151.87
+          "median_mbps": 180.22
         },
         "huawei": {
           "samples_mbps": [
-            25.82,
-            31.14,
-            25.66
+            32.86,
+            31.07,
+            28.91
           ],
-          "median_mbps": 25.82
+          "median_mbps": 31.07
         }
       },
       "sample_bytes": 2097152,
@@ -728,14 +740,14 @@
     }
   },
   "warnings": [],
-  "pending_download": 10,
+  "pending_download": 8,
   "last_attempt": {
-    "at": "2026-11-14T09:00:29.876324+00:00",
+    "at": "2026-11-15T09:19:55.163512+00:00",
     "ok": true
   },
   "traffic": {
-    "rx_upper_bound": 116558687,
-    "tx_upper_bound": 11818608
+    "rx_upper_bound": 223629085,
+    "tx_upper_bound": 16555794
   },
   "selection_phase": "observation"
 }

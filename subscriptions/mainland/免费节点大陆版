@@ -1,14 +1,16 @@
-西西多大陆用免费节点：11-14 17:00（北京时间） = Shadowsocks,154.36.158.197,8388,aes-256-gcm,"BeaUf9c0AEWH40Pu",udp=true
-AI解锁丨🇮🇹 意大利 07｜891ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-备选AI解锁丨🇮🇹 意大利 08｜897ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-日常推荐：🇮🇹 意大利 07｜891ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇫🇮 芬兰 01｜1182ms = VMess,65.108.240.210,39018,auto,"8ca123a8-720b-47c5-bd0c-637431418b09",transport=tcp,alterId=0,over-tls=false,udp=true
-🇮🇹 意大利 07｜891ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 08｜897ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 06｜908ms = Shadowsocks,202.50.253.90,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 01｜978ms = Shadowsocks,202.50.253.81,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 03｜1121ms = Shadowsocks,202.50.253.45,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 05｜1143ms = Shadowsocks,202.50.253.54,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 10｜1014ms = Shadowsocks,202.50.253.63,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 09｜1200ms = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇯🇵 日本 01｜1196ms = Shadowsocks,154.36.158.197,8388,aes-256-gcm,"BeaUf9c0AEWH40Pu",udp=true
+西西多大陆用免费节点：11-15 17:19（北京时间） = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+AI解锁丨🇮🇹 意大利 04｜869ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+备选AI解锁丨🇮🇹 意大利 08｜929ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+下载推荐：🇵🇱 波兰 02｜477ms · 29.20Mbps = Hysteria2,bl1.nexfile.net,4444,"a35c508f-4d5d-4531-842e-6e9d43c762c0",skip-cert-verify=false,sni="bl1.nexfile.net",udp=true
+备选下载：🇮🇹 意大利 01｜1452ms · 4.00Mbps = Shadowsocks,202.50.253.81,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+日常推荐：🇵🇱 波兰 02｜477ms · 29.20Mbps = Hysteria2,bl1.nexfile.net,4444,"a35c508f-4d5d-4531-842e-6e9d43c762c0",skip-cert-verify=false,sni="bl1.nexfile.net",udp=true
+🇮🇹 意大利 04｜869ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 08｜929ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 09｜887ms = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 06｜888ms = Shadowsocks,202.50.253.90,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 02｜892ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 03｜1069ms = Shadowsocks,202.50.253.45,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 10｜913ms = Shadowsocks,202.50.253.63,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 01｜1452ms · 4.00Mbps = Shadowsocks,202.50.253.81,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇵🇱 波兰 02｜477ms · 29.20Mbps = Hysteria2,bl1.nexfile.net,4444,"a35c508f-4d5d-4531-842e-6e9d43c762c0",skip-cert-verify=false,sni="bl1.nexfile.net",udp=true
+🇹🇷 土耳其 01｜1442ms = Trojan,sclass-b1.catcat321.com,20027,"d7563108-615c-4338-a7bd-77f359869a4a",skip-cert-verify=false,sni="hk.catxstar.com",tls-profile=chrome,transport=tcp,udp=true
