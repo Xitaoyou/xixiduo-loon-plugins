@@ -2,16 +2,16 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 856,
-  "unreachable": 52,
+  "candidates": 71,
+  "unreachable": 27,
   "endpoint_rejected": 0,
-  "ai_rejected": 730,
+  "ai_rejected": 755,
   "ai_min_pass": 2,
   "filter_policy": "weighted-best30-country4-v3",
   "sort_by": "Current and recent throughput weighted by compatible-exit success rate and bounded stability bonus; jitter, latency, quality",
-  "ai_qualified": 680,
-  "quality_qualified": 455,
-  "quality_rejected": 8,
+  "ai_qualified": 26,
+  "quality_qualified": 9,
+  "quality_rejected": 2,
   "country_best_count": 30,
   "country_limit": 4,
   "country_count": 12,
@@ -33,11 +33,6 @@
         "label": "流媒体推荐",
         "node": "海外测｜🇫🇮 芬兰 02｜363ms · 307.04Mbps",
         "id": "4984a02d3736a851ac6acda918ee0e804ae8a73948e8520e9d7b5a91b1f36b55"
-      },
-      {
-        "label": "备选流媒体",
-        "node": "海外测｜🇬🇧 英国 03｜418ms · 57.46Mbps",
-        "id": "2a7306dd91daba4dd54288e665bfc11340860b392440dfc9cf3062ba4143d590"
       }
     ],
     "download": [
@@ -60,17 +55,17 @@
       }
     ]
   },
-  "recommendation_rows": 7,
+  "recommendation_rows": 6,
   "media_required": [
     "Netflix",
     "Disney+",
     "YouTube Premium",
     "Prime Video"
   ],
-  "media_all_passed": 2,
+  "media_all_passed": 1,
   "media_service_passes": {
     "Netflix": 27,
-    "Disney+": 7,
+    "Disney+": 6,
     "YouTube Premium": 19,
     "Prime Video": 25
   },
@@ -1117,26 +1112,26 @@
       "stability_weight": 1.25
     },
     {
-      "id": "2a7306dd91daba4dd54288e665bfc11340860b392440dfc9cf3062ba4143d590",
-      "name": "海外测｜🇬🇧 英国 03｜418ms · 57.46Mbps",
+      "id": "7872eee6e70759e4650dbef5643720a0802e851a9421341d929d4f0b8db22f2e",
+      "name": "海外测｜🇬🇧 英国 10｜585ms · 57.01Mbps",
       "country": "GB",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 480
+          "latency_ms": 647
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 400
+          "latency_ms": 576
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 941
+          "latency_ms": 1029
         }
       },
-      "latency_ms": 480,
+      "latency_ms": 647,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1152,28 +1147,28 @@
       "media": {
         "services": {
           "Netflix": true,
-          "Disney+": true,
+          "Disney+": false,
           "YouTube Premium": true,
           "Prime Video": true
         },
-        "pass_count": 4,
-        "all_passed": true
+        "pass_count": 3,
+        "all_passed": false
       },
-      "download_mbps": 57.46,
-      "exit_ip": "142.202.51.22",
-      "basic_latency_ms": 418,
+      "download_mbps": 57.01,
+      "exit_ip": "142.202.51.42",
+      "basic_latency_ms": 585,
       "stable": true,
       "success_rate": 1.0,
-      "conservative_mbps": 71.14,
+      "conservative_mbps": 71.7,
       "observation_rounds": 3,
-      "observation_span_hours": 20.15,
-      "selection_score": 80.375,
+      "observation_span_hours": 22.9,
+      "selection_score": 80.44375000000001,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
       "measurement_environment": "github-ubuntu-x64/US",
       "download_samples_mbps": [
-        56.77,
-        57.46,
-        58.87
+        57.47,
+        55.93,
+        57.01
       ],
       "stability_weight": 1.25
     },
@@ -1928,45 +1923,34 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-16T00:01:43.539113+00:00",
+  "updated_at": "2026-11-16T02:32:26.573784+00:00",
   "nodes": 30,
   "protocols": {
-    "VMess": 7,
-    "Shadowsocks": 10,
+    "VMess": 8,
+    "Shadowsocks": 9,
     "Hysteria2": 9,
     "VLESS": 4
   },
-  "published_rows": 38,
-  "cycle": "9e6534099df158b1b12e",
+  "published_rows": 37,
+  "cycle": "28774c0fd912351808cc",
   "source_version": "ae8310453057f047591c02bffa5f3f7d3bf28878",
   "source_error": null,
   "pool": {
-    "active": 760,
-    "cooldown": 865,
-    "slow": 223,
-    "isolated": 41,
-    "restricted": 24
-  },
-  "merge": {
-    "reject_unsupported cipher": 31,
-    "reject_invalid_or_nonportable": 237,
-    "reject_unsupported options": 4937,
-    "reject_insecure tls": 2062,
-    "duplicates": 6792,
+    "active": 785,
+    "cooldown": 870,
+    "slow": 210,
     "restricted": 24,
-    "restricted_unparsed": 17,
-    "new": 66,
-    "reject_unsupported transport": 180,
-    "reject_unsupported fingerprint": 1675
+    "isolated": 24
   },
-  "checked": 856,
-  "reachable_checked": 804,
-  "active_candidates": 760,
+  "merge": {},
+  "checked": 71,
+  "reachable_checked": 44,
+  "active_candidates": 785,
   "selection_phase": "weighted",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 1009.17,
+    "direct_mbps": 1479.37,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -1981,5 +1965,5 @@
     "full_bonus_rounds": 3,
     "full_bonus_span_hours": 12
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/43772340785"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/43792077457"
 }
