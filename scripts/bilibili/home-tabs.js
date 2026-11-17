@@ -12,7 +12,7 @@
   ];
   var defaults = {
     customizeHomeTabs: true,
-    homeTopTabOrder: "我的,热门",
+    homeTopTabOrder: "推荐,热门",
     hideTopGameCenter: true,
     hideBottomPublish: false,
     hideBottomMall: false,
