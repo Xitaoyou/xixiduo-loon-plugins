@@ -16,7 +16,7 @@ safeVideoAds=switch, true, false, tag=精准清理视频下方广告（推荐）
 rewriteVideoDetails=switch, false, true, tag=原版视频详情深度清理（有风险）, desc=关：使用精准过滤，保护AI字幕；开：恢复原版深度清理，可能再次导致AI字幕失效。
 optimizePlayer=switch, false, true, tag=播放器增强, desc=开：尝试解锁后台播放、投屏并减少提示，可能影响AI字幕；关：保持原生播放器，字幕更稳定。
 customizeHomeTabs=switch, true, false, tag=精简首页顶部频道, desc=关：保留全部频道；开：只保留下方填写的频道（填“全部”则不变）。
-homeTopTabOrder=input, 我的,热门, tag=保留的顶部频道, desc=填写推荐,热门,影视等，用逗号分隔；填“全部”则不精简。
+homeTopTabOrder=input, 推荐,热门, tag=保留的顶部频道, desc=填写推荐,热门,影视等，用逗号分隔；填“全部”则不精简。
 hideTopGameCenter=switch, true, false, tag=隐藏顶部游戏中心, desc=关：显示游戏中心；开：隐藏游戏中心。
 hideBottomPublish=switch, false, true, tag=隐藏底部发布, desc=关：显示发布按钮；开：隐藏发布按钮。
 hideBottomMall=switch, false, true, tag=隐藏底部会员购, desc=关：显示会员购；开：隐藏会员购。
