@@ -5,7 +5,7 @@
 海外测｜下载推荐：🇺🇸 美国 46｜50ms · 1084.73Mbps = Shadowsocks,95.215.201.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜备选下载：🇺🇸 美国 72｜42ms · 840.52Mbps = Shadowsocks,104.238.140.45,11051,chacha20-ietf-poly1305,"JUXsy78dSs6ROkasikmoaL",udp=true
 海外测｜纯净IP推荐：🇸🇪 瑞典 01｜795ms · 40.60Mbps = Hysteria2,95.143.196.97,443,"769f34f0-1500-488f-b414-03bc90666502",skip-cert-verify=false,sni="se.mimowhat.online",udp=true
-海外测｜🕒 免费节点刷新 11-18 23:22（北京时间） = Shadowsocks,95.215.201.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+海外测｜🕒 免费节点刷新 11-19 03:41（北京时间） = Shadowsocks,95.215.201.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜🇨🇦 加拿大 09｜817ms · 86.08Mbps = Shadowsocks,15.235.57.6,8080,chacha20-ietf-poly1305,"kxhnt5jtykd328cg",udp=true
 海外测｜🇨🇦 加拿大 01｜267ms · 129.96Mbps = VMess,134.195.196.154,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇨🇦 加拿大 03｜336ms · 115.63Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
