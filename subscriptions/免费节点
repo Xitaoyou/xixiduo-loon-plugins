@@ -1,9 +1,10 @@
-海外测｜AI推荐：🇺🇸 美国 68｜60ms · 614.76Mbps = VLESS,15.204.97.216,23576,"48ff2b70-e180-582f-8866-d9a2edeed5f5",flow=xtls-rprx-vision,over-tls=true,public-key="1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s",short-id="01",skip-cert-verify=false,sni="fuck.rkn",tls-profile=chrome,transport=tcp,udp=true
+海外测｜AI推荐：🇺🇸 美国 69｜35ms · 1004.94Mbps = Shadowsocks,37.19.198.236,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜备选AI：🇳🇱 荷兰 09｜315ms · 306.91Mbps = Hysteria2,50.7.38.243,443,"d4ca9415f0eac7897472e1e5b86d2e96",skip-cert-verify=false,sni="promo.betust.net",udp=true
 海外测｜下载推荐：🇺🇸 美国 67｜51ms · 1239.98Mbps = Trojan,216.106.186.46,443,"0ab6c98dae3b48e8b9c4a776b6c9c19a",skip-cert-verify=false,sni="cdn.findlocaljobnetworkandbuildcommunityconnections.com",tls-profile=chrome,transport=tcp,udp=true
-海外测｜备选下载：🇺🇸 美国 57｜46ms · 1324.17Mbps = VMess,84.17.41.2,18000,none,"f8c8dc3d-0d37-46b0-8b34-a7232882fcfe",transport=tcp,alterId=0,over-tls=false,udp=true
+海外测｜备选下载：🇺🇸 美国 69｜35ms · 1004.94Mbps = Shadowsocks,37.19.198.236,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜纯净IP推荐：🇸🇪 瑞典 01｜475ms · 113.94Mbps = Hysteria2,95.143.196.97,443,"769f34f0-1500-488f-b414-03bc90666502",skip-cert-verify=false,sni="se.mimowhat.online",udp=true
-海外测｜🕒 免费节点刷新 11-18 13:41（北京时间） = VLESS,15.204.97.216,23576,"48ff2b70-e180-582f-8866-d9a2edeed5f5",flow=xtls-rprx-vision,over-tls=true,public-key="1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s",short-id="01",skip-cert-verify=false,sni="fuck.rkn",tls-profile=chrome,transport=tcp,udp=true
+海外测｜🕒 免费节点刷新 11-18 19:40（北京时间） = Shadowsocks,37.19.198.236,443,aes-128-gcm,"shadowsocks",udp=true
+海外测｜🇨🇦 加拿大 10｜86ms · 424.74Mbps = Shadowsocks,198.100.154.175,8080,chacha20-ietf-poly1305,"3h3hb2gptqz6suyt",udp=true
 海外测｜🇨🇦 加拿大 02｜322ms · 124.23Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,tls-profile=chrome,udp=true
 海外测｜🇨🇦 加拿大 05｜255ms · 115.84Mbps = Shadowsocks,158.51.121.221,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜🇨🇦 加拿大 01｜259ms · 138.41Mbps = VMess,134.195.196.154,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
@@ -26,11 +27,10 @@
 海外测｜🇳🇱 荷兰 09｜315ms · 306.91Mbps = Hysteria2,50.7.38.243,443,"d4ca9415f0eac7897472e1e5b86d2e96",skip-cert-verify=false,sni="promo.betust.net",udp=true
 海外测｜🇳🇱 荷兰 15｜286ms · 307.16Mbps = Hysteria2,212.34.137.105,443,"549766c3-fa5f-471e-8031-ffc1f8d5064f",skip-cert-verify=false,sni="shorts.blog-forme.ru",udp=true
 海外测｜🇳🇱 荷兰 11｜309ms · 128.81Mbps = Hysteria2,94.183.164.119,24403,"549766c3-fa5f-471e-8031-ffc1f8d5064f",skip-cert-verify=false,sni="docs.blog-forme.ru",udp=true
-海外测｜🇳🇱 荷兰 06｜576ms · 57.07Mbps = VMess,209.38.42.238,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
+海外测｜🇳🇱 荷兰 16｜319ms · 74.15Mbps = Shadowsocks,193.29.139.168,8080,chacha20-ietf-poly1305,"QCXDxuDlTTMD7jtgHUjIoj",udp=true
 海外测｜🇸🇪 瑞典 01｜475ms · 113.94Mbps = Hysteria2,95.143.196.97,443,"769f34f0-1500-488f-b414-03bc90666502",skip-cert-verify=false,sni="se.mimowhat.online",udp=true
-海外测｜🇸🇪 瑞典 02｜670ms · 48.23Mbps = VMess,138.199.55.230,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇸🇬 新加坡 05｜513ms · 46.32Mbps = VMess,149.88.23.202,18000,auto,"f8c8dc3d-0d37-46b0-8b34-a7232882fcfe",transport=tcp,alterId=0,over-tls=false,udp=true
 海外测｜🇺🇸 美国 67｜51ms · 1239.98Mbps = Trojan,216.106.186.46,443,"0ab6c98dae3b48e8b9c4a776b6c9c19a",skip-cert-verify=false,sni="cdn.findlocaljobnetworkandbuildcommunityconnections.com",tls-profile=chrome,transport=tcp,udp=true
-海外测｜🇺🇸 美国 57｜46ms · 1324.17Mbps = VMess,84.17.41.2,18000,none,"f8c8dc3d-0d37-46b0-8b34-a7232882fcfe",transport=tcp,alterId=0,over-tls=false,udp=true
-海外测｜🇺🇸 美国 68｜60ms · 614.76Mbps = VLESS,15.204.97.216,23576,"48ff2b70-e180-582f-8866-d9a2edeed5f5",flow=xtls-rprx-vision,over-tls=true,public-key="1y5h2FGWKXTJ9xLPCqPo6Mw7RxoZzh6fGkEQKNxpZ3s",short-id="01",skip-cert-verify=false,sni="fuck.rkn",tls-profile=chrome,transport=tcp,udp=true
-海外测｜🇺🇸 美国 55｜276ms · 116.31Mbps = VLESS,185.95.231.156,443,"1f8cf47a-b66a-4916-979f-26edfcf44eea",flow=xtls-rprx-vision,over-tls=true,public-key="8eXftARun6KH38UZhuqIfPR1VF2DLS9RMBZEnF5k6To",short-id="a3a578ab",skip-cert-verify=false,sni="www.apple.com",tls-profile=chrome,transport=tcp,udp=true
+海外测｜🇺🇸 美国 69｜35ms · 1004.94Mbps = Shadowsocks,37.19.198.236,443,aes-128-gcm,"shadowsocks",udp=true
+海外测｜🇺🇸 美国 70｜35ms · 1002.31Mbps = Shadowsocks,37.19.198.160,443,aes-128-gcm,"shadowsocks",udp=true
+海外测｜🇺🇸 美国 71｜36ms · 989.37Mbps = Shadowsocks,37.19.198.243,443,aes-128-gcm,"shadowsocks",udp=true
