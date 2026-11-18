@@ -2,16 +2,16 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 834,
-  "unreachable": 40,
+  "candidates": 235,
+  "unreachable": 95,
   "endpoint_rejected": 0,
-  "ai_rejected": 734,
+  "ai_rejected": 770,
   "ai_min_pass": 2,
   "filter_policy": "weighted-best30-country4-v3",
   "sort_by": "Current and recent throughput weighted by compatible-exit success rate and bounded stability bonus; jitter, latency, quality",
-  "ai_qualified": 659,
-  "quality_qualified": 431,
-  "quality_rejected": 11,
+  "ai_qualified": 45,
+  "quality_qualified": 7,
+  "quality_rejected": 2,
   "country_best_count": 30,
   "country_limit": 4,
   "country_count": 11,
@@ -60,12 +60,12 @@
   "media_service_passes": {
     "Netflix": 27,
     "Disney+": 3,
-    "YouTube Premium": 15,
+    "YouTube Premium": 16,
     "Prime Video": 27
   },
   "quality_labels": {
-    "机房": 29,
-    "低风险非机房": 1
+    "机房": 28,
+    "低风险非机房": 2
   },
   "node_results": [
     {
@@ -1228,35 +1228,35 @@
       "stability_weight": 1.25
     },
     {
-      "id": "5deb216582e3611e22bbabb74552c52e0e35ad464f30caa94b5d7d611a093018",
-      "name": "海外测｜🇯🇵 日本 08｜652ms · 48.85Mbps",
+      "id": "e525126bed02ce7c0bc49d5f9c51292997984d170a0cea67b81150cdaf9de99f",
+      "name": "海外测｜🇯🇵 日本 10｜554ms · 51.18Mbps",
       "country": "JP",
       "passed": true,
-      "pass_count": 2,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 731
+          "latency_ms": 630
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 654
+          "latency_ms": 561
         },
         "Gemini": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 1109
         }
       },
-      "latency_ms": 692,
+      "latency_ms": 630,
       "quality": {
-        "grade": 2,
+        "grade": 3,
         "risk_score": 0,
-        "label": "机房",
+        "label": "低风险非机房",
         "flags": {
           "is_vpn": false,
           "is_tor": false,
           "is_proxy": false,
-          "is_datacenter": true
+          "is_datacenter": false
         },
         "source": "ipquery.io"
       },
@@ -1264,27 +1264,27 @@
         "services": {
           "Netflix": true,
           "Disney+": false,
-          "YouTube Premium": false,
+          "YouTube Premium": true,
           "Prime Video": true
         },
-        "pass_count": 2,
+        "pass_count": 3,
         "all_passed": false
       },
-      "download_mbps": 48.85,
-      "exit_ip": "158.101.151.157",
-      "basic_latency_ms": 652,
+      "download_mbps": 51.18,
+      "exit_ip": "103.75.118.228",
+      "basic_latency_ms": 554,
       "stable": true,
       "success_rate": 1.0,
-      "conservative_mbps": 45.485,
+      "conservative_mbps": 47.435,
       "observation_rounds": 3,
-      "observation_span_hours": 18.0,
-      "selection_score": 58.95937500000001,
+      "observation_span_hours": 23.85,
+      "selection_score": 61.634375000000006,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
       "measurement_environment": "github-ubuntu-x64/US",
       "download_samples_mbps": [
-        49.01,
-        48.8,
-        48.85
+        49.49,
+        51.18,
+        56.99
       ],
       "stability_weight": 1.25
     },
@@ -1916,7 +1916,7 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-17T23:54:33.350696+00:00",
+  "updated_at": "2026-11-18T03:15:58.852656+00:00",
   "nodes": 30,
   "protocols": {
     "Shadowsocks": 8,
@@ -1925,36 +1925,26 @@
     "VLESS": 4
   },
   "published_rows": 36,
-  "cycle": "0b7ec3179c9ffd543746",
+  "cycle": "479969137e43a279cb0d",
   "source_version": "6f1dc0d392b28221be535716243feeb68a888c71",
   "source_error": null,
   "pool": {
-    "cooldown": 891,
-    "active": 764,
-    "isolated": 114,
-    "slow": 309,
-    "restricted": 24
+    "cooldown": 906,
+    "active": 800,
+    "slow": 288,
+    "restricted": 24,
+    "pending": 41,
+    "isolated": 43
   },
-  "merge": {
-    "reject_unsupported options": 4414,
-    "reject_unsupported transport": 91,
-    "reject_insecure tls": 1416,
-    "restricted": 16,
-    "restricted_unparsed": 17,
-    "reject_unsupported cipher": 45,
-    "duplicates": 5867,
-    "new": 52,
-    "reject_invalid_or_nonportable": 235,
-    "reject_unsupported fingerprint": 1520
-  },
-  "checked": 834,
-  "reachable_checked": 794,
-  "active_candidates": 764,
+  "merge": {},
+  "checked": 235,
+  "reachable_checked": 140,
+  "active_candidates": 800,
   "selection_phase": "weighted",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 2350.9,
+    "direct_mbps": 1037.87,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -1969,5 +1959,5 @@
     "full_bonus_rounds": 3,
     "full_bonus_span_hours": 12
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/44195429235"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/44228075275"
 }
