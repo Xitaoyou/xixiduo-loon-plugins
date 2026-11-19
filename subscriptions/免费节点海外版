@@ -4,7 +4,7 @@
 海外测｜备选流媒体：🇸🇬 新加坡 04｜912ms · 35.62Mbps = VMess,15.235.144.92,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜下载推荐：🇺🇸 美国 20｜37ms · 1271.99Mbps = Shadowsocks,45.86.51.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜备选下载：🇺🇸 美国 21｜31ms · 1206.69Mbps = Shadowsocks,185.230.230.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-海外测｜🕒 免费节点刷新 11-19 22:33（北京时间） = Hysteria2,promo.betust.net,443,"d4ca9415f0eac7897472e1e5b86d2e96",skip-cert-verify=false,sni="promo.betust.net",udp=true
+海外测｜🕒 免费节点刷新 11-20 02:47（北京时间） = Hysteria2,promo.betust.net,443,"d4ca9415f0eac7897472e1e5b86d2e96",skip-cert-verify=false,sni="promo.betust.net",udp=true
 海外测｜🇨🇦 加拿大 09｜378ms · 364.78Mbps = Shadowsocks,15.235.57.6,8080,chacha20-ietf-poly1305,"kxhnt5jtykd328cg",udp=true
 海外测｜🇨🇦 加拿大 15｜105ms · 346.51Mbps = Shadowsocks,192.99.151.230,8388,aes-256-gcm,"itzvpn@321",udp=true
 海外测｜🇨🇦 加拿大 02｜154ms · 325.18Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,tls-profile=chrome,udp=true
