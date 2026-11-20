@@ -3,15 +3,15 @@
 海外测｜流媒体推荐：🇸🇬 新加坡 04｜658ms · 49.03Mbps = VMess,15.235.144.92,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜下载推荐：🇺🇸 美国 20｜189ms · 123.18Mbps = Shadowsocks,45.86.51.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜备选下载：🇺🇸 美国 21｜190ms · 123.55Mbps = Shadowsocks,185.230.230.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-海外测｜🕒 免费节点刷新 11-20 07:27（北京时间） = Shadowsocks,185.230.230.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+海外测｜🕒 免费节点刷新 11-20 09:04（北京时间） = Shadowsocks,185.230.230.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜🇨🇦 加拿大 02｜314ms · 123.33Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,tls-profile=chrome,udp=true
 海外测｜🇨🇦 加拿大 10｜229ms · 105.76Mbps = Shadowsocks,198.100.154.175,8080,chacha20-ietf-poly1305,"3h3hb2gptqz6suyt",udp=true
 海外测｜🇨🇦 加拿大 15｜294ms · 101.63Mbps = Shadowsocks,192.99.151.230,8388,aes-256-gcm,"itzvpn@321",udp=true
 海外测｜🇨🇦 加拿大 05｜251ms · 114.88Mbps = Shadowsocks,158.51.121.221,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+海外测｜🇩🇪 德国 06｜578ms · 51.69Mbps = VMess,185.177.229.95,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇩🇪 德国 10｜601ms · 53.10Mbps = VMess,193.108.117.61,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,tls-profile=chrome,udp=true
 海外测｜🇩🇪 德国 20｜452ms · 51.14Mbps = Shadowsocks,193.108.117.84,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜🇩🇪 德国 12｜449ms · 50.88Mbps = Shadowsocks,193.108.119.3,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-海外测｜🇩🇪 德国 13｜453ms · 50.53Mbps = Shadowsocks,23.157.88.43,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜🇫🇮 芬兰 02｜378ms · 300.64Mbps = Hysteria2,94.183.164.119,24433,"549766c3-fa5f-471e-8031-ffc1f8d5064f",skip-cert-verify=false,sni="lakes.blog-forme.ru",udp=true
 海外测｜🇫🇷 法国 11｜621ms · 55.04Mbps = VMess,91.134.35.72,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇫🇷 法国 01｜627ms · 54.60Mbps = VMess,162.19.82.57,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true

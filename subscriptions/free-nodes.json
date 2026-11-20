@@ -2,16 +2,16 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 1004,
-  "unreachable": 209,
+  "candidates": 110,
+  "unreachable": 61,
   "endpoint_rejected": 0,
-  "ai_rejected": 701,
+  "ai_rejected": 739,
   "ai_min_pass": 2,
   "filter_policy": "weighted-best30-country4-v3",
   "sort_by": "Current and recent throughput weighted by compatible-exit success rate and bounded stability bonus; jitter, latency, quality",
-  "ai_qualified": 576,
-  "quality_qualified": 385,
-  "quality_rejected": 21,
+  "ai_qualified": 24,
+  "quality_qualified": 10,
+  "quality_rejected": 2,
   "country_best_count": 30,
   "country_limit": 4,
   "country_count": 10,
@@ -312,6 +312,67 @@
       "stability_weight": 1.25
     },
     {
+      "id": "de76768612e4443644c589564acb69d3bb70524bf45956f9bd195c17ea33898c",
+      "name": "海外测｜🇩🇪 德国 06｜578ms · 51.69Mbps",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 646
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 575
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 1052
+        }
+      },
+      "latency_ms": 646,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": 51.69,
+      "exit_ip": "185.177.229.95",
+      "basic_latency_ms": 578,
+      "stable": true,
+      "success_rate": 1.0,
+      "conservative_mbps": 69.625,
+      "observation_rounds": 3,
+      "observation_span_hours": 20.88,
+      "selection_score": 75.821875,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/US",
+      "download_samples_mbps": [
+        52.3,
+        51.69,
+        51.38
+      ],
+      "stability_weight": 1.25
+    },
+    {
       "id": "b2072061b06af69ae97746d127e6ec2fe67c9e3c5cd275c3ef971c17a2147180",
       "name": "海外测｜🇩🇪 德国 10｜601ms · 53.10Mbps",
       "country": "DE",
@@ -491,67 +552,6 @@
         50.88,
         50.78,
         51.3
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "3aca8786a8857db654119989702c5de252bf98ac9181e5c6b7aa6f2fbe786c5d",
-      "name": "海外测｜🇩🇪 德国 13｜453ms · 50.53Mbps",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 522
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 451
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1018
-        }
-      },
-      "latency_ms": 522,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 50.53,
-      "exit_ip": "23.157.88.43",
-      "basic_latency_ms": 453,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 66.61500000000001,
-      "observation_rounds": 3,
-      "observation_span_hours": 18.68,
-      "selection_score": 73.215625,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        50.79,
-        50.53,
-        49.67
       ],
       "stability_weight": 1.25
     },
@@ -1914,45 +1914,34 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-19T23:27:42.690633+00:00",
+  "updated_at": "2026-11-20T01:04:45.628643+00:00",
   "nodes": 30,
   "protocols": {
-    "VMess": 9,
-    "Shadowsocks": 15,
+    "VMess": 10,
+    "Shadowsocks": 14,
     "Hysteria2": 4,
     "VLESS": 2
   },
   "published_rows": 36,
-  "cycle": "8dcbda5882a24e2dbfac",
+  "cycle": "844878d946ba151a4ec9",
   "source_version": "17ef6ca547135255dababe7cc550c96cba168d5f",
   "source_error": null,
   "pool": {
     "cooldown": 1048,
-    "active": 731,
-    "isolated": 94,
-    "slow": 329,
+    "active": 769,
+    "slow": 312,
+    "isolated": 73,
     "restricted": 40
   },
-  "merge": {
-    "reject_unsupported cipher": 61,
-    "reject_unsupported transport": 82,
-    "reject_unsupported options": 3956,
-    "duplicates": 5656,
-    "reject_insecure tls": 1347,
-    "restricted": 24,
-    "restricted_unparsed": 5,
-    "new": 27,
-    "reject_invalid_or_nonportable": 215,
-    "reject_unsupported fingerprint": 1395
-  },
-  "checked": 1004,
-  "reachable_checked": 795,
-  "active_candidates": 731,
+  "merge": {},
+  "checked": 110,
+  "reachable_checked": 49,
+  "active_candidates": 769,
   "selection_phase": "weighted",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 1516.89,
+    "direct_mbps": 1358.7,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -1967,5 +1956,5 @@
     "full_bonus_rounds": 3,
     "full_bonus_span_hours": 12
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/44627464894"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/44649857160"
 }
