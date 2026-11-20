@@ -3,18 +3,19 @@ allow-lan: false
 mode: rule
 log-level: warning
 proxies:
-  - {"name":"西西多大陆用免费节点：11-19 18:21（北京时间）","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"GPT 解锁|🇮🇹 意大利 04｜905ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"日常推荐：🇮🇹 意大利 04｜905ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 04｜905ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 02｜920ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 07｜1000ms","type":"ss","server":"202.50.253.27","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 01｜1067ms","type":"ss","server":"202.50.253.81","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 05｜1103ms","type":"ss","server":"202.50.253.54","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 06｜1215ms","type":"ss","server":"202.50.253.90","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇮🇹 意大利 08｜1368ms","type":"ss","server":"202.50.253.99","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
-  - {"name":"🇵🇱 波兰 03｜1089ms","type":"vless","server":"80.47.10.106","port":443,"udp":true,"uuid":"a30903dc-1bf0-4be5-8b1b-603a3a56211c","network":"tcp","tls":true,"servername":"pl8.galioncc.com","skip-cert-verify":false,"reality-opts":{"public-key":"drl7nndYdfzZY1aQ0eUAWmNV0nsHig2uDnu9siy9biQ","short-id":"a7c92e4b10d6f835"},"client-fingerprint":"chrome"}
+  - {"name":"西西多大陆用免费节点：11-20 18:08（北京时间）","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"AI解锁丨🇮🇹 意大利 03｜1382ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"日常推荐：🇮🇹 意大利 04｜828ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 04｜828ms","type":"ss","server":"202.50.253.72","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 07｜888ms","type":"ss","server":"202.50.253.27","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 08｜910ms","type":"ss","server":"202.50.253.99","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 10｜914ms","type":"ss","server":"202.50.253.63","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 02｜953ms","type":"ss","server":"202.50.253.36","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 06｜1024ms","type":"ss","server":"202.50.253.90","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 09｜874ms","type":"ss","server":"202.50.253.18","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 05｜994ms","type":"ss","server":"202.50.253.54","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
+  - {"name":"🇮🇹 意大利 03｜1382ms","type":"ss","server":"202.50.253.45","port":19999,"udp":true,"cipher":"aes-256-gcm","password":"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4="}
 proxy-groups:
-  - {"name":"免费节点大陆版","type":"select","proxies":["DIRECT","西西多大陆用免费节点：11-19 18:21（北京时间）","GPT 解锁|🇮🇹 意大利 04｜905ms","日常推荐：🇮🇹 意大利 04｜905ms","🇮🇹 意大利 04｜905ms","🇮🇹 意大利 02｜920ms","🇮🇹 意大利 07｜1000ms","🇮🇹 意大利 01｜1067ms","🇮🇹 意大利 05｜1103ms","🇮🇹 意大利 06｜1215ms","🇮🇹 意大利 08｜1368ms","🇵🇱 波兰 03｜1089ms"]}
+  - {"name":"免费节点大陆版","type":"select","proxies":["DIRECT","西西多大陆用免费节点：11-20 18:08（北京时间）","AI解锁丨🇮🇹 意大利 03｜1382ms","日常推荐：🇮🇹 意大利 04｜828ms","🇮🇹 意大利 04｜828ms","🇮🇹 意大利 07｜888ms","🇮🇹 意大利 08｜910ms","🇮🇹 意大利 10｜914ms","🇮🇹 意大利 02｜953ms","🇮🇹 意大利 06｜1024ms","🇮🇹 意大利 09｜874ms","🇮🇹 意大利 05｜994ms","🇮🇹 意大利 03｜1382ms"]}
 rules:
   - "MATCH,免费节点大陆版"
