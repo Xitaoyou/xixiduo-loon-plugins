@@ -2,7 +2,7 @@
 海外测｜备选AI：🇨🇦 加拿大 15｜87ms · 375.47Mbps = Shadowsocks,192.99.151.230,8388,aes-256-gcm,"itzvpn@321",udp=true
 海外测｜下载推荐：🇺🇸 美国 75｜62ms · 1815.62Mbps = Shadowsocks,40.160.86.43,8388,aes-256-gcm,"itzvpn@321",udp=true
 海外测｜备选下载：🇺🇸 美国 76｜90ms · 1387.52Mbps = Shadowsocks,135.148.42.13,8388,aes-256-gcm,"itzvpn@321",udp=true
-海外测｜🕒 免费节点刷新 11-20 12:30（北京时间） = VLESS,169.40.42.90,443,"d65cc14c-f53f-4fe2-b262-97856601319c",flow=xtls-rprx-vision,over-tls=true,public-key="e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg",short-id="c39cc7310a",skip-cert-verify=false,sni="yahoo.com",tls-profile=chrome,transport=tcp,udp=true
+海外测｜🕒 免费节点刷新 11-20 16:34（北京时间） = VLESS,169.40.42.90,443,"d65cc14c-f53f-4fe2-b262-97856601319c",flow=xtls-rprx-vision,over-tls=true,public-key="e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg",short-id="c39cc7310a",skip-cert-verify=false,sni="yahoo.com",tls-profile=chrome,transport=tcp,udp=true
 海外测｜🇨🇦 加拿大 03｜119ms · 394.87Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇨🇦 加拿大 15｜87ms · 375.47Mbps = Shadowsocks,192.99.151.230,8388,aes-256-gcm,"itzvpn@321",udp=true
 海外测｜🇨🇦 加拿大 13｜73ms · 341.53Mbps = Shadowsocks,54.39.96.233,8080,chacha20-ietf-poly1305,"2cvhpvdg4x7mvbps",udp=true
