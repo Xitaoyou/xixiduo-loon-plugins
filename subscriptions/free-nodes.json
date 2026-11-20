@@ -2,16 +2,16 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 889,
-  "unreachable": 143,
+  "candidates": 156,
+  "unreachable": 86,
   "endpoint_rejected": 0,
-  "ai_rejected": 656,
+  "ai_rejected": 670,
   "ai_min_pass": 2,
   "filter_policy": "weighted-best30-country4-v3",
   "sort_by": "Current and recent throughput weighted by compatible-exit success rate and bounded stability bonus; jitter, latency, quality",
-  "ai_qualified": 483,
-  "quality_qualified": 344,
-  "quality_rejected": 12,
+  "ai_qualified": 15,
+  "quality_qualified": 5,
+  "quality_rejected": 1,
   "country_best_count": 30,
   "country_limit": 4,
   "country_count": 11,
@@ -1916,7 +1916,7 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-20T14:13:42.404901+00:00",
+  "updated_at": "2026-11-20T17:23:23.748745+00:00",
   "nodes": 30,
   "protocols": {
     "Shadowsocks": 8,
@@ -1926,36 +1926,25 @@
     "Hysteria2": 3
   },
   "published_rows": 36,
-  "cycle": "840bbc9c7ca080881bc2",
+  "cycle": "a5ba0f86260a744633a3",
   "source_version": "e7e2612fb2e523ba8ce355780c5ce6f9ca268422",
   "source_error": null,
   "pool": {
-    "cooldown": 1127,
-    "active": 686,
-    "slow": 312,
-    "isolated": 104,
+    "cooldown": 1133,
+    "active": 700,
+    "slow": 307,
+    "isolated": 89,
     "restricted": 40
   },
-  "merge": {
-    "reject_unsupported cipher": 56,
-    "reject_unsupported options": 3401,
-    "reject_insecure tls": 1266,
-    "restricted": 16,
-    "restricted_unparsed": 5,
-    "duplicates": 5254,
-    "reject_unsupported transport": 75,
-    "reject_invalid_or_nonportable": 175,
-    "reject_unsupported fingerprint": 1165,
-    "new": 1
-  },
-  "checked": 889,
-  "reachable_checked": 746,
-  "active_candidates": 686,
+  "merge": {},
+  "checked": 156,
+  "reachable_checked": 70,
+  "active_candidates": 700,
   "selection_phase": "weighted",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 2162.64,
+    "direct_mbps": 989.0,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -1970,5 +1959,5 @@
     "full_bonus_rounds": 3,
     "full_bonus_span_hours": 12
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/44742809275"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/44781258239"
 }
