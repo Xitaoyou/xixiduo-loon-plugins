@@ -4,7 +4,7 @@
 海外测｜下载推荐：🇺🇸 美国 57｜44ms · 895.91Mbps = VMess,84.17.41.2,18000,none,"f8c8dc3d-0d37-46b0-8b34-a7232882fcfe",transport=tcp,alterId=0,over-tls=false,udp=true
 海外测｜备选下载：🇨🇦 加拿大 16｜59ms · 545.17Mbps = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜纯净IP推荐：🇺🇸 美国 66｜118ms · 304.93Mbps = VLESS,198.247.127.131,443,"59548d2d-5d7c-4328-aa81-0d5614da0c1b",flow=xtls-rprx-vision,over-tls=true,public-key="vmHHRwA9ER6c8dfgtL-gh2HBMCvjySy1xLimqYpLiCI",short-id="",skip-cert-verify=false,sni="addons.mozilla.org",tls-profile=chrome,transport=tcp,udp=true
-海外测｜🕒 免费节点刷新 11-23 01:29（北京时间） = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
+海外测｜🕒 免费节点刷新 11-23 05:27（北京时间） = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜🇨🇦 加拿大 16｜59ms · 545.17Mbps = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜🇨🇦 加拿大 03｜322ms · 111.76Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇨🇦 加拿大 05｜250ms · 106.61Mbps = Shadowsocks,158.51.121.221,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
@@ -13,7 +13,7 @@
 海外测｜🇩🇪 德国 03｜589ms · 51.28Mbps = VMess,193.108.119.87,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇩🇪 德国 05｜584ms · 51.13Mbps = VMess,185.177.229.95,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,tls-profile=chrome,udp=true
 海外测｜🇩🇪 德国 24｜731ms · 50.45Mbps = VLESS,o685y.save-node.com,443,"88e79aa6-f431-4453-8dcc-652a0c747198",host="o685y.save-node.com",over-tls=true,path="/api/se1k2rfxlsuer3ry4u6e84kl8rqp721p",skip-cert-verify=false,sni="o685y.save-node.com",transport=ws,udp=true
-海外测｜🇪🇸 西班牙 02｜548ms · 44.98Mbps = Shadowsocks,167.17.71.167,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+海外测｜🇫🇮 芬兰 03｜785ms · 58.22Mbps = VLESS,213.176.92.168,10444,"ba52cc43-700d-4040-9444-29214c98e6e0",flow=xtls-rprx-vision,over-tls=true,public-key="0oTkcqwLTUNLnSOP-VUWErmy6usAIg-biBE6ioZO-Vo",short-id="8debcf36f1cc69ff",skip-cert-verify=false,sni="video.yandex.ru",tls-profile=chrome,transport=tcp,udp=true
 海外测｜🇫🇷 法国 01｜666ms · 47.51Mbps = VMess,162.19.82.57,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇫🇷 法国 12｜660ms · 46.95Mbps = VMess,79.137.99.183,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇫🇷 法国 15｜655ms · 46.75Mbps = VMess,23.162.152.127,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,tls-profile=chrome,udp=true
@@ -29,7 +29,7 @@
 海外测｜🇳🇱 荷兰 09｜295ms · 342.85Mbps = Hysteria2,50.7.38.243,443,"d4ca9415f0eac7897472e1e5b86d2e96",skip-cert-verify=false,sni="promo.betust.net",udp=true
 海外测｜🇳🇱 荷兰 15｜273ms · 285.13Mbps = Hysteria2,212.34.137.105,443,"549766c3-fa5f-471e-8031-ffc1f8d5064f",skip-cert-verify=false,sni="shorts.blog-forme.ru",udp=true
 海外测｜🇳🇱 荷兰 11｜362ms · 68.52Mbps = Hysteria2,94.183.164.119,24403,"549766c3-fa5f-471e-8031-ffc1f8d5064f",skip-cert-verify=false,sni="docs.blog-forme.ru",udp=true
-海外测｜🇳🇱 荷兰 22｜623ms · 53.55Mbps = VLESS,ams2.shtil.io,444,"254f28cb-d0c1-41e9-a06b-f2155213ff04",flow=xtls-rprx-vision,over-tls=true,skip-cert-verify=false,sni="ams2.shtil.io",tls-profile=chrome,transport=tcp,udp=true
+海外测｜🇳🇱 荷兰 23｜482ms · 71.47Mbps = VLESS,188.116.27.6,443,"3b9189fd-9d29-465e-8c1f-5651af043fe4",flow=xtls-rprx-vision,over-tls=true,public-key="mprwTEsQ9nJ78qG7BJskAWXaVfDxeMHBkQHbReVfMnc",short-id="1174",skip-cert-verify=false,sni="www.sony.co.uk",tls-profile=chrome,transport=tcp,udp=true
 海外测｜🇸🇬 新加坡 09｜575ms · 39.43Mbps = VMess,ww11.levikogjgfdd.ir,18000,auto,"f8c8dc3d-0d37-46b0-8b34-a7232882fcfe",transport=tcp,alterId=0,over-tls=false,udp=true
 海外测｜🇺🇸 美国 57｜44ms · 895.91Mbps = VMess,84.17.41.2,18000,none,"f8c8dc3d-0d37-46b0-8b34-a7232882fcfe",transport=tcp,alterId=0,over-tls=false,udp=true
 海外测｜🇺🇸 美国 38｜778ms · 319.46Mbps = VLESS,148.135.86.162,10000,"327b1113-049e-4256-8d72-8815643dbb65",flow=xtls-rprx-vision,over-tls=true,public-key="DCbnS4mIPc1W2-wI0MGHhykwzf2nVuZvBadErSE6MxU",short-id="a1b2c3d4",skip-cert-verify=false,sni="addons.mozilla.org",tls-profile=chrome,transport=tcp,udp=true
