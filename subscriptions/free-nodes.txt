@@ -3,7 +3,7 @@
 海外测｜下载推荐：🇺🇸 美国 57｜40ms · 1393.20Mbps = VMess,84.17.41.2,18000,none,"f8c8dc3d-0d37-46b0-8b34-a7232882fcfe",transport=tcp,alterId=0,over-tls=false,udp=true
 海外测｜备选下载：🇨🇦 加拿大 16｜57ms · 780.48Mbps = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜纯净IP推荐：🇺🇸 美国 66｜122ms · 323.96Mbps = VLESS,198.247.127.131,443,"59548d2d-5d7c-4328-aa81-0d5614da0c1b",flow=xtls-rprx-vision,over-tls=true,public-key="vmHHRwA9ER6c8dfgtL-gh2HBMCvjySy1xLimqYpLiCI",short-id="",skip-cert-verify=false,sni="addons.mozilla.org",tls-profile=chrome,transport=tcp,udp=true
-海外测｜🕒 免费节点刷新 11-22 04:33（北京时间） = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
+海外测｜🕒 免费节点刷新 11-22 08:25（北京时间） = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜🇨🇦 加拿大 16｜57ms · 780.48Mbps = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜🇨🇦 加拿大 01｜260ms · 137.98Mbps = VMess,134.195.196.154,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,udp=true
 海外测｜🇨🇦 加拿大 02｜326ms · 124.68Mbps = VMess,158.51.121.246,1270,auto,"5c040f1d-45db-43bd-8d46-e4950e433735",transport=tcp,alterId=0,over-tls=true,sni="xmfhlpy.com",skip-cert-verify=false,tls-profile=chrome,udp=true
