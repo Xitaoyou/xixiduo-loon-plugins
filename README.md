@@ -19,7 +19,7 @@
 | SideStore 本机回环 · 官方参数对照测试 | 独立诊断版；启用期间关闭 IPv6 VIF，可单独隔离回环问题 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FSideStore-Official-Loopback-Test.lpx) · [查看文件](plugins/SideStore-Official-Loopback-Test.lpx) |
 | 京东去广告 · 开屏浮窗精简增强版 | 兼容京东新版 Base64 响应；清理开屏、首页悬浮挂件、活动弹窗、促销楼层；5 个可选开关，默认保留常用工具入口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FJD-Clean-Enhanced.lpx) · [使用说明](docs/JD-Clean-Enhanced.md) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名和接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
-| 夸克网盘增强 · 清晰度择优+直链抓取 | 播放清晰度择优、门禁字段翻越、并发与限速字段改写、直链抓取导出、会员态字段伪装、广告位清空；附接口探测脚本用于跟版本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FQuarkEnhance.plugin) · [使用说明](docs/QuarkEnhance.md) |
+| 夸克网盘增强 · 清晰度择优+直链抓取 | 播放清晰度择优、门禁字段翻越、并发与限速字段改写、直链抓取导出、会员态字段伪装、广告位清空，全部合成一次遍历；按响应内容判断而非接口路径，夸克改版本也不会静默失效；附接口探测脚本用于跟版本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FQuarkEnhance.plugin) · [使用说明](docs/QuarkEnhance.md) |
 
 ## 节点订阅
 
@@ -39,7 +39,7 @@
 - **123 云盘**：精简版需搭配上述两个广告平台拦截器；完整版可独立使用。两版任选其一，接口清理需要 MitM 和受信任的证书。
 - **京东**：适配新版 Base64/旧版 JSON 接口，默认开启开屏、悬浮、弹窗与推广楼层清理；「极简工具入口」默认关闭。需要 Loon 3.5.1 (983) 或更高、MitM 已开启且证书受信任。请停用可莉原版京东插件及其他相同 API 的京东响应脚本。若京东页面异常，可在插件设置中关闭「精简推广楼层」再测试。详情见 [使用说明](docs/JD-Clean-Enhanced.md)。
 - **携程**：拦截指定广告域名和接口；接口拦截需要开启 MitM 并信任证书。
-- **夸克网盘**：只改 App 本机读到的数据。会员专属的服务端签名能力（离线缓存、超大文件直链）和 CDN 限速不受影响；清晰度择优只在服务端已下发的流里排序。直链带会话 cookie、有时效，换客户端会 412。需要 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出夸克 App 再打开。细节与实测数据见 [使用说明](docs/QuarkEnhance.md)。
+- **夸克网盘**：只改 App 本机读到的数据。会员专属的服务端签名能力（离线缓存、超大文件直链）和 CDN 限速不受影响；清晰度择优只在服务端已下发的流里排序。直链带会话 cookie、有时效，换客户端会 412。只声明一条响应改写规则，按响应内容识别功能，避免多条规则抢同一条响应。需要 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出夸克 App 再打开。细节与实测数据见 [使用说明](docs/QuarkEnhance.md)。
 - **SideStore**：需 Loon Build 1007+。常驻启用「SideStore 刷新助手」基础插件。SideStore 0.7+ 刷新前，手动启用「SideStore IPv6 按需兼容开关」，完成刷新后再停用；启用期间它会关闭整个 Loon TUN 的 IPv6 VIF，停用后按主配置恢复。Loon 没有公开的 SideStore 刷新事件钩子，因此不能由插件自动在刷新开始/结束时切换。首次启用后断开并重新连接 Loon VPN；Health Check 中 Loon 的 IPv4 utun 应不再带 IPv6 地址。若 Peer IP 已出现但 TCP 探测失败，再检查 RemotePairing 动态端口。插件不固定端口，也不修复配对文件。
 - **SideStore 官方参数对照测试版**：独立诊断配置，自带 `ipv6-vif = off` 和官方回环参数。仅用于隔离排查；启用期间同样会关闭整个 Loon TUN 的 IPv6 VIF。
 
