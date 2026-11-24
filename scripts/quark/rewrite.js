@@ -149,11 +149,14 @@
   var st = { vip: 0, gate: 0, sort: 0, conc: 0, limit: 0, ads: 0 };
   var links = [];
 
+  // 只收夸克自己的下载/播放域名，或明确带媒体/文件扩展名的地址。
+  // 不能只看字段名：头像、埋点、上传地址也叫 url，全收进来只会刷屏。
+  var MEDIA_EXT = /\.(mp4|m3u8|mkv|mov|webm|flv|ts|m4v|mp3|m4a|pdf|zip|7z|rar|apk|dmg|iso)(\?|$)/i;
+  var QUARK_HOST = /^https?:\/\/[a-z0-9.-]*quark\.cn\//i;
   function pushLink(u) {
     if (typeof u !== "string" || u.length < 24 || u.indexOf("http") !== 0) return;
     if (links.indexOf(u) >= 0) return;
-    if (!/quark\.cn|alicdn\.com|myqcloud\.com|aliyuncs\.com/.test(u) &&
-        !/\.(mp4|m3u8|mkv|mov|webm|flv|pdf|zip|7z|rar)(\?|$)/i.test(u)) return;
+    if (!QUARK_HOST.test(u) && !MEDIA_EXT.test(u)) return;
     links.push(u);
   }
 
@@ -221,6 +224,7 @@
   if (GRAB && links.length) {
     var all = [];
     try { all = JSON.parse($persistentStore.read("quark_links") || "[]"); } catch (e) { all = []; }
+    var before = all.length;
     for (var li = 0; li < links.length; li++) all.unshift({ t: Date.now(), u: links[li] });
     var seen = {}, keep = [];
     for (var lj = 0; lj < all.length && keep.length < 40; lj++) {
@@ -229,8 +233,11 @@
       keep.push(all[lj]);
     }
     $persistentStore.write(JSON.stringify(keep), "quark_links");
-    $notification.post("Quark直链", "抓到 " + links.length + " 条 · 共 " + keep.length + " 条在本地",
-      links[0].substring(0, 60) + "...");
+    // 同一条直链反复出现时不重复弹通知，否则播放页每几百毫秒一次会刷爆通知中心
+    if (keep.length > before) {
+      $notification.post("Quark直链", "抓到 " + links.length + " 条 · 共 " + keep.length + " 条在本地",
+        links[0].substring(0, 60) + "...");
+    }
     if (HOOK.indexOf("http") === 0) {
       $httpClient.post({
         url: HOOK,

@@ -65,7 +65,7 @@ https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/plugins/Qua
 | 去掉播放门禁位 | 开 | `need_vip`、`locked` 翻 false，`can_play` 翻 true |
 | 下载并发上限 | 32 | 客户端允许开多少连接，1–64。桌面版实测 32 最好 |
 | 清掉限速字段 | 开 | `speed_limit`、`rate_limit` 清 0，限速开关翻 false |
-| 抓取直链 | 开 | 直链存 `quark_links` 并发通知 |
+| 抓取直链 | 开 | 直链存 `quark_links`（最多 40 条）；只收夸克自家域名或带媒体/文件扩展名的地址，头像和埋点不会被收进来；同一条直链重复出现不会重复弹通知 |
 | 直链推送地址 | 空 | 填 `https://` 地址时把直链 POST 出去，body 是 `{"api": "...", "links": [...]}` |
 | 清空广告位 | 开 | 广告接口的 `data` 换空壳；非广告接口上的 `banners` 也清内容 |
 | 接口探测（排障用） | **关** | 记录真实接口路径，夸克改版本后用它补正则 |
