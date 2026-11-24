@@ -1,0 +1,45 @@
+#!name=夸克网盘增强 · 清晰度择优+直链抓取
+#!desc = 播放清晰度择优、会员态字段伪装、并发/限速配置改写、直链抓取导出、广告位清空。附接口探测脚本用于跟版本。
+#App链接=https://apps.apple.com/app/id1481401173
+#!author=Xitaoyou
+#!tag=功能增强, 去广告
+#!system=iOS, iPadOS
+#!system_version=15
+#!loon_version=3.5.1(998)
+#!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/QuarkEnhance.plugin
+#!icon = https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/icons/quark.png
+#!date=2026-11-24
+
+# 所有改写只作用于本机客户端读到的 JSON。账号权益、CDN 限速由服务端按真实账号判定，
+# 本插件不会让服务端认为你是会员，也拆不开一条连接。真提速见 docs/QuarkEnhance.md 第三节。
+
+[Argument]
+fakeVip=switch, true, false, tag=会员态字段伪装, desc=开：把会员字段改成最高等级，会员入口和倍速菜单会出现；关：保持服务端原始返回值。服务端权益不受影响。
+maxQuality=switch, true, false, tag=播放清晰度择优, desc=开：把已下发的清晰度列表按高度降序，客户端默认取最高清；关：保持原始顺序。服务端没下发的流造不出来。
+openGate=switch, true, false, tag=去掉播放门禁位, desc=开：need_vip、locked 之类翻 false，can_play 翻 true；关：保持原值。识别不了的流仍会播失败。
+maxConn=input, 32, tag=下载并发上限, desc=客户端允许开多少连接，1-64。桌面版实测 32 最好，64 开始掉速，128 直接 0。只往上抬，不压服务端已给的大值。
+clearLimit=switch, true, false, tag=清掉限速字段, desc=开：speed_limit、rate_limit 之类清 0，限速开关翻 false；关：保持原值。改不动 CDN 服务端限速。
+grabLink=switch, true, false, tag=抓取直链, desc=开：把 download_url、m3u8 存进本地并发通知，可丢给 aria2、nPlayer 等外部工具；关：完全不介入响应。
+webhook=input, "", tag=直链推送地址, desc=可选。填 https:// 开头的地址，抓到直链时 POST 出去，body 是 links 数组。留空则只存本地。
+blockAds=switch, true, false, tag=清空广告位, desc=开：把 /ad/、splash、promotion 接口的 data 换成空壳；关：不介入。域名级拦截另见 AdPlatform-Supplement。
+probe=switch, false, true, tag=接口探测（排障用）, desc=开：记录 App 真实调用的接口路径并发通知。夸克改版本后主插件静默失效时，用它找新路径。平时建议关闭减少开销。
+debugMode=switch, false, true, tag=排障日志, desc=开：每次改写弹通知说明改了什么，确认命中用；关：静默运行。
+
+[Script]
+response if ${url} ~= /^https?:\/\/(?:pan|drive-m|drive-pc|api|open-api-drive)\.quark\.cn\/.*(?:account\/info|member|vip|user\/info|passport\/info)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/quark/member.js", {${fakeVip}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="会员态伪装"
+
+response if ${url} ~= /^https?:\/\/(?:pan|drive-m|drive-pc|api)\.quark\.cn\/.*(?:file\/play|video\/play|file\/m3u8|play\/info|transcode)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/quark/play.js", {${maxQuality}, ${openGate}, ${grabLink}, ${webhook}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="播放清晰度择优+直链"
+
+response if ${url} ~= /^https?:\/\/(?:pan|drive-m|drive-pc|api)\.quark\.cn\/.*clouddrive\/(?:config|setting|speed|download\/config|user\/config|app\/config)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/quark/speed.js", {${maxConn}, ${clearLimit}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="并发与限速改写"
+
+response if ${url} ~= /^https?:\/\/(?:pan|drive-m|drive-pc)\.quark\.cn\/.*(?:file\/download|share\/sharepage\/download|download\/url)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/quark/grab.js", {${grabLink}, ${webhook}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="下载直链抓取"
+
+response if ${url} ~= /^https?:\/\/(?:pan|drive-m|api)\.quark\.cn\/.*(?:\/ad\/|splash|promotion|banner|operation\/popup)/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/quark/noad.js", {${blockAds}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="广告位清空"
+
+request if ${probe} == true && ${url} ~= /^https?:\/\/(?:pan|drive-m|drive-pc|api|open-api-drive|uop)\.quark\.cn\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/quark/probe.js", {${probe}, ${debugMode}}) with requires_body=false, debug=${debugMode}, tag="接口探测"
+
+# 本插件不做域名级拦截：umeng、cnzz、gdt 这些是全局 DNS 规则，会影响所有 App 的统计与跳转，
+# 不适合塞进一个夸克专用插件。需要域名拦截请叠加本库的「广告平台补充拦截器」。
+
+[MitM]
+hostname = pan.quark.cn, drive-m.quark.cn, drive-pc.quark.cn, api.quark.cn, open-api-drive.quark.cn, uop.quark.cn
