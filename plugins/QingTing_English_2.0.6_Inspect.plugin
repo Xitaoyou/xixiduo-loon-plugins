@@ -1,0 +1,11 @@
+#!name=轻听英语 2.0.6 · 接口诊断（只读）
+#!desc=检查新版启动响应是否加密，以及明文购买/权益接口字段是否存在；只输出脱敏日志，不解锁 VIP、不修改响应。用于分析 1.9.1 与 2.0.6 差异。
+#!author=Interface inspection wrapper
+#!date=2026-11-25
+
+[Script]
+http-response ^https:\/\/api\.beingfine\.cn\/v3\/2\/report\/launch\/\d+ script-path=https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/qingting/QingTing_206_Inspect.js, requires-body=true, timeout=60, tag=轻听英语2.0.6启动接口
+http-response ^https:\/\/learnywhere\.cn\/api\/(?:qt\/buy\/vip\/purchase2|buy\/promote\/in-duration)(?:\?|$) script-path=https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/qingting/QingTing_206_Inspect.js, requires-body=true, timeout=60, tag=轻听英语2.0.6权益接口
+
+[MITM]
+hostname = api.beingfine.cn, learnywhere.cn
