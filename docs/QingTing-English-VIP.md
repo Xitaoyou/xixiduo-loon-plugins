@@ -93,8 +93,8 @@
 脚本层：
 
 ```bash
-node tests/plugin.js   # 结构、参数顺序、11 条 URL 命中表、MitM 覆盖
-node tests/run.js      # 9 组 fixture、27 条断言：明文启动 / V3 降级 / 降级关闭放行 / purchase2 / in-duration / 无关响应不改 / 兜底命中 / 非法 JSON / 全关开关 / probe 只读
+node tests/qingting/plugin.js   # 结构、参数顺序、11 条 URL 命中表、MitM 覆盖
+node tests/qingting/run.js      # 9 组 fixture、27 条断言：明文启动 / V3 降级 / 降级关闭放行 / purchase2 / in-duration / 无关响应不改 / 兜底命中 / 非法 JSON / 全关开关 / probe 只读
 ```
 
 实机：
@@ -116,4 +116,4 @@ Loon 日志里搜 `轻听英语 VIP` 能看到每次改写的 tag。
 
 1. 开 `probeMode`，重开 App，通知里看新路径与新字段名。
 2. 把新字段名加进 `scripts/qingting/vip.js` 的 `GRANT` / `DENY` / `EXPIRE` / `QUOTA_K` / `TYPE` 词表；新域名加进 .plugin 的 `[Script]` 与 `[MitM]`。
-3. `node tests/plugin.js && node tests/run.js` 跑一遍，再补一条 fixture。
+3. `node tests/qingting/plugin.js && node tests/qingting/run.js` 跑一遍，再补一条 fixture。
