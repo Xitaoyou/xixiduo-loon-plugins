@@ -1,0 +1,36 @@
+#!name=轻听英语 VIP · 权益解锁
+#!desc=改写启动与购买接口的会员字段：无限在线收听、无限下载、词根/柯林斯词典、促销权益位与购买页会员态。按接口形态分路处理，1.9.1 明文接口与 2.0.6 V3 接口都已覆盖；V3 加密响应走明文降级注入。附只读探测脚本，App 改版后用来找新路径。
+#!author=Xitaoyou
+#!tag=功能增强, 会员
+#!system=iOS, iPadOS
+#!system_version=15
+#!loon_version=3.5.1(998)
+#!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/QingTing_English_VIP.plugin
+#!date=2026-11-25
+
+# 服务端按真实账号下发权益，加密报文由服务端密钥生成。本插件只改本机客户端读到的 JSON，
+# 并把 V3 加密响应在本地降级成明文形态；付费内容本身仍由服务端授权，
+# 解锁不到就说明判定发生在端外，见 docs/QingTing-English-VIP.md 第五节。
+
+[Argument]
+modifyPrivileges=switch, true, false, tag=权益字段改写, desc=开：启动接口里的 granted、expire_date、user_type、dl_quota 等字段拉到满值；关：保持服务端原值。
+downgradeV3=switch, true, false, tag=V3 加密响应降级, desc=开：2.0.6 的 data_encrypted=1 响应改成 data_encrypted=0 并注入明文 privileges。若新版客户端只认密文、界面报错，请关掉这一项。
+modifyPurchase=switch, true, false, tag=购买页会员态, desc=开：purchase2 的 account.vip_type 置 1、expiry 置远期；关：保持原值。只影响购买页展示。
+modifyPromote=switch, true, false, tag=促销权益位, desc=开：in-duration 的 auth 各权益 op/pa 置 1；关：保持原值。
+quota=input, 999, tag=下载额度, desc=写入 dl_quota 的数值，默认 999，只会往上抬不会往下压。
+expireAt=input, 4077153336000, tag=到期时间戳, desc=毫秒时间戳，默认 4077153336000（2099 年）。只会往上抬，不会缩短已有有效期。
+probeMode=switch, false, true, tag=接口探测（排障）, desc=开：只记接口形态发通知，不改任何响应。App 升级后主插件失效时用它找新路径，平时关闭。
+debugMode=switch, false, true, tag=排障日志, desc=开：每次改写弹通知说明改了什么，确认命中用；关：静默运行。
+
+# 规则按域名而不是路径匹配：App 改版换路径时脚本内部按响应形态兜底，不必等插件更新。
+# probeMode 开时只跑探测规则，改写规则全部让路，避免探到的是被改过的响应。
+
+[Script]
+response if ${probeMode} == false && ${url} ~= /^https?:\/\/(?:api|sapi)\.beingfine\.cn\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/qingting/vip.js", {${modifyPrivileges}, ${downgradeV3}, ${modifyPurchase}, ${modifyPromote}, ${quota}, ${expireAt}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="域名改写·beingfine"
+
+response if ${probeMode} == false && ${url} ~= /^https?:\/\/learnywhere\.cn\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/qingting/vip.js", {${modifyPrivileges}, ${downgradeV3}, ${modifyPurchase}, ${modifyPromote}, ${quota}, ${expireAt}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="域名改写·learnywhere"
+
+response if ${probeMode} == true && ${url} ~= /^https?:\/\/(?:api|sapi)\.beingfine\.cn\/|^https?:\/\/learnywhere\.cn\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/qingting/probe.js") with requires_body=true, debug=true, tag="接口探测"
+
+[MitM]
+hostname = api.beingfine.cn, sapi.beingfine.cn, learnywhere.cn
