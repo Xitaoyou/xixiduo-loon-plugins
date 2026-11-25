@@ -22,6 +22,7 @@
 | 夸克网盘增强 · 清晰度择优+直链抓取 | 播放清晰度择优、门禁字段翻越、并发与限速字段改写、直链抓取导出、会员态字段伪装、广告位清空，全部合成一次遍历；按响应内容判断而非接口路径，夸克改版本也不会静默失效；附接口探测脚本用于跟版本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FQuarkEnhance.plugin) · [使用说明](docs/QuarkEnhance.md) |
 | 一木记账 VIP · 永久会员（2.6.2 实测） | 修改账户信息返回的会员类型为永久会员（vipType=2）、到期时间至 2099 年；2.6.2 有用户实测可用反馈，云端付费功能不保证 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FYimu_Bookkeeping_Loon_2.6.0.plugin) · [查看文件](plugins/Yimu_Bookkeeping_Loon_2.6.0.plugin) |
 | 轻听英语 VIP · 权益解锁（1.9.1 / 2.0.6） | 改写启动、购买与促销接口的会员字段：无限在线收听、无限下载、词根/柯林斯词典、促销权益位与购买页会员态；按域名匹配并在脚本内按响应形态分派，2.0.6 的 V3 加密启动响应按开关降级成明文形态再注入；附只读探测脚本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FQingTing_English_VIP.plugin) · [使用说明](docs/QingTing-English-VIP.md) |
+| 轻听英语 VIP · 权益解锁（CDN 镜像版） | 与上一行内容一致，插件与脚本都走 jsDelivr：raw.githubusercontent.com 打不开时用这版导入 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FXitaoyou%2Fxixiduo-loon-plugins%40main%2Fplugins%2FQingTing_English_VIP_CDN.plugin) · [查看文件](plugins/QingTing_English_VIP_CDN.plugin) |
 
 ## 节点订阅
 
@@ -41,7 +42,7 @@
 - **123 云盘**：精简版需搭配上述两个广告平台拦截器；完整版可独立使用。两版任选其一，接口清理需要 MitM 和受信任的证书。
 - **京东**：适配新版 Base64/旧版 JSON 接口，默认开启开屏、悬浮、弹窗与推广楼层清理；「极简工具入口」默认关闭。需要 Loon 3.5.1 (983) 或更高、MitM 已开启且证书受信任。请停用可莉原版京东插件及其他相同 API 的京东响应脚本。若京东页面异常，可在插件设置中关闭「精简推广楼层」再测试。详情见 [使用说明](docs/JD-Clean-Enhanced.md)。
 - **携程**：拦截指定广告域名和接口；接口拦截需要开启 MitM 并信任证书。
-- **轻听英语**：只改 App 本机读到的 JSON。服务端仍按真实账号下发权益，V3 加密报文由服务端密钥生成，插件不伪造密文，只是把 `data_encrypted=1` 的信封降级为明文形态按开关注入权益；若 2.0.6 界面报错或会员态不刷新，关掉「V3 加密响应降级」只留明文接口。付费课程音频若在服务端二次校验，改字段解不开内容。需 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出轻听英语再打开；不要与「轻听英语 2.0.6 只读诊断」插件同时启用。细节见 [使用说明](docs/QingTing-English-VIP.md)。
+- **轻听英语**：只改 App 本机读到的 JSON。服务端仍按真实账号下发权益，V3 加密报文由服务端密钥生成，插件不伪造密文，只是把 `data_encrypted=1` 的信封降级为明文形态按开关注入权益；若 2.0.6 界面报错或会员态不刷新，关掉「V3 加密响应降级」只留明文接口。付费课程音频若在服务端二次校验，改字段解不开内容。需 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出轻听英语再打开；不要与「轻听英语 2.0.6 只读诊断」插件同时启用。细节见 [使用说明](docs/QingTing-English-VIP.md)。若一键导入后 Loon 提示下载失败，说明手机侧访问不到 raw.githubusercontent.com，改用下面那行「CDN 镜像版」（插件与脚本都走 jsDelivr）。
 - **夸克网盘**：只改 App 本机读到的数据。会员专属的服务端签名能力（离线缓存、超大文件直链）和 CDN 限速不受影响；清晰度择优只在服务端已下发的流里排序。直链带会话 cookie、有时效，换客户端会 412。只声明一条响应改写规则，按响应内容识别功能，避免多条规则抢同一条响应。需要 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出夸克 App 再打开。细节与实测数据见 [使用说明](docs/QuarkEnhance.md)。
 - **SideStore**：需 Loon Build 1007+。常驻启用「SideStore 刷新助手」基础插件。SideStore 0.7+ 刷新前，手动启用「SideStore IPv6 按需兼容开关」，完成刷新后再停用；启用期间它会关闭整个 Loon TUN 的 IPv6 VIF，停用后按主配置恢复。Loon 没有公开的 SideStore 刷新事件钩子，因此不能由插件自动在刷新开始/结束时切换。首次启用后断开并重新连接 Loon VPN；Health Check 中 Loon 的 IPv4 utun 应不再带 IPv6 地址。若 Peer IP 已出现但 TCP 探测失败，再检查 RemotePairing 动态端口。插件不固定端口，也不修复配对文件。
 - **SideStore 官方参数对照测试版**：独立诊断配置，自带 `ipv6-vif = off` 和官方回环参数。仅用于隔离排查；启用期间同样会关闭整个 Loon TUN 的 IPv6 VIF。
