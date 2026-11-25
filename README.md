@@ -20,6 +20,7 @@
 | 京东去广告 · 开屏浮窗精简增强版 | 兼容京东新版 Base64 响应；清理开屏、首页悬浮挂件、活动弹窗、促销楼层；5 个可选开关，默认保留常用工具入口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FJD-Clean-Enhanced.lpx) · [使用说明](docs/JD-Clean-Enhanced.md) |
 | 携程旅行 · 精准去广告 | 拦截指定广告域名和接口 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FCtrip-Adblock.lpx) · [查看文件](plugins/Ctrip-Adblock.lpx) |
 | 夸克网盘增强 · 清晰度择优+直链抓取 | 播放清晰度择优、门禁字段翻越、并发与限速字段改写、直链抓取导出、会员态字段伪装、广告位清空，全部合成一次遍历；按响应内容判断而非接口路径，夸克改版本也不会静默失效；附接口探测脚本用于跟版本 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FQuarkEnhance.plugin) · [使用说明](docs/QuarkEnhance.md) |
+| 一木记账 VIP · 永久会员（2.6.2 实测） | 修改账户信息返回的会员类型为永久会员（vipType=2）、到期时间至 2099 年；2.6.2 有用户实测可用反馈，云端付费功能不保证 | [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FYimu_Bookkeeping_Loon_2.6.0.plugin) · [查看文件](plugins/Yimu_Bookkeeping_Loon_2.6.0.plugin) |
 
 ## 节点订阅
 
