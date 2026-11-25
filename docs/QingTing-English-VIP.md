@@ -8,6 +8,8 @@
 
 ## 1. 怎么装
 
+[点此一键导入 Loon](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FQingTing_English_VIP.plugin)
+
 1. Loon → 配置 → 插件 → 右上角 ➕ → 从 URL 添加：
 
    ```
@@ -91,8 +93,8 @@
 脚本层：
 
 ```bash
-node tests/plugin.js   # 结构、参数顺序、20 条 URL 命中表、MitM 覆盖
-node tests/run.js      # 8 组 fixture：明文启动 / V3 降级 / 关闭开关 / purchase2 / in-duration / 兜底 / 非法 JSON
+node tests/plugin.js   # 结构、参数顺序、11 条 URL 命中表、MitM 覆盖
+node tests/run.js      # 9 组 fixture、27 条断言：明文启动 / V3 降级 / 降级关闭放行 / purchase2 / in-duration / 无关响应不改 / 兜底命中 / 非法 JSON / 全关开关 / probe 只读
 ```
 
 实机：
