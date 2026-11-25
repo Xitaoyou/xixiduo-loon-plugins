@@ -1,0 +1,11 @@
+#!name=一木记账 VIP（2.6.0 参考）
+#!desc=一木记账会员状态响应改写；2.6.0 有公开适配说明，2.6.1/2.6.2 未经实际验证
+#!author=ddm1023 (upstream script); plugin wrapper prepared for Loon
+#!homepage=https://github.com/chxm1023/Rewrite
+#!date=2026-11-25
+
+[Script]
+http-response ^https?:\/\/yimuapp\.com:8082\/bookkeeping\/user\/getUserInfoById script-path=https://raw.githubusercontent.com/chxm1023/Rewrite/main/yimujizhang.js, requires-body=true, timeout=60, tag=一木记账VIP
+
+[MITM]
+hostname = yimuapp.com
