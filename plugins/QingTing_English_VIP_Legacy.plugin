@@ -1,0 +1,15 @@
+#!name=轻听英语 VIP（旧版接口·待验证）
+#!desc=拦截旧版启动接口并尝试修改无限在线收听、无限下载、词根和柯林斯词典权益；核心 JS 最早于 2020 年发布，轻听英语 2.7.x 未验证。
+#!author=Alex0510（原始脚本） / Loon wrapper
+#!homepage=https://github.com/songyangzz/QxScripts/blob/master/Alex0510/Script/qtyy.js
+#!date=2026-11-25
+
+# 仅供测试：此插件匹配旧版接口 /v1/UserLaunchAppReport
+# 老脚本会覆盖 data_body.privileges；若新版不再调用旧接口，则不会生效。
+# 若遇到报错、播放异常或会员显示异常，请立即停用此插件。
+
+[Script]
+http-response ^https:\/\/sapi\.beingfine\.cn\/v1\/UserLaunchAppReport script-path=https://raw.githubusercontent.com/songyangzz/QxScripts/master/Alex0510/Script/qtyy.js, requires-body=true, timeout=60, tag=轻听英语VIP旧版
+
+[MITM]
+hostname = sapi.beingfine.cn
