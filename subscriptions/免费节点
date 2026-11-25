@@ -2,7 +2,7 @@
 海外测｜备选AI：🇺🇸 美国 17｜189ms · 217.88Mbps = VLESS,169.40.42.74,443,"d65cc14c-f53f-4fe2-b262-97856601319c",flow=xtls-rprx-vision,over-tls=true,public-key="e2RLf57Li_-MDZGE9ss1BWPgP54mqRb5PfXhW2jcVVg",short-id="c39cc7310a",skip-cert-verify=false,sni="yahoo.com",tls-profile=chrome,transport=tcp,udp=true
 海外测｜下载推荐：🇺🇸 美国 20｜128ms · 225.94Mbps = Shadowsocks,45.86.51.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
 海外测｜备选下载：🇺🇸 美国 69｜108ms · 235.13Mbps = Shadowsocks,37.19.198.236,443,aes-128-gcm,"shadowsocks",udp=true
-海外测｜🕒 免费节点刷新 11-25 08:24（北京时间） = Shadowsocks,37.19.198.236,443,aes-128-gcm,"shadowsocks",udp=true
+海外测｜🕒 免费节点刷新 11-25 10:53（北京时间） = Shadowsocks,37.19.198.236,443,aes-128-gcm,"shadowsocks",udp=true
 海外测｜🇨🇦 加拿大 17｜200ms · 222.96Mbps = Shadowsocks,134.195.198.163,443,chacha20-ietf-poly1305,"PmCqK98WqhSC",udp=true
 海外测｜🇨🇦 加拿大 15｜200ms · 178.47Mbps = Shadowsocks,192.99.151.230,8388,aes-256-gcm,"itzvpn@321",udp=true
 海外测｜🇨🇦 加拿大 16｜193ms · 141.72Mbps = Shadowsocks,149.22.95.183,443,aes-128-gcm,"shadowsocks",udp=true
