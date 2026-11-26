@@ -9,7 +9,7 @@
  *     （数字还是数字、字符串还是字符串），避免客户端 JSON 解析或类型断言崩掉。
  */
 (function () {
-  var ORDER = ["unlockVip", "rewritePurchase", "modifyProfile", "strictAppOnly", "farFutureTime", "probeMode", "debugMode"];
+  var ORDER = ["unlockVip", "rewritePurchase", "boostQuota", "retryOnBusy", "modifyProfile", "strictAppOnly", "farFutureTime", "probeMode", "debugMode"];
 
   var BOOL_TRUE = {
     is_vip: 1, use_vip: 1, vip: 1, is_vip_user: 1, is_svip: 1, is_premium: 1, svip: 1,
@@ -30,6 +30,34 @@
 
   // 资料页字段：和会员接口里的同名字段语义不同，只在「资料页会员标识」开关打开时处理
   var PROFILE_KEYS = { vip_type: 1, vip_status: 1, vip_mode: 2, vip_level: 9, level: 9, blue_v_status: 1, red_v_status: 1 };
+
+  // AI 次数配额：Wink 的「全能修复」等 AI 功能按剩余次数放行，次数用完就提示排队/稍后再试。
+  // 这三张表不看会员标记，只要响应里出现就处理，覆盖 ai_repair / ai_enhance / task 系列接口。
+  var QUOTA_LEFT = {
+    remain_count: 1, remaining_count: 1, remain_times: 1, remaining_times: 1, left_count: 1,
+    left_times: 1, available_count: 1, available_times: 1, surplus_count: 1, surplus_times: 1,
+    free_count: 1, free_times: 1, ai_remain: 1, ai_remain_count: 1, ai_left: 1, can_use_count: 1,
+    can_use_times: 1, quota_left: 1, quota_remain: 1, times_left: 1, count_left: 1, rest_count: 1,
+    rest_times: 1, balance: 1, credits: 1, point: 1, points: 1, coin: 1, coins: 1, energy: 1
+  };
+  var QUOTA_USED = {
+    used_count: 1, used_times: 1, use_count: 1, use_times: 1, used_quota: 1, used_credit: 1,
+    daily_used: 1, today_used: 1, day_used_count: 1, consumed_count: 1, consumed_times: 1,
+    ai_used: 1, ai_used_count: 1, ai_used_times: 1, generate_count: 1, generated_count: 1,
+    try_count: 1, retry_count: 1, times_used: 1, count_used: 1, cost_count: 1
+  };
+  var QUOTA_CAP = {
+    daily_limit: 1, day_limit: 1, day_count: 1, max_count: 1, max_times: 1, limit_count: 1,
+    limit_times: 1, total_count: 1, total_times: 1, quota_total: 1, quota: 1, quota_count: 1,
+    ai_limit: 1, ai_count: 1, ai_max: 1, free_limit: 1, count_limit: 1, times_limit: 1,
+    remain_limit: 1, num: 1, limit_num: 1
+  };
+  var QUOTA_MAX = 9999;
+
+  // 服务端排队/限流文案：命中就把业务错误码抹平，让客户端继续走重试而不是弹提示
+  var BUSY_RE = /使用人数较多|人数较多|稍后再试|排队|人数已满|请求过于频繁|操作频繁|访问频繁|too many|busy|try again later|server is busy|rate limit/i;
+  var CODE_KEYS = { code: 1, errno: 1, error_code: 1, errorcode: 1, ret: 1, retcode: 1, status: 1, status_code: 1, result_code: 1 };
+  var MSG_KEYS = { message: 1, msg: 1, errmsg: 1, error_msg: 1, error_message: 1, tip: 1, toast: 1, desc: 1, description: 1, sub_message: 1, detail: 1, reason: 1 };
 
   var TIME_KEYS = {
     valid_time: 1, invalid_time: 1, in_valid_time: 1, expire_time: 1, expiry: 1, expire: 1,
@@ -80,12 +108,14 @@
   var FAR = Math.floor(num("farFutureTime", 32495529599000));
   var DO_UNLOCK = flag("unlockVip", true);
   var DO_PURCHASE = flag("rewritePurchase", true);
+  var DO_QUOTA = flag("boostQuota", true);
+  var DO_BUSY = flag("retryOnBusy", false);
   var DO_PROFILE = flag("modifyProfile", false);
   var STRICT = flag("strictAppOnly", false);
   var PROBE = flag("probeMode", false);
   var DEBUG = flag("debugMode", false);
 
-  var stats = { ent: 0, bool: 0, time: 0, int: 0, prod: 0, prof: 0 };
+  var stats = { ent: 0, bool: 0, time: 0, int: 0, prod: 0, prof: 0, quota: 0, busy: 0 };
 
   function lc(k) { return String(k).toLowerCase(); }
 
@@ -281,6 +311,79 @@
     }
   }
 
+  // AI 次数配额：剩余次数只往上抬，已用次数归零，上限字段抬到 QUOTA_MAX。
+  // 只在出现「剩余/已用」字段的对象里动手，避免误改同名的普通计数器。
+  function quota(node) {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) {
+      for (var i = 0; i < node.length; i++) quota(node[i]);
+      return;
+    }
+    var ks = Object.keys(node);
+    var isQuota = false;
+    for (var a = 0; a < ks.length; a++) {
+      var lk = lc(ks[a]);
+      if (QUOTA_LEFT[lk] || QUOTA_USED[lk]) { isQuota = true; break; }
+    }
+    if (isQuota) {
+      for (var b = 0; b < ks.length; b++) {
+        var k = ks[b];
+        var v = node[k];
+        if (v === null || typeof v === "object") continue;
+        var key = lc(k);
+        if (QUOTA_LEFT[key]) {
+          var nl = rampInt(v, QUOTA_MAX);
+          if (nl !== v) { node[k] = nl; stats.quota++; }
+        } else if (QUOTA_USED[key]) {
+          var nu = rampInt(v, 0);
+          if (typeof nu === "number" && nu > 0) { node[k] = 0; stats.quota++; }
+          else if (typeof nu === "string" && /^\d+$/.test(nu) && Number(nu) > 0) { node[k] = "0"; stats.quota++; }
+        } else if (QUOTA_CAP[key]) {
+          var nc = rampInt(v, QUOTA_MAX);
+          if (nc !== v) { node[k] = nc; stats.quota++; }
+        }
+      }
+    }
+    for (var c = 0; c < ks.length; c++) {
+      var cv = node[ks[c]];
+      if (cv && typeof cv === "object") quota(cv);
+    }
+  }
+
+  // 服务端排队/限流：命中文案就把业务码抹平，客户端会当作成功继续，不再弹「稍后再试」。
+  // 派发失败的任务本身仍然失败，这一项只是不让本机把失败文案拦在门外。
+  function busy(node) {
+    if (!node || typeof node !== "object") return;
+    if (Array.isArray(node)) {
+      for (var i = 0; i < node.length; i++) busy(node[i]);
+      return;
+    }
+    var ks = Object.keys(node);
+    var hit = false;
+    for (var a = 0; a < ks.length; a++) {
+      if (typeof node[ks[a]] === "string" && BUSY_RE.test(node[ks[a]])) { hit = true; break; }
+    }
+    if (hit) {
+      for (var b = 0; b < ks.length; b++) {
+        var k = ks[b];
+        var v = node[k];
+        var key = lc(k);
+        if (CODE_KEYS[key] && (typeof v === "number" || (typeof v === "string" && /^-?\d+$/.test(v.trim())))) {
+          node[k] = typeof v === "number" ? 0 : "0";
+        } else if (key === "success" && typeof v === "boolean") {
+          node[k] = true;
+        } else if (MSG_KEYS[key] && typeof v === "string" && BUSY_RE.test(v)) {
+          node[k] = "";
+        }
+      }
+      stats.busy++;
+    }
+    for (var c = 0; c < ks.length; c++) {
+      var cv = node[ks[c]];
+      if (cv && typeof cv === "object") busy(cv);
+    }
+  }
+
   function skeleton(node, depth) {
     if (node === null) return "null";
     if (typeof node !== "object") return typeof node;
@@ -349,9 +452,11 @@
     }
 
     var before = JSON.stringify(obj);
+    if (DO_QUOTA) quota(obj);
     if (DO_UNLOCK) walk(obj);
     if (DO_PURCHASE) products(obj);
     if (DO_PROFILE) profile(obj);
+    if (DO_BUSY) busy(obj);
     var after = JSON.stringify(obj);
 
     if (after === before) {
@@ -361,7 +466,7 @@
     }
 
     if (DEBUG) {
-      notify("Wink VIP", pathOf(url) + " 权益" + stats.ent + " 布尔" + stats.bool + " 时间" + stats.time + " 枚举" + stats.int + " 商品" + stats.prod + " 资料" + stats.prof);
+      notify("Wink VIP", pathOf(url) + " 权益" + stats.ent + " 布尔" + stats.bool + " 时间" + stats.time + " 枚举" + stats.int + " 商品" + stats.prod + " 资料" + stats.prof + " 配额" + stats.quota + " 限流" + stats.busy);
     }
     emit(after);
   }
