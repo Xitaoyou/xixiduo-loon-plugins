@@ -204,5 +204,44 @@ console.log("12. 只带时间键的无关对象不凭空长出会员字段");
   ok("其它字段未改", json && json.data.cover_url === "https://x/y.jpg" && json.data.task_id === "t1");
 }
 
+console.log("13. AI 次数配额抬升");
+{
+  const body = { code: 0, data: { remain_count: 0, used_count: 3, daily_limit: 1, task_id: "t9" } };
+  const { json } = run({ url: "https://h5api-winkcut.meitu.com/activity/ai_repair.json", body });
+  ok("剩余次数抬到上限", json && json.data.remain_count === 9999, json && String(json.data.remain_count));
+  ok("已用次数归零", json && json.data.used_count === 0, json && String(json.data.used_count));
+  ok("上限抬到上限", json && json.data.daily_limit === 9999, json && String(json.data.daily_limit));
+  ok("无关字段保留", json && json.data.task_id === "t9");
+}
+
+console.log("14. 配额开关关闭时保持原值");
+{
+  const body = { code: 0, data: { remain_count: 0, used_count: 3 } };
+  const { out } = run({ url: "https://h5api-winkcut.meitu.com/activity/ai_repair.json", body, argument: { boostQuota: "false", unlockVip: "false" } });
+  ok("未改 body", !out.body);
+}
+
+console.log("15. 排队文案抹平");
+{
+  const body = { code: 30001, message: "当前使用人数较多，请稍后再试哦", data: null };
+  const { json } = run({ url: "https://h5api-winkcut.meitu.com/activity/ai_repair.json", body, argument: { retryOnBusy: "true" } });
+  ok("业务码归零", json && json.code === 0, json && String(json.code));
+  ok("提示文案清空", json && json.message === "", json && String(json.message));
+}
+
+console.log("16. 排队开关关闭时保持原样");
+{
+  const body = { code: 30001, message: "当前使用人数较多，请稍后再试哦" };
+  const { out } = run({ url: "https://h5api-winkcut.meitu.com/activity/ai_repair.json", body, argument: { unlockVip: "false", boostQuota: "false", rewritePurchase: "false" } });
+  ok("未改 body", !out.body);
+}
+
+console.log("17. 同名但不是配额的对象不动");
+{
+  const body = { code: 0, data: { ai_cartoon_quota: 3, style_count: 12, task_id: "t1" } };
+  const { out } = run({ url: "https://h5api-winkcut.meitu.com/activity/ai_cartoon.json", body });
+  ok("未改 body", !out.body);
+}
+
 console.log("\n" + pass + " passed, " + fail + " failed");
 process.exit(fail ? 1 : 0);
