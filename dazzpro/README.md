@@ -1,6 +1,6 @@
 # DazzPro —— Dazz（Dazz相机）Pro 权益本地解锁
 
-越狱环境下的 Theos 插件。**不是 Loon 插件**，原因见下方「为什么 Loon 做不到」。
+Theos 插件，**越狱和不越狱都能装**（本插件不依赖 MobileSubstrate，走注入 dylib 路线即可）。**不是 Loon 插件**，原因见下方「为什么 Loon 做不到」。不越狱的完整流程见 [docs/NoJailbreak.md](docs/NoJailbreak.md)。
 
 ## 为什么 Loon 做不到
 
@@ -75,9 +75,15 @@ make ARCHS=arm64                   # 出 .theos/obj/arm64/DazzPro.dylib
 
 **越狱（推荐）**：从 [Releases](https://github.com/Xitaoyou/xixiduo-loon-plugins/releases/tag/dazzpro-v1.0.0) 下对应架构的 deb，用 Filza / Sileo 装，或 `dpkg -i dazzpro-*.deb`；装完重启 App。
 
-**TrollStore**：把 `DazzPro.dylib` 注入 Dazz 的 IPA 后重签安装（`DazzPro.plist` 里已写死 bundle filter `com.dazz.camera.vintagecamera`）。
+**TrollStore + TrollFools（iOS 14.0–17.0，不用砸壳）**：TrollFools 里选 Dazz → 注入 → 选 `DazzPro.dylib`。TrollFools 官方限制列表明确支持「加密 App Store 应用 + 裸 dylib」，而本插件正是 thin arm64 裸 dylib。
+
+**Sideloadly / zsign 自签（任意系统，需要先砸壳）**：`python dazzpro/tools/inject_dylib.py --ipa Dazz_decrypted.ipa --dylib DazzPro.dylib -o DazzPro.ipa` 打出注入好的 IPA，再拖进 Sideloadly 或 `zsign` 签名。脚本会拦 FairPlay 加密、头部空间不足、重复注入三种情况，报错时不改文件。
+
+**越狱 deb** 与上面两条路线同样有效，`DazzPro.plist` 里写死了 bundle filter `com.dazz.camera.vintagecamera`。
 
 装完完全退出 Dazz 再打开。日志：`log stream --predicate 'subsystem == "com.xitaoyou.dazzpro"'`。
+
+各路线的前置条件、踩坑对照、不越狱时的跟版办法：[docs/NoJailbreak.md](docs/NoJailbreak.md)。
 
 ## 跟版 / 排障
 
