@@ -37,21 +37,27 @@
 | 免费节点海外版 | GitHub 海外云测，每国最多 4 个、总计最多 30 个精选出口，保留原订阅地址 | [导入页面](https://xitaoyou.github.io/xixiduo-loon-plugins/#overseas) · [使用说明](docs/Free-Nodes.md) |
 | 免费节点大陆版 | 广州每日检测与轮换扩展来源；连通且延迟<1200ms，按服务分别推荐 | [检测状态与导入](https://xitaoyou.github.io/xixiduo-loon-plugins/#mainland) · [使用说明](docs/Free-Nodes.md#免费节点大陆版) |
 
-## 越狱侧插件（非 Loon）
+## 运行时插件（非 Loon）
 
-有些 App 的会员判定完全在设备本地，HTTP 层拿不到可改的响应，这时需要越狱运行时插件。
+有些 App 的会员判定完全在设备本地，HTTP 层拿不到可改的响应，这时需要运行时注入插件。这类插件不依赖 MobileSubstrate：越狱用 deb，不越狱就用 TrollFools 注入或自签 IPA。
 
 | 插件 | 说明 | 获取 |
 | --- | --- | --- |
-| DazzPro | Dazz（Dazz相机 `com.dazz.camera.vintagecamera`）Pro 权益本地解锁。运行时把会员态 getter 固定为 `YES`，并把 `applyTamper(reason:persistFlag:fromBootstrap:)` 置空避免被判篡改；带 `dumpMode` 只读跟版 | [下载 deb / dylib](https://github.com/Xitaoyou/xixiduo-loon-plugins/releases/tag/dazzpro-v1.0.0) · [源码与说明](dazzpro) · [取证结论](docs/Dazz-VIP.md) |
+| DazzPro | Dazz（Dazz相机 `com.dazz.camera.vintagecamera`）Pro 权益本地解锁。运行时把会员态 getter 固定为 `YES`，并把 `applyTamper(reason:persistFlag:fromBootstrap:)` 置空避免被判篡改；带 `dumpMode` 只读跟版。越狱与不越狱都能装 | [下载 deb / dylib](https://github.com/Xitaoyou/xixiduo-loon-plugins/releases/tag/dazzpro-v1.0.0) · [源码与说明](dazzpro) · [免越狱安装](dazzpro/docs/NoJailbreak.md) · [取证结论](docs/Dazz-VIP.md) |
 
 下载：**[Releases · dazzpro-v1.0.0](https://github.com/Xitaoyou/xixiduo-loon-plugins/releases/tag/dazzpro-v1.0.0)**
 
+越狱：
+
 - 有根越狱（unc0ver / checkra1n / Taurine）→ `dazzpro-rootful.deb`
 - 无根越狱（Dopamine / palera1n rootless）→ `dazzpro-rootless.deb`
-- TrollStore / 自签注入 → `DazzPro.dylib`
 
-自己构建：仓库 Actions 里手动跑 `build-dazzpro`（`ubuntu-latest` 交叉编译），产出同样三样。
+不越狱：
+
+- iOS 14.0–17.0 且能装 TrollStore → 装 [TrollFools](https://github.com/Lessica/TrollFools/releases)，选 Dazz → 注入 → `DazzPro.dylib`。**不用砸壳**，TrollFools 官方限制列表支持「加密 App Store 应用 + 裸 dylib」
+- 其它系统 → 先拿解密后的 Dazz IPA，跑 `python dazzpro/tools/inject_dylib.py --ipa Dazz_decrypted.ipa --dylib DazzPro.dylib -o DazzPro.ipa`，再用 Sideloadly / zsign 重签安装
+
+完整前置条件、坑与不越狱时的跟版办法：[免越狱安装](dazzpro/docs/NoJailbreak.md)。自己构建：仓库 Actions 里手动跑 `build-dazzpro`（`ubuntu-latest` 交叉编译），产出同样三样。
 
 
 ## 使用提示
