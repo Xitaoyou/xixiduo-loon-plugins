@@ -52,6 +52,7 @@ jobs:
       - name: Build rootless deb
         working-directory: dazzpro
         run: |
+          mkdir -p ../out
           make clean || true
           make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
           cp packages/*.deb ../out/dazzpro-rootless.deb
@@ -59,6 +60,7 @@ jobs:
       - name: Build injectable dylib
         working-directory: dazzpro
         run: |
+          mkdir -p ../out
           make clean || true
           make ARCHS=arm64
           find .theos -name DazzPro.dylib -exec cp {} ../out/DazzPro.dylib \;
