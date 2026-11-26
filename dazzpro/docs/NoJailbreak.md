@@ -60,10 +60,10 @@ log stream --device --predicate 'subsystem == "com.xitaoyou.dazzpro"'
 
 ### B2. 打进去
 
-用仓库里的 [inject_dylib.py](../dazzpro/tools/inject_dylib.py)（纯 Python，无第三方依赖）：
+用仓库里的 [inject_dylib.py](../tools/inject_dylib.py)（纯 Python，无第三方依赖）：
 
 ```bash
-python dazzpro/tools/inject_dylib.py \
+python tools/inject_dylib.py \
   --ipa Dazz_decrypted.ipa \
   --dylib DazzPro.dylib \
   -o DazzPro.ipa \
