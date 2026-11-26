@@ -77,7 +77,7 @@ make ARCHS=arm64                   # 出 .theos/obj/arm64/DazzPro.dylib
 
 **TrollStore + TrollFools（iOS 14.0–17.0，不用砸壳）**：TrollFools 里选 Dazz → 注入 → 选 `DazzPro.dylib`。TrollFools 官方限制列表明确支持「加密 App Store 应用 + 裸 dylib」，而本插件正是 thin arm64 裸 dylib。
 
-**Sideloadly / zsign 自签（任意系统，需要先砸壳）**：`python dazzpro/tools/inject_dylib.py --ipa Dazz_decrypted.ipa --dylib DazzPro.dylib -o DazzPro.ipa` 打出注入好的 IPA，再拖进 Sideloadly 或 `zsign` 签名。脚本会拦 FairPlay 加密、头部空间不足、重复注入三种情况，报错时不改文件。
+**Sideloadly / zsign 自签（任意系统，需要先砸壳）**：`python tools/inject_dylib.py --ipa Dazz_decrypted.ipa --dylib DazzPro.dylib -o DazzPro.ipa` 打出注入好的 IPA，再拖进 Sideloadly 或 `zsign` 签名。脚本会拦 FairPlay 加密、头部空间不足、重复注入三种情况，报错时不改文件。
 
 **越狱 deb** 与上面两条路线同样有效，`DazzPro.plist` 里写死了 bundle filter `com.dazz.camera.vintagecamera`。
 
