@@ -41,9 +41,9 @@ ok("头部有 #!homepage", /^#!homepage=/m.test(src));
 
 const argLines = sections["Argument"] || [];
 const argNames = argLines.map(l => l.split("=")[0].trim());
-ok("7 个开关", argNames.length === 7, argNames.join(","));
+ok("9 个开关", argNames.length === 9, argNames.join(","));
 ok("开关顺序与脚本 ORDER 一致",
-  argNames.join(",") === "unlockVip,rewritePurchase,modifyProfile,strictAppOnly,farFutureTime,probeMode,debugMode",
+  argNames.join(",") === "unlockVip,rewritePurchase,boostQuota,retryOnBusy,modifyProfile,strictAppOnly,farFutureTime,probeMode,debugMode",
   argNames.join(","));
 ok("switch 项形如 name=switch, a, b", argLines.filter(l => l.includes("=switch")).every(l => /^\w+=switch,\s*(true|false),\s*(true|false),/.test(l)));
 ok("input 项有默认值", argLines.filter(l => l.includes("=input")).every(l => /^\w+=input,\s*\S/.test(l)));
@@ -74,7 +74,7 @@ const mainRules = parsed.filter(x => (x.scriptUrl || "").endsWith("vip.js"));
 const probeRule = parsed.find(x => (x.scriptUrl || "").endsWith("probe.js"));
 ok("vip.js 规则 2 条", mainRules.length === 2, String(mainRules.length));
 ok("probe.js 规则 1 条", !!probeRule);
-ok("vip.js 参数 7 个", mainRules.every(x => x.argNames && x.argNames.length === 7), mainRules.map(x => (x.argNames || []).length).join(","));
+ok("vip.js 参数 9 个", mainRules.every(x => x.argNames && x.argNames.length === 9), mainRules.map(x => (x.argNames || []).length).join(","));
 ok("参数顺序与 [Argument] 一致", mainRules.every(x => (x.argNames || []).join(",") === argNames.join(",")));
 ok("probe 规则受 probeMode 约束", /\$\{probeMode\} == true &&/.test(rules.find(r => r.includes("probe.js")) || ""));
 ok("改写规则受 probeMode == false 约束", rules.filter(r => r.includes("vip.js")).every(r => /\$\{probeMode\} == false &&/.test(r)));
@@ -86,6 +86,8 @@ const cases = [
   ["https://api-sub.meitu.com/v2/user/vip.json", "Wink 会员态"],
   ["https://api-winkcut.meitu.com/user/show.json", "Wink 会员态"],
   ["https://h5api-winkcut.meitu.com/activity/ai_cartoon.json", "Wink H5·账号"],
+  ["https://h5api-winkcut.meitu.com/activity/ai_repair.json", "Wink H5·账号"],
+  ["https://h5api-winkcut.meitu.com/activity/ai_repair_task_query.json", "Wink H5·账号"],
   ["https://api.account.meitu.com/users/show_current.json", "Wink H5·账号"],
   ["https://api-sub.meitu.com.evil.cn/v2/user/vip_info_by_group.json", null],
   ["https://api-subxmeitu.com/v2/user/vip_info_by_group.json", null],
