@@ -1,8 +1,11 @@
-西西多大陆用免费节点：11-25 19:21（北京时间） = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-GPT 解锁|🇮🇹 意大利 09｜896ms = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-日常推荐：🇮🇹 意大利 06｜880ms = Shadowsocks,202.50.253.90,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 09｜896ms = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 04｜938ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 06｜880ms = Shadowsocks,202.50.253.90,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 07｜943ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 01｜1181ms = Shadowsocks,202.50.253.81,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+西西多大陆用免费节点：11-26 18:52（北京时间） = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+GPT 解锁|🇮🇹 意大利 04｜889ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+日常推荐：🇮🇹 意大利 10｜809ms = Shadowsocks,202.50.253.63,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 04｜889ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 10｜809ms = Shadowsocks,202.50.253.63,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 02｜931ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 05｜839ms = Shadowsocks,202.50.253.54,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 08｜899ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 06｜957ms = Shadowsocks,202.50.253.90,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 09｜1210ms = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 07｜1217ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
