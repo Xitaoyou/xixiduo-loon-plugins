@@ -2,55 +2,55 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 984,
-  "unreachable": 257,
+  "candidates": 1080,
+  "unreachable": 260,
   "endpoint_rejected": 0,
-  "ai_rejected": 611,
+  "ai_rejected": 603,
   "ai_min_pass": 2,
   "filter_policy": "weighted-best30-country4-v3",
   "sort_by": "Current and recent throughput weighted by compatible-exit success rate and bounded stability bonus; jitter, latency, quality",
-  "ai_qualified": 415,
-  "quality_qualified": 319,
-  "quality_rejected": 5,
+  "ai_qualified": 553,
+  "quality_qualified": 360,
+  "quality_rejected": 2,
   "country_best_count": 30,
   "country_limit": 4,
-  "country_count": 9,
+  "country_count": 10,
   "recommendations": {
     "ai": [
       {
         "label": "AI推荐",
-        "node": "海外测｜🇺🇸 美国 21｜230ms · 123.19Mbps",
+        "node": "海外测｜🇺🇸 美国 21｜71ms · 372.26Mbps",
         "id": "cf8f33224c9c2588a7012ef740e500a1e998adec5bebc9d1d784479922c89bc4"
       },
       {
         "label": "备选AI",
-        "node": "海外测｜🇨🇦 加拿大 16｜50ms · 796.86Mbps",
-        "id": "194ce7b3647cc56b1c09bc1333cb7d1543ce0783a451e25eb0ba44d7fad49bb1"
+        "node": "海外测｜🇨🇦 加拿大 17｜95ms · 888.49Mbps",
+        "id": "423ae1ae8444688214f0b44343540a48c3b91795241e88fb87f70ee05f376607"
       }
     ],
     "media": [
       {
         "label": "流媒体推荐",
-        "node": "海外测｜🇸🇬 新加坡 04｜660ms · 48.86Mbps",
+        "node": "海外测｜🇸🇬 新加坡 04｜919ms · 35.42Mbps",
         "id": "daf3302766cd878575cabec7f986084401edb0775f0ead1445817b9597796ea7"
       }
     ],
     "download": [
       {
         "label": "下载推荐",
-        "node": "海外测｜🇺🇸 美国 57｜43ms · 1414.90Mbps",
-        "id": "922fb82a99a5c87272586c02697a09f160c3d87465ff3a885f9d0e5031d2a618"
+        "node": "海外测｜🇨🇦 加拿大 17｜95ms · 888.49Mbps",
+        "id": "423ae1ae8444688214f0b44343540a48c3b91795241e88fb87f70ee05f376607"
       },
       {
         "label": "备选下载",
-        "node": "海外测｜🇺🇸 美国 21｜230ms · 123.19Mbps",
+        "node": "海外测｜🇺🇸 美国 21｜71ms · 372.26Mbps",
         "id": "cf8f33224c9c2588a7012ef740e500a1e998adec5bebc9d1d784479922c89bc4"
       }
     ],
     "clean_ip": [
       {
         "label": "纯净IP推荐",
-        "node": "海外测｜🇩🇪 德国 27｜397ms · 131.05Mbps",
+        "node": "海外测｜🇩🇪 德国 27｜248ms · 246.91Mbps",
         "id": "2747b4ab82460ff1ae084b9c8412592d3b76cd956605e411e42711508b797017"
       }
     ]
@@ -65,9 +65,9 @@
   "media_all_passed": 1,
   "media_service_passes": {
     "Netflix": 30,
-    "Disney+": 3,
-    "YouTube Premium": 20,
-    "Prime Video": 20
+    "Disney+": 4,
+    "YouTube Premium": 16,
+    "Prime Video": 19
   },
   "quality_labels": {
     "机房": 28,
@@ -75,87 +75,26 @@
   },
   "node_results": [
     {
-      "id": "194ce7b3647cc56b1c09bc1333cb7d1543ce0783a451e25eb0ba44d7fad49bb1",
-      "name": "海外测｜🇨🇦 加拿大 16｜50ms · 796.86Mbps",
-      "country": "CA",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 78
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 39
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 705
-        }
-      },
-      "latency_ms": 78,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": false
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": 796.86,
-      "exit_ip": "149.22.95.183",
-      "basic_latency_ms": 50,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 125.985,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.01,
-      "selection_score": 576.778125,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        796.86,
-        910.62,
-        731.87
-      ],
-      "stability_weight": 1.25
-    },
-    {
       "id": "423ae1ae8444688214f0b44343540a48c3b91795241e88fb87f70ee05f376607",
-      "name": "海外测｜🇨🇦 加拿大 17｜302ms · 105.30Mbps",
+      "name": "海外测｜🇨🇦 加拿大 17｜95ms · 888.49Mbps",
       "country": "CA",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 324
+          "latency_ms": 94
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 272
+          "latency_ms": 84
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 641
+          "latency_ms": 332
         }
       },
-      "latency_ms": 324,
+      "latency_ms": 94,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -173,50 +112,50 @@
           "Netflix": true,
           "Disney+": false,
           "YouTube Premium": true,
-          "Prime Video": true
+          "Prime Video": false
         },
-        "pass_count": 3,
+        "pass_count": 2,
         "all_passed": false
       },
-      "download_mbps": 105.3,
+      "download_mbps": 888.49,
       "exit_ip": "134.195.198.212",
-      "basic_latency_ms": 302,
-      "stable": true,
+      "basic_latency_ms": 95,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 164.13,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.02,
-      "selection_score": 168.39375,
+      "conservative_mbps": 888.49,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 888.49,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        105.3,
-        106.52,
-        96.52
+        1101.03,
+        888.49,
+        122.03
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
-      "id": "d4aeb0a5c955f38cbb395e0cead0d548197081867d21b18f45f95192cf690ee1",
-      "name": "海外测｜🇨🇦 加拿大 21｜201ms · 61.86Mbps",
+      "id": "956fbc03e290b27ab9dc6fbc35d33f6d41d0f9147750b80c83e5a31c4b1da0d2",
+      "name": "海外测｜🇨🇦 加拿大 19｜142ms · 459.60Mbps",
       "country": "CA",
       "passed": true,
-      "pass_count": 2,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 228
+          "latency_ms": 90
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 184
+          "latency_ms": 26
         },
         "Gemini": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 183
         }
       },
-      "latency_ms": 206,
+      "latency_ms": 90,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -239,45 +178,45 @@
         "pass_count": 2,
         "all_passed": false
       },
-      "download_mbps": 61.86,
-      "exit_ip": "134.195.196.211",
-      "basic_latency_ms": 201,
-      "stable": true,
+      "download_mbps": 459.6,
+      "exit_ip": "184.107.106.77",
+      "basic_latency_ms": 142,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 62.705,
-      "observation_rounds": 3,
-      "observation_span_hours": 19.99,
-      "selection_score": 77.853125,
+      "conservative_mbps": 459.6,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 459.6,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        61.37,
-        76.38,
-        61.86
+        149.45,
+        459.6,
+        876.29
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
-      "id": "b3788478d8e580d20ef138733a9f0d125189b9415430f101d8c7ea7b80385fba",
-      "name": "海外测｜🇨🇦 加拿大 22｜343ms · 54.66Mbps",
+      "id": "55f72e22e8a9dbcee1ecc437be01ce23beb43e8841f75c2a67b0caad1615f2ee",
+      "name": "海外测｜🇨🇦 加拿大 15｜112ms · 337.56Mbps",
       "country": "CA",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 429
+          "latency_ms": 182
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 486
+          "latency_ms": 188
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 1511
+          "latency_ms": 649
         }
       },
-      "latency_ms": 486,
+      "latency_ms": 188,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -295,172 +234,50 @@
           "Netflix": true,
           "Disney+": false,
           "YouTube Premium": true,
-          "Prime Video": false
+          "Prime Video": true
         },
-        "pass_count": 2,
+        "pass_count": 3,
         "all_passed": false
       },
-      "download_mbps": 54.66,
-      "exit_ip": "51.222.12.127",
-      "basic_latency_ms": 343,
-      "stable": true,
+      "download_mbps": 337.56,
+      "exit_ip": "192.99.151.230",
+      "basic_latency_ms": 112,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 56.715,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.07,
-      "selection_score": 69.609375,
+      "conservative_mbps": 337.56,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 337.56,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        54.66,
-        53.55,
-        56.32
+        33.48,
+        442.38,
+        337.56
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
-      "id": "d104391fc4b8195b0a905e9b2691adb16b774699fe4ba448adbd0d3c5e819857",
-      "name": "海外测｜🇩🇪 德国 26｜347ms · 184.01Mbps",
-      "country": "DE",
+      "id": "76c4891d50402b80b4dff4517ffadc2bbff533f70bc51802606b9c9abf07ef13",
+      "name": "海外测｜🇨🇦 加拿大 23｜324ms · 334.66Mbps",
+      "country": "CA",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 484
+          "latency_ms": 164
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 404
+          "latency_ms": 141
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 1120
+          "latency_ms": 299
         }
       },
-      "latency_ms": 484,
-      "quality": {
-        "grade": 3,
-        "risk_score": 0,
-        "label": "低风险非机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": false
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": false
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": 184.01,
-      "exit_ip": "48.102.130.17",
-      "basic_latency_ms": 347,
-      "stable": false,
-      "success_rate": 1.0,
-      "conservative_mbps": 184.01,
-      "observation_rounds": 1,
-      "observation_span_hours": 0.0,
-      "selection_score": 184.01,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        34.35,
-        184.01,
-        211.5
-      ],
-      "stability_weight": 1.0
-    },
-    {
-      "id": "2747b4ab82460ff1ae084b9c8412592d3b76cd956605e411e42711508b797017",
-      "name": "海外测｜🇩🇪 德国 27｜397ms · 131.05Mbps",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 409
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 365
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1198
-        }
-      },
-      "latency_ms": 409,
-      "quality": {
-        "grade": 3,
-        "risk_score": 0,
-        "label": "低风险非机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": false
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": false
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": 131.05,
-      "exit_ip": "48.102.229.114",
-      "basic_latency_ms": 397,
-      "stable": false,
-      "success_rate": 1.0,
-      "conservative_mbps": 131.05,
-      "observation_rounds": 1,
-      "observation_span_hours": 0.0,
-      "selection_score": 131.05,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        23.21,
-        131.05,
-        349.11
-      ],
-      "stability_weight": 1.0
-    },
-    {
-      "id": "c204a3cfa60e4a37f83e3555a78e31deb7048163e45e718b56de06e50d73e5f1",
-      "name": "海外测｜🇩🇪 德国 28｜371ms · 95.99Mbps",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 512
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 406
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 459,
+      "latency_ms": 164,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -477,112 +294,51 @@
         "services": {
           "Netflix": true,
           "Disney+": true,
-          "YouTube Premium": false,
-          "Prime Video": true
+          "YouTube Premium": true,
+          "Prime Video": false
         },
         "pass_count": 3,
         "all_passed": false
       },
-      "download_mbps": 95.99,
-      "exit_ip": "46.20.105.110",
-      "basic_latency_ms": 371,
+      "download_mbps": 334.66,
+      "exit_ip": "209.200.246.148",
+      "basic_latency_ms": 324,
       "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 95.99,
+      "conservative_mbps": 334.66,
       "observation_rounds": 1,
       "observation_span_hours": 0.0,
-      "selection_score": 95.99,
+      "selection_score": 334.66,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        53.05,
-        171.23,
-        95.99
+        397.24,
+        282.65,
+        334.66
       ],
       "stability_weight": 1.0
     },
     {
-      "id": "de76768612e4443644c589564acb69d3bb70524bf45956f9bd195c17ea33898c",
-      "name": "海外测｜🇩🇪 德国 06｜615ms · 54.27Mbps",
-      "country": "DE",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 676
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 606
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1106
-        }
-      },
-      "latency_ms": 676,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 54.27,
-      "exit_ip": "185.177.229.95",
-      "basic_latency_ms": 615,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 60.435,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.05,
-      "selection_score": 71.69062500000001,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        55.17,
-        54.27,
-        53.99
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "4984a02d3736a851ac6acda918ee0e804ae8a73948e8520e9d7b5a91b1f36b55",
-      "name": "海外测｜🇫🇮 芬兰 02｜397ms · 285.15Mbps",
-      "country": "FI",
+      "id": "178ab236b123356aec6ec6279865fe530bacdb57b78b7a0817f653793959f787",
+      "name": "海外测｜🇨🇭 瑞士 04｜417ms · 76.70Mbps",
+      "country": "CH",
       "passed": true,
       "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 984
+          "latency_ms": 494
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 377
+          "latency_ms": 427
         },
         "Gemini": {
           "passed": false,
           "latency_ms": null
         }
       },
-      "latency_ms": 680,
+      "latency_ms": 460,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -605,594 +361,45 @@
         "pass_count": 2,
         "all_passed": false
       },
-      "download_mbps": 285.15,
-      "exit_ip": "178.17.60.32",
-      "basic_latency_ms": 397,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 263.38,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.03,
-      "selection_score": 342.83124999999995,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        62.73,
-        285.15,
-        299.93
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "03cca1c18a3117585cad799dbf521bc31ce8b5c4f339bdb4d17e4fbbf7a091ee",
-      "name": "海外测｜🇫🇷 法国 15｜632ms · 52.48Mbps",
-      "country": "FR",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 703
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 620
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1157
-        }
-      },
-      "latency_ms": 703,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 52.48,
-      "exit_ip": "23.162.152.127",
-      "basic_latency_ms": 632,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 62.065,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.02,
-      "selection_score": 71.59062499999999,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        52.48,
-        51.42,
-        52.88
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "5447f21dcac1d24c56af7cec05734a114776da088d39c20c26dfbf4a85feb4f9",
-      "name": "海外测｜🇫🇷 法国 18｜621ms · 54.61Mbps",
-      "country": "FR",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 720
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 611
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1191
-        }
-      },
-      "latency_ms": 720,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": false
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": 54.61,
-      "exit_ip": "2001:41d0:24c:9c00::",
-      "basic_latency_ms": 621,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 59.875,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.01,
-      "selection_score": 71.553125,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        54.79,
-        52.55,
-        54.61
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "7ba49c856da3dc350ff7eaf15a870137648ad2c09e249bf67619da597a9097c7",
-      "name": "海外测｜🇫🇷 法国 11｜630ms · 52.40Mbps",
-      "country": "FR",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 699
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 614
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 656,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": false,
-          "Prime Video": false
-        },
-        "pass_count": 1,
-        "all_passed": false
-      },
-      "download_mbps": 52.4,
-      "exit_ip": "2001:41d0:342:4800::",
-      "basic_latency_ms": 630,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 61.575,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.04,
-      "selection_score": 71.234375,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        49.98,
-        52.4,
-        55.29
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "a79dc02de18f50209d7969c05273a20b9cfe6f4bef69f2de4954d8ab542f6386",
-      "name": "海外测｜🇫🇷 法国 01｜634ms · 52.74Mbps",
-      "country": "FR",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 726
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 637
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 682,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": false,
-          "Prime Video": false
-        },
-        "pass_count": 1,
-        "all_passed": false
-      },
-      "download_mbps": 52.74,
-      "exit_ip": "2001:41d0:306:2839::",
-      "basic_latency_ms": 634,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 61.129999999999995,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.0,
-      "selection_score": 71.16875,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        54.41,
-        52.72,
-        52.74
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "38ba1c5ecc700bbaf5a0612715cd7b0e041fac9fd021d09478400873b507232f",
-      "name": "海外测｜🇬🇧 英国 16｜433ms · 59.78Mbps",
-      "country": "GB",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 511
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 438
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1018
-        }
-      },
-      "latency_ms": 511,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": false
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": 59.78,
-      "exit_ip": "158.173.24.73",
-      "basic_latency_ms": 433,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 69.715,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.03,
-      "selection_score": 80.934375,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        62.52,
-        55.82,
-        59.78
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "ffc1589bfecbaaf968773cb37c1c1dbf91abc6fadc3ec1b1beb10cf77603f385",
-      "name": "海外测｜🇬🇧 英国 06｜618ms · 54.89Mbps",
-      "country": "GB",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 690
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 614
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1157
-        }
-      },
-      "latency_ms": 690,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 54.89,
-      "exit_ip": "149.7.16.228",
-      "basic_latency_ms": 618,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 61.685,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.06,
-      "selection_score": 72.859375,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        54.89,
-        54.02,
-        55.4
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "7872eee6e70759e4650dbef5643720a0802e851a9421341d929d4f0b8db22f2e",
-      "name": "海外测｜🇬🇧 英国 10｜608ms · 53.97Mbps",
-      "country": "GB",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 755
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 599
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1453
-        }
-      },
-      "latency_ms": 755,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 53.97,
-      "exit_ip": "142.202.51.42",
-      "basic_latency_ms": 608,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 61.995,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.05,
-      "selection_score": 72.478125,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        50.2,
-        54.61,
-        53.97
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "8aabb8ba409fe16a8915604f1fc33602d8db76bf62a3c06fb44fbcc54d680a50",
-      "name": "海外测｜🇬🇧 英国 05｜464ms · 53.36Mbps",
-      "country": "GB",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 546
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 448
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 497,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": true,
-          "YouTube Premium": false,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 53.36,
-      "exit_ip": "185.176.206.133",
-      "basic_latency_ms": 464,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 61.595,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.04,
-      "selection_score": 71.846875,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        53.36,
-        43.86,
-        53.8
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "5deb216582e3611e22bbabb74552c52e0e35ad464f30caa94b5d7d611a093018",
-      "name": "海外测｜🇯🇵 日本 08｜417ms · 77.78Mbps",
-      "country": "JP",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 496
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 419
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 458,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": false,
-          "Prime Video": true
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": 77.78,
-      "exit_ip": "158.101.151.157",
+      "download_mbps": 76.7,
+      "exit_ip": "2a05:9406::1369",
       "basic_latency_ms": 417,
-      "stable": true,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 52.855000000000004,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.03,
-      "selection_score": 81.646875,
+      "conservative_mbps": 76.7,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 76.7,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        77.59,
-        77.8,
-        77.78
+        76.7,
+        77.83,
+        74.95
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
-      "id": "16d6f6c97f6ccba436ca0f4b912175fa970255e8cf2f5db263d2315624c282e9",
-      "name": "海外测｜🇯🇵 日本 11｜302ms · 75.97Mbps",
-      "country": "JP",
+      "id": "570e8caa3addc2ca7e05449573e85bf8308e28e3056cd0cc31a450a55088f0d4",
+      "name": "海外测｜🇨🇭 瑞士 03｜428ms · 75.87Mbps",
+      "country": "CH",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 376
+          "latency_ms": 519
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 306
+          "latency_ms": 424
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 755
+          "latency_ms": 815
         }
       },
-      "latency_ms": 376,
+      "latency_ms": 519,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1215,274 +422,30 @@
         "pass_count": 3,
         "all_passed": false
       },
-      "download_mbps": 75.97,
-      "exit_ip": "149.22.87.204",
-      "basic_latency_ms": 302,
-      "stable": true,
+      "download_mbps": 75.87,
+      "exit_ip": "186.190.215.4",
+      "basic_latency_ms": 428,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 51.849999999999994,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.0,
-      "selection_score": 79.88749999999999,
+      "conservative_mbps": 75.87,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 75.87,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        75.97,
-        76.13,
-        75.81
+        75.87,
+        75.43,
+        76.16
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
-      "id": "4a6c76c72b7a4c52964216beebd78defbc03b183e25487a00cf32cce9895d9b1",
-      "name": "海外测｜🇯🇵 日本 12｜303ms · 75.88Mbps",
-      "country": "JP",
+      "id": "517834abbd94b1637d929e38d4516a9eda2cc8b8d2947c22ace0115a00ed3786",
+      "name": "海外测｜🇨🇭 瑞士 05｜331ms · 72.94Mbps",
+      "country": "CH",
       "passed": true,
       "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 376
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 303
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 735
-        }
-      },
-      "latency_ms": 376,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 75.88,
-      "exit_ip": "149.22.87.241",
-      "basic_latency_ms": 303,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 51.775,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.0,
-      "selection_score": 79.784375,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        75.88,
-        68.28,
-        76.11
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "4abda52a3798a84815f4b743d28d257fe3a45e19866f95220a094bc71159b3d2",
-      "name": "海外测｜🇯🇵 日本 16｜302ms · 75.54Mbps",
-      "country": "JP",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 374
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 303
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1010
-        }
-      },
-      "latency_ms": 374,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 75.54,
-      "exit_ip": "149.22.87.240",
-      "basic_latency_ms": 302,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 51.875,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.0,
-      "selection_score": 79.634375,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        85.62,
-        75.5,
-        75.54
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "b6de738068868807798741c4c5ec763d1169acf3b7dc9af3eebc614722ec4296",
-      "name": "海外测｜🇳🇱 荷兰 24｜295ms · 352.06Mbps",
-      "country": "NL",
-      "passed": true,
-      "pass_count": 2,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 373
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 295
-        },
-        "Gemini": {
-          "passed": false,
-          "latency_ms": null
-        }
-      },
-      "latency_ms": 334,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": false,
-          "Prime Video": true
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": 352.06,
-      "exit_ip": "171.22.183.158",
-      "basic_latency_ms": 295,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 373.395,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.01,
-      "selection_score": 453.40937499999995,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        82.62,
-        352.06,
-        365.3
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "4e6263dd42f8ed139a30c7fda2aac49cffee1a564feecf5f6403a19905e08e5e",
-      "name": "海外测｜🇳🇱 荷兰 09｜305ms · 320.92Mbps",
-      "country": "NL",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 402
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 317
-        },
-        "Gemini": {
-          "passed": true,
-          "latency_ms": 1540
-        }
-      },
-      "latency_ms": 402,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": false,
-          "Prime Video": true
-        },
-        "pass_count": 2,
-        "all_passed": false
-      },
-      "download_mbps": 320.92,
-      "exit_ip": "50.7.95.228",
-      "basic_latency_ms": 305,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 333.915,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.07,
-      "selection_score": 409.271875,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        75.35,
-        320.92,
-        345.47
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "b7a9c764e7ecb00be8b6254c39428585d4a5a332647683d10ddac05271ac0cb0",
-      "name": "海外测｜🇳🇱 荷兰 15｜313ms · 280.37Mbps",
-      "country": "NL",
-      "passed": true,
-      "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
@@ -1490,7 +453,739 @@
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 328
+          "latency_ms": 315
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 815
+        }
+      },
+      "latency_ms": 400,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": 72.94,
+      "exit_ip": "23.166.88.127",
+      "basic_latency_ms": 331,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 72.94,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 72.94,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        71.76,
+        72.94,
+        73.12
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "2747b4ab82460ff1ae084b9c8412592d3b76cd956605e411e42711508b797017",
+      "name": "海外测｜🇩🇪 德国 27｜248ms · 246.91Mbps",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 398
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 229
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 761
+        }
+      },
+      "latency_ms": 398,
+      "quality": {
+        "grade": 3,
+        "risk_score": 0,
+        "label": "低风险非机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": false
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": 246.91,
+      "exit_ip": "48.102.229.114",
+      "basic_latency_ms": 248,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 246.91,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 246.91,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        105.7,
+        246.91,
+        285.59
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "d8460db0e3dd409e28bb6093a59cd63df8abed4607c77e3d2eb5b22735f537a9",
+      "name": "海外测｜🇩🇪 德国 29｜221ms · 224.35Mbps",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 332
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 260
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 3402
+        }
+      },
+      "latency_ms": 332,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": true,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": 224.35,
+      "exit_ip": "46.20.105.110",
+      "basic_latency_ms": 221,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 224.35,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 224.35,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        104.69,
+        323.68,
+        224.35
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "d104391fc4b8195b0a905e9b2691adb16b774699fe4ba448adbd0d3c5e819857",
+      "name": "海外测｜🇩🇪 德国 26｜265ms · 195.70Mbps",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 484
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 239
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 362,
+      "quality": {
+        "grade": 3,
+        "risk_score": 0,
+        "label": "低风险非机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": false
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 195.7,
+      "exit_ip": "48.102.130.17",
+      "basic_latency_ms": 265,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 195.7,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 195.7,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        57.94,
+        195.7,
+        195.84
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "b2072061b06af69ae97746d127e6ec2fe67c9e3c5cd275c3ef971c17a2147180",
+      "name": "海外测｜🇩🇪 德国 10｜380ms · 87.57Mbps",
+      "country": "DE",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 456
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 385
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 716
+        }
+      },
+      "latency_ms": 456,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": 87.57,
+      "exit_ip": "193.108.117.61",
+      "basic_latency_ms": 380,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 87.57,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 87.57,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        87.41,
+        87.57,
+        88.77
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "4984a02d3736a851ac6acda918ee0e804ae8a73948e8520e9d7b5a91b1f36b55",
+      "name": "海外测｜🇫🇮 芬兰 02｜269ms · 249.30Mbps",
+      "country": "FI",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 341
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 247
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 294,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 249.3,
+      "exit_ip": "178.17.60.32",
+      "basic_latency_ms": 269,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 249.3,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 249.3,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        87.12,
+        421.41,
+        249.3
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "a79dc02de18f50209d7969c05273a20b9cfe6f4bef69f2de4954d8ab542f6386",
+      "name": "海外测｜🇫🇷 法国 01｜394ms · 93.51Mbps",
+      "country": "FR",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 466
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 391
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 428,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": 93.51,
+      "exit_ip": "2001:41d0:306:2839::",
+      "basic_latency_ms": 394,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 93.51,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 93.51,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        93.51,
+        92.14,
+        93.93
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "7ba49c856da3dc350ff7eaf15a870137648ad2c09e249bf67619da597a9097c7",
+      "name": "海外测｜🇫🇷 法国 11｜389ms · 92.11Mbps",
+      "country": "FR",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 458
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 405
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 432,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": 92.11,
+      "exit_ip": "2001:41d0:342:4800::",
+      "basic_latency_ms": 389,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 92.11,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 92.11,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        93.04,
+        91.6,
+        92.11
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "fc917c780f9aae6313cf22790aedb6688010b832e5195ae0aae038f3b771ab6a",
+      "name": "海外测｜🇫🇷 法国 17｜378ms · 90.82Mbps",
+      "country": "FR",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 472
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 394
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 433,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": false
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 90.82,
+      "exit_ip": "2001:41d0:24c:9900::",
+      "basic_latency_ms": 378,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 90.82,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 90.82,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        91.83,
+        90.36,
+        90.82
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "e9aafd8ccf98d304087f9c81022db8b6b46639b1bebcc048781dd8788898d87e",
+      "name": "海外测｜🇫🇷 法国 03｜373ms · 90.76Mbps",
+      "country": "FR",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 526
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 386
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 456,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 90.76,
+      "exit_ip": "2001:41d0:24c:9b00::",
+      "basic_latency_ms": 373,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 90.76,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 90.76,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        89.71,
+        90.76,
+        91.4
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "7ab95c98b80efe7e5f0d342c022b19d7f5681aff3ccec35104cfefb5f7a9c1e0",
+      "name": "海外测｜🇬🇧 英国 17｜329ms · 100.28Mbps",
+      "country": "GB",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 406
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 338
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 652
+        }
+      },
+      "latency_ms": 406,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": 100.28,
+      "exit_ip": "51.89.194.151",
+      "basic_latency_ms": 329,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 100.28,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 100.28,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        94.94,
+        100.28,
+        101.12
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "d08de60f33cbba3b19efb7e8aa7dbd7f41755dd999f9aa0a4316ffe799271b5c",
+      "name": "海外测｜🇬🇧 英国 01｜361ms · 98.71Mbps",
+      "country": "GB",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 434
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 357
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 682
+        }
+      },
+      "latency_ms": 434,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": true,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": 98.71,
+      "exit_ip": "149.7.16.228",
+      "basic_latency_ms": 361,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 98.71,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 98.71,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        98.71,
+        98.16,
+        99.98
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "030d83231fcf174c754c8784e5e7bbbbbd4abd58d81de5675e51a039599593e9",
+      "name": "海外测｜🇬🇧 英国 14｜249ms · 95.58Mbps",
+      "country": "GB",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 384
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 345
         },
         "Gemini": {
           "passed": false,
@@ -1515,50 +1210,111 @@
           "Netflix": true,
           "Disney+": false,
           "YouTube Premium": false,
-          "Prime Video": true
+          "Prime Video": false
         },
-        "pass_count": 2,
+        "pass_count": 1,
         "all_passed": false
       },
-      "download_mbps": 280.37,
-      "exit_ip": "212.34.129.227",
-      "basic_latency_ms": 313,
-      "stable": true,
+      "download_mbps": 95.58,
+      "exit_ip": "2001:41d0:800:3fd7::",
+      "basic_latency_ms": 249,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 285.795,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.03,
-      "selection_score": 353.853125,
+      "conservative_mbps": 95.58,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 95.58,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        76.17,
-        280.37,
-        281.93
+        95.58,
+        95.32,
+        96.07
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
-      "id": "450977ce37de2b37bd498b6293910864c0433c10fdd94c358038a55b9317cc3d",
-      "name": "海外测｜🇳🇱 荷兰 11｜330ms · 89.41Mbps",
-      "country": "NL",
+      "id": "3ee1c2fc098cad2b4e27c10fde64c1a948d3c2834c5fef7a08855774f60f14cd",
+      "name": "海外测｜🇬🇧 英国 13｜246ms · 95.42Mbps",
+      "country": "GB",
       "passed": true,
       "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 418
+          "latency_ms": 388
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 422
+          "latency_ms": 257
         },
         "Gemini": {
           "passed": false,
           "latency_ms": null
         }
       },
-      "latency_ms": 420,
+      "latency_ms": 322,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": 95.42,
+      "exit_ip": "2001:41d0:800:3e81::",
+      "basic_latency_ms": 246,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 95.42,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 95.42,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        94.37,
+        95.42,
+        95.55
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "5deb216582e3611e22bbabb74552c52e0e35ad464f30caa94b5d7d611a093018",
+      "name": "海外测｜🇯🇵 日本 08｜685ms · 46.77Mbps",
+      "country": "JP",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 776
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 692
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 734,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1581,45 +1337,289 @@
         "pass_count": 2,
         "all_passed": false
       },
-      "download_mbps": 89.41,
-      "exit_ip": "146.103.102.187",
-      "basic_latency_ms": 330,
-      "stable": true,
+      "download_mbps": 46.77,
+      "exit_ip": "158.101.151.157",
+      "basic_latency_ms": 685,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 100.96000000000001,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.04,
-      "selection_score": 118.98125,
+      "conservative_mbps": 46.77,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 46.77,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        56.65,
-        89.41,
-        101.77
+        46.11,
+        46.77,
+        46.83
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
-      "id": "daf3302766cd878575cabec7f986084401edb0775f0ead1445817b9597796ea7",
-      "name": "海外测｜🇸🇬 新加坡 04｜660ms · 48.86Mbps",
-      "country": "SG",
+      "id": "4e6263dd42f8ed139a30c7fda2aac49cffee1a564feecf5f6403a19905e08e5e",
+      "name": "海外测｜🇳🇱 荷兰 09｜197ms · 470.35Mbps",
+      "country": "NL",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 824
+          "latency_ms": 288
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 759
+          "latency_ms": 204
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 1240
+          "latency_ms": 939
         }
       },
-      "latency_ms": 824,
+      "latency_ms": 288,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 470.35,
+      "exit_ip": "50.7.95.228",
+      "basic_latency_ms": 197,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 470.35,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 470.35,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        118.06,
+        482.93,
+        470.35
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "b6de738068868807798741c4c5ec763d1169acf3b7dc9af3eebc614722ec4296",
+      "name": "海外测｜🇳🇱 荷兰 24｜176ms · 404.54Mbps",
+      "country": "NL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 258
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 179
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 218,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 404.54,
+      "exit_ip": "171.22.183.158",
+      "basic_latency_ms": 176,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 404.54,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 404.54,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        133.96,
+        510.95,
+        404.54
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "b7a9c764e7ecb00be8b6254c39428585d4a5a332647683d10ddac05271ac0cb0",
+      "name": "海外测｜🇳🇱 荷兰 15｜181ms · 346.29Mbps",
+      "country": "NL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 262
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 185
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 224,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 2,
+        "all_passed": false
+      },
+      "download_mbps": 346.29,
+      "exit_ip": "212.34.129.227",
+      "basic_latency_ms": 181,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 346.29,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 346.29,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        135.78,
+        347.75,
+        346.29
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "fe465093cd57a8b4b0549c02189285318e1dfdae3c1d88c1f6dda9be455d1f63",
+      "name": "海外测｜🇳🇱 荷兰 20｜383ms · 95.22Mbps",
+      "country": "NL",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 444
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 372
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 408,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": true,
+          "YouTube Premium": false,
+          "Prime Video": true
+        },
+        "pass_count": 3,
+        "all_passed": false
+      },
+      "download_mbps": 95.22,
+      "exit_ip": "93.123.101.170",
+      "basic_latency_ms": 383,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 95.22,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 95.22,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        92.24,
+        96.62,
+        95.22
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "daf3302766cd878575cabec7f986084401edb0775f0ead1445817b9597796ea7",
+      "name": "海外测｜🇸🇬 新加坡 04｜919ms · 35.42Mbps",
+      "country": "SG",
+      "passed": true,
+      "pass_count": 2,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 1246
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 1010
+        },
+        "Gemini": {
+          "passed": false,
+          "latency_ms": null
+        }
+      },
+      "latency_ms": 1128,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1642,45 +1642,106 @@
         "pass_count": 4,
         "all_passed": true
       },
-      "download_mbps": 48.86,
+      "download_mbps": 35.42,
       "exit_ip": "2402:1f00:8001:135c::",
-      "basic_latency_ms": 660,
-      "stable": true,
+      "basic_latency_ms": 919,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 37.96,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.0,
-      "selection_score": 54.262499999999996,
+      "conservative_mbps": 35.42,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 35.42,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        42.05,
-        49.12,
-        48.86
+        35.42,
+        34.69,
+        35.45
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
-      "id": "922fb82a99a5c87272586c02697a09f160c3d87465ff3a885f9d0e5031d2a618",
-      "name": "海外测｜🇺🇸 美国 57｜43ms · 1414.90Mbps",
+      "id": "82e1af5dd3842e95fe1abfc89634fd5479a9f511a9d32a1953ed757ea3402405",
+      "name": "海外测｜🇺🇸 美国 19｜78ms · 447.57Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 2,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 75
+          "latency_ms": 168
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 44
+          "latency_ms": 98
         },
         "Gemini": {
           "passed": false,
           "latency_ms": null
         }
       },
-      "latency_ms": 60,
+      "latency_ms": 133,
+      "quality": {
+        "grade": 2,
+        "risk_score": 0,
+        "label": "机房",
+        "flags": {
+          "is_vpn": false,
+          "is_tor": false,
+          "is_proxy": false,
+          "is_datacenter": true
+        },
+        "source": "ipquery.io"
+      },
+      "media": {
+        "services": {
+          "Netflix": true,
+          "Disney+": false,
+          "YouTube Premium": false,
+          "Prime Video": false
+        },
+        "pass_count": 1,
+        "all_passed": false
+      },
+      "download_mbps": 447.57,
+      "exit_ip": "193.151.163.142",
+      "basic_latency_ms": 78,
+      "stable": false,
+      "success_rate": 1.0,
+      "conservative_mbps": 447.57,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 447.57,
+      "measurement_profile": "steady-v1-3x8MiB-body-time",
+      "measurement_environment": "github-ubuntu-x64/CA",
+      "download_samples_mbps": [
+        453.4,
+        237.83,
+        447.57
+      ],
+      "stability_weight": 1.0
+    },
+    {
+      "id": "f14d510d07d67b29b0b1793a2e298011366f28ecfec182d720b0a000191278c6",
+      "name": "海外测｜🇺🇸 美国 69｜77ms · 372.71Mbps",
+      "country": "US",
+      "passed": true,
+      "pass_count": 3,
+      "services": {
+        "ChatGPT": {
+          "passed": true,
+          "latency_ms": 111
+        },
+        "Claude": {
+          "passed": true,
+          "latency_ms": 73
+        },
+        "Gemini": {
+          "passed": true,
+          "latency_ms": 262
+        }
+      },
+      "latency_ms": 111,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1703,45 +1764,45 @@
         "pass_count": 3,
         "all_passed": false
       },
-      "download_mbps": 1414.9,
-      "exit_ip": "84.17.41.2",
-      "basic_latency_ms": 43,
-      "stable": true,
+      "download_mbps": 372.71,
+      "exit_ip": "37.19.198.236",
+      "basic_latency_ms": 77,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 119.225,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.07,
-      "selection_score": 958.828125,
+      "conservative_mbps": 372.71,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 372.71,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        1319.53,
-        1435.12,
-        1414.9
+        373.9,
+        370.74,
+        372.71
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     },
     {
       "id": "cf8f33224c9c2588a7012ef740e500a1e998adec5bebc9d1d784479922c89bc4",
-      "name": "海外测｜🇺🇸 美国 21｜230ms · 123.19Mbps",
+      "name": "海外测｜🇺🇸 美国 21｜71ms · 372.26Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 228
+          "latency_ms": 116
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 203
+          "latency_ms": 72
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 572
+          "latency_ms": 274
         }
       },
-      "latency_ms": 228,
+      "latency_ms": 116,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1764,106 +1825,45 @@
         "pass_count": 2,
         "all_passed": false
       },
-      "download_mbps": 123.19,
+      "download_mbps": 372.26,
       "exit_ip": "185.230.230.142",
-      "basic_latency_ms": 230,
+      "basic_latency_ms": 71,
       "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 614.9175,
-      "observation_rounds": 2,
+      "conservative_mbps": 372.26,
+      "observation_rounds": 1,
       "observation_span_hours": 0.0,
-      "selection_score": 369.05375000000004,
+      "selection_score": 372.26,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        123.39,
-        120.91,
-        123.19
+        354.25,
+        383.91,
+        372.26
       ],
       "stability_weight": 1.0
     },
     {
-      "id": "df9342d260d9a9410b522f925c0a69748a50d5cc3d0310174b8724b010b4cf02",
-      "name": "海外测｜🇺🇸 美国 52｜35ms · 445.07Mbps",
+      "id": "e9e512e61ac218e793983c2355f9faa8b0fccfa2c107a70b0bf78961b6bf0d49",
+      "name": "海外测｜🇺🇸 美国 77｜190ms · 371.87Mbps",
       "country": "US",
       "passed": true,
       "pass_count": 3,
       "services": {
         "ChatGPT": {
-          "passed": true,
-          "latency_ms": 86
-        },
-        "Claude": {
-          "passed": true,
-          "latency_ms": 44
-        },
-        "Gemini": {
           "passed": true,
           "latency_ms": 193
-        }
-      },
-      "latency_ms": 86,
-      "quality": {
-        "grade": 2,
-        "risk_score": 0,
-        "label": "机房",
-        "flags": {
-          "is_vpn": false,
-          "is_tor": false,
-          "is_proxy": false,
-          "is_datacenter": true
-        },
-        "source": "ipquery.io"
-      },
-      "media": {
-        "services": {
-          "Netflix": true,
-          "Disney+": false,
-          "YouTube Premium": true,
-          "Prime Video": true
-        },
-        "pass_count": 3,
-        "all_passed": false
-      },
-      "download_mbps": 445.07,
-      "exit_ip": "38.143.66.146",
-      "basic_latency_ms": 35,
-      "stable": true,
-      "success_rate": 1.0,
-      "conservative_mbps": 128.36,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.0,
-      "selection_score": 358.39375000000007,
-      "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
-      "download_samples_mbps": [
-        470.42,
-        433.25,
-        445.07
-      ],
-      "stability_weight": 1.25
-    },
-    {
-      "id": "86036cfa3cc4d1b0a734d4749c6425c0f38f81cfcf588162980d1a290e6ab3c9",
-      "name": "海外测｜🇺🇸 美国 47｜133ms · 274.63Mbps",
-      "country": "US",
-      "passed": true,
-      "pass_count": 3,
-      "services": {
-        "ChatGPT": {
-          "passed": true,
-          "latency_ms": 172
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 139
+          "latency_ms": 149
         },
         "Gemini": {
           "passed": true,
-          "latency_ms": 1455
+          "latency_ms": 378
         }
       },
-      "latency_ms": 172,
+      "latency_ms": 193,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1886,32 +1886,33 @@
         "pass_count": 3,
         "all_passed": false
       },
-      "download_mbps": 274.63,
-      "exit_ip": "169.197.142.68",
-      "basic_latency_ms": 133,
-      "stable": true,
+      "download_mbps": 371.87,
+      "exit_ip": "185.195.57.177",
+      "basic_latency_ms": 190,
+      "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 141.06,
-      "observation_rounds": 3,
-      "observation_span_hours": 20.0,
-      "selection_score": 259.80625,
+      "conservative_mbps": 371.87,
+      "observation_rounds": 1,
+      "observation_span_hours": 0.0,
+      "selection_score": 371.87,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
-      "measurement_environment": "github-ubuntu-x64/US",
+      "measurement_environment": "github-ubuntu-x64/CA",
       "download_samples_mbps": [
-        289.37,
-        233.73,
-        274.63
+        371.37,
+        372.66,
+        371.87
       ],
-      "stability_weight": 1.25
+      "stability_weight": 1.0
     }
   ],
   "countries": {
     "CA": 4,
+    "CH": 3,
     "DE": 4,
     "FI": 1,
     "FR": 4,
     "GB": 4,
-    "JP": 4,
+    "JP": 1,
     "NL": 4,
     "SG": 1,
     "US": 4
@@ -1920,46 +1921,46 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-25T20:27:26.898367+00:00",
+  "updated_at": "2026-11-26T13:53:12.357781+00:00",
   "nodes": 30,
   "protocols": {
-    "Shadowsocks": 10,
-    "VMess": 11,
-    "Hysteria2": 8,
-    "VLESS": 1
+    "Shadowsocks": 9,
+    "VLESS": 6,
+    "VMess": 8,
+    "Hysteria2": 7
   },
   "published_rows": 37,
-  "cycle": "1e3f6df982dafb4a20ce",
-  "source_version": "cdd0125cb8c724827eaa7680a6efa239957c7242",
+  "cycle": "c8c83b2619469ae4bbde",
+  "source_version": "18a8954b7d1b8bdab31418daab95f46e43814729",
   "source_error": null,
   "pool": {
-    "cooldown": 1620,
-    "active": 641,
-    "slow": 261,
+    "cooldown": 1549,
+    "active": 633,
+    "slow": 250,
     "restricted": 51,
-    "isolated": 172
+    "isolated": 271
   },
   "merge": {
-    "reject_unsupported cipher": 62,
-    "reject_unsupported options": 4045,
-    "reject_insecure tls": 1291,
+    "reject_unsupported cipher": 41,
+    "reject_unsupported options": 4204,
+    "reject_insecure tls": 1329,
     "restricted": 11,
     "restricted_unparsed": 5,
-    "new": 70,
-    "duplicates": 4275,
-    "reject_unsupported transport": 45,
-    "reject_invalid_or_nonportable": 225,
-    "reject_unsupported fingerprint": 1180
+    "duplicates": 4364,
+    "reject_unsupported transport": 70,
+    "reject_invalid_or_nonportable": 205,
+    "new": 9,
+    "reject_unsupported fingerprint": 1080
   },
-  "checked": 984,
-  "reachable_checked": 727,
-  "active_candidates": 641,
+  "checked": 1080,
+  "reachable_checked": 820,
+  "active_candidates": 633,
   "selection_phase": "weighted",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
-    "country": "US",
-    "direct_mbps": 1448.81,
-    "profile": "github-ubuntu-x64/US"
+    "country": "CA",
+    "direct_mbps": 1602.03,
+    "profile": "github-ubuntu-x64/CA"
   },
   "thresholds": {
     "basic_ms_max": 1000,
@@ -1973,5 +1974,5 @@
     "full_bonus_rounds": 3,
     "full_bonus_span_hours": 12
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/45685370670"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/45823982554"
 }
