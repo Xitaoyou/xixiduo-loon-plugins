@@ -21,29 +21,34 @@ jobs:
           curl -fsSL https://github.com/theos/sdks/archive/master.zip -o "$RUNNER_TEMP/sdks.zip"
           unzip -q "$RUNNER_TEMP/sdks.zip" -d "$RUNNER_TEMP"
           mv "$RUNNER_TEMP/sdks-master" "$THEOS/sdks"
+          echo "THEOS=$THEOS" >> "$GITHUB_ENV"
+          echo "$THEOS/bin" >> "$GITHUB_PATH"
 
-      - name: Build deb
+      - name: Build rootful deb
         working-directory: dazzpro
-        env:
-          THEOS: ${{ runner.temp }}/theos
         run: |
+          make clean || true
           make package FINALPACKAGE=1
-          ls -l packages
+          mkdir -p ../out
+          cp packages/*.deb ../out/dazzpro-rootful.deb
 
-      - name: Build dylib
+      - name: Build rootless deb
         working-directory: dazzpro
-        env:
-          THEOS: ${{ runner.temp }}/theos
+        run: |
+          make clean || true
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          cp packages/*.deb ../out/dazzpro-rootless.deb
+
+      - name: Build injectable dylib
+        working-directory: dazzpro
         run: |
           make clean || true
           make ARCHS=arm64
-          find .theos -name DazzPro.dylib -exec cp {} ./DazzPro.dylib \;
-          ls -l DazzPro.dylib
+          find .theos -name DazzPro.dylib -exec cp {} ../out/DazzPro.dylib \;
+          ls -l ../out
 
       - uses: actions/upload-artifact@v4
         with:
           name: DazzPro-build
-          path: |
-            dazzpro/packages/*.deb
-            dazzpro/DazzPro.dylib
-          if-no-files-found: warn
+          path: out/*
+          if-no-files-found: error
