@@ -46,6 +46,7 @@ jobs:
         run: |
           mkdir -p ../out
           make clean || true
+          rm -f packages/*.deb
           make package FINALPACKAGE=1 ARCHS=arm64
           cp "$(ls -t packages/*.deb | head -n1)" ../out/dazzpro-rootful.deb
 
@@ -54,8 +55,8 @@ jobs:
         run: |
           mkdir -p ../out
           make clean || true
-          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
           rm -f packages/*.deb
+          make package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
           cp "$(ls -t packages/*.deb | head -n1)" ../out/dazzpro-rootless.deb
 
       - name: Build injectable dylib
@@ -63,6 +64,7 @@ jobs:
         run: |
           mkdir -p ../out
           make clean || true
+          rm -f packages/*.deb
           make ARCHS=arm64
           find .theos -name DazzPro.dylib -exec cp {} ../out/DazzPro.dylib \;
           ls -l ../out
