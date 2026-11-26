@@ -43,9 +43,15 @@
 
 | 插件 | 说明 | 获取 |
 | --- | --- | --- |
-| DazzPro | Dazz（Dazz相机 `com.dazz.camera.vintagecamera`）Pro 权益本地解锁。运行时把会员态 getter 固定为 `YES`，并把 `applyTamper(reason:persistFlag:fromBootstrap:)` 置空避免被判篡改；带 `dumpMode` 只读跟版 | [源码与说明](dazzpro) · [构建流水线](.github/workflows/build-dazzpro.yml) · [取证结论](docs/Dazz-VIP.md) |
+| DazzPro | Dazz（Dazz相机 `com.dazz.camera.vintagecamera`）Pro 权益本地解锁。运行时把会员态 getter 固定为 `YES`，并把 `applyTamper(reason:persistFlag:fromBootstrap:)` 置空避免被判篡改；带 `dumpMode` 只读跟版 | [下载 deb / dylib](https://github.com/Xitaoyou/xixiduo-loon-plugins/releases/tag/dazzpro-v1.0.0) · [源码与说明](dazzpro) · [取证结论](docs/Dazz-VIP.md) |
 
-构建：仓库 Actions 里手动跑 `build-dazzpro`，产出 `.deb`（越狱）与 `DazzPro.dylib`（TrollStore 注入）。
+下载：**[Releases · dazzpro-v1.0.0](https://github.com/Xitaoyou/xixiduo-loon-plugins/releases/tag/dazzpro-v1.0.0)**
+
+- 有根越狱（unc0ver / checkra1n / Taurine）→ `dazzpro-rootful.deb`
+- 无根越狱（Dopamine / palera1n rootless）→ `dazzpro-rootless.deb`
+- TrollStore / 自签注入 → `DazzPro.dylib`
+
+自己构建：仓库 Actions 里手动跑 `build-dazzpro`（`ubuntu-latest` 交叉编译），产出同样三样。
 
 
 ## 使用提示
