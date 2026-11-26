@@ -1,0 +1,9 @@
+Package: com.xitaoyou.dazzpro
+Name: DazzPro
+Version: 1.0.0
+Architecture: iphoneos-arm
+Description: 本地解锁 Dazz（Dazz相机）Pro 权益。Dazz 的会员判定完全在设备本地完成（StoreKit 2 + 本地 JSON），没有服务端校验接口，所以 HTTP 层插件无效；本插件把本地门控结果固定为会员态。
+Maintainer: Xitaoyou
+Author: Xitaoyou
+Section: Tweaks
+Depends: mobilesubstrate
