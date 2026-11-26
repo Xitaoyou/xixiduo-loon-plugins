@@ -27,8 +27,10 @@ jobs:
           export THEOS="$RUNNER_TEMP/theos"
           git clone --recursive --depth 1 https://github.com/theos/theos.git "$THEOS"
           curl -fsSL https://github.com/theos/sdks/archive/master.zip -o "$RUNNER_TEMP/sdks.zip"
-          unzip -q "$RUNNER_TEMP/sdks.zip" -d "$RUNNER_TEMP"
-          mv "$RUNNER_TEMP/sdks-master" "$THEOS/sdks"
+          unzip -q "$RUNNER_TEMP/sdks.zip" -d "$RUNNER_TEMP/sdkroot"
+          rm -rf "$THEOS/sdks"
+          mkdir -p "$THEOS/sdks"
+          find "$RUNNER_TEMP/sdkroot" -maxdepth 4 -type d -name "*.sdk" -exec cp -a {} "$THEOS/sdks/" \;
           ls "$THEOS/sdks" | head
           echo "THEOS=$THEOS" >> "$GITHUB_ENV"
           echo "$THEOS/bin" >> "$GITHUB_PATH"
