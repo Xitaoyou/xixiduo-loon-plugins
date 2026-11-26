@@ -42,13 +42,24 @@ App 自带诊断文案直接印证是纯本地判定：
 - Dazz 的会员 UI 与持久化类是 ObjC 可见的 Swift 类（`_TtC10DazzCamera*`），但真正的门控入口是否为 ObjC 方法，需要在真机上用 `dumpMode` 打日志确认。
 - 若 `dumpMode` 打出来的候选里没有真正的门控点，下一步是按符号偏移做 inline hook（`Transaction.currentEntitlements` 的 `getter` 或 `VerificationResult` 校验分支），那需要进一步的实机日志。
 
+## 下载现成的包
+
+[Releases · dazzpro-v1.0.0](https://github.com/Xitaoyou/xixiduo-loon-plugins/releases/tag/dazzpro-v1.0.0) 里直接下，不用自己编译：
+
+| 文件 | 用途 |
+| --- | --- |
+| `dazzpro-rootful.deb` | 有根越狱（unc0ver / checkra1n / Taurine / palera1n 有根），装到 `/Library/MobileSubstrate/DynamicLibraries/` |
+| `dazzpro-rootless.deb` | 无根越狱（Dopamine / palera1n rootless），装到 `/var/jb/Library/MobileSubstrate/DynamicLibraries/` |
+| `DazzPro.dylib` | TrollStore 或其它注入方式单独用 |
+
 ## 构建
 
 ### GitHub Actions（推荐，仓库内已配）
 
-`.github/workflows/build-dazzpro.yml` 手动触发，产出：
+`.github/workflows/build-dazzpro.yml` 在 `ubuntu-latest` 上交叉编译（swift-toolchain-linux + theos/sdks），手动触发或改 `dazzpro/**` 自动触发，产出三样：
 
-- `packages/*.deb` —— 越狱包（Dopamine / palera1n / unc0ver 用）
+- `dazzpro-rootful.deb` —— 有根越狱包
+- `dazzpro-rootless.deb` —— 无根越狱包（`THEOS_PACKAGE_SCHEME=rootless`）
 - `DazzPro.dylib` —— TrollStore / 自签注入用
 
 ### 本地 Theos
@@ -62,7 +73,7 @@ make ARCHS=arm64                   # 出 .theos/obj/arm64/DazzPro.dylib
 
 ## 安装
 
-**越狱（推荐）**：装 `packages/*.deb`，`sbreload` 或重启 App。
+**越狱（推荐）**：从 [Releases](https://github.com/Xitaoyou/xixiduo-loon-plugins/releases/tag/dazzpro-v1.0.0) 下对应架构的 deb，用 Filza / Sileo 装，或 `dpkg -i dazzpro-*.deb`；装完重启 App。
 
 **TrollStore**：把 `DazzPro.dylib` 注入 Dazz 的 IPA 后重签安装（`DazzPro.plist` 里已写死 bundle filter `com.dazz.camera.vintagecamera`）。
 
