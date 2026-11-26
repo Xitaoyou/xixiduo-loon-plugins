@@ -16,6 +16,8 @@
 [Argument]
 unlockVip=switch, true, false, tag=会员态解锁, desc=开：把会员接口里的 is_vip、use_vip、have_valid_contract 置真，有效期抬到 farFutureTime，会员子类型与会员组抬到最高档；关：保持服务端原值。
 rewritePurchase=switch, true, false, tag=购买页已购态, desc=开：购买页商品列表里的已购标记置真；关：保持原值。只影响购买页展示，不改价格、不造 SKU。
+boostQuota=switch, true, false, tag=AI 次数配额, desc=开：AI 接口里的剩余次数/额度字段抬到上限、已用次数归零；关：保持服务端原值。只改响应里的计数，服务端算力仍按真实账号排队。
+retryOnBusy=switch, false, true, tag=抹平排队提示, desc=开：出现「使用人数较多，请稍后再试」这类文案时把该响应的业务码抹平，客户端不再弹提示；关：原样放行。任务本身仍由服务端排队决定成败。
 modifyProfile=switch, false, true, tag=资料页会员标识, desc=开：账号资料接口里的 vip_type 与蓝/红 V 状态置真；关：保持原值。只影响展示，默认关闭。
 strictAppOnly=switch, false, true, tag=仅改 Wink 自身请求, desc=开：只处理 User-Agent 带 Wink 的请求，同域名下的美图秀秀等其它美图 App 不受影响；关：同域名全部按形态改写。
 farFutureTime=input, 32495529599000, tag=到期时间戳（毫秒）, desc=毫秒时间戳，默认 32495529599000（2999 年）。只会往上抬，不会缩短服务端已有的更长有效期；秒级字段自动按秒换算。
@@ -25,9 +27,9 @@ debugMode=switch, false, true, tag=排障日志, desc=开：每次改写弹通�
 # 规则按域名匹配，脚本内部按响应形态分派；probeMode 打开时改写规则让路，避免探到被改过的响应。
 
 [Script]
-response if ${probeMode} == false && ${url} ~= /^https?:\/\/(?:api-sub|api-winkcut)\.meitu\.com\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/wink/vip.js", {${unlockVip}, ${rewritePurchase}, ${modifyProfile}, ${strictAppOnly}, ${farFutureTime}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="Wink 会员态"
+response if ${probeMode} == false && ${url} ~= /^https?:\/\/(?:api-sub|api-winkcut)\.meitu\.com\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/wink/vip.js", {${unlockVip}, ${rewritePurchase}, ${boostQuota}, ${retryOnBusy}, ${modifyProfile}, ${strictAppOnly}, ${farFutureTime}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="Wink 会员态"
 
-response if ${probeMode} == false && ${url} ~= /^https?:\/\/(?:h5api-winkcut|api\.account)\.meitu\.com\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/wink/vip.js", {${unlockVip}, ${rewritePurchase}, ${modifyProfile}, ${strictAppOnly}, ${farFutureTime}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="Wink H5·账号"
+response if ${probeMode} == false && ${url} ~= /^https?:\/\/(?:h5api-winkcut|api\.account)\.meitu\.com\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/wink/vip.js", {${unlockVip}, ${rewritePurchase}, ${boostQuota}, ${retryOnBusy}, ${modifyProfile}, ${strictAppOnly}, ${farFutureTime}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="Wink H5·账号"
 
 response if ${probeMode} == true && ${url} ~= /^https?:\/\/(?:api-sub|api-winkcut|h5api-winkcut|api\.account)\.meitu\.com\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/wink/probe.js") with requires_body=true, debug=true, tag="接口探测"
 
