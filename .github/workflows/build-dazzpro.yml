@@ -9,27 +9,36 @@ on:
 
 jobs:
   build:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install toolchain
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq clang lld make git curl unzip dpkg fakeroot libssl-dev libplist-dev
+          sudo curl -fsSL -o /usr/local/bin/ldid https://github.com/ProcursusTeam/ldid/releases/latest/download/ldid_linux_x86_64
+          sudo chmod +x /usr/local/bin/ldid
+          ldid -v || true
+          clang --version | head -1
+
       - name: Install Theos
         run: |
-          brew install ldid xz || true
           export THEOS="$RUNNER_TEMP/theos"
           git clone --recursive --depth 1 https://github.com/theos/theos.git "$THEOS"
           curl -fsSL https://github.com/theos/sdks/archive/master.zip -o "$RUNNER_TEMP/sdks.zip"
           unzip -q "$RUNNER_TEMP/sdks.zip" -d "$RUNNER_TEMP"
           mv "$RUNNER_TEMP/sdks-master" "$THEOS/sdks"
+          ls "$THEOS/sdks" | head
           echo "THEOS=$THEOS" >> "$GITHUB_ENV"
           echo "$THEOS/bin" >> "$GITHUB_PATH"
 
       - name: Build rootful deb
         working-directory: dazzpro
         run: |
+          mkdir -p ../out
           make clean || true
           make package FINALPACKAGE=1
-          mkdir -p ../out
           cp packages/*.deb ../out/dazzpro-rootful.deb
 
       - name: Build rootless deb
