@@ -1,0 +1,38 @@
+#!name=Dazz Pro · 会员解锁
+#!desc=改写 Dazz（dazz.camera.vintagecamera）的会员相关响应：App Store 内购凭证校验回写永久内购条目、RevenueCat 订阅态补全、以及自有接口里的会员字段抬升；按域名匹配、脚本内按响应形态分派，只改已知字段，其余原样保留。附只读探测脚本用于跟版。
+#!author=Xitaoyou
+#!tag=功能增强, 会员
+#!system=iOS, iPadOS
+#!system_version=15
+#!loon_version=3.5.1(998)
+#!homepage=https://github.com/Xitaoyou/xixiduo-loon-plugins/blob/main/plugins/Dazz_VIP.plugin
+#!date=2026-11-26
+
+# 说明：Dazz 的会员判定分散在三处——App Store 收据校验、RevenueCat 订阅态、自有接口。
+# 插件只改本机读到的响应，服务端仍按真实账号下发权益；云端模板与 AI 素材若在服务端二次校验，改字段解不开。
+# buy.itunes.apple.com/verifyReceipt 是全机共用的渠道，插件按 bundle_id 判断归属，不命中就原样放行。
+
+[Argument]
+unlockPro=switch, true, false, tag=会员字段解锁, desc=开：自有接口里的 is_pro/is_vip/member_type 等会员字段抬到会员态，到期时间抬到 farFutureTime；关：保持服务端原值。
+unlockForever=switch, true, false, tag=永久版, desc=开：内购凭证写入永久条目（不带 expires_date），自有接口的 purchased/owned 数组补齐永久内购 id；关：写一年期的活动订阅条目。
+productId=input, auto, tag=内购商品 id, desc=留 auto 时按 receipt.bundle_id 拼成 <bundle_id>.forever；Dazz 实测为 com.haocai.dazzcam.forever，若 App 改了内购 id 就填新的。
+rewriteRevenueCat=switch, true, false, tag=RevenueCat 订阅态, desc=开：api.revenuecat.com 的 subscriber 响应补全 entitlements/subscriptions；关：不动 RevenueCat 响应。
+rewriteReceipt=switch, true, false, tag=App Store 凭证, desc=开：verifyReceipt 响应写入 Dazz 的内购条目；关：不动内购校验响应。
+farFutureTime=input, 4070908800000, tag=到期时间戳（毫秒）, desc=毫秒时间戳，默认 4070908800000（2099 年）。只往上抬，不会缩短更长的有效期；秒级字段自动按秒换算。
+strictAppOnly=switch, false, true, tag=仅改 Dazz 自身请求, desc=开：只处理 User-Agent 带 dazz/camerafilm 的请求，同域名下其它 App 不受影响；关：不再额外校验 UA。
+probeMode=switch, false, true, tag=接口探测（排障）, desc=开：只记录路径与字段骨架并发通知，不改任何响应。App 升级后主脚本失效时用它找新字段，平时关闭。
+debugMode=switch, false, true, tag=排障日志, desc=开：每次改写弹通知说明命中的接口；关：静默运行。
+
+# 四条规则：自有接口 / RevenueCat / App Store 收据 / 探测。probeMode 打开时改写规则让路，避免探到被改过的响应。
+
+[Script]
+response if ${probeMode} == false && ${url} ~= /^https?:\/\/(?:buy|sandbox)\.itunes\.apple\.com\/verifyReceipt/i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/dazz/vip.js", {${unlockPro}, ${unlockForever}, ${productId}, ${rewriteRevenueCat}, ${rewriteReceipt}, ${farFutureTime}, ${strictAppOnly}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="Dazz 内购凭证"
+
+response if ${probeMode} == false && ${url} ~= /^https?:\/\/(?:api\.revenuecat\.com|api\.rc-backup\.com)\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/dazz/vip.js", {${unlockPro}, ${unlockForever}, ${productId}, ${rewriteRevenueCat}, ${rewriteReceipt}, ${farFutureTime}, ${strictAppOnly}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="Dazz RevenueCat"
+
+response if ${probeMode} == false && ${url} ~= /^https?:\/\/(?:[a-z0-9-]+\.)?(?:dazz\.cam|camerafilm\.com|dazzapp\.com)\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/dazz/vip.js", {${unlockPro}, ${unlockForever}, ${productId}, ${rewriteRevenueCat}, ${rewriteReceipt}, ${farFutureTime}, ${strictAppOnly}, ${probeMode}, ${debugMode}}) with requires_body=true, debug=${debugMode}, tag="Dazz 自有接口"
+
+response if ${probeMode} == true && ${url} ~= /^https?:\/\/(?:buy\.itunes\.apple\.com|sandbox\.itunes\.apple\.com|api\.revenuecat\.com|api\.rc-backup\.com|(?:[a-z0-9-]+\.)?dazz\.cam|(?:[a-z0-9-]+\.)?camerafilm\.com|(?:[a-z0-9-]+\.)?dazzapp\.com)\//i then script("https://raw.githubusercontent.com/Xitaoyou/xixiduo-loon-plugins/main/scripts/dazz/probe.js") with requires_body=true, debug=true, tag="接口探测"
+
+[MitM]
+hostname = buy.itunes.apple.com, sandbox.itunes.apple.com, api.revenuecat.com, api.rc-backup.com, dazz.cam, api.camerafilm.com, camerafilm.com, dazzapp.com
