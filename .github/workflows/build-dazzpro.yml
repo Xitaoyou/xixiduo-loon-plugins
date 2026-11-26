@@ -1,0 +1,49 @@
+name: build-dazzpro
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "dazzpro/**"
+      - ".github/workflows/build-dazzpro.yml"
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Theos
+        run: |
+          brew install ldid xz || true
+          export THEOS="$RUNNER_TEMP/theos"
+          git clone --recursive --depth 1 https://github.com/theos/theos.git "$THEOS"
+          curl -fsSL https://github.com/theos/sdks/archive/master.zip -o "$RUNNER_TEMP/sdks.zip"
+          unzip -q "$RUNNER_TEMP/sdks.zip" -d "$RUNNER_TEMP"
+          mv "$RUNNER_TEMP/sdks-master" "$THEOS/sdks"
+
+      - name: Build deb
+        working-directory: dazzpro
+        env:
+          THEOS: ${{ runner.temp }}/theos
+        run: |
+          make package FINALPACKAGE=1
+          ls -l packages
+
+      - name: Build dylib
+        working-directory: dazzpro
+        env:
+          THEOS: ${{ runner.temp }}/theos
+        run: |
+          make clean || true
+          make ARCHS=arm64
+          find .theos -name DazzPro.dylib -exec cp {} ./DazzPro.dylib \;
+          ls -l DazzPro.dylib
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: DazzPro-build
+          path: |
+            dazzpro/packages/*.deb
+            dazzpro/DazzPro.dylib
+          if-no-files-found: warn
