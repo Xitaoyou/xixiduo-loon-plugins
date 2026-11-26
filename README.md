@@ -25,8 +25,7 @@
 | 轻听英语 VIP · 权益解锁（CDN 镜像版） | 与上一行内容一致，插件与脚本都走 jsDelivr：raw.githubusercontent.com 打不开时用这版导入 | [Loon 直接导入](loon://import?plugin=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FXitaoyou%2Fxixiduo-loon-plugins%40main%2Fplugins%2FQingTing_English_VIP_CDN.plugin) · [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FXitaoyou%2Fxixiduo-loon-plugins%40main%2Fplugins%2FQingTing_English_VIP_CDN.plugin) · [查看文件](plugins/QingTing_English_VIP_CDN.plugin) |
 | Wink VIP · 会员解锁 | 改写 Wink 会员接口：is_vip / use_vip / have_valid_contract 置真，有效期抬到 2999 年，会员子类型与会员组升到最高档，购买页显示已购；另含 AI 次数配额抬升（剩余次数抬到 9999、已用计数归零）与排队文案抹平（「当前使用人数较多，请稍后再试哦」）两个开关，针对「全能修复」这类按次数与队列放行的 AI 功能；按域名匹配并在脚本内按响应形态分派，只抬升已知字段、其余原样保留；附只读探测脚本用于跟版 | [Loon 直接导入](loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FWink_VIP.plugin) · [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FWink_VIP.plugin) · [使用说明](docs/Wink-VIP.md) |
 | Wink VIP · 会员解锁（CDN 镜像版） | 与上一行内容一致，插件与脚本都走 jsDelivr：raw.githubusercontent.com 打不开时用这版导入 | [Loon 直接导入](loon://import?plugin=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FXitaoyou%2Fxixiduo-loon-plugins%40main%2Fplugins%2FWink_VIP_CDN.plugin) · [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FXitaoyou%2Fxixiduo-loon-plugins%40main%2Fplugins%2FWink_VIP_CDN.plugin) · [查看文件](plugins/Wink_VIP_CDN.plugin) |
-| Dazz Pro · 会员解锁 | 改写 Dazz 会员判定三处入口：App Store 内购凭证校验回写永久内购条目、RevenueCat 订阅态补全、自有接口会员字段抬升；按域名匹配并在脚本内按响应形态分派，只改已知字段、类型跟随原值、有效期只升不降；`verifyReceipt` 按 bundle_id 判归属，其它 App 凭证原样放行；附只读探测脚本用于跟版 | [Loon 直接导入](loon://import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FDazz_VIP.plugin) · [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fraw.githubusercontent.com%2FXitaoyou%2Fxixiduo-loon-plugins%2Fmain%2Fplugins%2FDazz_VIP.plugin) · [使用说明](docs/Dazz-VIP.md) |
-| Dazz Pro · 会员解锁（CDN 镜像版） | 与上一行内容一致，插件与脚本都走 jsDelivr：raw.githubusercontent.com 打不开时用这版导入 | [Loon 直接导入](loon://import?plugin=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FXitaoyou%2Fxixiduo-loon-plugins%40main%2Fplugins%2FDazz_VIP_CDN.plugin) · [一键导入](https://www.nsloon.com/openloon/import?plugin=https%3A%2F%2Fcdn.jsdelivr.net%2Fgh%2FXitaoyou%2Fxixiduo-loon-plugins%40main%2Fplugins%2FDazz_VIP_CDN.plugin) · [查看文件](plugins/Dazz_VIP_CDN.plugin) |
+| ⚠️ Dazz Pro · 会员解锁（已弃用） | **无效，请勿安装**。对 Dazz 2.18 主二进制取证：会员判定 100% 在设备本地（StoreKit 2 `currentEntitlements` + `DazzStoreKitPersistence` 本地 JSON），没有自有会员 API、没有 RevenueCat、没有服务端 `verifyReceipt`，响应改写没有可改对象——抓包一片空白就是这个原因。改用越狱侧运行时插件 [dazzpro](dazzpro) | [查看文件](plugins/Dazz_VIP.plugin) · [CDN 版](plugins/Dazz_VIP_CDN.plugin) · [为什么无效](docs/Dazz-VIP.md) |
 
 ## 节点订阅
 
@@ -38,6 +37,17 @@
 | 免费节点海外版 | GitHub 海外云测，每国最多 4 个、总计最多 30 个精选出口，保留原订阅地址 | [导入页面](https://xitaoyou.github.io/xixiduo-loon-plugins/#overseas) · [使用说明](docs/Free-Nodes.md) |
 | 免费节点大陆版 | 广州每日检测与轮换扩展来源；连通且延迟<1200ms，按服务分别推荐 | [检测状态与导入](https://xitaoyou.github.io/xixiduo-loon-plugins/#mainland) · [使用说明](docs/Free-Nodes.md#免费节点大陆版) |
 
+## 越狱侧插件（非 Loon）
+
+有些 App 的会员判定完全在设备本地，HTTP 层拿不到可改的响应，这时需要越狱运行时插件。
+
+| 插件 | 说明 | 获取 |
+| --- | --- | --- |
+| DazzPro | Dazz（Dazz相机 `com.dazz.camera.vintagecamera`）Pro 权益本地解锁。运行时把会员态 getter 固定为 `YES`，并把 `applyTamper(reason:persistFlag:fromBootstrap:)` 置空避免被判篡改；带 `dumpMode` 只读跟版 | [源码与说明](dazzpro) · [构建流水线](.github/workflows/build-dazzpro.yml) · [取证结论](docs/Dazz-VIP.md) |
+
+构建：仓库 Actions 里手动跑 `build-dazzpro`，产出 `.deb`（越狱）与 `DazzPro.dylib`（TrollStore 注入）。
+
+
 ## 使用提示
 
 - **哔哩哔哩**：过滤开屏、首页等广告，提供 AI 字幕兼容、导航精简和赞助片段跳过。自动跳过默认开启，为实验功能，依赖第三方片段数据，效果随视频和客户端版本变化；可能影响播放或字幕。请勿同时启用原版插件。需开启 MitM、MitM over HTTP/2 并信任证书。
@@ -48,7 +58,7 @@
 - **携程**：拦截指定广告域名和接口；接口拦截需要开启 MitM 并信任证书。
 - **轻听英语**：只改 App 本机读到的 JSON。服务端仍按真实账号下发权益，V3 加密报文由服务端密钥生成，插件不伪造密文，只是把 `data_encrypted=1` 的信封降级为明文形态按开关注入权益；若 2.0.6 界面报错或会员态不刷新，关掉「V3 加密响应降级」只留明文接口。付费课程音频若在服务端二次校验，改字段解不开内容。需 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出轻听英语再打开；不要与「轻听英语 2.0.6 只读诊断」插件同时启用。细节见 [使用说明](docs/QingTing-English-VIP.md)。两种导入方式：`Loon 直接导入`（`loon://import?plugin=` 直达 Loon，Safari 里点一下即可）与 `一键导入`（nsloon 中转页）。若提示下载失败，说明手机侧访问不到 raw.githubusercontent.com，改用下面那行「CDN 镜像版」（插件与脚本都走 jsDelivr）。
 - **Wink**：只改 App 本机读到的 JSON。服务端仍按真实账号下发权益，滤镜、模板、AI 素材、导出若在拿到字节时还有服务端二次校验，改字段解不开内容。`api-sub.meitu.com` 是美图全家共用会员域名，同机其它美图 App 会被顺带命中，要隔离就打开「仅改 Wink 自身请求」。部分接口的 `sig` 在客户端算，插件不碰请求签名；接口若哪天变成响应也带签名、客户端会验签，就关掉对应开关。不要与其它 Wink 脚本（qx/surge 的 wink.js 等）同时启用。需 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出 Wink 再打开。细节与改写前后对照见 [使用说明](docs/Wink-VIP.md)。两种导入方式：`Loon 直接导入` 点在 Loon 里打开，`一键导入` 走 nsloon 中转；下载失败就换 CDN 镜像版。 2026-11 增补：Wink「全能修复」提示「当前使用人数较多，请稍后再试哦」是服务端算力队列/并发限流，不是会员校验失败——插件新增「AI 次数配额」（默认开，抬剩余次数与上限、清零已用计数）和「抹平排队提示」（默认关，把命中文案的业务码写 0、文案清空）；能否真正出图仍取决于服务端是否派发任务。排查看「排障日志」里的「配额 N」与「限流 N」。
-- **Dazz**：只改 App 本机读到的 JSON。会员判定分散在 App Store 内购凭证、RevenueCat 订阅态、自有接口三处，插件分别处理；`buy.itunes.apple.com/verifyReceipt` 是全机共用渠道，插件按 `receipt.bundle_id` 判归属，不是 Dazz 的凭证一律放行。Dazz 自有 API 域名没有公开渠道可查（`api.dazz.cam` 直接握手失败），所以自有接口这条按域名兜底：域名对上就按内容挑会员字段改。`sig` 类请求签名在客户端算，插件不碰请求侧。不要与其它 Dazz 内购脚本（`iTunes.js`、`revenuecat_multi.js` 同样改写 `verifyReceipt`）同时启用。需 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出 Dazz 再打开。细节、改写前后对照与跟版步骤见 [使用说明](docs/Dazz-VIP.md)。两种导入方式：`Loon 直接导入` 点在 Loon 里打开，`一键导入` 走 nsloon 中转；下载失败就换 CDN 镜像版。
+- **Dazz**：**Loon 插件对它无效，已弃用**。Dazz 2.18 的会员判定 100% 在设备本地（StoreKit 2 `Transaction.currentEntitlements` 遍历 + `VerificationResult` 校验 + `DazzStoreKitPersistence` 本地 JSON 键 `DazzStoreKitTransactionsKey`），主二进制里只有 Firebase / AdMob / Apple / CloudFront 素材域名，没有自有会员 API、没有 RevenueCat、没有服务端 `verifyReceipt`。响应改写没有可改对象，抓包里一片空白正是这个原因。可行解法是越狱侧运行时插件 [dazzpro](dazzpro)（把本地门控的布尔结果固定成会员态），与 Loon 无关。取证细节与跟版步骤见 [docs/Dazz-VIP.md](docs/Dazz-VIP.md)。
 - **夸克网盘**：只改 App 本机读到的数据。会员专属的服务端签名能力（离线缓存、超大文件直链）和 CDN 限速不受影响；清晰度择优只在服务端已下发的流里排序。直链带会话 cookie、有时效，换客户端会 412。只声明一条响应改写规则，按响应内容识别功能，避免多条规则抢同一条响应。需要 Loon 3.5.1 (998)+、MitM、复写并信任证书，装完完全退出夸克 App 再打开。细节与实测数据见 [使用说明](docs/QuarkEnhance.md)。
 - **SideStore**：需 Loon Build 1007+。常驻启用「SideStore 刷新助手」基础插件。SideStore 0.7+ 刷新前，手动启用「SideStore IPv6 按需兼容开关」，完成刷新后再停用；启用期间它会关闭整个 Loon TUN 的 IPv6 VIF，停用后按主配置恢复。Loon 没有公开的 SideStore 刷新事件钩子，因此不能由插件自动在刷新开始/结束时切换。首次启用后断开并重新连接 Loon VPN；Health Check 中 Loon 的 IPv4 utun 应不再带 IPv6 地址。若 Peer IP 已出现但 TCP 探测失败，再检查 RemotePairing 动态端口。插件不固定端口，也不修复配对文件。
 - **SideStore 官方参数对照测试版**：独立诊断配置，自带 `ipv6-vif = off` 和官方回环参数。仅用于隔离排查；启用期间同样会关闭整个 Loon TUN 的 IPv6 VIF。
