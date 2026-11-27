@@ -2,16 +2,16 @@
   "connection_tested": true,
   "test_method": "2 of 3 independent HTTPS providers; at least 2 AI probes; TLS verified",
   "tested_from": "GitHub Actions runner",
-  "candidates": 1160,
-  "unreachable": 386,
+  "candidates": 271,
+  "unreachable": 232,
   "endpoint_rejected": 0,
-  "ai_rejected": 671,
+  "ai_rejected": 695,
   "ai_min_pass": 2,
   "filter_policy": "weighted-best30-country4-v3",
   "sort_by": "Current and recent throughput weighted by compatible-exit success rate and bounded stability bonus; jitter, latency, quality",
-  "ai_qualified": 582,
-  "quality_qualified": 397,
-  "quality_rejected": 1,
+  "ai_qualified": 20,
+  "quality_qualified": 12,
+  "quality_rejected": 0,
   "country_best_count": 30,
   "country_limit": 4,
   "country_count": 11,
@@ -1600,26 +1600,26 @@
       "stability_weight": 1.0
     },
     {
-      "id": "382d88dad5d0720893bad4cc012bafe7fd7798c6fe21bbda64e62ac91b0f3a93",
-      "name": "海外测｜🇸🇬 新加坡 07｜712ms · 31.20Mbps",
+      "id": "be639a66e85ab2b9fb94d0b18e8d98760baf223d5710a4721a68f1c5e37fa006",
+      "name": "海外测｜🇸🇬 新加坡 12｜498ms · 32.13Mbps",
       "country": "SG",
       "passed": true,
-      "pass_count": 2,
+      "pass_count": 3,
       "services": {
         "ChatGPT": {
           "passed": true,
-          "latency_ms": 829
+          "latency_ms": 630
         },
         "Claude": {
           "passed": true,
-          "latency_ms": 739
+          "latency_ms": 498
         },
         "Gemini": {
-          "passed": false,
-          "latency_ms": null
+          "passed": true,
+          "latency_ms": 1063
         }
       },
-      "latency_ms": 784,
+      "latency_ms": 630,
       "quality": {
         "grade": 2,
         "risk_score": 0,
@@ -1642,21 +1642,21 @@
         "pass_count": 3,
         "all_passed": false
       },
-      "download_mbps": 31.2,
-      "exit_ip": "149.88.23.207",
-      "basic_latency_ms": 712,
+      "download_mbps": 32.13,
+      "exit_ip": "129.150.59.74",
+      "basic_latency_ms": 498,
       "stable": false,
       "success_rate": 1.0,
-      "conservative_mbps": 31.2,
+      "conservative_mbps": 32.13,
       "observation_rounds": 1,
       "observation_span_hours": 0.0,
-      "selection_score": 31.2,
+      "selection_score": 32.13,
       "measurement_profile": "steady-v1-3x8MiB-body-time",
       "measurement_environment": "github-ubuntu-x64/US",
       "download_samples_mbps": [
-        31.2,
-        31.37,
-        29.77
+        32.13,
+        32.5,
+        22.18
       ],
       "stability_weight": 1.0
     },
@@ -1922,45 +1922,35 @@
   "node_limit": 30,
   "edition": "overseas",
   "subscription_name": "免费节点海外版",
-  "updated_at": "2026-11-26T23:30:31.131085+00:00",
+  "updated_at": "2026-11-27T04:39:01.743113+00:00",
   "nodes": 30,
   "protocols": {
-    "Shadowsocks": 9,
+    "Shadowsocks": 10,
     "VLESS": 4,
     "Hysteria2": 8,
-    "VMess": 9
+    "VMess": 8
   },
   "published_rows": 37,
-  "cycle": "2ebc7e1ebd92ef9b8332",
+  "cycle": "f8546527f1c690453bf3",
   "source_version": "f4aac511ed050d303bc42e622a5798fd1713321e",
   "source_error": null,
   "pool": {
-    "cooldown": 1601,
-    "active": 701,
-    "isolated": 271,
+    "cooldown": 1599,
+    "active": 725,
+    "slow": 247,
+    "pending": 118,
     "restricted": 51,
-    "slow": 238
+    "isolated": 122
   },
-  "merge": {
-    "reject_unsupported cipher": 47,
-    "reject_unsupported options": 3097,
-    "reject_unsupported fingerprint": 446,
-    "reject_unsupported transport": 96,
-    "reject_insecure tls": 1300,
-    "restricted": 11,
-    "restricted_unparsed": 5,
-    "new": 108,
-    "duplicates": 4078,
-    "reject_invalid_or_nonportable": 200
-  },
-  "checked": 1160,
-  "reachable_checked": 774,
-  "active_candidates": 701,
+  "merge": {},
+  "checked": 271,
+  "reachable_checked": 39,
+  "active_candidates": 725,
   "selection_phase": "weighted",
   "measurement_profile": "steady-v1-3x8MiB-body-time",
   "measurement_environment": {
     "country": "US",
-    "direct_mbps": 1451.28,
+    "direct_mbps": 1261.35,
     "profile": "github-ubuntu-x64/US"
   },
   "thresholds": {
@@ -1975,5 +1965,5 @@
     "full_bonus_rounds": 3,
     "full_bonus_span_hours": 12
   },
-  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/45904884367"
+  "workflow_run": "https://github.com/Xitaoyou/xixiduo-loon-plugins/actions/runs/45940270352"
 }
