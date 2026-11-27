@@ -609,8 +609,9 @@
   "warnings": [],
   "pending_download": 8,
   "last_attempt": {
-    "at": "2026-11-26T10:53:17.470238+00:00",
-    "ok": true
+    "at": "2026-11-27T10:24:49.983943+00:00",
+    "ok": false,
+    "reason": "source_preparation_failed"
   },
   "traffic": {
     "rx_upper_bound": 120153237,
