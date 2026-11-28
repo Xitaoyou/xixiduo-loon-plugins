@@ -1,11 +1,18 @@
-西西多大陆用免费节点：11-26 18:52（北京时间） = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-GPT 解锁|🇮🇹 意大利 04｜889ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-日常推荐：🇮🇹 意大利 10｜809ms = Shadowsocks,202.50.253.63,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 04｜889ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 10｜809ms = Shadowsocks,202.50.253.63,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 02｜931ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 05｜839ms = Shadowsocks,202.50.253.54,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 08｜899ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 06｜957ms = Shadowsocks,202.50.253.90,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 09｜1210ms = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
-🇮🇹 意大利 07｜1217ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+西西多大陆用免费节点：11-28 18:16（北京时间） = Shadowsocks,waic.pro.main.sys-metric-report.com,28014,chacha20-ietf-poly1305,"abc62f00-95a8-4c2e-a85d-36a2cdc977da",udp=true
+AI解锁丨🇬🇧 英国 01｜1024ms = VLESS,82.152.18.32,443,"a61ce788-6cfe-4bbe-9f81-155ea8fa8e16",over-tls=true,skip-cert-verify=false,sni="diyichongdi.us.ci",transport=tcp,udp=true
+备选AI解锁丨🇮🇹 意大利 03｜1194ms = Shadowsocks,202.50.253.45,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+下载推荐：🇩🇪 德国 02｜980ms · 18.16Mbps = Hysteria2,uk-tube-01.stre4m.net,13337,"900c8c92-1979-4c7c-8f2f-63e87d53d8fe",skip-cert-verify=false,sni="mother-earth.fyi",udp=true
+日常推荐：🇮🇹 意大利 07｜787ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇩🇪 德国 02｜980ms · 18.16Mbps = Hysteria2,uk-tube-01.stre4m.net,13337,"900c8c92-1979-4c7c-8f2f-63e87d53d8fe",skip-cert-verify=false,sni="mother-earth.fyi",udp=true
+🇬🇧 英国 01｜1024ms = VLESS,82.152.18.32,443,"a61ce788-6cfe-4bbe-9f81-155ea8fa8e16",over-tls=true,skip-cert-verify=false,sni="diyichongdi.us.ci",transport=tcp,udp=true
+🇭🇰 香港 02｜960ms = Shadowsocks,waic.pro.main.sys-metric-report.com,28014,chacha20-ietf-poly1305,"abc62f00-95a8-4c2e-a85d-36a2cdc977da",udp=true
+🇮🇹 意大利 07｜787ms = Shadowsocks,202.50.253.27,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 02｜845ms = Shadowsocks,202.50.253.36,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 06｜864ms = Shadowsocks,202.50.253.90,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 04｜927ms = Shadowsocks,202.50.253.72,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 08｜826ms = Shadowsocks,202.50.253.99,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 10｜873ms = Shadowsocks,202.50.253.63,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 09｜1260ms = Shadowsocks,202.50.253.18,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 01｜877ms = Shadowsocks,202.50.253.81,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 05｜1115ms = Shadowsocks,202.50.253.54,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
+🇮🇹 意大利 03｜1194ms = Shadowsocks,202.50.253.45,19999,aes-256-gcm,"ZRpgaBeGxtENIXgvhpkZBKz9GnWRS2dYcx9O+a2iwN4=",udp=true
